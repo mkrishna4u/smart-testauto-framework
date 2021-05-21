@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="SAMPLEMainTestSuite">
+    <suite-files>
+       <suite-file path="target/test-classes/testsuites/feature1/Feature1_TS.xml"/>       
+       <suite-file path="target/test-classes/testsuites/feature2/Feature2_TS.xml"/>       
+    </suite-files>
+</suite>
