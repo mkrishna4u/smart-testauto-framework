@@ -4,7 +4,8 @@ Using this software we can easily test the following functionality of the system
 
 1.  Web User Interface (Running on different browser, supported by selenium)
 2.  Perform data testing on user interface against your relational database i.e. Oracle, MySQL, Postgres, MariaDB etc.
-3.  API Testing (REST API, SOAP API) - (Work in-progress)
+3. Read excel (.xlsx and .xls) files data using ExcelFileReader class.
+4.  API Testing (REST API, SOAP API) - (Work in-progress)
 
 ## Supported Web Browsers
 1.  Chrome
