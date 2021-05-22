@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>smartfwk.testing</groupId>
-	<artifactId>smart-testauto-fwk</artifactId>
+	<artifactId>smart-testauto-framework</artifactId>
 	<version>1.0.0-Final</version>
 	<packaging>jar</packaging>
 	<name>Smart Software Testing Automation Framework</name>
@@ -15,6 +15,7 @@
 		<slf4j.version>1.7.30</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<hibernate.version>5.4.31.Final</hibernate.version>
+		<apache-poi.version>5.0.0</apache-poi.version>
 		<xmlapi.version>2.0.2</xmlapi.version>
 		<!-- <mysql.connector.version>5.1.38</mysql.connector.version> -->
 		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
@@ -25,6 +26,16 @@
 	</properties>
 
 	<dependencies>
+	    <dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>${apache-poi.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>${apache-poi.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
