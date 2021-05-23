@@ -1,5 +1,5 @@
 /*
- * SmartTestAutoFwk
+ * SmartTestAutoFramework
  * Copyright 2021 and beyond
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,7 +41,7 @@ public class TableRow {
 		return row.get(colIndex);
 	}
 	
-	public String getCulumnIntValue(String columnName) {
+	public String getCulumnNumericPart(String columnName) {
 		String intValue = "";
 		String colValue = getColumnValue(columnName);
 		try {

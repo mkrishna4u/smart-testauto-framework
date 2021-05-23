@@ -1,5 +1,5 @@
 /*
- * SmartTestAutoFwk
+ * SmartTestAutoFramework
  * Copyright 2021 and beyond
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +20,10 @@ package smartfwk.testing.ui.core.file.reader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -41,35 +43,38 @@ import smartfwk.testing.ui.core.file.reader.support.Table;
  */
 public class ExcelFileReader {
 
-	public static Table getSheetData(String fileName, String sheetName) {
-		Assert.assertNotNull(fileName, "Excel file name cannot be empty.");
-		Assert.assertNotNull(sheetName, "Sheet name in Excel file '" + fileName + "' cannot be empty.");
+	private ExcelFileReader() {
+	}
 
-		fileName = Locations.getProjectRootDir() + File.separator + fileName;
+	public static Table getSheetData(String filePath, String sheetName) {
+		Assert.assertNotNull(filePath, "Excel file path cannot be empty.");
+		Assert.assertNotNull(sheetName, "Sheet name in Excel file '" + filePath + "' cannot be empty.");
 
-		return loadExcelSheet(fileName, sheetName);
+		filePath = Locations.getProjectRootDir() + File.separator + filePath;
+
+		return loadExcelSheet(filePath, sheetName);
 	}
 
 	private static Sheet getSheetByName(Workbook workbook, String sheetName) {
 		int numSheets = workbook.getNumberOfSheets();
-		
-		for(int i = 0; i < numSheets; i++) {
-			if(sheetName.equals(workbook.getSheetAt(i).getSheetName())) {
+
+		for (int i = 0; i < numSheets; i++) {
+			if (sheetName.equals(workbook.getSheetAt(i).getSheetName())) {
 				return workbook.getSheetAt(i);
 			}
 		}
-		
+
 		return null;
 	}
-	
-	private static Table loadExcelSheet(String fileName, String sheetName) {
-		Table table = new Table(sheetName);
-		boolean isXlsExt = fileName.toLowerCase(Locale.ENGLISH).endsWith(".xls");
 
-		try (FileInputStream file = new FileInputStream(new File(fileName));
+	private static Table loadExcelSheet(String filePath, String sheetName) {
+		Table table = new Table(sheetName);
+		boolean isXlsExt = filePath.toLowerCase(Locale.ENGLISH).endsWith(".xls");
+
+		try (FileInputStream file = new FileInputStream(new File(filePath));
 				Workbook workbook = isXlsExt ? new HSSFWorkbook() : new XSSFWorkbook(file);) {
 			Sheet sheet = getSheetByName(workbook, sheetName);
-			Assert.assertNotNull(sheet, "Sheet '" + sheetName + "' does not exist in excel file '" + fileName + "'.");
+			Assert.assertNotNull(sheet, "Sheet '" + sheetName + "' does not exist in excel file '" + filePath + "'.");
 
 			String cellValue;
 			int rowCounter = 0, columnCounter;
@@ -115,12 +120,12 @@ public class ExcelFileReader {
 						}
 					}
 
-					if(rowCounter == 0) {
-						cellValues.add(cellValue.trim());
+					if (rowCounter == 0) {
+						addValueInList(cellValues, cell.getColumnIndex(), cellValue.trim());
+						// cellValues.add(cellValue.trim());
 					} else {
-						cellValues.add(cellValue);
+						addValueInList(cellValues, cell.getColumnIndex(), cellValue);
 					}
-					
 
 					columnCounter++;
 				}
@@ -131,6 +136,14 @@ public class ExcelFileReader {
 
 				// 0th row is the header row.
 				if (rowCounter == 0) {
+					List<String> dupCols = findDuplicates(cellValues);
+					Assert.assertEquals(dupCols.size(), 0, "Duplicate columns " + dupCols + " found in sheet '"
+							+ sheetName + "' of Excel file '" + filePath + "'. Please remove invalid one.");
+					int emptyColIndex = cellValues.indexOf("");
+					Assert.assertFalse(emptyColIndex >= 0,
+							"Empty column name found at column number " + (emptyColIndex + 1) + " in sheet '"
+									+ sheetName + "' of Excel file '" + filePath
+									+ "'. Please remove empty column name or give a valid name.");
 					table.addColumnNames(cellValues);
 				} else {
 					table.addRow(cellValues);
@@ -139,16 +152,32 @@ public class ExcelFileReader {
 				rowCounter++;
 			}
 		} catch (Exception ex) {
-			Assert.fail("Failed to load data from excel file '" + fileName + "'.", ex);
+			Assert.fail("Failed to load data from excel file '" + filePath + "'.", ex);
 		}
 
 		return table;
 	}
-	
-	/* public static void main(String[] args) {
-		Table table = ExcelFileReader.getSheetData("text.xlsx", "State Info");
-		
-		System.out.println(table);
-		System.out.println(table.getRow(1).getCulumnIntValue("BB"));
-	} */
+
+	private static List<String> findDuplicates(List<String> list) {
+		return list.stream().distinct().filter(entry -> Collections.frequency(list, entry) > 1)
+				.collect(Collectors.toList());
+	}
+
+	private static void addValueInList(List<String> list, int cellIndex, String value) {
+		if (list.size() == cellIndex) {
+			list.add(value);
+		} else {
+			for (int i = list.size(); i < cellIndex; i++) {
+				list.add("");
+			}
+			list.add(value);
+		}
+	}
+
+//	public static void main(String[] args) {
+//		Table table = ExcelFileReader.getSheetData("test-data/usa-states.xlsx", "usa-states");
+//
+//		System.out.println(table);
+//		System.out.println(table.getRow(1).getCulumnNumericPart("State Code"));
+//	}
 }
