@@ -59,11 +59,10 @@ public abstract class AbstractUITestHelper {
 	protected AbstractUITestHelper() {
 		logger = LoggerFactory.getLogger(this.getClass());
 		logonTest = false;
+		testConfigManager = TestConfigManager.getInstance();
 	}
 
 	public void init(String appName, String webBrowserId, WebPage webPage, String userProfileName) {
-
-		testConfigManager = TestConfigManager.getInstance();
 		initAppConfig = testConfigManager.getAppConfig(appName);
 		initUserProfile = testConfigManager.getAppConfig(appName).getUserProfile(userProfileName);
 
@@ -251,7 +250,7 @@ public abstract class AbstractUITestHelper {
 
 	private String prepareScreenshotFileName(Scenario scenario) {
 		String[] idParts = scenario.getId().split("/");
-		String fileName = idParts[idParts.length - 1].replace("[.]", "-").replace(":", "-ScenrioLine(") + ")";
+		String fileName = idParts[idParts.length - 1].replace(".", "-").replace(":", "-ScenarioLine(") + ")";
 		return fileName;
 	}
 
