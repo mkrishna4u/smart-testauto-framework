@@ -62,7 +62,6 @@ public abstract class AbstractUITestHelper {
 	}
 
 	public void init(String appName, String webBrowserId, WebPage webPage, String userProfileName) {
-		
 
 		testConfigManager = TestConfigManager.getInstance();
 		initAppConfig = testConfigManager.getAppConfig(appName);
@@ -76,12 +75,12 @@ public abstract class AbstractUITestHelper {
 	}
 
 	/**
-	 * Opens the new browser if it is not opened by the web driver associated to
-	 * it. As soon as the browser is opened, this will login to the system
+	 * Opens the new browser if it is not opened by the web driver associated to it.
+	 * As soon as the browser is opened, this will login to the system
 	 * automatically.
 	 */
 	public void scenarioSetup() {
-		//checkLogoutAndLoginAgain(activeUserProfileName);
+		// checkLogoutAndLoginAgain(activeUserProfileName);
 	}
 
 	public void scenarioTearDown() {
@@ -91,7 +90,7 @@ public abstract class AbstractUITestHelper {
 	public String getInitAppName() {
 		return initAppName;
 	}
-	
+
 	public String getInitUserProfileName() {
 		return initUserProfileName;
 	}
@@ -135,8 +134,8 @@ public abstract class AbstractUITestHelper {
 			loginPageValidator.login(userProfileName);
 			loginSuccessPageValidator.validate(userProfileName);
 		}
-		
-		if(initWebPage != null) {
+
+		if (initWebPage != null) {
 			initWebPage.getValidator(initWebBrowser, null).openWebPage();
 		}
 	}
@@ -158,7 +157,7 @@ public abstract class AbstractUITestHelper {
 			relogin(userProfileName);
 			this.activeUserProfileName = userProfileName;
 		}
-	}	
+	}
 
 	/**
 	 * Logout first and login again. It does not close the browser.
@@ -214,52 +213,46 @@ public abstract class AbstractUITestHelper {
 	public OrmDatabaseQueryHandler getDatabaseQueryHandler(String appName, String dbProfileName) {
 		return testConfigManager.getDatabaseQueryHandler(appName, dbProfileName);
 	}
-	
-	public void captureScreenshot(Scenario scenario) {		
-		int endIndex = 40;
-		if(scenario.getName().length() < 40) {
-			endIndex = scenario.getName().length();
-		}
-		String fileNameHint = scenario.getName().substring(0, endIndex).replace(" ", "_") + "-" + scenario.getStatus();
-		
+
+	public void captureScreenshot(Scenario scenario) {
+		String fileNameHint = prepareScreenshotFileName(scenario) + "-" + scenario.getStatus();
+
 		Rectangle screenArea = null;
-		if(initWebBrowser != null) {
+		if (initWebBrowser != null) {
 			screenArea = new Rectangle(new Point(0, 0), initWebBrowser.getWindowSize());
 		}
-		
-		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null,
-				fileNameHint, screenArea);
+
+		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea);
 	}
-	
-	public void captureScreenshot(Scenario scenario, String status) {		
-		String fileNameHint;
-		if(scenario.getName().length() > 40) {
-			fileNameHint = scenario.getName().substring(0, 40).replace(" ", "_");
-		} else {
-			fileNameHint = scenario.getName().replace(" ", "_");
-		}
-		
-		if(status != null) {
+
+	public void captureScreenshot(Scenario scenario, String status) {
+		String fileNameHint = prepareScreenshotFileName(scenario);
+
+		if (status != null) {
 			fileNameHint = fileNameHint + "-" + status;
 		}
-		
+
 		Rectangle screenArea = null;
-		if(initWebBrowser != null) {
+		if (initWebBrowser != null) {
 			screenArea = new Rectangle(new Point(0, 0), initWebBrowser.getWindowSize());
 		}
-		
-		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null,
-				fileNameHint, screenArea);
+
+		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea);
 	}
 
 	public void captureScreenshot(String fileNameHint) {
 		Rectangle screenArea = null;
-		if(initWebBrowser != null) {
+		if (initWebBrowser != null) {
 			screenArea = new Rectangle(new Point(0, 0), initWebBrowser.getWindowSize());
 		}
-		
-		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null,
-				fileNameHint, screenArea);
+
+		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea);
+	}
+
+	private String prepareScreenshotFileName(Scenario scenario) {
+		String[] idParts = scenario.getId().split("/");
+		String fileName = idParts[idParts.length - 1].replace("[.]", "-").replace(":", "-ScenrioLine(") + ")";
+		return fileName;
 	}
 
 }
