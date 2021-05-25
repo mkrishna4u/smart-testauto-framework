@@ -37,6 +37,7 @@ import com.google.common.base.Function;
 import smartfwk.testing.ui.core.config.webbrowser.WebBrowser;
 import smartfwk.testing.ui.core.objects.scrollbar.Scrollbar;
 import smartfwk.testing.ui.core.utils.ClipboardUtil;
+import smartfwk.testing.ui.core.utils.PageScrollUtil;
 
 /**
  * 
@@ -92,6 +93,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				// TimeUnit.SECONDS);
 				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
 				Assert.assertNotNull(webElem, "Unable to find element '" + domObject.getDisplayName() + "'.");
+				PageScrollUtil.scrollElemToViewport(browser, webElem);
 				// System.out.println(domObject.getDisplayName() + ", DISPLAYED:
 				// " + webElem.isDisplayed() + ", " + webElem.isEnabled());
 				// Assert.assertTrue(webElem.isDisplayed(), "Unable to find

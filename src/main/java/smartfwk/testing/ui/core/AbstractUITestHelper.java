@@ -64,7 +64,9 @@ public abstract class AbstractUITestHelper {
 
 	public void init(String appName, String webBrowserId, WebPage webPage, String userProfileName) {
 		initAppConfig = testConfigManager.getAppConfig(appName);
-		initUserProfile = testConfigManager.getAppConfig(appName).getUserProfile(userProfileName);
+		if(userProfileName != null) {
+			initUserProfile = testConfigManager.getAppConfig(appName).getUserProfile(userProfileName);
+		}
 
 		this.initAppName = appName;
 		this.initUserProfileName = userProfileName;
@@ -152,8 +154,11 @@ public abstract class AbstractUITestHelper {
 	}
 
 	public void setActiveUserProfileName(String userProfileName) {
-		if (!initUserProfileName.equals(userProfileName)) {
+		if (!this.activeUserProfileName.equals(userProfileName)) {
 			relogin(userProfileName);
+			this.activeUserProfileName = userProfileName;
+		} else {
+			checkLogoutAndLoginAgain(userProfileName);
 			this.activeUserProfileName = userProfileName;
 		}
 	}
