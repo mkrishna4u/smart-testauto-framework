@@ -64,13 +64,16 @@ public abstract class AbstractUITestHelper {
 
 	public void init(String appName, String webBrowserId, WebPage webPage, String userProfileName) {
 		initAppConfig = testConfigManager.getAppConfig(appName);
-		if(userProfileName != null) {
+		if(userProfileName == null || "".equals(userProfileName.trim())) {
+			this.initUserProfileName = "";
+			this.activeUserProfileName = "";
+		} else {
+			this.initUserProfileName = userProfileName;
+			this.activeUserProfileName = userProfileName;
 			initUserProfile = testConfigManager.getAppConfig(appName).getUserProfile(userProfileName);
 		}
 
-		this.initAppName = appName;
-		this.initUserProfileName = userProfileName;
-		this.activeUserProfileName = userProfileName;
+		this.initAppName = appName;		
 		this.initWebPage = webPage;
 		this.initWebBrowserId = webBrowserId;
 	}
