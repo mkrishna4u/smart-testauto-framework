@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>smartfwk.testing</groupId>
@@ -9,7 +10,7 @@
 
 	<properties>
 		<testng.version>7.4.0</testng.version>
-		<selenium.version>3.141.59</selenium.version>		
+		<selenium.version>3.141.59</selenium.version>
 		<cucumber.version>6.10.4</cucumber.version>
 		<sikulix.version>2.0.5</sikulix.version>
 		<slf4j.version>1.7.30</slf4j.version>
@@ -24,23 +25,24 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
+		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
 	</properties>
 
 	<dependencies>
-	    <dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi</artifactId>
-		    <version>${apache-poi.version}</version>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${apache-poi.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-ooxml</artifactId>
-		    <version>${apache-poi.version}</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${apache-poi.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-csv</artifactId>
-		    <version>${commons-csv.version}</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>${commons-csv.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -97,21 +99,18 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.connector.version}</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> 
+			<version>${mysql.connector.version}</version> </dependency> -->
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-java</artifactId>
 			<version>${cucumber.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>com.sikulix</groupId>
 			<artifactId>sikulixapi</artifactId>
 			<version>${sikulix.version}</version>
-		</dependency>		
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -142,6 +141,11 @@
 						<target>${maven.compiler.target}</target>
 						<compilerArgument>-XDignore.symbol.file=true</compilerArgument>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven-source-plugin.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
