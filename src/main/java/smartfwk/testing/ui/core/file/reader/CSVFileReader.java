@@ -114,11 +114,9 @@ public class CSVFileReader {
 //		System.out.println(table);
 //		
 //		List<TableRow> filteredRows = table.getRows(new RowFilter()
-//				.condition(new Condition("State Name", Operator.eq, "Arizona"))
-//				.or()
-//				.condition(new Condition("State Name", Operator.contains, "zo"))
+//				.condition(new Condition("State Code", Operator.ne, "07"))
 //				.and()
-//				.condition(new Condition("State Abbr", Operator.contains, "KK"))
+//				.condition(new Condition("State Abbr", Operator.ne, "MK"))
 //				);
 //		
 //		System.out.println("\n\n" + filteredRows);

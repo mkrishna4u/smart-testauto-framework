@@ -183,30 +183,66 @@ public class Table {
 		boolean matched = false;
 		switch (op) {
 		case eq:
-			try {
-				matched = Double.parseDouble(value1) == Double.parseDouble(value2);
-			} catch (Exception ex) {
-				matched = value1.equals(value2);
+			if(value1.equals("") && value2.equals("")) {
+				matched = true;
+			} else if(value1.equals("") || value2.equals("")) {
+				matched = false;
+			} else {
+				try {
+					matched = Double.parseDouble(value1) == Double.parseDouble(value2);
+				} catch (Exception ex) {
+					matched = value1.equals(value2);
+				}
 			}
 			break;
 		case ne:
-			try {
-				matched = Double.parseDouble(value1) != Double.parseDouble(value2);
-			} catch (Exception ex) {
-				matched = !value1.equals(value2);
+			if(value1.equals("") && value2.equals("")) {
+				matched = false;
+			} else if(value1.equals("") || value2.equals("")) {
+				matched = true;
+			} else {
+				try {
+					matched = Double.parseDouble(value1) != Double.parseDouble(value2);
+				} catch (Exception ex) {
+					matched = !value1.equals(value2);
+				}
 			}
 			break;
 		case gt:
-			matched = Double.parseDouble(value1) > Double.parseDouble(value2);
+			if(value1.equals("") && value2.equals("")) {
+				matched = true;
+			} else if(value1.equals("") || value2.equals("")) {
+				matched = false;
+			} else {
+				matched = Double.parseDouble(value1) > Double.parseDouble(value2);
+			}
 			break;
 		case gte:
-			matched = Double.parseDouble(value1) >= Double.parseDouble(value2);
+			if(value1.equals("") && value2.equals("")) {
+				matched = true;
+			} else if(value1.equals("") || value2.equals("")) {
+				matched = false;
+			} else {
+				matched = Double.parseDouble(value1) >= Double.parseDouble(value2);
+			}
 			break;
 		case lt:
-			matched = Double.parseDouble(value1) < Double.parseDouble(value2);
+			if(value1.equals("") && value2.equals("")) {
+				matched = true;
+			} else if(value1.equals("") || value2.equals("")) {
+				matched = false;
+			} else {
+				matched = Double.parseDouble(value1) < Double.parseDouble(value2);
+			}
 			break;
 		case lte:
-			matched = Double.parseDouble(value1) <= Double.parseDouble(value2);
+			if(value1.equals("") && value2.equals("")) {
+				matched = true;
+			} else if(value1.equals("") || value2.equals("")) {
+				matched = false;
+			} else {
+				matched = Double.parseDouble(value1) <= Double.parseDouble(value2);
+			}
 			break;
 		case startsWith:
 			matched = value1.startsWith(value2);
