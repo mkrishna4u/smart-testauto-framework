@@ -40,16 +40,22 @@ public class TableRow {
 		List<String> row = table.getRawRows().get(rowIndex);
 		return row.get(colIndex);
 	}
-	
+
 	public String getCulumnNumericPart(String columnName) {
 		String intValue = "";
 		String colValue = getColumnValue(columnName);
 		try {
 			intValue = colValue.split("[.]")[0];
-		} catch(Exception ex) {
-			Assert.fail("Invalid integer value '" + colValue + "' in table '" + table.getTableName() + "', column '" + columnName + "'.");
+		} catch (Exception ex) {
+			Assert.fail("Invalid integer value '" + colValue + "' in table '" + table.getTableName() + "', column '"
+					+ columnName + "'.");
 		}
-		
+
 		return intValue;
+	}
+
+	@Override
+	public String toString() {
+		return table.getRawRow(rowIndex).toString();
 	}
 }

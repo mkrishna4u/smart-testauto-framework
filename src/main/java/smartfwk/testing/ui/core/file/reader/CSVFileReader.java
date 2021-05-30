@@ -112,6 +112,15 @@ public class CSVFileReader {
 //		Table table = CSVFileReader.getData("test-data/usa-states.csv");
 //
 //		System.out.println(table);
-//		System.out.println(table.getRow(1).getCulumnNumericPart("State Code"));
+//		
+//		List<TableRow> filteredRows = table.getRows(new RowFilter()
+//				.condition(new Condition("State Name", Operator.eq, "Arizona"))
+//				.or()
+//				.condition(new Condition("State Name", Operator.contains, "zo"))
+//				.and()
+//				.condition(new Condition("State Abbr", Operator.contains, "KK"))
+//				);
+//		
+//		System.out.println("\n\n" + filteredRows);
 //	}
 }

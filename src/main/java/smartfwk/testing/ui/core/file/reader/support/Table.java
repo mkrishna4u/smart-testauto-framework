@@ -78,6 +78,10 @@ public class Table {
 		return rows;
 	}
 
+	public List<String> getRawRow(int index) {
+		return rows.get(index);
+	}
+
 	public List<TableRow> getRows() {
 		List<TableRow> tableRows = new ArrayList<>();
 		for (int i = 0; i < rows.size(); i++) {
@@ -127,6 +131,97 @@ public class Table {
 				"Row number should be between 1 and " + rows.size() + ".");
 		TableRow trow = new TableRow(this, rowNumber - 1);
 		return trow;
+	}
+
+	public List<TableRow> getRows(RowFilter rowFilter) {
+		List<TableRow> tableRows = new ArrayList<>();
+		Assert.assertFalse(rowFilter == null || rowFilter.getFilter().size() == 0, "Row filter can not be empty.");
+		List<Object> filter = rowFilter.getFilter();
+		TableRow trow;
+		String colValue;
+		Join nextJoin = null;
+		boolean condition1Matched, condition2Matched;
+		for (int i = 0; i < rows.size(); i++) {
+			trow = new TableRow(this, i);
+			condition1Matched = false;
+			nextJoin = null;
+			for (Object st : filter) {
+				if (st instanceof Condition) {
+					if (nextJoin == null) {
+						colValue = trow.getColumnValue(((Condition) st).getColumnName());
+						condition1Matched = (colValue != null
+								&& areValuesMatched(colValue, ((Condition) st).getOp(), ((Condition) st).getValue()));
+					} else {
+						colValue = trow.getColumnValue(((Condition) st).getColumnName());
+						condition2Matched = (colValue != null
+								&& areValuesMatched(colValue, ((Condition) st).getOp(), ((Condition) st).getValue()));
+						if (nextJoin == Join.and) {
+							condition1Matched = condition1Matched && condition2Matched;
+						} else if (nextJoin == Join.or) {
+							condition1Matched = condition1Matched || condition2Matched;
+						}
+					}
+				} else if (st instanceof Join) {
+					nextJoin = (Join) st;
+					continue;
+				}
+
+				if (filter.size() == 1 && !condition1Matched) {
+					break;
+				}
+			}
+
+			if (condition1Matched) {
+				tableRows.add(trow);
+			}
+		}
+
+		return tableRows;
+	}
+
+	private boolean areValuesMatched(String value1, Operator op, String value2) {
+		boolean matched = false;
+		switch (op) {
+		case eq:
+			try {
+				matched = Double.parseDouble(value1) == Double.parseDouble(value2);
+			} catch (Exception ex) {
+				matched = value1.equals(value2);
+			}
+			break;
+		case ne:
+			try {
+				matched = Double.parseDouble(value1) != Double.parseDouble(value2);
+			} catch (Exception ex) {
+				matched = !value1.equals(value2);
+			}
+			break;
+		case gt:
+			matched = Double.parseDouble(value1) > Double.parseDouble(value2);
+			break;
+		case gte:
+			matched = Double.parseDouble(value1) >= Double.parseDouble(value2);
+			break;
+		case lt:
+			matched = Double.parseDouble(value1) < Double.parseDouble(value2);
+			break;
+		case lte:
+			matched = Double.parseDouble(value1) <= Double.parseDouble(value2);
+			break;
+		case startsWith:
+			matched = value1.startsWith(value2);
+			break;
+		case contains:
+			matched = value1.contains(value2);
+			break;
+		case endsWith:
+			matched = value1.endsWith(value2);
+			break;
+		default:
+			break;
+		}
+
+		return matched;
 	}
 
 	@Override
