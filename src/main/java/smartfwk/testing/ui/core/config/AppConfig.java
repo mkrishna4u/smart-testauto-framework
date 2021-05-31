@@ -54,6 +54,7 @@ public class AppConfig {
 	private Map<String, DatabaseProfile> dbProfiles;
 	private ProxyConfiguration proxyConfig;
 	private Map<String, String> additionalProps;
+	private ApiConfig apiConfig;
 
 	public AppConfig(String appName, Properties properties, String appConfigDir) {
 		this.appName = appName;
@@ -247,8 +248,21 @@ public class AppConfig {
 						+ "' defined in application '" + appName + "'.", ex);
 			}
 		}
+		
+		String apiConfigFile = appConfigDir + File.separator + "ApiConfig.properties";
+		Properties apiConfigProps = new Properties();
+		try(FileReader fr = new FileReader(apiConfigFile)) {
+			apiConfigProps.load(fr);
+			this.apiConfig = new ApiConfig(apiConfigFile, apiConfigProps);
+		} catch(Exception ex) {
+			Assert.fail("Failed to load ApiConfig.properties file for application '" + this.appName + "'.", ex);
+		}
 	}
 
+	public ApiConfig getApiConfig() {
+		return this.apiConfig;
+	}
+	
 	private void initUserProfiles() {
 		String configFile;
 		FileReader fileReader;
