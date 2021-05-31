@@ -63,14 +63,14 @@ public abstract class AbstractApiTestHelper {
 	
 	public void setActiveProfileName(String profileName) {
 		if (activeProfileName == null || "".equals(activeProfileName)) {
-			session = login(testConfigManager.getAppConfig(profileName).getApiConfig(),
-					testConfigManager.getUserProfile(profileName, profileName));
+			session = login(testConfigManager.getAppConfig(appName).getApiConfig(),
+					testConfigManager.getUserProfile(appName, profileName));
 			activeProfileName = profileName;
 			
 		} else if (!activeProfileName.equals(profileName)) {
 			logout();
-			session = login(testConfigManager.getAppConfig(profileName).getApiConfig(),
-					testConfigManager.getUserProfile(profileName, profileName));
+			session = login(testConfigManager.getAppConfig(appName).getApiConfig(),
+					testConfigManager.getUserProfile(appName, profileName));
 			activeProfileName = profileName;
 		}
 	}
@@ -327,5 +327,5 @@ public abstract class AbstractApiTestHelper {
 
 	protected abstract HttpSession login(ApiConfig apiConfig, UserProfile userProfile);
 
-	protected abstract void logout();
+	public abstract void logout();
 }
