@@ -249,7 +249,7 @@ public class AppConfig {
 			}
 		}
 		
-		String apiConfigFile = appConfigDir + File.separator + "ApiConfig.properties";
+		String apiConfigFile = appConfigDir + File.separator + this.appName + File.separator + "ApiConfig.properties";
 		Properties apiConfigProps = new Properties();
 		try(FileReader fr = new FileReader(apiConfigFile)) {
 			apiConfigProps.load(fr);
