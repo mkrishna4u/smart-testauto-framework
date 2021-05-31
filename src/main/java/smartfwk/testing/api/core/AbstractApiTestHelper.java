@@ -51,23 +51,23 @@ public abstract class AbstractApiTestHelper {
 	protected TestConfigManager testConfigManager;
 	protected String activeProfileName;
 
-	public AbstractApiTestHelper(String appName) {
+	public AbstractApiTestHelper(String appName, String baseUrlKey) {
 		this.appName = appName;
 		testConfigManager = TestConfigManager.getInstance();
+		baseURL = testConfigManager.getAppConfig(appName).getApiConfig().getPropertyValue(baseUrlKey);
 	}
 
-	public void setActiveProfileName(String profileName, String baseUrlKey) {
+	public void setActiveProfileName(String profileName) {
 		if (activeProfileName == null || "".equals(activeProfileName)) {
 			session = login(testConfigManager.getAppConfig(profileName).getApiConfig(),
 					testConfigManager.getUserProfile(profileName, profileName));
 			activeProfileName = profileName;
-			baseURL = testConfigManager.getAppConfig(profileName).getApiConfig().getPropertyValue(baseUrlKey);
+			
 		} else if (!activeProfileName.equals(profileName)) {
 			logout();
 			session = login(testConfigManager.getAppConfig(profileName).getApiConfig(),
 					testConfigManager.getUserProfile(profileName, profileName));
 			activeProfileName = profileName;
-			baseURL = testConfigManager.getAppConfig(profileName).getApiConfig().getPropertyValue(baseUrlKey);
 		}
 	}
 
