@@ -36,7 +36,6 @@ import com.google.common.base.Function;
 
 import smartfwk.testing.ui.core.config.webbrowser.WebBrowser;
 import smartfwk.testing.ui.core.objects.scrollbar.Scrollbar;
-import smartfwk.testing.ui.core.utils.ClipboardUtil;
 import smartfwk.testing.ui.core.utils.PageScrollUtil;
 
 /**
@@ -244,6 +243,26 @@ public class DOMObjectValidator extends UIObjectValidator {
 		return elemVisible;
 	}
 
+	public boolean isReadonly(int numRetries) {
+		boolean elemReadonly = false;
+		WebElement webElem = null;
+		for (int i = 0; i <= numRetries; i++) {
+			try {
+				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
+				if (webElem != null && webElem.getAttribute("readonly") != null) {
+					elemReadonly = true;
+					break;
+				}
+			} catch (Throwable th) {
+				if (i == numRetries) {
+					break;
+				}
+			}
+			browser.waitForSeconds(2);
+		}
+		return elemReadonly;
+	}
+	
 	public boolean isDisabled(int numRetries) {
 		boolean elemDisabled = false;
 		WebElement webElem = null;
