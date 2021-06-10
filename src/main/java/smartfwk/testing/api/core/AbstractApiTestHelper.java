@@ -109,7 +109,7 @@ public abstract class AbstractApiTestHelper {
 		}
 
 		requestBuilder.removeHeader("Content-Type");
-		if (responseContentType == null) {
+		if (responseContentType == null || "".equals(responseContentType.trim())) {
 			requestBuilder.removeHeader("Accept");
 		} else {
 			requestBuilder.addHeader("Accept", responseContentType);
@@ -152,7 +152,7 @@ public abstract class AbstractApiTestHelper {
 		}
 
 		requestBuilder.removeHeader("Content-Type");
-		if (responseContentType == null) {
+		if (responseContentType == null || "".equals(responseContentType.trim())) {
 			requestBuilder.removeHeader("Accept");
 		} else {
 			requestBuilder.addHeader("Accept", responseContentType);
@@ -196,7 +196,7 @@ public abstract class AbstractApiTestHelper {
 			}
 		}
 
-		if (request.getResponseContentType() == null) {
+		if (request.getResponseContentType() == null || "".equals(request.getResponseContentType().trim())) {
 			requestBuilder.removeHeader("Accept");
 		} else {
 			requestBuilder.addHeader("Accept", request.getResponseContentType());
@@ -240,7 +240,7 @@ public abstract class AbstractApiTestHelper {
 			}
 		}
 
-		if (request.getResponseContentType() == null) {
+		if (request.getResponseContentType() == null  || "".equals(request.getResponseContentType().trim())) {
 			requestBuilder.removeHeader("Accept");
 		} else {
 			requestBuilder.addHeader("Accept", request.getResponseContentType());
@@ -294,7 +294,7 @@ public abstract class AbstractApiTestHelper {
 			}
 		}
 
-		if (request.getResponseContentType() == null) {
+		if (request.getResponseContentType() == null  || "".equals(request.getResponseContentType().trim())) {
 			requestBuilder.removeHeader("Accept");
 		} else {
 			requestBuilder.addHeader("Accept", request.getResponseContentType());
