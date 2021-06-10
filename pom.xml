@@ -144,7 +144,7 @@
 				<filtering>true</filtering>
 			</resource>
 		</resources>
-		<pluginManagement>
+
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -170,8 +170,16 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
 					<version>${maven-source-plugin.version}</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
-		</pluginManagement>
+
 	</build>
 </project>
