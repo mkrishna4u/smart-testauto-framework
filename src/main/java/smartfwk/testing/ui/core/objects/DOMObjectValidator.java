@@ -340,7 +340,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					WebElement webElem = findElement(numRetries);
 					webElem.click();
 					Actions webActions = new Actions(browser.getSeleniumWebDriver());
-					webActions.sendKeys(Keys.CONTROL + "a").sendKeys(Keys.CONTROL + "c");
+					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "c"));
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					browser.waitForSeconds(2);
@@ -364,7 +364,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					WebElement webElem = findElement(numRetries);
 					webElem.click();
 					Actions webActions = new Actions(browser.getSeleniumWebDriver());
-					webActions.sendKeys(Keys.CONTROL + "a").sendKeys(Keys.CONTROL + "v").build().perform();
+					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "v")).build().perform();
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					browser.waitForSeconds(2);
@@ -544,7 +544,8 @@ public class DOMObjectValidator extends UIObjectValidator {
 					actions.sendKeys(webElem, newtext).build().perform();
 					break;
 				case replace:
-					webElem.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
+					webElem.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+					webElem.sendKeys(Keys.BACK_SPACE);
 					actions = new Actions(browser.getSeleniumWebDriver());
 					actions.sendKeys(webElem, text).build().perform();
 					break;
