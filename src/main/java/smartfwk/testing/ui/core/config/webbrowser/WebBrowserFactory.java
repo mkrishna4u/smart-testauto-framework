@@ -19,6 +19,7 @@ package smartfwk.testing.ui.core.config.webbrowser;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -197,6 +198,9 @@ public class WebBrowserFactory {
 					ChromeDriver chromeDriver = null;
 
 					ChromeOptions chromeOptions = new ChromeOptions();
+					chromeOptions.addArguments("--ignore-certificate-errors", "--test-type=webdriver", "--disable-notifications", "disable-infobars");
+					chromeOptions.setExperimentalOption("useAutomationExtension", false);
+					chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
 					// DesiredCapabilities chromeCapabilities = DesiredCapabilities.chrome();
 					// applyDriverCapabilities(chromeCapabilities,
 					// chromeDriverCfg.getDriverCapabilities());
