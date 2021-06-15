@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uitnet.testing</groupId>
 	<artifactId>smart-testauto-framework</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0-Final</version>
 	<packaging>jar</packaging>
 	<name>Smart Software Testing Automation Framework</name>
 
