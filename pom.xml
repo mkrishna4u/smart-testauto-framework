@@ -2,9 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>smartfwk.testing</groupId>
+	<groupId>org.uitnet.testing</groupId>
 	<artifactId>smart-testauto-framework</artifactId>
-	<version>1.0.0-Final</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Smart Software Testing Automation Framework</name>
 
@@ -145,41 +145,41 @@
 			</resource>
 		</resources>
 
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>${maven.resources.plugin.version}</version>
-					<configuration>
-						<encoding>UTF-8</encoding>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>${maven.compiler.plugin.version}</version>
-					<configuration>
-						<fork>true</fork>
-						<encoding>UTF-8</encoding>
-						<source>${maven.compiler.source}</source>
-						<target>${maven.compiler.target}</target>
-						<compilerArgument>-XDignore.symbol.file=true</compilerArgument>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>${maven-source-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${maven.resources.plugin.version}</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin.version}</version>
+				<configuration>
+					<fork>true</fork>
+					<encoding>UTF-8</encoding>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<compilerArgument>-XDignore.symbol.file=true</compilerArgument>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 
 	</build>
 </project>
