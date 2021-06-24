@@ -4,9 +4,24 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uitnet.testing</groupId>
 	<artifactId>smart-testauto-framework</artifactId>
-	<version>1.0.0-Final</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Smart Software Testing Automation Framework</name>
+	<description>Smart Software Testing Automation Framework is a tool used to automate the testing of software application. It includes the functionality i.e. Web UI Application Automation, Thick Client Automation, API Testing, Data Driven Testing etc.</description>
+	<url>https://github.com/mkrishna4u/smart-testauto-framework</url>
+	
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
+	
+	<scm>
+		<connection>scm:git:git://github.com/mkrishna4u/smart-testauto-framework.git</connection>
+		<developerConnection>scm:git:git://github.com/mkrishna4u/smart-testauto-framework.git</developerConnection>
+		<url>https://github.com/mkrishna4u/smart-testauto-framework/tree/main</url>
+	</scm>
 
 	<properties>
 		<testng.version>7.4.0</testng.version>
@@ -22,14 +37,26 @@
 		<json-path.version>2.5.0</json-path.version>
 		<jackson.version>2.12.3</jackson.version>
 		<okhttp.version>4.9.1</okhttp.version>
-		<!-- <mysql.connector.version>5.1.38</mysql.connector.version> -->
 		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
 		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+		<maven-javadoc-plugin.version>3.3.0</maven-javadoc-plugin.version>
+		<maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
 	</properties>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 
 	<dependencies>
 		<dependency>
@@ -123,8 +150,6 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		<!-- <dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> 
-			<version>${mysql.connector.version}</version> </dependency> -->
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-java</artifactId>
@@ -174,7 +199,39 @@
 					<execution>
 						<id>attach-sources</id>
 						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven-javadoc-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
 							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<destDir>javadoc</destDir>
+					<failOnError>false</failOnError>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>${maven-gpg-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
