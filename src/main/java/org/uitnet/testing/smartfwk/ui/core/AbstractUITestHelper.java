@@ -104,7 +104,8 @@ public abstract class AbstractUITestHelper {
 				.getAppLoginPageValidatorClass();
 		LoginPageValidator loginPageValidator = null;
 		try {
-			loginPageValidator = (LoginPageValidator) Class.forName(loginPageValidatorCls).newInstance();
+			loginPageValidator = (LoginPageValidator) Class.forName(loginPageValidatorCls)
+					.getDeclaredConstructor().newInstance();
 			loginPageValidator.setInitParams(browser);
 		} catch (Throwable th) {
 			Assert.fail("Failed to load login page validator class '" + loginPageValidatorCls + "'.", th);
@@ -118,7 +119,7 @@ public abstract class AbstractUITestHelper {
 		LoginSuccessPageValidator loginSuccessPageValidator = null;
 		try {
 			loginSuccessPageValidator = (LoginSuccessPageValidator) Class.forName(loginSuccessPageValidatorCls)
-					.newInstance();
+					.getDeclaredConstructor().newInstance();
 			loginSuccessPageValidator.setInitParams(browser);
 		} catch (Throwable th) {
 			Assert.fail("Failed to load login page validator class '" + loginSuccessPageValidatorCls + "'.", th);
