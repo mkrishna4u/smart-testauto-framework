@@ -54,7 +54,8 @@ public class TextAreaSD extends TextArea {
 	@Override
 	public TextAreaSD updateLocatorParameterWithValue(String paramName, String value) {
 		String newXPath = xpath.replaceAll(":" + paramName, value);
-		return new TextAreaSD(displayName, newXPath);
+		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
+		return new TextAreaSD(newDisplayName, newXPath);
 	}
 
 }

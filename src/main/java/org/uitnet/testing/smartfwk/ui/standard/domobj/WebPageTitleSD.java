@@ -55,7 +55,8 @@ public class WebPageTitleSD extends Label {
 	@Override
 	public WebPageTitleSD updateLocatorParameterWithValue(String paramName, String value) {
 		String newXPath = xpath.replaceAll(":" + paramName, value);
-		return new WebPageTitleSD(displayName, newXPath);
+		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
+		return new WebPageTitleSD(newDisplayName, newXPath);
 	}
 
 }

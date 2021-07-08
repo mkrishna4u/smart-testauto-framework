@@ -54,7 +54,8 @@ public class HyperlinkSD extends Hyperlink {
 	@Override
 	public HyperlinkSD updateLocatorParameterWithValue(String paramName, String value) {
 		String newXPath = xpath.replaceAll(":" + paramName, value);
-		return new HyperlinkSD(displayName, newXPath);
+		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
+		return new HyperlinkSD(newDisplayName, newXPath);
 	}
 
 }

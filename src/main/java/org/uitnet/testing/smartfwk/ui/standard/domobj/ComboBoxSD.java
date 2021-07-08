@@ -54,7 +54,8 @@ public class ComboBoxSD extends ComboBox {
 	@Override
 	public ComboBoxSD updateLocatorParameterWithValue(String paramName, String value) {
 		String newXPath = xpath.replaceAll(":" + paramName, value);
-		return new ComboBoxSD(displayName, newXPath);
+		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
+		return new ComboBoxSD(newDisplayName, newXPath);
 	}
 
 }

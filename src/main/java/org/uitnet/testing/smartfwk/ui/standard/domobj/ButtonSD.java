@@ -54,7 +54,8 @@ public class ButtonSD extends Button {
 	@Override
 	public ButtonSD updateLocatorParameterWithValue(String paramName, String value) {
 		String newXPath = xpath.replaceAll(":" + paramName, value);
-		return new ButtonSD(displayName, newXPath);
+		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
+		return new ButtonSD(newDisplayName, newXPath);
 	}
 
 }

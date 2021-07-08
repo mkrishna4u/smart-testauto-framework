@@ -54,7 +54,8 @@ public class ImageSD extends Image {
 	@Override
 	public ImageSD updateLocatorParameterWithValue(String paramName, String value) {
 		String newXPath = xpath.replaceAll(":" + paramName, value);
-		return new ImageSD(displayName, newXPath);
+		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
+		return new ImageSD(newDisplayName, newXPath);
 	}
 
 }

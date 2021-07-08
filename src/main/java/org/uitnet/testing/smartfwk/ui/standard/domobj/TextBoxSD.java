@@ -54,7 +54,8 @@ public class TextBoxSD extends TextBox {
 	@Override
 	public TextBoxSD updateLocatorParameterWithValue(String paramName, String value) {
 		String newXPath = xpath.replaceAll(":" + paramName, value);
-		return new TextBoxSD(displayName, newXPath);
+		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
+		return new TextBoxSD(newDisplayName, newXPath);
 	}
 
 }

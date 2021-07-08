@@ -54,7 +54,8 @@ public class LabelSD extends Label {
 	@Override
 	public LabelSD updateLocatorParameterWithValue(String paramName, String value) {
 		String newXPath = xpath.replaceAll(":" + paramName, value);
-		return new LabelSD(displayName, newXPath);
+		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
+		return new LabelSD(newDisplayName, newXPath);
 	}
 
 }

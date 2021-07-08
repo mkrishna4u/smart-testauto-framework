@@ -54,7 +54,8 @@ public class ListBoxSD extends ListBox {
 	@Override
 	public ListBoxSD updateLocatorParameterWithValue(String paramName, String value) {
 		String newXPath = xpath.replaceAll(":" + paramName, value);
-		return new ListBoxSD(displayName, newXPath);
+		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
+		return new ListBoxSD(newDisplayName, newXPath);
 	}
 
 }

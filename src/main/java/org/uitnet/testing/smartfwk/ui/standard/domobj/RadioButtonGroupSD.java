@@ -54,7 +54,8 @@ public class RadioButtonGroupSD extends RadioButtonGroup {
 	@Override
 	public RadioButtonGroupSD updateLocatorParameterWithValue(String paramName, String value) {
 		String newXPath = xpath.replaceAll(":" + paramName, value);
-		return new RadioButtonGroupSD(displayName, newXPath);
+		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
+		return new RadioButtonGroupSD(newDisplayName, newXPath);
 	}
 
 }

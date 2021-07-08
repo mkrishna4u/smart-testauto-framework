@@ -54,7 +54,8 @@ public class CheckBoxSD extends CheckBox {
 	@Override
 	public CheckBoxSD updateLocatorParameterWithValue(String paramName, String value) {
 		String newXPath = xpath.replaceAll(":" + paramName, value);
-		return new CheckBoxSD(displayName, newXPath);
+		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
+		return new CheckBoxSD(newDisplayName, newXPath);
 	}
 
 }
