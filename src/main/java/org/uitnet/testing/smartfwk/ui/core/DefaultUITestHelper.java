@@ -25,8 +25,24 @@ import io.cucumber.java.Scenario;
  *
  */
 public class DefaultUITestHelper extends AbstractUITestHelper {
-	public DefaultUITestHelper() {
+	private static DefaultUITestHelper instance;
+	
+	private DefaultUITestHelper() {
 		super();
+	}
+	
+	public static DefaultUITestHelper getInstance() {
+		if(instance != null) {
+			return instance;
+		}
+		
+		synchronized(DefaultUITestHelper.class) {
+			if(instance == null) {
+				instance = new DefaultUITestHelper();
+			}
+		}
+		
+		return instance;
 	}
 	
 	public void beforeScenario(Scenario scenario) {
