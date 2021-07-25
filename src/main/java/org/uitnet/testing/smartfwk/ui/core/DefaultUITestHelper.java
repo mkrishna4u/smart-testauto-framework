@@ -41,7 +41,7 @@ public class DefaultUITestHelper extends AbstractUITestHelper {
 				instance = new DefaultUITestHelper();
 			}
 		}
-		
+
 		return instance;
 	}
 	
