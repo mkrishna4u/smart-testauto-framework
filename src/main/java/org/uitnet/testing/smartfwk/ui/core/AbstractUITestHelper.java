@@ -200,9 +200,11 @@ public abstract class AbstractUITestHelper {
 	 * execute further testcases, new browser will be opened.
 	 */
 	public void logoutAndQuit() {
-		logoutAndNoQuit();
-
-		initWebBrowser.quit();
+		try {
+			logoutAndNoQuit();
+		} finally {
+			initWebBrowser.quit();
+		}
 	}
 
 	public WebBrowser getInitWebBrowser() {
