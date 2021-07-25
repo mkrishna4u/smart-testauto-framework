@@ -32,7 +32,7 @@ import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
 
 /**
@@ -336,13 +336,13 @@ public class ImageObjectValidator extends UIObjectValidator {
 			}
 
 			match.type(text);
-			// validateValue(text, TextValidationMechanism.containsExpectedValue, 0);
+			// validateValue(text, TextMatchMechanism.containsExpectedValue, 0);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyPressed on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
 	}
 
-	public void validateValue(String expectedValue, TextValidationMechanism validationMechanism, int numRetries) {
+	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int numRetries) {
 		Match match = findElement(numRetries);
 		validateTextValue(match.text(), expectedValue, validationMechanism);
 	}

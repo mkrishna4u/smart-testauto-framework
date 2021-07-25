@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
 import org.testng.Assert;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
@@ -28,7 +28,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextVali
 public class DataMatchUtil {
 
 	public static boolean matchTextValue(String actualValue, String expectedValue,
-			TextValidationMechanism validationMechanism) {
+			TextMatchMechanism validationMechanism) {
 		boolean matched = false;
 
 		if (actualValue == null) {
@@ -72,7 +72,7 @@ public class DataMatchUtil {
 	}
 
 	public static void validateTextValue(String actualValue, String expectedValue,
-			TextValidationMechanism validationMechanism) {
+			TextMatchMechanism validationMechanism) {
 		switch (validationMechanism) {
 		case startsWithExpectedValue:
 			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {

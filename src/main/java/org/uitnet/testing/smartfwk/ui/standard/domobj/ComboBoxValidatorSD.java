@@ -32,7 +32,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.combobox.ComboBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
@@ -123,7 +123,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedSelectedValue, TextValidationMechanism validationMechanism,
+	public void validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
 			int numRetries) {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
 		
@@ -253,7 +253,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 			for (WebElement option : options) {
 				optionTextValue = option.getText();
 				if (optionTextValue != null
-						&& matchTextValue(optionTextValue.trim(), item, TextValidationMechanism.exactMatchWithExpectedValue)) {
+						&& matchTextValue(optionTextValue.trim(), item, TextMatchMechanism.exactMatchWithExpectedValue)) {
 					found = true;
 					break;
 				}
@@ -279,7 +279,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 			for (WebElement option : options) {
 				optionTextValue = option.getText();
 				if (optionTextValue != null
-						&& matchTextValue(optionTextValue.trim(), item, TextValidationMechanism.exactMatchWithExpectedValue)) {
+						&& matchTextValue(optionTextValue.trim(), item, TextMatchMechanism.exactMatchWithExpectedValue)) {
 					found = true;
 					break;
 				}

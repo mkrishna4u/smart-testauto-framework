@@ -20,7 +20,7 @@ package org.uitnet.testing.smartfwk.ui.core.objects.datetime;
 import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
@@ -48,5 +48,5 @@ public abstract class DateItemValidator extends UIObjectValidator {
 
 	public abstract void selectDateUsingDatePicker(String date, int numRetries);
 
-	public abstract void validateDate(String date, TextValidationMechanism validationMechanism, int numRetries);
+	public abstract void validateDate(String date, TextMatchMechanism validationMechanism, int numRetries);
 }

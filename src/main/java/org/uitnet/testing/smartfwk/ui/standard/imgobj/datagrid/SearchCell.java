@@ -17,7 +17,7 @@
  */
 package org.uitnet.testing.smartfwk.ui.standard.imgobj.datagrid;
 
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
@@ -28,11 +28,11 @@ public class SearchCell {
 	protected HeaderColumnSI column;
 	protected Object value;
 	protected ValueType valueType;
-	protected TextValidationMechanism textValueValidationMechanism;
+	protected TextMatchMechanism textValueValidationMechanism;
 
 	public SearchCell(HeaderColumnSI column, Object value,
 			ValueType valueType,
-			TextValidationMechanism textValueValidationMechanism) {
+			TextMatchMechanism textValueValidationMechanism) {
 		this.column = column;
 		this.value = value;
 		this.valueType = valueType;
@@ -63,12 +63,12 @@ public class SearchCell {
 		this.valueType = valueType;
 	}
 
-	public TextValidationMechanism getTextValueValidationMechanism() {
+	public TextMatchMechanism getTextValueValidationMechanism() {
 		return textValueValidationMechanism;
 	}
 
 	public void setTextValueValidationMechanism(
-			TextValidationMechanism textValueValidationMechanism) {
+			TextMatchMechanism textValueValidationMechanism) {
 		this.textValueValidationMechanism = textValueValidationMechanism;
 	}
 

@@ -33,7 +33,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.textarea.TextAreaValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
 
 /**
@@ -203,7 +203,7 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 			}
 			
 			match.type(text);
-			//validateTextValue(text, TextValidationMechanism.containsExpectedValue, 0);
+			//validateTextValue(text, TextMatchMechanism.containsExpectedValue, 0);
 		} catch (Throwable th) {
 			Assert.fail("Fail to type text '" + text + "' in TextArea '" + textAreaObj.getDisplayName() + "'.");
 		}
@@ -287,7 +287,7 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 	}
 
 	@Override
-	public void validateTextValue(String expectedValue, TextValidationMechanism validationMechanism, int numRetries) {
+	public void validateTextValue(String expectedValue, TextMatchMechanism validationMechanism, int numRetries) {
 		if (textAreaObj.isDisabled()) {
 			Match match = findElement(numRetries);
 			validateTextValue(match.text(), expectedValue, validationMechanism);

@@ -23,7 +23,7 @@ import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
 import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
@@ -47,7 +47,7 @@ public abstract class ComboBoxValidator extends UIObjectValidator {
 
 	public abstract void validateEnabled(int numRetries);
 
-	public abstract void validateSelectedItem(String expectedSelectedValue, TextValidationMechanism validationMechanism,
+	public abstract void validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
 			int numRetries);
 
 	public abstract String getSelectedItem(int numRetries);

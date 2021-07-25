@@ -32,7 +32,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.listbox.ListBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
@@ -122,14 +122,14 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedSelectedValue, TextValidationMechanism validationMechanism,
+	public void validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
 			int numRetries) {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
 
 		List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-		Assert.assertNotNull(options, "Failed to find items for ListBox '" + uiObject.getDisplayName() + "'.");
+		Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 		Assert.assertTrue(options.size() > 0,
-				"Failed to find items in ListBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+				"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
 		String optionTextValue;
 		boolean found = false;
@@ -143,7 +143,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		}
 
 		if (!found) {
-			Assert.fail("Failed to find selected item '" + expectedSelectedValue + "' in ListBox '"
+			Assert.fail("Failed to find selected item '" + expectedSelectedValue + "' in Choices '"
 					+ uiObject.getDisplayName() + "'.");
 		}
 	}
@@ -153,9 +153,9 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
 
 		List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-		Assert.assertNotNull(options, "Failed to find items for ListBox '" + uiObject.getDisplayName() + "'.");
+		Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 		Assert.assertTrue(options.size() > 0,
-				"Failed to find items in ListBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+				"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
 		String optionTextValue;
 		for (WebElement option : options) {
@@ -172,9 +172,9 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
 
 		List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-		Assert.assertNotNull(options, "Failed to find items for ListBox '" + uiObject.getDisplayName() + "'.");
+		Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 		Assert.assertTrue(options.size() > 0,
-				"Failed to find items in ListBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+				"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
 		List<String> selectedItems = new LinkedList<String>();
 		String optionTextValue;
@@ -192,9 +192,9 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
 
 		List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-		Assert.assertNotNull(options, "Failed to find items for ListBox '" + uiObject.getDisplayName() + "'.");
+		Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 		Assert.assertTrue(options.size() > 0,
-				"Failed to find items in ListBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+				"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
 		options.get(0).click();
 	}
@@ -204,9 +204,9 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
 
 		List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-		Assert.assertNotNull(options, "Failed to find items for ListBox '" + uiObject.getDisplayName() + "'.");
+		Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 		Assert.assertTrue(options.size() > 0,
-				"Failed to find items in ListBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+				"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
 		options.get(options.size() - 1).click();
 	}
@@ -216,7 +216,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
 		
 		List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-		Assert.assertNotNull(options, "Failed to find items for ListBox '" + uiObject.getDisplayName() + "'.");
+		Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 
 		String optionTextValue;
 		boolean found = false;
@@ -236,7 +236,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		}
 
 		if (!found) {
-			Assert.fail("Failed to find item '" + itemName + "' in ListBox '" + uiObject.getDisplayName() + "'.");
+			Assert.fail("Failed to find item '" + itemName + "' in Choices '" + uiObject.getDisplayName() + "'.");
 		}
 	}
 
@@ -245,7 +245,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
 
 		List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-		Assert.assertNotNull(options, "Failed to find items for ListBox '" + uiObject.getDisplayName() + "'.");
+		Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 
 		String optionTextValue;
 		List<String> foundItemList = new LinkedList<String>();
@@ -274,7 +274,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 
 		if (foundItemList.size() != itemsToBeSelected.size()) {
 			itemsToBeSelected.removeAll(foundItemList);
-			Assert.fail("Failed to find item(s) '" + itemsToBeSelected + "' in ListBox '" + uiObject.getDisplayName() + "'.");
+			Assert.fail("Failed to find item(s) '" + itemsToBeSelected + "' in Choices '" + uiObject.getDisplayName() + "'.");
 		}
 	}
 
@@ -283,9 +283,9 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
 
 		List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-		Assert.assertNotNull(options, "Failed to find items for ListBox '" + uiObject.getDisplayName() + "'.");
+		Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 		Assert.assertTrue(options.size() > 0,
-				"Failed to find items in ListBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+				"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
 		String optionTextValue;
 		for (String item : items.getItems()) {
@@ -293,14 +293,14 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 			for (WebElement option : options) {
 				optionTextValue = option.getText();
 				if (optionTextValue != null && matchTextValue(optionTextValue.trim(), item,
-						TextValidationMechanism.exactMatchWithExpectedValue)) {
+						TextMatchMechanism.exactMatchWithExpectedValue)) {
 					found = true;
 					break;
 				}
 			}
 
 			if (!found) {
-				Assert.fail("Failed to find item '" + item + "' in ListBox '" + uiObject.getDisplayName() + "'.");
+				Assert.fail("Failed to find item '" + item + "' in Choices '" + uiObject.getDisplayName() + "'.");
 			}
 		}
 	}
@@ -310,9 +310,9 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
 
 		List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-		Assert.assertNotNull(options, "Failed to find items for ListBox '" + uiObject.getDisplayName() + "'.");
+		Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 		Assert.assertTrue(options.size() > 0,
-				"Failed to find items in ListBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+				"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
 		String optionTextValue;
 		for (String item : items.getItems()) {
@@ -320,14 +320,14 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 			for (WebElement option : options) {
 				optionTextValue = option.getText();
 				if (optionTextValue != null && matchTextValue(optionTextValue.trim(), item,
-						TextValidationMechanism.exactMatchWithExpectedValue)) {
+						TextMatchMechanism.exactMatchWithExpectedValue)) {
 					found = true;
 					break;
 				}
 			}
 
 			if (found) {
-				Assert.fail("Item '" + item + "' is present in ListBox '" + uiObject.getDisplayName() + "'.");
+				Assert.fail("Item '" + item + "' is present in Choices '" + uiObject.getDisplayName() + "'.");
 			}
 		}
 

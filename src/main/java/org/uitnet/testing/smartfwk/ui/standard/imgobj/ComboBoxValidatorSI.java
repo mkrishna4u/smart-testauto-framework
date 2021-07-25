@@ -36,7 +36,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.combobox.ComboBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
 
 /**
@@ -289,7 +289,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedValue, TextValidationMechanism validationMechanism,
+	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism,
 			int numRetries) {
 		if (comboBoxObj.isDisabled() || comboBoxObj.isReadOnly()) {
 			Match match = findElement(numRetries);

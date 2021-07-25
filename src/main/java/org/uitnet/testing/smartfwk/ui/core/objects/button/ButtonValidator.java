@@ -20,7 +20,7 @@ package org.uitnet.testing.smartfwk.ui.core.objects.button;
 import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
@@ -40,7 +40,7 @@ public abstract class ButtonValidator extends UIObjectValidator {
 		return this.button;
 	}
 
-	public abstract void validateName(String expectedName, TextValidationMechanism validationMechanism,
+	public abstract void validateName(String expectedName, TextMatchMechanism validationMechanism,
 			int numRetries);
 
 	public abstract void validateDisabled(int numRetries);

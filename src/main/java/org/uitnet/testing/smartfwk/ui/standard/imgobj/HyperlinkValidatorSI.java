@@ -32,7 +32,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.link.HyperlinkValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
@@ -48,7 +48,7 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 	}
 
 	@Override
-	public void validateName(String expectedName, TextValidationMechanism validationMechanism, int numRetries) {
+	public void validateName(String expectedName, TextMatchMechanism validationMechanism, int numRetries) {
 		Match match = findElement(numRetries);
 		validateTextValue(match.text(), expectedName, validationMechanism);
 	}

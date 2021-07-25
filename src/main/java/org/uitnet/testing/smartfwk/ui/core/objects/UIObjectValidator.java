@@ -30,7 +30,7 @@ import org.uitnet.testing.smartfwk.ui.core.events.InputEventType;
 import org.uitnet.testing.smartfwk.ui.core.events.KeyboardEvent;
 import org.uitnet.testing.smartfwk.ui.core.events.MouseEvent;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.DataMatchUtil;
 
 /**
@@ -122,12 +122,12 @@ public abstract class UIObjectValidator {
 	}
 
 	protected boolean matchTextValue(String actualValue, String expectedValue,
-			TextValidationMechanism validationMechanism) {
+			TextMatchMechanism validationMechanism) {
 		return DataMatchUtil.matchTextValue(actualValue, expectedValue, validationMechanism);
 	}
 
 	protected void validateTextValue(String actualValue, String expectedValue,
-			TextValidationMechanism validationMechanism) {
+			TextMatchMechanism validationMechanism) {
 		DataMatchUtil.validateTextValue(actualValue, expectedValue, validationMechanism);		
 	}
 

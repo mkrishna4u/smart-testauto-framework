@@ -21,7 +21,7 @@ import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
@@ -47,7 +47,7 @@ public abstract class TextBoxValidator extends UIObjectValidator {
 
 	public abstract void typeText(String textToType, NewTextLocation location, int numRetries);
 
-	public abstract void validateValue(String expectedValue, TextValidationMechanism validationMechanism,
+	public abstract void validateValue(String expectedValue, TextMatchMechanism validationMechanism,
 			int numRetries);
 	
 	public abstract String getValue(int numRetries);

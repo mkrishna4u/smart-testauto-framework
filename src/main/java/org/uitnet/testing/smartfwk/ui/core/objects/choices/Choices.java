@@ -15,33 +15,23 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.objects.link;
+package org.uitnet.testing.smartfwk.ui.core.objects.choices;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
+import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
 import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
-import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public abstract class HyperlinkValidator extends UIObjectValidator {
-	private Hyperlink hyperlink;
-
-	public HyperlinkValidator(WebBrowser browser, Hyperlink uiObject, Region region) {
-		super(browser, uiObject, region);
-		this.hyperlink = uiObject;
+public abstract class Choices extends UIObject {
+	public Choices(LocatorType locatorType, String displayName) {
+		super(locatorType, UIObjectType.choices, displayName);
 	}
 
-	@Override
-	public Hyperlink getUIObject() {
-		return hyperlink;
-	}
-
-	public abstract void validateName(String expectedValue, TextMatchMechanism validationMechanism,
-			int numRetries);
-
-	public abstract String getName(int numRetries);
+	public abstract ChoicesValidator getValidator(WebBrowser browser, Region region);
 }

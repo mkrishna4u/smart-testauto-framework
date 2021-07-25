@@ -15,7 +15,7 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.objects.listbox;
+package org.uitnet.testing.smartfwk.ui.core.objects.choices;
 
 import java.util.List;
 
@@ -30,29 +30,34 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
  * @author Madhav Krishna
  *
  */
-public abstract class ListBoxValidator extends UIObjectValidator {
-	private ListBox comboBox;
+public abstract class ChoicesValidator extends UIObjectValidator {
+	private Choices choices;
 
-	public ListBoxValidator(WebBrowser browser, ListBox uiObject, Region region) {
+	public ChoicesValidator(WebBrowser browser, Choices uiObject, Region region) {
 		super(browser, uiObject, region);
-		this.comboBox = uiObject;
+		this.choices = uiObject;
 	}
 
 	@Override
-	public ListBox getUIObject() {
-		return this.comboBox;
+	public Choices getUIObject() {
+		return this.choices;
 	}
 
-	public abstract void validateDisabled(int numRetries);
+	public abstract void validateItemDisabled(String itemName, int numRetries);
 
-	public abstract void validateEnabled(int numRetries);
+	public abstract void validateItemEnabled(String itemName, int numRetries);
 
-	public abstract void validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
+	public abstract void validateItemSelected(String item, TextMatchMechanism validationMechanism,
+			int numRetries);
+	
+	public abstract void validateItemsSelected(ItemList<String> items, TextMatchMechanism validationMechanism,
 			int numRetries);
 
 	public abstract String getSelectedItem(int numRetries);
 	
 	public abstract List<String> getSelectedItems(int numRetries);
+	
+	public abstract List<String> getAllItems(int numRetries);
 
 	public abstract void selectFirstItem(int numRetries);
 
@@ -61,6 +66,10 @@ public abstract class ListBoxValidator extends UIObjectValidator {
 	public abstract void selectItem(String itemName, int numRetries);
 
 	public abstract void selectItems(ItemList<String> itemsToBeSelected, int numRetries);
+	
+	public abstract void deselectItem(String itemName, int numRetries);
+
+	public abstract void deselectItems(ItemList<String> itemsToBeDeselected, int numRetries);
 
 	public abstract void validateItemsPresent(ItemList<String> items, int numRetries);
 

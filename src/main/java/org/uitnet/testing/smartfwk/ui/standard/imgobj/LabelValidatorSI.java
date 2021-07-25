@@ -32,7 +32,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.label.LabelValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
@@ -48,7 +48,7 @@ public class LabelValidatorSI extends LabelValidator {
 	}
 
 	@Override
-	public void validateValue(String expectedName, TextValidationMechanism validationMechanism, int numRetries) {
+	public void validateValue(String expectedName, TextMatchMechanism validationMechanism, int numRetries) {
 		Match match = findElement(numRetries);
 		validateTextValue(match.text(), expectedName, validationMechanism);
 	}

@@ -35,7 +35,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.listbox.ListBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
 
 /**
@@ -80,7 +80,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Match match = findElement(numRetries);
 			match.click();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse click on ListBox '" + listBoxObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -89,7 +89,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Match match = findElement(numRetries);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse click on ListBox '" + listBoxObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -99,7 +99,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Match match = findElement(numRetries);
 			match.doubleClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse double click on ListBox '" + listBoxObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse double click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -108,7 +108,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Match match = findElement(numRetries);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse double click on ListBox '" + listBoxObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse double click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -118,7 +118,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Match match = findElement(numRetries);
 			match.rightClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse right click on ListBox '" + listBoxObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse right click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -127,7 +127,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Match match = findElement(numRetries);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse right click on ListBox '" + listBoxObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse right click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -137,7 +137,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Match match = findElement(numRetries);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse clickAndHold on ListBox '" + listBoxObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse clickAndHold on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -147,7 +147,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Match match = findElement(numRetries);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse clickAndHold on ListBox '" + listBoxObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse clickAndHold on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -158,7 +158,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			match.click();
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyDown on ListBox '" + listBoxObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyDown on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
 
 	}
@@ -170,7 +170,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			match.click();
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on ListBox '"
+			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on Choices '"
 					+ listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
@@ -182,7 +182,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			match.click();
 			match.type(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on ListBox '"
+			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on Choices '"
 					+ listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
@@ -206,7 +206,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 
 			match.type(text);
 		} catch (Throwable th) {
-			Assert.fail("Fail to type text '" + text + "' in ListBox '" + listBoxObj.getDisplayName() + "'.");
+			Assert.fail("Fail to type text '" + text + "' in Choices '" + listBoxObj.getDisplayName() + "'.");
 		}
 	}
 
@@ -223,12 +223,12 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			try {
 				Region region = listBoxObj.getLocation().getRegionOfImageObject(browser, listBoxObj.getWidth(),
 						listBoxObj.getHeight());
-				Assert.assertNotNull(region, "Failed to find ListBox '" + listBoxObj.getDisplayName() + "'.");
+				Assert.assertNotNull(region, "Failed to find Choices '" + listBoxObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
 			} catch (Throwable th) {
 				if (i == numRetries) {
-					Assert.fail("Unable to find ListBox '" + listBoxObj.getDisplayName()
+					Assert.fail("Unable to find Choices '" + listBoxObj.getDisplayName()
 							+ "'. Reason timeout(waited for " + (numRetries * 2) + " seconds).", th);
 					break;
 				}
@@ -260,7 +260,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Match sourceElem = findElement(numRetries);
 			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
 
-			Assert.assertNotNull(sourceElem, "Failed to find ListBox '" + listBoxObj.getDisplayName() + "'.");
+			Assert.assertNotNull(sourceElem, "Failed to find Choices '" + listBoxObj.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
 
 			sourceElem.drag(targetElem);
@@ -288,7 +288,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedValue, TextValidationMechanism validationMechanism,
+	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism,
 			int numRetries) {
 		if (listBoxObj.isDisabled()) {
 			Match match = findElement(numRetries);
@@ -347,10 +347,10 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 		try {
 			Match menuItemMatch = match.findBest(itemName);
 			Assert.assertNotNull(menuItemMatch,
-					"Failed to find item '" + itemName + "' in ListBox '" + listBoxObj.getDisplayName() + "'.");
+					"Failed to find item '" + itemName + "' in Choices '" + listBoxObj.getDisplayName() + "'.");
 			menuItemMatch.click();
 		} catch (Throwable th) {
-			Assert.fail("Failed to find item '" + itemName + "' in ListBox '" + listBoxObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to find item '" + itemName + "' in Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -364,10 +364,10 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 		try {
 			Match menuItemMatch = match.findBest(imageItem);
 			Assert.assertNotNull(menuItemMatch,
-					"Failed to find item '" + imageItem + "' in ListBox '" + listBoxObj.getDisplayName() + "'.");
+					"Failed to find item '" + imageItem + "' in Choices '" + listBoxObj.getDisplayName() + "'.");
 			menuItemMatch.click();
 		} catch (Throwable th) {
-			Assert.fail("Failed to find item '" + imageItem + "' in pull down menu of ListBox '"
+			Assert.fail("Failed to find item '" + imageItem + "' in pull down menu of Choices '"
 					+ listBoxObj.getDisplayName() + "'.", th);
 		}
 	}
@@ -385,7 +385,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 				currentItemName = itemName;
 				Match menuItemMatch = match.find(itemName);
 				Assert.assertNotNull(menuItemMatch,
-						"Failed to find item '" + itemName + "' in ListBox '" + listBoxObj.getDisplayName() + "'.");
+						"Failed to find item '" + itemName + "' in Choices '" + listBoxObj.getDisplayName() + "'.");
 				menuItemMatch.keyDown(Key.CTRL);
 				menuItemMatch.click();
 				menuItemMatch.keyUp(Key.CTRL);
@@ -393,7 +393,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 
 		} catch (Throwable th) {
 			Assert.fail(
-					"Failed to find item '" + currentItemName + "' in ListBox '" + listBoxObj.getDisplayName() + "'.");
+					"Failed to find item '" + currentItemName + "' in Choices '" + listBoxObj.getDisplayName() + "'.");
 		}
 	}
 
@@ -409,7 +409,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 				currentImageItem = imageItem;
 				Match menuItemMatch = match.find(imageItem);
 				Assert.assertNotNull(menuItemMatch,
-						"Failed to find item '" + imageItem + "' in ListBox '" + listBoxObj.getDisplayName() + "'.");
+						"Failed to find item '" + imageItem + "' in Choices '" + listBoxObj.getDisplayName() + "'.");
 				menuItemMatch.keyDown(Key.CTRL);
 				menuItemMatch.click();
 				menuItemMatch.keyUp(Key.CTRL);
@@ -417,7 +417,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 
 		} catch (Throwable th) {
 			Assert.fail(
-					"Failed to find item '" + currentImageItem + "' in ListBox '" + listBoxObj.getDisplayName() + "'.");
+					"Failed to find item '" + currentImageItem + "' in Choices '" + listBoxObj.getDisplayName() + "'.");
 		}
 	}
 
@@ -438,7 +438,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			}
 		} catch (Throwable th) {
 			Assert.fail(
-					"Failed to find item '" + currentItemName + "' in ListBox '" + listBoxObj.getDisplayName() + "'.",
+					"Failed to find item '" + currentItemName + "' in Choices '" + listBoxObj.getDisplayName() + "'.",
 					th);
 		}
 	}
@@ -460,7 +460,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			}
 		} catch (Throwable th) {
 			Assert.fail(
-					"Failed to find item '" + currentImageItem + "' in ListBox '" + listBoxObj.getDisplayName() + "'.",
+					"Failed to find item '" + currentImageItem + "' in Choices '" + listBoxObj.getDisplayName() + "'.",
 					th);
 		}
 	}
@@ -472,7 +472,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			try {
 				Match menuItemMatch = match.find(itemName);
 				Assert.assertNull(menuItemMatch,
-						"Item '" + itemName + "' in ListBox '" + listBoxObj.getDisplayName() + "' is already present.");
+						"Item '" + itemName + "' in Choices '" + listBoxObj.getDisplayName() + "' is already present.");
 			} catch (FindFailed th) {
 				// do not do anything here
 			}
@@ -485,7 +485,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 		for (String imageItem : imageItems.getItems()) {
 			try {
 				Match menuItemMatch = match.find(imageItem);
-				Assert.assertNull(menuItemMatch, "Item '" + imageItem + "' in ListBox '" + listBoxObj.getDisplayName()
+				Assert.assertNull(menuItemMatch, "Item '" + imageItem + "' in Choices '" + listBoxObj.getDisplayName()
 						+ "' is already present.");
 			} catch (FindFailed th) {
 				// do not do anything here

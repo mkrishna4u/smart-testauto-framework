@@ -29,7 +29,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.button.ButtonValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
-import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
@@ -120,7 +120,7 @@ public class ButtonValidatorSD extends ButtonValidator {
 	}
 
 	@Override
-	public void validateName(String expectedName, TextValidationMechanism validationMechanism, int numRetries) {
+	public void validateName(String expectedName, TextMatchMechanism validationMechanism, int numRetries) {
 		WebElement webElem = domObjValidator.findElement(numRetries);
 		String actualValue = webElem.getAttribute("value");
 		
