@@ -72,6 +72,60 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 		return null;
 	}
+	
+	/**
+	 * Finds attribute value from element when it is not hidden.
+	 * 
+	 * @param numRetries
+	 */
+	public String getAttributeValueWhenElementVisible(String attributeName, int numRetries) {
+		try {
+			for (int i = 0; i <= numRetries; i++) {				
+				try {
+					if(isVisible(0)) {
+						return getAttributeValue(attributeName, 0);
+					}
+					Assert.fail("Element is not visible.");
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch (Throwable th) {
+			Assert.fail("Failed to get attribute '" + attributeName + "' value from visible element '" + domObject.getDisplayName() + "'.", th);
+		}
+		return null;
+	}
+	
+	/**
+	 * Finds attribute value from visible element when it's value is not empty.
+	 * Leading and trailing whitespace will be removed in comparision.
+	 * 
+	 * @param numRetries
+	 */
+	public String getAttributeValueWhenAttributeValueNonEmpty(String attributeName, int numRetries) {
+		try {
+			for (int i = 0; i <= numRetries; i++) {
+				try {
+					String value = getAttributeValue(attributeName, 0);
+					if(!(value == null || "".equals(value.trim()))) {
+						return value;
+					}
+					Assert.fail("Attribute value is empty.");
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch (Throwable th) {
+			Assert.fail("Failed to get non-empty attribute '" + attributeName + "' value from element '" + domObject.getDisplayName() + "'.", th);
+		}
+		return null;
+	}
 
 	/**
 	 * Finds first element with polling and it polls after 2 seconds for
@@ -138,6 +192,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				if (webElem != null) {
 					break;
 				}
+				Assert.fail();
 			} catch (Throwable th) {
 				webElem = null;
 				if (i == numRetries) {
@@ -205,6 +260,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					elemPresent = true;
 					break;
 				}
+				Assert.fail();
 			} catch (Throwable th) {
 				if (i == numRetries) {
 					break;
@@ -216,7 +272,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	/**
-	 * Return true only if first element is visible.
+	 * Return true only if element is visible.
 	 * 
 	 * @param numRetries
 	 * @return
@@ -228,10 +284,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 		for (int i = 0; i <= numRetries; i++) {
 			try {
 				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
-				if (webElem != null && !"hidden".equals(webElem.getCssValue("visibility"))) {
+				if (webElem != null && !("hidden".equals(webElem.getCssValue("visibility")) || webElem.getAttribute("hidden") == null)) {
 					elemVisible = true;
 					break;
 				}
+				Assert.fail();
 			} catch (Throwable th) {
 				if (i == numRetries) {
 					break;
@@ -252,6 +309,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					elemReadonly = true;
 					break;
 				}
+				Assert.fail();
 			} catch (Throwable th) {
 				if (i == numRetries) {
 					break;
@@ -272,6 +330,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					elemDisabled = true;
 					break;
 				}
+				Assert.fail();
 			} catch (Throwable th) {
 				if (i == numRetries) {
 					break;
@@ -300,6 +359,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					elemSelected = true;
 					break;
 				}
+				Assert.fail();
 			} catch (Throwable th) {
 				if (i == numRetries) {
 					break;
@@ -311,18 +371,102 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	/**
-	 * Finds text from first element.
+	 * Finds text from element when element is present in HTML.
 	 * 
 	 * @param numRetries
 	 */
 	public String getText(int numRetries) {
-		try {
+		try {			
 			WebElement webElem = findElement(numRetries);
 			return webElem.getText();
 		} catch (Throwable th) {
 			Assert.fail("Failed to get text from element '" + domObject.getDisplayName() + "'.", th);
 		}
 		return null;
+	}
+	
+	/**
+	 * Finds text from element when it is not hidden.
+	 * 
+	 * @param numRetries
+	 */
+	public String getTextWhenElementVisible(int numRetries) {
+		try {
+			for (int i = 0; i <= numRetries; i++) {				
+				try {
+					if(isVisible(0)) {
+						return getText(0);
+					}
+					Assert.fail("Text is not visible.");
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch (Throwable th) {
+			Assert.fail("Failed to get text from visible element '" + domObject.getDisplayName() + "'.", th);
+		}
+		return null;
+	}
+	
+	/**
+	 * Finds text from visible element when it's value is not empty. Leading and trailing whitespace will be removed.
+	 * 
+	 * @param numRetries
+	 */
+	public String getTextWhenElementValueNonEmpty(int numRetries) {
+		try {
+			for (int i = 0; i <= numRetries; i++) {
+				try {
+					if(isVisible(0)) {
+						String value = getText(0);
+						if(!(value == null || "".equals(value.trim()))) {
+							return value;
+						}
+						Assert.fail("Text is empty.");
+					}
+					Assert.fail("Text is not visible.");
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch (Throwable th) {
+			Assert.fail("Failed to get non-empty text from visible element '" + domObject.getDisplayName() + "'.", th);
+		}
+		return null;
+	}
+	
+	/**
+	 * Validates whether the element is visible with non-empty text on screen.
+	 * @param numRetries
+	 */
+	public void validatePresentWithNonEmptyText(int numRetries) {
+		try {
+			for (int i = 0; i <= numRetries; i++) {
+				try {
+					if(isVisible(0)) {
+						String value = getText(0);
+						if(!(value == null || "".equals(value.trim()))) {
+							return;
+						}
+						Assert.fail("Text is empty.");
+					}
+					Assert.fail("Text is not visible.");
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch (Throwable th) {
+			Assert.fail("Element '" + domObject.getDisplayName() + "' is not visible with non-empty text.", th);
+		}
 	}
 
 	/**

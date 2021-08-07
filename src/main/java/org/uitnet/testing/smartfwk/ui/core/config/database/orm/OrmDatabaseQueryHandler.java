@@ -27,6 +27,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.NativeQuery;
 import org.testng.Assert;
 import org.testng.Reporter;
+import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 
 /**
  * 
@@ -37,7 +38,7 @@ public class OrmDatabaseQueryHandler {
 	private SessionFactory hibernateSessionFactory;
 
 	public OrmDatabaseQueryHandler(String hibernateCfgFile) {
-		Configuration hibernateCfg = new Configuration().configure(new File(hibernateCfgFile));
+		Configuration hibernateCfg = new Configuration().configure(new File(Locations.getProjectRootDir() + File.separator + hibernateCfgFile));
 
 		hibernateSessionFactory = hibernateCfg.buildSessionFactory();
 	}

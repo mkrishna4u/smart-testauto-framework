@@ -44,6 +44,10 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 				new DOMObject(uiObject.getDisplayName(), uiObject.getLocatorXPath()), region);
 	}
 
+	public DOMObjectValidator getDOMObjectValidator() {
+		return domObjValidator;
+	}
+
 	@Override
 	public void typeText(String textToType, NewTextLocation location, int numRetries) {
 		domObjValidator.typeText(textToType, location, numRetries);

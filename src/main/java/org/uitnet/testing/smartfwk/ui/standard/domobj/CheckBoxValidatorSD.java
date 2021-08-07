@@ -43,6 +43,10 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 		domObjValidator = new DOMObjectValidator(browser,
 				new DOMObject(uiObject.getDisplayName(), uiObject.getLocatorXPath()), region);
 	}
+	
+	public DOMObjectValidator getDOMObjectValidator() {
+		return domObjValidator;
+	}
 
 	@Override
 	public void typeText(String textToType, NewTextLocation location, int numRetries) {

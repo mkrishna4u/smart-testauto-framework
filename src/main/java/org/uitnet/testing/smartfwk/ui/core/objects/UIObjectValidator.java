@@ -70,7 +70,7 @@ public abstract class UIObjectValidator {
 	public void validatePresent(int numRetries) {
 		Assert.assertTrue(isPresent(numRetries), "Failed to find element '" + uiObject.getDisplayName() + "'");
 	}
-
+	
 	public void validateNotPresent(int numRetries) {
 		Assert.assertTrue(!isPresent(numRetries), "Element '" + uiObject.getDisplayName() + "' is already present.");
 	}

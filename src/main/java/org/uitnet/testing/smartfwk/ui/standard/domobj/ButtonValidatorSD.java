@@ -45,7 +45,11 @@ public class ButtonValidatorSD extends ButtonValidator {
 				new DOMObject(uiObject.getDisplayName(), uiObject.getLocatorXPath()), 
 				region);
 	}
-	
+
+	public DOMObjectValidator getDOMObjectValidator() {
+		return domObjValidator;
+	}
+
 	@Override
 	public void validateDisabled(int numRetries) {
 		Assert.assertTrue(domObjValidator.isDisabled(numRetries),
