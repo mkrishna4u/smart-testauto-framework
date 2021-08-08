@@ -20,6 +20,7 @@ package org.uitnet.testing.smartfwk.ui.core.utils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 
 /**
@@ -55,5 +56,29 @@ public class PageScrollUtil {
 		JavascriptExecutor jse = (JavascriptExecutor) browser.getSeleniumWebDriver();
 		jse.executeScript("window.scrollTo(" + rect.getX() + ", " + rect.getY() + ");");
 	}
-
+	
+	public static void scrollToViewportAndClick(WebBrowser browser, WebElement element) {
+		Actions action = new Actions(browser.getSeleniumWebDriver());
+		action.moveToElement(element).click().perform();
+	}
+	
+	public static void scrollToViewportAndDoubleClick(WebBrowser browser, WebElement element) {
+		Actions action = new Actions(browser.getSeleniumWebDriver());
+		action.moveToElement(element).doubleClick().perform();
+	}
+	
+	public static void scrollToViewportAndClickAndHold(WebBrowser browser, WebElement element) {
+		Actions action = new Actions(browser.getSeleniumWebDriver());
+		action.moveToElement(element).clickAndHold().perform();
+	}
+	
+	public static void scrollToViewportAndRelease(WebBrowser browser, WebElement element) {
+		Actions action = new Actions(browser.getSeleniumWebDriver());
+		action.moveToElement(element).release().perform();
+	}
+	
+	public static void scrollToViewportAndDragAndDrop(WebBrowser browser, WebElement source, WebElement target) {
+		Actions action = new Actions(browser.getSeleniumWebDriver());
+		action.moveToElement(source).dragAndDrop(source, target).perform();
+	}
 }

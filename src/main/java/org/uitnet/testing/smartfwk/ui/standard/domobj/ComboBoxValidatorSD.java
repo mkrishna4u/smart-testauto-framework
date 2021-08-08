@@ -33,6 +33,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.combobox.ComboBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
+import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
 
 /**
  * 
@@ -208,13 +209,13 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 			for(int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					selectElement.click();
+					PageScrollUtil.scrollToViewportAndClick(browser, selectElement);
 					
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
 					Assert.assertNotNull(options, "Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
 					Assert.assertTrue(options.size() > 0, "Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
 					
-					options.get(0).click();
+					PageScrollUtil.scrollToViewportAndClick(browser, options.get(0));
 					return;
 				} catch(Throwable th) {
 					if(i == numRetries) {
@@ -234,13 +235,13 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 			for(int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					selectElement.click();
+					PageScrollUtil.scrollToViewportAndClick(browser, selectElement);
 					
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
 					Assert.assertNotNull(options, "Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
 					Assert.assertTrue(options.size() > 0, "Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
 					
-					options.get(options.size() - 1).click();
+					PageScrollUtil.scrollToViewportAndClick(browser, options.get(options.size() - 1));
 					return;
 				} catch(Throwable th) {
 					if(i == numRetries) {
@@ -260,7 +261,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 			for(int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					selectElement.click();
+					PageScrollUtil.scrollToViewportAndClick(browser, selectElement);
 					
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
 					Assert.assertNotNull(options, "Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
@@ -270,7 +271,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 					for(WebElement option : options) {
 						optionTextValue = option.getText();
 						if(optionTextValue != null && itemName.equals(optionTextValue.trim())) {
-							option.click();
+							PageScrollUtil.scrollToViewportAndClick(browser, option);
 							found = true;
 							break;
 						}

@@ -481,7 +481,8 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					webElem.click();
+					PageScrollUtil.scrollToViewportAndClick(browser, webElem);
+					
 					Actions webActions = new Actions(browser.getSeleniumWebDriver());
 					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "c"));
 					break;
@@ -505,7 +506,8 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					webElem.click();
+					PageScrollUtil.scrollToViewportAndClick(browser, webElem);
+					
 					Actions webActions = new Actions(browser.getSeleniumWebDriver());
 					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "v")).build().perform();
 					break;
@@ -524,7 +526,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					webElem.click();
+					PageScrollUtil.scrollToViewportAndClick(browser, webElem);
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					browser.waitForSeconds(2);
@@ -541,10 +543,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					webElem.click();
-
-					Actions webActions = new Actions(browser.getSeleniumWebDriver());
-					webActions.doubleClick().build().perform();
+					PageScrollUtil.scrollToViewportAndDoubleClick(browser, webElem);
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					browser.waitForSeconds(2);
@@ -573,8 +572,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
-				Actions actions = new Actions(browser.getSeleniumWebDriver());
-				actions.clickAndHold(webElem).build().perform();
+				PageScrollUtil.scrollToViewportAndClickAndHold(browser, webElem);
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				browser.waitForSeconds(2);
@@ -586,8 +584,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
-				Actions actions = new Actions(browser.getSeleniumWebDriver());
-				actions.release(webElem).build().perform();
+				PageScrollUtil.scrollToViewportAndRelease(browser, webElem);
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				browser.waitForSeconds(2);
@@ -602,8 +599,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					WebElement sourceElem = findElement(numRetries);
 					WebElement targetElem = target.getValidator(browser, region).findElement(numRetries);
 
-					Actions webActions = new Actions(browser.getSeleniumWebDriver());
-					webActions.dragAndDrop(sourceElem, targetElem).build().perform();
+					PageScrollUtil.scrollToViewportAndDragAndDrop(browser, sourceElem, targetElem);
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					browser.waitForSeconds(2);

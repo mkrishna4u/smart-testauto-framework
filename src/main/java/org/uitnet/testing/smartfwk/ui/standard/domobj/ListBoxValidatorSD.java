@@ -33,6 +33,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.listbox.ListBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
+import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
 
 /**
  * 
@@ -217,7 +218,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
-					options.get(0).click();
+					PageScrollUtil.scrollToViewportAndClick(browser, options.get(0));
 					return;
 				} catch(Throwable th) {
 					if(i == numRetries) {
@@ -243,7 +244,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
-					options.get(options.size() - 1).click();
+					PageScrollUtil.scrollToViewportAndClick(browser, options.get(options.size() - 1));
 					return;
 				} catch(Throwable th) {
 					if(i == numRetries) {
@@ -275,12 +276,12 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 						optionTextValue = option.getText();
 						if (optionTextValue != null && itemName.equals(optionTextValue.trim())) {
 							if(!option.isSelected()) {
-								option.click();				
+								PageScrollUtil.scrollToViewportAndClick(browser, option);
 							}
 							found = true;
 							//break;
 						} else if(option.isSelected()) {
-							option.click();
+							PageScrollUtil.scrollToViewportAndClick(browser, option);
 						}
 					}
 
@@ -320,7 +321,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 								//if(itemNum != 1) {
 								//	performAction(new KeyboardEvent(KeyboardEventName.kbKeyDown, Keys.CONTROL, null), 0);
 								//}
-								option.click();
+								PageScrollUtil.scrollToViewportAndClick(browser, option);
 								foundItemList.add(optionTextValue.trim());
 								//if(itemNum != 1) {
 								//	performAction(new KeyboardEvent(KeyboardEventName.kbKeyUp, Keys.CONTROL, null), 0);
