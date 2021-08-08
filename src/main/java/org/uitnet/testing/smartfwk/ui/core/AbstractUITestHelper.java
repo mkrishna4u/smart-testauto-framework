@@ -232,7 +232,8 @@ public abstract class AbstractUITestHelper {
 			screenArea = new Rectangle(new Point(0, 0), initWebBrowser.getWindowSize());
 		}
 
-		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea);
+		String imageFile = ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea);
+		scenario.log("Screenshot Path: " + imageFile);
 	}
 
 	public void captureScreenshot(Scenario scenario, String status) {
@@ -247,7 +248,8 @@ public abstract class AbstractUITestHelper {
 			screenArea = new Rectangle(new Point(0, 0), initWebBrowser.getWindowSize());
 		}
 
-		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea);
+		String imageFile = ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea);
+		scenario.log("Screenshot Path: " + imageFile);
 	}
 
 	public void captureScreenshot(String fileNameHint) {

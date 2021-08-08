@@ -40,8 +40,17 @@ public class ScreenCaptureUtil {
 		return Toolkit.getDefaultToolkit().getScreenSize();
 	}
 	
-	public static void capture(String dir, String testClassName,
+	/**
+	 * Captures screenshot and return the name of screenshot.
+	 * @param dir
+	 * @param testClassName
+	 * @param testCaseName
+	 * @param screenArea
+	 * @return
+	 */
+	public static String capture(String dir, String testClassName,
 			String testCaseName, Rectangle screenArea) {
+		String imageFile = null;
 		try {
 			Rectangle screenRectangle = screenArea;
 			if(screenArea == null) {
@@ -61,7 +70,6 @@ public class ScreenCaptureUtil {
 //								+ "' for saving the screenshots.");
 			}
 
-			String imageFile = null;
 			if(testClassName == null) {
 				imageFile = dir + File.separator
 						+ testCaseName + "-" + getNextScreenshotId() + ".png";
@@ -74,6 +82,7 @@ public class ScreenCaptureUtil {
 		} catch (Exception ex) {
 			Assert.fail("Failed to take screenshot.", ex);
 		}
+		return imageFile;
 	}
 
 	private synchronized static int getNextScreenshotId() {
