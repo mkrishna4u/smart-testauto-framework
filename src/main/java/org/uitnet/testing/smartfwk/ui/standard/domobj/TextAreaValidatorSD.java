@@ -69,10 +69,23 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 
 	@Override
 	public void validateTextValue(String expectedValue, TextMatchMechanism validationMechanism, int numRetries) {
-		WebElement webElem = domObjValidator.findElement(numRetries);
-		String actualValue = webElem.getText();
-		
-		validateTextValue(actualValue, expectedValue, validationMechanism);
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					WebElement webElem = domObjValidator.findElement(0);
+					String actualValue = webElem.getAttribute("value");
+					validateTextValue(actualValue, expectedValue, validationMechanism);
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate expected value '" + expectedValue + "' for element '" + uiObject.getDisplayName() + "'.", th);
+		}
 	}
 
 	@Override
@@ -134,7 +147,7 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 	@Override
 	public String getTextValue(int numRetries) {
 		WebElement webElem = domObjValidator.findElement(numRetries);
-		return webElem.getText();
+		return webElem.getAttribute("value");
 	}
 
 	@Override

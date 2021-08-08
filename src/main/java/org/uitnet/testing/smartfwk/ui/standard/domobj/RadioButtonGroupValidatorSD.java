@@ -129,86 +129,158 @@ public class RadioButtonGroupValidatorSD extends RadioButtonGroupValidator {
 
 	@Override
 	public void validateDisabled(int numRetries) {
-		List<WebElement> webElems = findElements(numRetries);
-		List<String> enabledItems = new LinkedList<String>();
-		for(WebElement elem : webElems) {
-			if(elem.isEnabled()) {
-				enabledItems.add(elem.getAttribute("value"));
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					List<WebElement> webElems = findElements(0);
+					List<String> enabledItems = new LinkedList<String>();
+					for(WebElement elem : webElems) {
+						if(elem.isEnabled()) {
+							enabledItems.add(elem.getAttribute("value"));
+						}
+					}
+					if(enabledItems.size() > 0) {
+						Assert.fail("Radio button group '" + uiObject.getDisplayName() 
+								+ "' is not disabled. It has the following enabled items: " + enabledItems);
+					}
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
 			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate disabled items for radio group '" + uiObject.getDisplayName() + "'.", th);
 		}
-		if(enabledItems.size() > 0) {
-			Assert.fail("Radio button group '" + uiObject.getDisplayName() 
-					+ "' is not disabled. It has the following enabled items: " + enabledItems);
-		}
+		
 	}
 
 	@Override
 	public void validateEnabled(int numRetries) {
-		List<WebElement> webElems = findElements(numRetries);
-		List<String> disabledItems = new LinkedList<String>();
-		for(WebElement elem : webElems) {
-			if(!elem.isEnabled()) {
-				disabledItems.add(elem.getAttribute("value"));
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					List<WebElement> webElems = findElements(0);
+					List<String> disabledItems = new LinkedList<String>();
+					for(WebElement elem : webElems) {
+						if(!elem.isEnabled()) {
+							disabledItems.add(elem.getAttribute("value"));
+						}
+					}
+					if(disabledItems.size() > 0) {
+						Assert.fail("Radio button group '" + uiObject.getDisplayName() 
+								+ "' is not enabled. It has the following disabled items: " + disabledItems);
+					}
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
 			}
-		}
-		if(disabledItems.size() > 0) {
-			Assert.fail("Radio button group '" + uiObject.getDisplayName() 
-					+ "' is not enabled. It has the following disabled items: " + disabledItems);
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate enabled items for radio group '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
 
 	@Override
 	public void selectOption(String value, String displayValue, int numRetries) {
-		List<WebElement> webElems = findElements(numRetries);
-		String elemVal;		
-		for(WebElement elem : webElems) {
-			elemVal = elem.getAttribute("value");
-			if(elemVal != null && elemVal.equals(value)) {
-				elem.click();
-				break;
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					List<WebElement> webElems = findElements(0);
+					String elemVal;		
+					for(WebElement elem : webElems) {
+						elemVal = elem.getAttribute("value");
+						if(elemVal != null && elemVal.equals(value)) {
+							elem.click();
+							break;
+						}
+					}
+					
+					try {
+						validateSelectedOption(value, displayValue, 2);
+					} catch(Throwable th) {
+						Assert.fail("Failed to select option with value '" 
+								+ displayValue + "' in radio button group '" + uiObject.getDisplayName() + "'.");
+					}
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
 			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to select option '" + displayValue + "' for radio group '" + uiObject.getDisplayName() + "'.", th);
 		}
 		
-		try {
-			validateSelectedOption(value, displayValue, numRetries);
-		} catch(Throwable th) {
-			Assert.fail("Failed to select option with value '" 
-					+ displayValue + "' in radio button group '" + uiObject.getDisplayName() + "'.");
-		}
 	}
 
 	@Override
 	public void validateSelectedOption(String value, String displayValue, int numRetries) {
-		List<WebElement> webElems = findElements(numRetries);
-		String elemVal;
-		boolean optionFound = false;
-		for(WebElement elem : webElems) {
-			elemVal = elem.getAttribute("value");
-			if(elemVal != null && elemVal.equals(value) && elem.isSelected()) {
-				optionFound = true;
-				break;
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					List<WebElement> webElems = findElements(0);
+					String elemVal;
+					boolean optionFound = false;
+					for(WebElement elem : webElems) {
+						elemVal = elem.getAttribute("value");
+						if(elemVal != null && elemVal.equals(value) && elem.isSelected()) {
+							optionFound = true;
+							break;
+						}
+					}
+					Assert.assertTrue(optionFound, "Radio button with value '" + displayValue + "' is not selected.");
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
 			}
-		}
-		Assert.assertTrue(optionFound, "Radio button with value '" + displayValue + "' is not selected.");
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate selected option '" + displayValue + "' for element '" + uiObject.getDisplayName() + "'.", th);
+		}		
 	}
 
 	@Override
 	public void validateNotSelectedOptions(ItemMap<String, String> options, int numRetries) {
-		List<WebElement> webElems = findElements(numRetries);
-		String elemVal;
-		LinkedHashMap<String, String> selectedOptions = new LinkedHashMap<String, String>();
-		for(String optionValue : options.getItems().keySet()) {
-			for(WebElement elem : webElems) {
-				elemVal = elem.getAttribute("value");
-				if(elemVal != null && elemVal.equals(optionValue) && elem.isSelected()) {
-					selectedOptions.put(optionValue, options.getItems().get(optionValue));
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					List<WebElement> webElems = findElements(0);
+					String elemVal;
+					LinkedHashMap<String, String> selectedOptions = new LinkedHashMap<String, String>();
+					for(String optionValue : options.getItems().keySet()) {
+						for(WebElement elem : webElems) {
+							elemVal = elem.getAttribute("value");
+							if(elemVal != null && elemVal.equals(optionValue) && elem.isSelected()) {
+								selectedOptions.put(optionValue, options.getItems().get(optionValue));
+							}
+						}
+					}
+					
+					if(selectedOptions.size() > 0) {
+						Assert.fail("Radio button group '" + uiObject.getDisplayName() + 
+								"' has some of the options selected. Selected options: " + selectedOptions);
+					}
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
 				}
+				browser.waitForSeconds(2);
 			}
-		}
-		
-		if(selectedOptions.size() > 0) {
-			Assert.fail("Radio button group '" + uiObject.getDisplayName() + 
-					"' has some of the options selected. Selected options: " + selectedOptions);
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate not selected item for element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
 

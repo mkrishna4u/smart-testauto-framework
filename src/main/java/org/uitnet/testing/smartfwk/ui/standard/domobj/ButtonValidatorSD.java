@@ -125,10 +125,23 @@ public class ButtonValidatorSD extends ButtonValidator {
 
 	@Override
 	public void validateName(String expectedName, TextMatchMechanism validationMechanism, int numRetries) {
-		WebElement webElem = domObjValidator.findElement(numRetries);
-		String actualValue = webElem.getAttribute("value");
-		
-		validateTextValue(actualValue, expectedName, validationMechanism);
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					WebElement webElem = domObjValidator.findElement(0);
+					String actualValue = webElem.getAttribute("value");
+					validateTextValue(actualValue, expectedName, validationMechanism);
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate expected name '" + expectedName + "' for element '" + uiObject.getDisplayName() + "'.", th);
+		}
 	}
 	
 	@Override

@@ -22,6 +22,7 @@ import java.util.List;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.sikuli.script.Region;
+import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
@@ -111,16 +112,39 @@ public class WebPageTitleValidatorSD extends LabelValidator {
 
 	@Override
 	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int numRetries) {
-		WebElement webElem = domObjValidator.findElement(numRetries);
-		String actualValue = webElem.getText();
-
-		validateTextValue(actualValue, expectedValue, validationMechanism);
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					WebElement webElem = domObjValidator.findElement(0);
+					String actualValue = "";
+					if("input".equalsIgnoreCase(webElem.getTagName())) {
+						actualValue = webElem.getAttribute("value");
+					} else {
+						actualValue = webElem.getText();
+					}
+					validateTextValue(actualValue, expectedValue, validationMechanism);
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate expected value '" + expectedValue + "' for element '" + uiObject.getDisplayName() + "'.", th);
+		}
 	}
 
 	@Override
 	public String getValue(int numRetries) {
 		WebElement webElem = domObjValidator.findElement(numRetries);
-		String value = webElem.getText();
+		String value = "";
+		if("input".equalsIgnoreCase(webElem.getTagName())) {
+			value = webElem.getAttribute("value");
+		} else {
+			value = webElem.getText();
+		}
 		return value;
 	}
 

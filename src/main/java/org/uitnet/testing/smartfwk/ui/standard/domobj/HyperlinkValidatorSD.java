@@ -22,6 +22,7 @@ import java.util.List;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.sikuli.script.Region;
+import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
@@ -111,10 +112,24 @@ public class HyperlinkValidatorSD extends HyperlinkValidator {
 
 	@Override
 	public void validateName(String expectedValue, TextMatchMechanism validationMechanism, int numRetries) {
-		WebElement webElem = domObjValidator.findElement(numRetries);
-		String actualValue = webElem.getText();
-		
-		validateTextValue(actualValue, expectedValue, validationMechanism);
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					WebElement webElem = domObjValidator.findElement(0);
+					String actualValue = webElem.getText();
+					
+					validateTextValue(actualValue, expectedValue, validationMechanism);
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate expected value '" + expectedValue + "' for element '" + uiObject.getDisplayName() + "'.", th);
+		}
 	}
 
 	@Override

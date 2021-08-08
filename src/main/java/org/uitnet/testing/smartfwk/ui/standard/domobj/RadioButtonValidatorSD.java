@@ -126,37 +126,109 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 
 	@Override
 	public void validateDisabled(int numRetries) {
-		WebElement webElem = findElement(numRetries);
-		Assert.assertFalse(webElem.isEnabled(), "Radio button '" + uiObject.getDisplayName() + "' is not disabled.");		
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					WebElement webElem = findElement(0);
+					Assert.assertFalse(webElem.isEnabled(), "Radio button '" + uiObject.getDisplayName() + "' is not disabled.");	
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate disabled element '" + uiObject.getDisplayName() + "'.", th);
+		}			
 	}
 
 	@Override
 	public void validateEnabled(int numRetries) {
-		WebElement webElem = findElement(numRetries);
-		Assert.assertTrue(webElem.isEnabled(), "Radio button '" + uiObject.getDisplayName() + "' is not enabled.");
-	}
-
-	@Override
-	public void select(int numRetries) {
-		WebElement webElem = findElement(numRetries);
-		webElem.click();
 		try {
-			validateSelected(numRetries);
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					WebElement webElem = findElement(0);
+					Assert.assertTrue(webElem.isEnabled(), "Radio button '" + uiObject.getDisplayName() + "' is not enabled.");
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
 		} catch(Throwable th) {
-			Assert.fail("Failed to select radio button '" + uiObject.getDisplayName() + "'.");
+			Assert.fail("Failed to validate not disabled element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
 
 	@Override
+	public void select(int numRetries) {
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					WebElement webElem = findElement(0);
+					webElem.click();
+					try {
+						validateSelected(numRetries);
+					} catch(Throwable th) {
+						Assert.fail("Failed to select radio button '" + uiObject.getDisplayName() + "'.");
+					}
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to select element '" + uiObject.getDisplayName() + "'.", th);
+		}
+		
+	}
+
+	@Override
 	public void validateSelected(int numRetries) {
-		WebElement webElem = findElement(numRetries);
-		Assert.assertTrue(webElem.isSelected(), "Radio button '" + uiObject.getDisplayName() + "' is not selected.");		
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					WebElement webElem = findElement(0);
+					Assert.assertTrue(webElem.isSelected(), "Radio button '" + uiObject.getDisplayName() + "' is not selected.");
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate element '" + uiObject.getDisplayName() + "' as selected.", th);
+		}	
 	}
 
 	@Override
 	public void validateNotSelected(int numRetries) {
-		WebElement webElem = findElement(numRetries);
-		Assert.assertFalse(webElem.isSelected(), "Radio button '" + uiObject.getDisplayName() + "' is selected.");
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					WebElement webElem = findElement(0);
+					Assert.assertFalse(webElem.isSelected(), "Radio button '" + uiObject.getDisplayName() + "' is selected.");
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate element '" + uiObject.getDisplayName() + "' as not selected.", th);
+		}
+		
 	}
 
 }

@@ -111,25 +111,51 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 
 	@Override
 	public boolean isCheckBoxChecked(int numRetries) {
-		WebElement webElem = findElement(numRetries);
-		return webElem.isSelected();
+		return domObjValidator.isSelected(numRetries);
 	}
 
 	@Override
 	public void validateCheckBoxChecked(int numRetries) {
-		Assert.assertTrue(isCheckBoxChecked(numRetries), "Checkbox '" + uiObject.getDisplayName() + "' is not checked.");	
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					Assert.assertTrue(isCheckBoxChecked(0), "Checkbox '" + uiObject.getDisplayName() + "' is not checked.");
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate checkbox checked for element '" + uiObject.getDisplayName() + "'.", th);
+		}
 	}
 
 	@Override
 	public void validateCheckBoxUnchecked(int numRetries) {
-		Assert.assertFalse(isCheckBoxChecked(numRetries), "Checkbox '" + uiObject.getDisplayName() + "' is checked.");
+		try {
+			for(int i = 0; i <= numRetries; i++) {
+				try {
+					Assert.assertFalse(isCheckBoxChecked(0), "Checkbox '" + uiObject.getDisplayName() + "' is checked.");
+					return;
+				} catch(Throwable th) {
+					if(i == numRetries) {
+						throw th;
+					}
+				}
+				browser.waitForSeconds(2);
+			}
+		} catch(Throwable th) {
+			Assert.fail("Failed to validate checkbox unchecked for element '" + uiObject.getDisplayName() + "'.", th);
+		}
 	}
 
 	@Override
 	public void checkAndValidateChecked(int numRetries) {
-		WebElement webElem = findElement(numRetries);
-		webElem.click();
-		
+		domObjValidator.click(numRetries);
+				
 		try {
 			validateCheckBoxChecked(numRetries);
 		} catch(Throwable th) {
@@ -139,8 +165,8 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 
 	@Override
 	public void uncheckAndValidateUnchecked(int numRetries) {
-		WebElement webElem = findElement(numRetries);
-		webElem.click();
+		domObjValidator.click(numRetries);
+		
 		try {
 			validateCheckBoxUnchecked(numRetries);
 		} catch(Throwable th) {
