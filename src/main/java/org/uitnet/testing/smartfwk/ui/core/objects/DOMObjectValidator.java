@@ -284,7 +284,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 		for (int i = 0; i <= numRetries; i++) {
 			try {
 				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
-				if (webElem != null && !("hidden".equals(webElem.getCssValue("visibility")) || webElem.getAttribute("hidden") == null)) {
+				if (webElem != null && !("hidden".equals(webElem.getCssValue("visibility")) || webElem.getAttribute("hidden") != null)) {
 					elemVisible = true;
 					break;
 				}
