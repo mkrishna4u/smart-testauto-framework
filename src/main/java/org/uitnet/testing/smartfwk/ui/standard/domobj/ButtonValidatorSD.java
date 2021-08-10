@@ -49,6 +49,11 @@ public class ButtonValidatorSD extends ButtonValidator {
 	public DOMObjectValidator getDOMObjectValidator() {
 		return domObjValidator;
 	}
+	
+	@Override
+	public boolean isDisabled(int numRetries) {
+		return domObjValidator.isDisabled(numRetries);
+	}
 
 	@Override
 	public void validateDisabled(int numRetries) {

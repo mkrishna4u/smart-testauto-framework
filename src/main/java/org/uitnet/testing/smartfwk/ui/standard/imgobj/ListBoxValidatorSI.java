@@ -494,4 +494,11 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 
 	}
 
+	@Override
+	@Deprecated
+	public boolean isDisabled(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by ListBox component.");
+		return false;
+	}
+
 }

@@ -53,6 +53,11 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	public DOMObjectValidator getDOMObjectValidator() {
 		return domObjValidator;
 	}
+	
+	@Override
+	public boolean isDisabled(int numRetries) {
+		return domObjValidator.isDisabled(numRetries);
+	}
 
 	@Override
 	public void validateDisabled(int numRetries) {

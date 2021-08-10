@@ -48,4 +48,10 @@ public abstract class CheckBoxValidator extends UIObjectValidator {
 	public abstract void checkAndValidateChecked(int numRetries);
 
 	public abstract void uncheckAndValidateUnchecked(int numRetries);
+	
+	public abstract boolean isDisabled(int numRetries);
+
+	public abstract void validateDisabled(int numRetries);
+
+	public abstract void validateEnabled(int numRetries);
 }

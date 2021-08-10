@@ -52,6 +52,11 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	public DOMObjectValidator getDOMObjectValidator() {
 		return domObjValidator;
 	}
+	
+	@Override
+	public boolean isDisabled(int numRetries) {
+		return domObjValidator.isDisabled(numRetries);
+	}
 
 	@Override
 	public void validateDisabled(int numRetries) {

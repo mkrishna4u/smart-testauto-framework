@@ -319,4 +319,32 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 		}
 
 	}
+
+	@Override
+	@Deprecated
+	public boolean isDisabled(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by TextArea component.");
+		return false;
+	}
+
+	@Override
+	@Deprecated
+	public boolean isReadonly(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by TextArea component.");
+		return false;
+	}
+
+	@Override
+	@Deprecated
+	public void validateReadonly(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by TextArea component.");
+		
+	}
+
+	@Override
+	@Deprecated
+	public void validateNotReadonly(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by TextArea component.");
+		
+	}
 }

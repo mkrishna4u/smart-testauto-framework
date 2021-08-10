@@ -308,4 +308,11 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 		return null;
 	}
 
+	@Override
+	@Deprecated
+	public boolean isDisabled(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by HeaderColumnSI.");
+		return false;
+	}
+
 }

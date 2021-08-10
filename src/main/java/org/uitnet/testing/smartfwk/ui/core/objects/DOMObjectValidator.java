@@ -696,4 +696,5 @@ public class DOMObjectValidator extends UIObjectValidator {
 			}
 		}
 	}
+
 }

@@ -43,6 +43,8 @@ public abstract class ComboBoxValidator extends UIObjectValidator {
 		return this.comboBox;
 	}
 
+	public abstract boolean isDisabled(int numRetries);
+	
 	public abstract void validateDisabled(int numRetries);
 
 	public abstract void validateEnabled(int numRetries);

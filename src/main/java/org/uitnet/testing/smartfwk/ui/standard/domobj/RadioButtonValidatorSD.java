@@ -125,6 +125,11 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 	}
 
 	@Override
+	public boolean isDisabled(int numRetries) {
+		return domObjValidator.isDisabled(numRetries);
+	}
+	
+	@Override
 	public void validateDisabled(int numRetries) {
 		try {
 			for(int i = 0; i <= numRetries; i++) {

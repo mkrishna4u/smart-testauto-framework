@@ -286,4 +286,23 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 		Assert.fail("uncheckAndValidateUnchecked() is not supported for CheckBox component.");
 	}
 
+	@Override
+	@Deprecated
+	public boolean isDisabled(int numRetries) {
+		Assert.fail("isDisabled() is not supported for CheckBox component.");
+		return false;
+	}
+
+	@Override
+	@Deprecated
+	public void validateDisabled(int numRetries) {
+		Assert.fail("validateDisabled() is not supported for CheckBox component.");
+	}
+
+	@Override
+	@Deprecated
+	public void validateEnabled(int numRetries) {
+		Assert.fail("validateEnabled() is not supported for CheckBox component.");
+	}
+
 }

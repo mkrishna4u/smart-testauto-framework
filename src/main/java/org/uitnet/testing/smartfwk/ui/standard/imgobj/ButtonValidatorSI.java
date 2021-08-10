@@ -274,4 +274,11 @@ public class ButtonValidatorSI extends ButtonValidator {
 		return null;
 	}
 
+	@Override
+	@Deprecated
+	public boolean isDisabled(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by Button component.");
+		return false;
+	}
+
 }

@@ -188,4 +188,21 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	public List<WebElement> findElements(int numRetries) {
 		return domObjValidator.findElements(numRetries);
 	}
+	
+	@Override
+	public boolean isDisabled(int numRetries) {
+		return domObjValidator.isDisabled(numRetries);
+	}
+	
+	@Override
+	public void validateDisabled(int numRetries) {
+		Assert.assertTrue(domObjValidator.isDisabled(numRetries),
+				"'" + uiObject.getDisplayName() + "' element is not disabled.");		
+	}
+
+	@Override
+	public void validateEnabled(int numRetries) {
+		Assert.assertFalse(domObjValidator.isDisabled(numRetries),
+				"'" + uiObject.getDisplayName() + "' element is not enabled.");	
+	}
 }

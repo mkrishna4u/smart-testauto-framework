@@ -320,5 +320,33 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 		}
 
 	}
+	
+	@Override
+	@Deprecated
+	public boolean isDisabled(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by TextBox component.");
+		return false;
+	}
+
+	@Override
+	@Deprecated
+	public boolean isReadonly(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by TextBox component.");
+		return false;
+	}
+
+	@Override
+	@Deprecated
+	public void validateReadonly(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by TextBox component.");
+		
+	}
+
+	@Override
+	@Deprecated
+	public void validateNotReadonly(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by TextBox component.");
+		
+	}
 
 }

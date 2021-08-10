@@ -49,6 +49,11 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 	public DOMObjectValidator getDOMObjectValidator() {
 		return domObjValidator;
 	}
+	
+	@Override
+	public boolean isDisabled(int numRetries) {
+		return domObjValidator.isDisabled(numRetries);
+	}
 
 	@Override
 	public void validateDisabled(int numRetries) {
@@ -60,6 +65,22 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 	public void validateEnabled(int numRetries) {
 		Assert.assertFalse(domObjValidator.isDisabled(numRetries),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");	
+	}
+	
+	public boolean isReadonly(int numRetries) {
+		return domObjValidator.isReadonly(numRetries);
+	}
+	
+	@Override
+	public void validateReadonly(int numRetries) {
+		Assert.assertTrue(domObjValidator.isReadonly(numRetries),
+				"'" + uiObject.getDisplayName() + "' element is not readonly.");		
+	}
+	
+	@Override
+	public void validateNotReadonly(int numRetries) {
+		Assert.assertFalse(domObjValidator.isReadonly(numRetries),
+				"'" + uiObject.getDisplayName() + "' element is readonly.");		
 	}
 
 	@Override

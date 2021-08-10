@@ -41,14 +41,22 @@ public abstract class TextAreaValidator extends UIObjectValidator {
 		return textArea;
 	}
 
+	public abstract boolean isDisabled(int numRetries);
+
 	public abstract void validateDisabled(int numRetries);
 
 	public abstract void validateEnabled(int numRetries);
+
+	public abstract boolean isReadonly(int numRetries);
+
+	public abstract void validateReadonly(int numRetries);
+
+	public abstract void validateNotReadonly(int numRetries);
 
 	public abstract void typeText(String textToType, NewTextLocation location, int numRetries);
 
 	public abstract void validateTextValue(String expectedValue, TextMatchMechanism validationMechanism,
 			int numRetries);
-	
+
 	public abstract String getTextValue(int numRetries);
 }

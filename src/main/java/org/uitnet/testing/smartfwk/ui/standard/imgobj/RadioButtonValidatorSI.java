@@ -286,4 +286,10 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 		Assert.fail("validateEnabled() is not supported for RadioButton component.");
 	}
 
+	@Override
+	public boolean isDisabled(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by RadioButton component.");
+		return false;
+	}
+
 }

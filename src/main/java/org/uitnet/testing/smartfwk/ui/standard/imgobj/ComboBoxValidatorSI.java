@@ -552,4 +552,11 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 
 	}
 
+	@Override
+	@Deprecated
+	public boolean isDisabled(int numRetries) {
+		Assert.fail("isDisabled() API is not supported by ComboBox component.");
+		return false;
+	}
+
 }
