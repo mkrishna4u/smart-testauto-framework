@@ -17,11 +17,23 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.config.webbrowser;
 
+import org.testng.Assert;
+
 /**
  * 
  * @author Madhav Krishna
  *
  */
 public enum WebBrowserType {
-	firefox, chrome, internetExplorer, remoteWebDriverProvider
+	firefox, chrome, edge, opera, safari, internetExplorer, remoteWebDriverProvider;
+	
+	public static WebBrowserType getTypeByName(String name) {
+		for(WebBrowserType type : values()) {
+			if(type.name().equals(name)) {
+				return type;
+			}
+		}
+		Assert.fail("Web Browser Type '" + name + "' does not supported.");
+		return null;
+	}
 }

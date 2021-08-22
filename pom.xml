@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uitnet.testing</groupId>
 	<artifactId>smart-testauto-framework</artifactId>
-	<version>1.0.6.SNAPSHOT</version>
+	<version>1.0.6-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Smart Software Testing Automation Framework</name>
 	<description>Smart Software Testing Automation Framework is a tool used to automate the testing of software application. It includes the functionality i.e. Web UI Application Automation, Thick Client Automation, API Testing, Data Driven Testing etc.</description>
@@ -36,12 +36,12 @@
 
 	<properties>
 		<testng.version>7.4.0</testng.version>
-		<selenium.version>3.141.59</selenium.version>
-		<cucumber.version>6.10.4</cucumber.version>
+		<selenium.version>4.0.0-beta-4</selenium.version>
+		<cucumber.version>6.11.0</cucumber.version>
 		<sikulix.version>2.0.5</sikulix.version>
 		<slf4j.version>1.7.30</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
-		<hibernate.version>5.4.31.Final</hibernate.version>
+		<hibernate.version>5.5.6.Final</hibernate.version>
 		<apache-poi.version>5.0.0</apache-poi.version>
 		<commons-csv.version>1.8</commons-csv.version>
 		<xmlapi.version>2.0.2</xmlapi.version>
@@ -233,7 +233,7 @@
 					<skip>false</skip>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
 				<version>${maven-gpg-plugin.version}</version>
@@ -246,7 +246,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 		</plugins>
 
 	</build>
