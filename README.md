@@ -27,5 +27,5 @@ Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-java>
 # Documentation & More Details
 Please refer <a href="https://github.com/mkrishna4u/smart-testauto-framework/wiki">wiki</a> pages for more details about this framework.
 
-#License
+# License
 Apache License, 2.0
