@@ -24,5 +24,8 @@ Using this software we can easily test the following functionality of the system
 Use the **smartfwk-testauto-quickstart-java** github project and follow the instructions there.
 Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-java>
 
+# Documentation & More Details
+Please refer <a href="https://github.com/mkrishna4u/smart-testauto-framework/wiki">wiki</a> pages for more details about this framework.
+
 #License
 Apache License, 2.0
