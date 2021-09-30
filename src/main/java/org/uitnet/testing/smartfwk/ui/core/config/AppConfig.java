@@ -25,8 +25,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.testng.Assert;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.RemoteWebDriverProvider;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowserType;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.RemoteWebDriverProvider;
 import org.uitnet.testing.smartfwk.ui.core.utils.ScreenCaptureUtil;
 
 /**
@@ -36,7 +35,9 @@ import org.uitnet.testing.smartfwk.ui.core.utils.ScreenCaptureUtil;
  */
 public class AppConfig {
 	private String appName;
-	private String appConfigDir;
+	private ApplicationType appType;
+	private PlatformType testPlatformType;
+	private String appsConfigDir;
 	private String appLaunchUrl;
 	private String appLoginPageValidatorClass;
 	private String appLoginSuccessPageValidatorClass;
@@ -54,15 +55,24 @@ public class AppConfig {
 	private ProxyConfiguration proxyConfig;
 	private Map<String, String> additionalProps;
 	private ApiConfig apiConfig;
+	private AppDriverConfig appDriverConfig;
 
-	public AppConfig(String appName, Properties properties, String appConfigDir) {
+	public AppConfig(String appName, Properties properties, String appsConfigDir) {
 		this.appName = appName;
-		this.appConfigDir = appConfigDir;
+		this.appsConfigDir = appsConfigDir;
 		userProfiles = new LinkedHashMap<String, UserProfile>();
 		dbProfiles = new LinkedHashMap<String, DatabaseProfile>();
 		additionalProps = new LinkedHashMap<String, String>();
 
 		initAppConfig(appName, properties);
+	}
+
+	public String getAppName() {
+		return appName;
+	}
+
+	public String getAppsConfigDir() {
+		return appsConfigDir;
 	}
 
 	private void initAppConfig(String appName, Properties properties) {
@@ -72,6 +82,24 @@ public class AppConfig {
 					+ "' specified in file is not same as configured in TestConfig.properties file '" + appName
 					+ "'. Exiting ...");
 			System.exit(1);
+		}
+
+		propValue = properties.getProperty("APPLICATION_TYPE");
+		if (propValue == null || "".equals(propValue.trim())) {
+			Assert.fail("FATAL: Please specify APPLICATION_TYPE in AppConfig.properties. AppName: " + appName
+					+ ". Exiting ...");
+			System.exit(1);
+		} else {
+			this.appType = ApplicationType.valueOf2(propValue);
+		}
+
+		propValue = properties.getProperty("TEST_PLATFORM_TYPE");
+		if (propValue == null || "".equals(propValue.trim())) {
+			Assert.fail("FATAL: Please specify TEST_PLATFORM_TYPE in AppConfig.properties. AppName: " + appName
+					+ ". Exiting ...");
+			System.exit(1);
+		} else {
+			this.testPlatformType = PlatformType.valueOf2(propValue);
 		}
 
 		appLaunchUrl = properties.getProperty("APP_LAUNCH_URL");
@@ -118,7 +146,7 @@ public class AppConfig {
 					+ ". Exiting ...");
 			System.exit(1);
 		} else {
-			appWebBrowser = WebBrowserType.valueOf(propValue.trim());
+			appWebBrowser = WebBrowserType.valueOf2(propValue.trim());
 		}
 
 		propValue = properties.getProperty("ENABLE_BROWSER_EXTENSIONS");
@@ -166,7 +194,8 @@ public class AppConfig {
 					+ ". Exiting ...");
 			System.exit(1);
 		} else {
-			userProfileConfigDir = appConfigDir + File.separator + appName + File.separator + userProfileConfigDir.trim();
+			userProfileConfigDir = appsConfigDir + File.separator + appName + File.separator
+					+ userProfileConfigDir.trim();
 		}
 
 		propValue = properties.getProperty("USER_PROFILE_NAMES");
@@ -201,7 +230,7 @@ public class AppConfig {
 			// + ". Exiting ...");
 			// System.exit(1);
 		} else {
-			dbProfileConfigDir = appConfigDir + File.separator + appName + File.separator + dbProfileConfigDir.trim();
+			dbProfileConfigDir = appsConfigDir + File.separator + appName + File.separator + dbProfileConfigDir.trim();
 		}
 
 		propValue = properties.getProperty("DB_PROFILE_NAMES");
@@ -240,28 +269,35 @@ public class AppConfig {
 		} else {
 			remoteWebDriverProviderClass = remoteWebDriverProviderClass.trim();
 			try {
-				remoteWebDriverProvider = (RemoteWebDriverProvider) Class.forName(remoteWebDriverProviderClass).newInstance();
+				remoteWebDriverProvider = (RemoteWebDriverProvider) Class.forName(remoteWebDriverProviderClass)
+						.newInstance();
 				remoteWebDriverProvider.setAppConfig(this);
 			} catch (Exception ex) {
 				Assert.fail("Failed to instantiate remote web driver class '" + remoteWebDriverProviderClass
 						+ "' defined in application '" + appName + "'.", ex);
 			}
 		}
-		
-		String apiConfigFile = appConfigDir + File.separator + this.appName + File.separator + "ApiConfig.properties";
+
+		String apiConfigFile = appsConfigDir + File.separator + this.appName + File.separator + "ApiConfig.properties";
 		Properties apiConfigProps = new Properties();
-		try(FileReader fr = new FileReader(apiConfigFile)) {
+		try (FileReader fr = new FileReader(apiConfigFile)) {
 			apiConfigProps.load(fr);
 			this.apiConfig = new ApiConfig(apiConfigFile, apiConfigProps);
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			Assert.fail("Failed to load ApiConfig.properties file for application '" + this.appName + "'.", ex);
 		}
+
+		initAppDriverConfig();
 	}
 
 	public ApiConfig getApiConfig() {
 		return this.apiConfig;
 	}
-	
+
+	public AppDriverConfig getAppDriverConfig() {
+		return appDriverConfig;
+	}
+
 	private void initUserProfiles() {
 		String configFile;
 		FileReader fileReader;
@@ -309,8 +345,32 @@ public class AppConfig {
 		}
 	}
 
+	private void initAppDriverConfig() {
+		String driverCfgFile = appsConfigDir + File.separator + appName + File.separator + "AppDriver.properties";
+		Assert.assertTrue(new File(driverCfgFile).exists(), "Missing AppDriver.properties file for '" + appName
+				+ "' application at location - " + appsConfigDir + File.separator + appName + ".");
+
+		try (FileReader fileReader = new FileReader(driverCfgFile)) {
+			Properties properties = new Properties();
+			properties.load(fileReader);
+
+			appDriverConfig = new AppDriverConfig(this, properties);
+		} catch (Exception ex) {
+			Assert.fail("Failed to read property file - " + driverCfgFile + ". Going to exit...", ex);
+			System.exit(1);
+		}
+	}
+
 	public String getName() {
 		return appName;
+	}
+
+	public ApplicationType getAppType() {
+		return appType;
+	}
+
+	public PlatformType getTestPlatformType() {
+		return testPlatformType;
 	}
 
 	public String getAppLaunchUrl() {
@@ -328,7 +388,7 @@ public class AppConfig {
 	public String getRemoteWebDriverProviderClass() {
 		return remoteWebDriverProviderClass;
 	}
-	
+
 	public RemoteWebDriverProvider getRemoteWebDriverProvider() {
 		return remoteWebDriverProvider;
 	}

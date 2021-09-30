@@ -18,8 +18,8 @@
 package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 
 /**
@@ -34,8 +34,8 @@ public class WebPageTitleSI extends ImageObject {
 	}
 
 	@Override
-	public WebPageTitleValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new WebPageTitleValidatorSI(browser, this, region);
+	public WebPageTitleValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
+		return new WebPageTitleValidatorSI(appDriver, this, region);
 	}
 
 	@Override

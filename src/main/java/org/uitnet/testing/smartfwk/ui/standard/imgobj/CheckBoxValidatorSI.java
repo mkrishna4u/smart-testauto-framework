@@ -25,9 +25,9 @@ import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.checkbox.CheckBoxValidator;
@@ -41,9 +41,9 @@ import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 public class CheckBoxValidatorSI extends CheckBoxValidator {
 	protected CheckBoxSI cbObject;
 
-	public CheckBoxValidatorSI(WebBrowser browser, CheckBoxSI uiObject, Region region) {
-		super(browser, uiObject, region);
-		this.cbObject = uiObject;		
+	public CheckBoxValidatorSI(SmartAppDriver appDriver, CheckBoxSI uiObject, Region region) {
+		super(appDriver, uiObject, region);
+		this.cbObject = uiObject;
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 			Assert.fail("Failed to perform mouse click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	public void click(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
@@ -85,7 +85,7 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 			Assert.fail("Failed to perform mouse double click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	public void doubleClick(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
@@ -104,7 +104,7 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 			Assert.fail("Failed to perform mouse right click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	public void rightClick(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
@@ -153,7 +153,8 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 			match.click();
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on CheckBox '" + cbObject.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on CheckBox '"
+					+ cbObject.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -165,14 +166,15 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on CheckBox '" + cbObject.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on CheckBox '"
+					+ cbObject.getDisplayName() + "'.", th);
 		}
 	}
 
 	@Override
 	@Deprecated
 	public void typeText(String text, NewTextLocation location, int numRetries) {
-		Assert.fail("typeText() API is not supported for CheckBox element."); 
+		Assert.fail("typeText() API is not supported for CheckBox element.");
 
 	}
 
@@ -187,19 +189,19 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 		Match match = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				Region region = cbObject.getCheckBoxImageLocation().getRegionOfImageObject(browser,
+				Region region = cbObject.getCheckBoxImageLocation().getRegionOfImageObject(appDriver,
 						cbObject.getCheckBoxImage());
 				Assert.assertNotNull(region, "Failed to find CheckBox '" + cbObject.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
 			} catch (Throwable th) {
 				if (i == numRetries) {
-					Assert.fail("Unable to find CheckBox '" + cbObject.getDisplayName() + "'. Reason timeout(waited for "
-							+ (numRetries * 2) + " seconds).", th);
+					Assert.fail("Unable to find CheckBox '" + cbObject.getDisplayName()
+							+ "'. Reason timeout(waited for " + (numRetries * 2) + " seconds).", th);
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return match;
 	}
@@ -217,20 +219,20 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 
 	@Override
 	public List<Match> findElements(int numRetries) {
-		Region r = cbObject.getCheckBoxImageLocation().getRegion(browser);
+		Region r = cbObject.getCheckBoxImageLocation().getRegion(appDriver);
 
 		return new ImageObject(UIObjectType.checkBox, cbObject.getDisplayName(), cbObject.getCheckBoxImage())
-				.getValidator(browser, r).findElements(numRetries);
+				.getValidator(appDriver, r).findElements(numRetries);
 	}
-	
+
 	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
 		try {
 			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
 
 			Assert.assertNotNull(sourceElem, "Failed to find CheckBox '" + cbObject.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
-			
+
 			sourceElem.drag(targetElem);
 			sourceElem.dropAt(targetElem);
 		} catch (Throwable th) {
@@ -238,9 +240,9 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 					+ target.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {
-		switch(imageSection) {
+		switch (imageSection) {
 		case topLeft:
 			return imageMatch.getTopLeft();
 		case topRight:

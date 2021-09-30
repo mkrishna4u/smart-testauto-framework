@@ -18,8 +18,8 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.toolstrip;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 
 /**
@@ -30,8 +30,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 public abstract class ToolStripValidator extends UIObjectValidator {
 	private ToolStrip toolStrip;
 
-	public ToolStripValidator(WebBrowser browser, ToolStrip uiObject, Region region) {
-		super(browser, uiObject, region);
+	public ToolStripValidator(SmartAppDriver appDriver, ToolStrip uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.toolStrip = uiObject;
 	}
 

@@ -24,37 +24,38 @@ package org.uitnet.testing.smartfwk.ui.core.file.reader.support;
  */
 public enum Operator {
 	/** Equal to operator */
-	eq("="), 
-	
+	eq("="),
+
 	/** Not equal to operator */
-	ne("!="), 
-	
+	ne("!="),
+
 	/** Greater than operator */
-	gt(">"), 
-	
+	gt(">"),
+
 	/** Greater than equal to operator */
-	gte(">="), 
-	
+	gte(">="),
+
 	/** Less than operator */
-	lt("<"), 
-	
+	lt("<"),
+
 	/** Less than equal to operator */
 	lte("<="),
-	
+
 	/** Starts with value operator */
 	startsWith("startsWith"),
-	
+
 	/** Ends with value operator */
 	endsWith("endsWith"),
-	
+
 	/** Contains value operator */
 	contains("contains");
-	
+
 	private String op;
+
 	private Operator(String op) {
 		this.op = op;
 	}
-	
+
 	public String getOp() {
 		return this.op;
 	}

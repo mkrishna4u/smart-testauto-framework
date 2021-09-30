@@ -28,41 +28,41 @@ import java.util.Map;
  */
 public class ItemMap<K, V> {
 	private LinkedHashMap<K, V> map;
-	
+
 	public ItemMap() {
 		map = new LinkedHashMap<K, V>();
 	}
-	
+
 	public ItemMap(LinkedHashMap<K, V> items) {
 		map = new LinkedHashMap<K, V>();
 		map.putAll(items);
 	}
-	
+
 	public ItemMap<K, V> put(K key, V value) {
 		map.put(key, value);
 		return this;
 	}
-	
+
 	public ItemMap<K, V> remove(K item) {
 		map.remove(item);
 		return this;
 	}
-	
+
 	public ItemMap<K, V> removeAll(Map<K, V> items) {
-		for(K key : items.keySet()) {
+		for (K key : items.keySet()) {
 			remove(key);
-		}		
+		}
 		return this;
 	}
-	
+
 	public int size() {
 		return map.size();
 	}
-	
+
 	public Map<K, V> getItems() {
 		return map;
 	}
-	
+
 	@Override
 	public String toString() {
 		return map.toString();

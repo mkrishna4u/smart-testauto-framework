@@ -28,9 +28,9 @@ import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.listbox.ListBoxValidator;
@@ -46,8 +46,8 @@ import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
 public class ListBoxValidatorSI extends ListBoxValidator {
 	protected ListBoxSI listBoxObj;
 
-	public ListBoxValidatorSI(WebBrowser browser, ListBoxSI uiObject, Region region) {
-		super(browser, uiObject, region);
+	public ListBoxValidatorSI(SmartAppDriver appDriver, ListBoxSI uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.listBoxObj = uiObject;
 	}
 
@@ -221,7 +221,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 		Match match = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				Region region = listBoxObj.getLocation().getRegionOfImageObject(browser, listBoxObj.getWidth(),
+				Region region = listBoxObj.getLocation().getRegionOfImageObject(appDriver, listBoxObj.getWidth(),
 						listBoxObj.getHeight());
 				Assert.assertNotNull(region, "Failed to find Choices '" + listBoxObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
@@ -233,7 +233,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return match;
 	}
@@ -258,7 +258,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
 		try {
 			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
 
 			Assert.assertNotNull(sourceElem, "Failed to find Choices '" + listBoxObj.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
@@ -288,8 +288,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism,
-			int numRetries) {
+	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism, int numRetries) {
 		if (listBoxObj.isDisabled()) {
 			Match match = findElement(numRetries);
 			validateTextValue(match.text(), expectedValue, validationMechanism);
@@ -337,8 +336,8 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	}
 
 	/**
-	 * It just search the text in pull down menu visible area if present then
-	 * click on it to select that.
+	 * It just search the text in pull down menu visible area if present then click
+	 * on it to select that.
 	 */
 	@Override
 	public void selectItem(String itemName, int numRetries) {
@@ -355,8 +354,8 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	}
 
 	/**
-	 * It just search the image item in pull down menu visible area if present
-	 * then click on it to select that.
+	 * It just search the image item in pull down menu visible area if present then
+	 * click on it to select that.
 	 */
 	public void selectItemByImage(String imageItem, int numRetries) {
 		Match match = findElement(numRetries);

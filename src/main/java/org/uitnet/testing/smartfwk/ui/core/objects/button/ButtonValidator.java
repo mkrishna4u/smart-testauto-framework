@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.button;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
@@ -30,8 +30,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
 public abstract class ButtonValidator extends UIObjectValidator {
 	private Button button;
 
-	public ButtonValidator(WebBrowser browser, Button uiObject, Region region) {
-		super(browser, uiObject, region);
+	public ButtonValidator(SmartAppDriver appDriver, Button uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.button = uiObject;
 	}
 
@@ -40,11 +40,10 @@ public abstract class ButtonValidator extends UIObjectValidator {
 		return this.button;
 	}
 
-	public abstract void validateName(String expectedName, TextMatchMechanism validationMechanism,
-			int numRetries);
+	public abstract void validateName(String expectedName, TextMatchMechanism validationMechanism, int numRetries);
 
 	public abstract boolean isDisabled(int numRetries);
-	
+
 	public abstract void validateDisabled(int numRetries);
 
 	public abstract void validateEnabled(int numRetries);

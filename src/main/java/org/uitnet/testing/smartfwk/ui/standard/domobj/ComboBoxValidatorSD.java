@@ -25,8 +25,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
@@ -42,18 +42,17 @@ import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
  */
 public class ComboBoxValidatorSD extends ComboBoxValidator {
 	protected DOMObjectValidator domObjValidator;
-	
-	public ComboBoxValidatorSD(WebBrowser browser, ComboBoxSD uiObject, Region region) {
-		super(browser, uiObject, region);
-		domObjValidator = new DOMObjectValidator(browser, 
-				new DOMObject(uiObject.getDisplayName(), uiObject.getLocatorXPath()), 
-				region);
+
+	public ComboBoxValidatorSD(SmartAppDriver appDriver, ComboBoxSD uiObject, Region region) {
+		super(appDriver, uiObject, region);
+		domObjValidator = new DOMObjectValidator(appDriver,
+				new DOMObject(uiObject.getType(), uiObject.getDisplayName(), uiObject.getPlatformLocators()), region);
 	}
 
 	public DOMObjectValidator getDOMObjectValidator() {
 		return domObjValidator;
 	}
-	
+
 	@Override
 	public boolean isDisabled(int numRetries) {
 		return domObjValidator.isDisabled(numRetries);
@@ -62,13 +61,13 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	@Override
 	public void validateDisabled(int numRetries) {
 		Assert.assertTrue(domObjValidator.isDisabled(numRetries),
-				"'" + uiObject.getDisplayName() + "' element is not disabled.");		
+				"'" + uiObject.getDisplayName() + "' element is not disabled.");
 	}
 
 	@Override
 	public void validateEnabled(int numRetries) {
 		Assert.assertFalse(domObjValidator.isDisabled(numRetries),
-				"'" + uiObject.getDisplayName() + "' element is not enabled.");	
+				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 	}
 
 	@Override
@@ -77,7 +76,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	}
 
 	@Override
-	public boolean isPresent(int numRetries) {		
+	public boolean isPresent(int numRetries) {
 		return domObjValidator.isPresent(numRetries);
 	}
 
@@ -136,72 +135,78 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	public void validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
 			int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					
+
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
-					Assert.assertTrue(options.size() > 0, "Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
-					
+					Assert.assertNotNull(options,
+							"Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
+					Assert.assertTrue(options.size() > 0,
+							"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+
 					String optionTextValue;
 					boolean found = false;
-					for(WebElement option : options) {
+					for (WebElement option : options) {
 						optionTextValue = option.getText();
-						if(optionTextValue != null && option.isSelected() &&
-								matchTextValue(optionTextValue.trim(), expectedSelectedValue, validationMechanism)) {				
+						if (optionTextValue != null && option.isSelected()
+								&& matchTextValue(optionTextValue.trim(), expectedSelectedValue, validationMechanism)) {
 							found = true;
 							break;
 						}
 					}
-					
-					if(!found) {
-						Assert.fail("Failed to find selected item '" + expectedSelectedValue + "' in ComboBox '" + uiObject.getDisplayName() + "'.");
-					}		
+
+					if (!found) {
+						Assert.fail("Failed to find selected item '" + expectedSelectedValue + "' in ComboBox '"
+								+ uiObject.getDisplayName() + "'.");
+					}
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
-			Assert.fail("Failed to validate selected value '" + expectedSelectedValue + "' for element '" + uiObject.getDisplayName() + "'.", th);
+		} catch (Throwable th) {
+			Assert.fail("Failed to validate selected value '" + expectedSelectedValue + "' for element '"
+					+ uiObject.getDisplayName() + "'.", th);
 		}
 	}
 
 	@Override
 	public String getSelectedItem(int numRetries) {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
-		
+
 		List<WebElement> options = selectElement.findElements(By.xpath("./option"));
 		Assert.assertNotNull(options, "Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
-		Assert.assertTrue(options.size() > 0, "Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
-		
-		String optionTextValue;		
-		for(WebElement option : options) {
+		Assert.assertTrue(options.size() > 0,
+				"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+
+		String optionTextValue;
+		for (WebElement option : options) {
 			optionTextValue = option.getText();
-			if(optionTextValue != null && option.isSelected()) {			
+			if (optionTextValue != null && option.isSelected()) {
 				return optionTextValue;
 			}
 		}
 		return null;
 	}
-	
+
 	@Override
 	public List<String> getSelectedItems(int numRetries) {
 		WebElement selectElement = domObjValidator.findElement(numRetries);
-		
+
 		List<WebElement> options = selectElement.findElements(By.xpath("./option"));
 		Assert.assertNotNull(options, "Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
-		Assert.assertTrue(options.size() > 0, "Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
-		
+		Assert.assertTrue(options.size() > 0,
+				"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+
 		List<String> selectedItems = new LinkedList<String>();
-		String optionTextValue;		
-		for(WebElement option : options) {
+		String optionTextValue;
+		for (WebElement option : options) {
 			optionTextValue = option.getText();
-			if(optionTextValue != null && option.isSelected()) {			
+			if (optionTextValue != null && option.isSelected()) {
 				selectedItems.add(optionTextValue);
 			}
 		}
@@ -211,25 +216,27 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	@Override
 	public void selectFirstItem(int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					PageScrollUtil.scrollToViewportAndClick(browser, selectElement);
-					
+					PageScrollUtil.scrollToViewportAndClick(appDriver, selectElement);
+
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
-					Assert.assertTrue(options.size() > 0, "Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
-					
-					PageScrollUtil.scrollToViewportAndClick(browser, options.get(0));
+					Assert.assertNotNull(options,
+							"Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
+					Assert.assertTrue(options.size() > 0,
+							"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+
+					PageScrollUtil.scrollToViewportAndClick(appDriver, options.get(0));
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to select first item on element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
@@ -237,25 +244,27 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	@Override
 	public void selectLastItem(int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					PageScrollUtil.scrollToViewportAndClick(browser, selectElement);
-					
+					PageScrollUtil.scrollToViewportAndClick(appDriver, selectElement);
+
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
-					Assert.assertTrue(options.size() > 0, "Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
-					
-					PageScrollUtil.scrollToViewportAndClick(browser, options.get(options.size() - 1));
+					Assert.assertNotNull(options,
+							"Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
+					Assert.assertTrue(options.size() > 0,
+							"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+
+					PageScrollUtil.scrollToViewportAndClick(appDriver, options.get(options.size() - 1));
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to select last item on element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
@@ -263,44 +272,46 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	@Override
 	public void selectItem(String itemName, int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					PageScrollUtil.scrollToViewportAndClick(browser, selectElement);
-					
+					PageScrollUtil.scrollToViewportAndClick(appDriver, selectElement);
+
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
-					
+					Assert.assertNotNull(options,
+							"Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
+
 					String optionTextValue;
 					boolean found = false;
-					for(WebElement option : options) {
+					for (WebElement option : options) {
 						optionTextValue = option.getText();
-						if(optionTextValue != null && itemName.equals(optionTextValue.trim())) {
-							PageScrollUtil.scrollToViewportAndClick(browser, option);
+						if (optionTextValue != null && itemName.equals(optionTextValue.trim())) {
+							PageScrollUtil.scrollToViewportAndClick(appDriver, option);
 							found = true;
 							break;
 						}
 					}
-					
-					if(!found) {
-						Assert.fail("Failed to find item '" + itemName + "' in ComboBox '" + uiObject.getDisplayName() + "'.");
+
+					if (!found) {
+						Assert.fail("Failed to find item '" + itemName + "' in ComboBox '" + uiObject.getDisplayName()
+								+ "'.");
 					}
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to select item '" + itemName + "' on element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
 
 	@Override
 	public void selectItems(ItemList<String> itemsToBeSelected, int numRetries) {
-		for(String item : itemsToBeSelected.getItems()) {
+		for (String item : itemsToBeSelected.getItems()) {
 			selectItem(item, numRetries);
 		}
 	}
@@ -308,39 +319,42 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	@Override
 	public void validateItemsPresent(ItemList<String> items, int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					
+
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
-					Assert.assertTrue(options.size() > 0, "Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
-					
+					Assert.assertNotNull(options,
+							"Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
+					Assert.assertTrue(options.size() > 0,
+							"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+
 					String optionTextValue;
 					for (String item : items.getItems()) {
 						boolean found = false;
 						for (WebElement option : options) {
 							optionTextValue = option.getText();
-							if (optionTextValue != null
-									&& matchTextValue(optionTextValue.trim(), item, TextMatchMechanism.exactMatchWithExpectedValue)) {
+							if (optionTextValue != null && matchTextValue(optionTextValue.trim(), item,
+									TextMatchMechanism.exactMatchWithExpectedValue)) {
 								found = true;
 								break;
 							}
 						}
-						
-						if(!found) {
-							Assert.fail("Failed to find item '" + item + "' in ComboBox '" + uiObject.getDisplayName() + "'.");
-						}	
+
+						if (!found) {
+							Assert.fail("Failed to find item '" + item + "' in ComboBox '" + uiObject.getDisplayName()
+									+ "'.");
+						}
 					}
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to validate item presence for element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
@@ -348,45 +362,48 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	@Override
 	public void validateItemsNotPresent(ItemList<String> items, int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					
+
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
-					Assert.assertTrue(options.size() > 0, "Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
-					
+					Assert.assertNotNull(options,
+							"Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
+					Assert.assertTrue(options.size() > 0,
+							"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
+
 					String optionTextValue;
 					for (String item : items.getItems()) {
 						boolean found = false;
 						for (WebElement option : options) {
 							optionTextValue = option.getText();
-							if (optionTextValue != null
-									&& matchTextValue(optionTextValue.trim(), item, TextMatchMechanism.exactMatchWithExpectedValue)) {
+							if (optionTextValue != null && matchTextValue(optionTextValue.trim(), item,
+									TextMatchMechanism.exactMatchWithExpectedValue)) {
 								found = true;
 								break;
 							}
 						}
-						
-						if(found) {
-							Assert.fail("Item '" + item + "' is present in ComboBox '" + uiObject.getDisplayName() + "'.");
-						}	
+
+						if (found) {
+							Assert.fail(
+									"Item '" + item + "' is present in ComboBox '" + uiObject.getDisplayName() + "'.");
+						}
 					}
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to validate item absence for element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	@Override
-	public WebElement findElement(int numRetries) {		
+	public WebElement findElement(int numRetries) {
 		return domObjValidator.findElement(numRetries);
 	}
 

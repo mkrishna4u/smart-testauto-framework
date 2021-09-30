@@ -18,8 +18,8 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.menuitem;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 
 /**
@@ -30,8 +30,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 public abstract class MenuItemValidator extends UIObjectValidator {
 	private MenuItem menuItem;
 
-	public MenuItemValidator(WebBrowser browser, MenuItem uiObject, Region region) {
-		super(browser, uiObject, region);
+	public MenuItemValidator(SmartAppDriver appDriver, MenuItem uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.menuItem = uiObject;
 	}
 
@@ -39,7 +39,7 @@ public abstract class MenuItemValidator extends UIObjectValidator {
 	public MenuItem getUIObject() {
 		return menuItem;
 	}
-	
+
 	public abstract void validateDisabledItemsPresent(ItemList<String> disabledItems, int numRetries);
 
 	public abstract void validateEnabledItemsPresent(ItemList<String> enabledItems, int numRetries);

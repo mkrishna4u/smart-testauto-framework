@@ -25,9 +25,9 @@ import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.button.ButtonValidator;
@@ -42,14 +42,14 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
 public class ButtonValidatorSI extends ButtonValidator {
 	protected ButtonSI buttonObj;
 
-	public ButtonValidatorSI(WebBrowser browser, ButtonSI uiObject, Region region) {
-		super(browser, uiObject, region);
-		this.buttonObj = uiObject;		
+	public ButtonValidatorSI(SmartAppDriver appDriver, ButtonSI uiObject, Region region) {
+		super(appDriver, uiObject, region);
+		this.buttonObj = uiObject;
 	}
 
 	@Override
 	public void validateName(String expectedName, TextMatchMechanism validationMechanism, int numRetries) {
-		Match match = findElement(numRetries);				
+		Match match = findElement(numRetries);
 		validateTextValue(match.text(), expectedName, validationMechanism);
 	}
 
@@ -85,7 +85,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Assert.fail("Failed to perform mouse click on Button '" + buttonObj.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	public void click(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
@@ -104,7 +104,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Assert.fail("Failed to perform mouse double click on Button '" + buttonObj.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	public void doubleClick(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
@@ -123,7 +123,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Assert.fail("Failed to perform mouse right click on Button '" + buttonObj.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	public void rightClick(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
@@ -172,7 +172,8 @@ public class ButtonValidatorSI extends ButtonValidator {
 			match.click();
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on Button '"
+					+ buttonObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -184,14 +185,15 @@ public class ButtonValidatorSI extends ButtonValidator {
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on Button '"
+					+ buttonObj.getDisplayName() + "'.", th);
 		}
 	}
 
 	@Override
 	@Deprecated
 	public void typeText(String text, NewTextLocation location, int numRetries) {
-		Assert.fail("typeText() API is not supported for Button element."); 
+		Assert.fail("typeText() API is not supported for Button element.");
 
 	}
 
@@ -206,7 +208,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 		Match match = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				Region region = buttonObj.getButtonImageLocation().getRegionOfImageObject(browser,
+				Region region = buttonObj.getButtonImageLocation().getRegionOfImageObject(appDriver,
 						buttonObj.getButtonImage());
 				Assert.assertNotNull(region, "Failed to find Button '" + buttonObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
@@ -218,7 +220,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return match;
 	}
@@ -236,20 +238,20 @@ public class ButtonValidatorSI extends ButtonValidator {
 
 	@Override
 	public List<Match> findElements(int numRetries) {
-		Region r = buttonObj.getButtonImageLocation().getRegion(browser);
+		Region r = buttonObj.getButtonImageLocation().getRegion(appDriver);
 
 		return new ImageObject(UIObjectType.button, buttonObj.getDisplayName(), buttonObj.getButtonImage())
-				.getValidator(browser, r).findElements(numRetries);
+				.getValidator(appDriver, r).findElements(numRetries);
 	}
-	
+
 	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
 		try {
 			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
 
 			Assert.assertNotNull(sourceElem, "Failed to find Button '" + buttonObj.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
-			
+
 			sourceElem.drag(targetElem);
 			sourceElem.dropAt(targetElem);
 		} catch (Throwable th) {
@@ -257,9 +259,9 @@ public class ButtonValidatorSI extends ButtonValidator {
 					+ target.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {
-		switch(imageSection) {
+		switch (imageSection) {
 		case topLeft:
 			return imageMatch.getTopLeft();
 		case topRight:

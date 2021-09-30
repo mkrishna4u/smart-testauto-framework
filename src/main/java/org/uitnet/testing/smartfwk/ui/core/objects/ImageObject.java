@@ -20,10 +20,12 @@ package org.uitnet.testing.smartfwk.ui.core.objects;
 import java.io.File;
 
 import org.sikuli.script.Region;
+import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 
 /**
  * 
@@ -38,8 +40,8 @@ public class ImageObject extends UIObject {
 		this.image = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + image;
 	}
 
-	public ImageObjectValidator getValidator(WebBrowser browser, Region region) {
-		return new ImageObjectValidator(browser, this, region);
+	public ImageObjectValidator getValidator(SmartAppDriver appDriver, Region region) {
+		return new ImageObjectValidator(appDriver, this, region);
 	}
 
 	public String getImage() {
@@ -52,8 +54,9 @@ public class ImageObject extends UIObject {
 	}
 
 	@Override
-	public ImageObject updateLocatorParameterWithValue(String paramName, String value) {
-		return this;	
+	public ImageObject updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
+		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
+		return this;
 	}
 
 }

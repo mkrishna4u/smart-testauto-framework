@@ -34,5 +34,5 @@ public interface LogonLocator {
 	public UIObject getLoginButtonLocator();
 
 	public UIObject getLogoutButtonLocator();
-	
+
 }

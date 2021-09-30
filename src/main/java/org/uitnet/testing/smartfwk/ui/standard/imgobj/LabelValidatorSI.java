@@ -25,9 +25,9 @@ import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.label.LabelValidator;
@@ -42,8 +42,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
 public class LabelValidatorSI extends LabelValidator {
 	protected LabelSI labelObj;
 
-	public LabelValidatorSI(WebBrowser browser, LabelSI uiObject, Region region) {
-		super(browser, uiObject, region);
+	public LabelValidatorSI(SmartAppDriver appDriver, LabelSI uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.labelObj = uiObject;
 	}
 
@@ -165,9 +165,8 @@ public class LabelValidatorSI extends LabelValidator {
 			match.click();
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail(
-					"Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on Label '" + labelObj.getDisplayName() + "'.",
-					th);
+			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on Label '"
+					+ labelObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -202,7 +201,7 @@ public class LabelValidatorSI extends LabelValidator {
 		Match match = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				Region region = labelObj.getLabelImageLocation().getRegionOfImageObject(browser,
+				Region region = labelObj.getLabelImageLocation().getRegionOfImageObject(appDriver,
 						labelObj.getLabelImage());
 				Assert.assertNotNull(region, "Failed to find Label '" + labelObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
@@ -214,7 +213,7 @@ public class LabelValidatorSI extends LabelValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return match;
 	}
@@ -232,16 +231,16 @@ public class LabelValidatorSI extends LabelValidator {
 
 	@Override
 	public List<Match> findElements(int numRetries) {
-		Region r = labelObj.getLabelImageLocation().getRegion(browser);
+		Region r = labelObj.getLabelImageLocation().getRegion(appDriver);
 
 		return new ImageObject(UIObjectType.label, labelObj.getDisplayName(), labelObj.getLabelImage())
-				.getValidator(browser, r).findElements(numRetries);
+				.getValidator(appDriver, r).findElements(numRetries);
 	}
 
 	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
 		try {
 			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
 
 			Assert.assertNotNull(sourceElem, "Failed to find Label '" + labelObj.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");

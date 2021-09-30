@@ -29,8 +29,8 @@ import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
@@ -43,8 +43,8 @@ import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
 public class ImageObjectValidator extends UIObjectValidator {
 	protected ImageObject imgLocator;
 
-	public ImageObjectValidator(WebBrowser browser, ImageObject locator, Region region) {
-		super(browser, locator, region);
+	public ImageObjectValidator(SmartAppDriver appDriver, ImageObject locator, Region region) {
+		super(appDriver, locator, region);
 		this.imgLocator = locator;
 	}
 
@@ -75,7 +75,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return match;
 	}
@@ -102,7 +102,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return match;
 	}
@@ -136,7 +136,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return list;
 	}
@@ -269,7 +269,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
 		try {
 			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
 
 			Assert.assertNotNull(sourceElem, "Failed to find element '" + imgLocator.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");

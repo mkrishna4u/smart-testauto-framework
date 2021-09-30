@@ -35,29 +35,29 @@ import org.testng.Assert;
  */
 public class ScreenCaptureUtil {
 	private static int screenshotId = 0;
-	
+
 	public static Dimension getScreenSize() {
 		return Toolkit.getDefaultToolkit().getScreenSize();
 	}
-	
+
 	/**
 	 * Captures screenshot and return the name of screenshot.
+	 * 
 	 * @param dir
 	 * @param testClassName
 	 * @param testCaseName
 	 * @param screenArea
 	 * @return
 	 */
-	public static String capture(String dir, String testClassName,
-			String testCaseName, Rectangle screenArea) {
+	public static String capture(String dir, String testClassName, String testCaseName, Rectangle screenArea) {
 		String imageFile = null;
 		try {
 			Rectangle screenRectangle = screenArea;
-			if(screenArea == null) {
+			if (screenArea == null) {
 				Dimension screenSize = getScreenSize();
 				screenRectangle = new Rectangle(screenSize);
 			}
-			
+
 			Robot robot = new Robot();
 			BufferedImage image = robot.createScreenCapture(screenRectangle);
 
@@ -70,12 +70,11 @@ public class ScreenCaptureUtil {
 //								+ "' for saving the screenshots.");
 			}
 
-			if(testClassName == null) {
-				imageFile = dir + File.separator
-						+ testCaseName + "-" + getNextScreenshotId() + ".png";
+			if (testClassName == null) {
+				imageFile = dir + File.separator + testCaseName + "-" + getNextScreenshotId() + ".png";
 			} else {
-				imageFile = dir + File.separator + testClassName + "-"
-						+ testCaseName + "-" + getNextScreenshotId() + ".png";
+				imageFile = dir + File.separator + testClassName + "-" + testCaseName + "-" + getNextScreenshotId()
+						+ ".png";
 			}
 
 			ImageIO.write(image, "png", new File(imageFile));

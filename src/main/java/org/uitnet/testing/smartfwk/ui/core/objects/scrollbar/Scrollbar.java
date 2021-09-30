@@ -24,8 +24,8 @@ import org.openqa.selenium.WebElement;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 
 /**
@@ -34,7 +34,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
  *
  */
 public class Scrollbar {
-	// protected WebBrowser browser;
+	// protected SmartAppDriver appDriver;
 	protected Scrollbar parent;
 	protected HorizontalScrollbar hScrollbar;
 	protected VerticalScrollbar vScrollbar;
@@ -43,7 +43,7 @@ public class Scrollbar {
 
 	public Scrollbar(HorizontalScrollbar hScrollbar, Region hScrollbarRegion, VerticalScrollbar vScrollbar,
 			Region vScrollbarRegion) {
-		// this.browser = browser;
+		// this.appDriver = appDriver;
 
 		this.hScrollbar = hScrollbar;
 		this.hScrollbarRegion = hScrollbarRegion;
@@ -90,27 +90,27 @@ public class Scrollbar {
 
 		return null;
 	}
-	
+
 	public void scrollThumbGripToExtremeTop() {
-		if(vScrollbar != null) {
+		if (vScrollbar != null) {
 			vScrollbar.scrollThumbGripToExtremeTop(vScrollbarRegion);
 		}
 	}
-	
+
 	public void scrollThumbGripToExtremeBottom() {
-		if(vScrollbar != null) {
+		if (vScrollbar != null) {
 			vScrollbar.scrollThumbGripToExtremeBottom(vScrollbarRegion);
 		}
 	}
-	
+
 	public void scrollThumbGripToExtremeLeft() {
-		if(hScrollbar != null) {
+		if (hScrollbar != null) {
 			hScrollbar.scrollThumbGripToExtremeLeft(hScrollbarRegion);
 		}
 	}
-	
+
 	public void scrollThumbGripToExtremeRight() {
-		if(hScrollbar != null) {
+		if (hScrollbar != null) {
 			hScrollbar.scrollThumbGripToExtremeRight(hScrollbarRegion);
 		}
 	}
@@ -119,20 +119,20 @@ public class Scrollbar {
 	 * Scroll element into
 	 * 
 	 * @param elemLocator
-	 * @param searchDirection
-	 *            direction to locate element from the current focus point.
+	 * @param searchDirection direction to locate element from the current focus
+	 *                        point.
 	 */
-	public void scrollElementToViewport(WebBrowser browser, UIObject elemLocator) {
+	public void scrollElementToViewport(SmartAppDriver appDriver, UIObject elemLocator) {
 		if (elemLocator.getLocatorType() == LocatorType.DOM) {
 			UIObject domLocator = elemLocator;
 			WebElement webElem = null;
 			try {
-				// Rectangle hScrollbarThumbGripCurrLocation  =
+				// Rectangle hScrollbarThumbGripCurrLocation =
 				// findHScrollbarThumbGripLeftPartImageLocation();
 				System.out.println("AAA");
 				Rectangle vScrollbarThumbGripCurrLocation = findVScrollbarThumbGripTopPartImageLocation();
 
-				webElem = (WebElement) domLocator.getValidator(browser, null).findElementNoException(0);
+				webElem = (WebElement) domLocator.getValidator(appDriver, null).findElementNoException(0);
 				boolean hsbEndReached, vsbEndReached = false;
 				boolean vsbTGCurrPointReached = false;
 				int vsbEndReachedCounter = 0;
@@ -149,11 +149,11 @@ public class Scrollbar {
 									break;
 								} else {
 									hsbEndReached = hScrollbar.clickRightScrollImage(hScrollbarRegion, 2);
-									webElem = (WebElement) domLocator.getValidator(browser, null)
+									webElem = (WebElement) domLocator.getValidator(appDriver, null)
 											.findElementNoException(0);
 									if (webElem == null) {
 										hScrollbar.clickLeftScrollImage(hScrollbarRegion, 2);
-										webElem = (WebElement) domLocator.getValidator(browser, null)
+										webElem = (WebElement) domLocator.getValidator(appDriver, null)
 												.findElementNoException(0);
 										break;
 									}
@@ -168,7 +168,7 @@ public class Scrollbar {
 									break;
 								} else {
 									hsbEndReached = hScrollbar.clickRightScrollImage(hScrollbarRegion, 2);
-									webElem = (WebElement) domLocator.getValidator(browser, null)
+									webElem = (WebElement) domLocator.getValidator(appDriver, null)
 											.findElementNoException(0);
 									continue;
 								}
@@ -188,10 +188,11 @@ public class Scrollbar {
 								break;
 							} else {
 								vsbEndReached = vScrollbar.clickBottomScrollImage(vScrollbarRegion, 2);
-								webElem = (WebElement) domLocator.getValidator(browser, null).findElementNoException(0);
+								webElem = (WebElement) domLocator.getValidator(appDriver, null)
+										.findElementNoException(0);
 								if (webElem == null) {
 									vScrollbar.clickTopScrollImage(vScrollbarRegion, 2);
-									webElem = (WebElement) domLocator.getValidator(browser, null)
+									webElem = (WebElement) domLocator.getValidator(appDriver, null)
 											.findElementNoException(0);
 									break;
 								}
@@ -215,7 +216,8 @@ public class Scrollbar {
 										- vScrollbarThumbGripCurrLocation.getY() >= 0) {
 									vsbTGCurrPointReached = true;
 								}
-								webElem = (WebElement) domLocator.getValidator(browser, null).findElementNoException(0);
+								webElem = (WebElement) domLocator.getValidator(appDriver, null)
+										.findElementNoException(0);
 								continue;
 							}
 						} else {
@@ -237,7 +239,7 @@ public class Scrollbar {
 				// findHScrollbarThumbGripLeftPartImageLocation();
 				Rectangle vScrollbarThumbGripCurrLocation = findVScrollbarThumbGripTopPartImageLocation();
 
-				match = (Match) imgLocator.getValidator(browser, null).findElementNoException(0);
+				match = (Match) imgLocator.getValidator(appDriver, null).findElementNoException(0);
 				boolean hsbEndReached, vsbEndReached = false;
 				boolean vsbTGCurrPointReached = false;
 				int vsbEndReachedCounter = 0;
@@ -254,10 +256,10 @@ public class Scrollbar {
 									break;
 								} else {
 									hsbEndReached = hScrollbar.clickRightScrollImage(hScrollbarRegion, 2);
-									match = (Match) imgLocator.getValidator(browser, null).findElementNoException(0);
+									match = (Match) imgLocator.getValidator(appDriver, null).findElementNoException(0);
 									if (match == null) {
 										hScrollbar.clickLeftScrollImage(hScrollbarRegion, 2);
-										match = (Match) imgLocator.getValidator(browser, null)
+										match = (Match) imgLocator.getValidator(appDriver, null)
 												.findElementNoException(0);
 										break;
 									}
@@ -272,7 +274,7 @@ public class Scrollbar {
 									break;
 								} else {
 									hsbEndReached = hScrollbar.clickRightScrollImage(hScrollbarRegion, 2);
-									match = (Match) imgLocator.getValidator(browser, null).findElementNoException(0);
+									match = (Match) imgLocator.getValidator(appDriver, null).findElementNoException(0);
 									continue;
 								}
 							} else {
@@ -291,10 +293,10 @@ public class Scrollbar {
 								break;
 							} else {
 								vsbEndReached = vScrollbar.clickBottomScrollImage(vScrollbarRegion, 2);
-								match = (Match) imgLocator.getValidator(browser, null).findElementNoException(0);
+								match = (Match) imgLocator.getValidator(appDriver, null).findElementNoException(0);
 								if (match == null) {
 									vScrollbar.clickTopScrollImage(vScrollbarRegion, 2);
-									match = (Match) imgLocator.getValidator(browser, null).findElementNoException(0);
+									match = (Match) imgLocator.getValidator(appDriver, null).findElementNoException(0);
 									break;
 								}
 							}
@@ -317,7 +319,7 @@ public class Scrollbar {
 										- vScrollbarThumbGripCurrLocation.getY() >= 0) {
 									vsbTGCurrPointReached = true;
 								}
-								match = (Match) imgLocator.getValidator(browser, null).findElementNoException(0);
+								match = (Match) imgLocator.getValidator(appDriver, null).findElementNoException(0);
 								continue;
 							}
 						} else {

@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import org.uitnet.testing.smartfwk.ui.core.AbstractUITestHelper;
+import org.uitnet.testing.smartfwk.ui.core.AbstractAppConnector;
 
 /**
  * 
@@ -35,70 +35,50 @@ public class DefaultTestMethodPolicy implements ITestListener {
 
 	@Override
 	public void onTestStart(ITestResult result) {
-		AbstractUITestHelper baseTest = (AbstractUITestHelper) result.getInstance();
-				
-		logger.info("TESTCASE(Started): '"
-				+ baseTest.getClass().getSimpleName() + "-"
-				+ result.getMethod().getMethodName()
-				+ "'. Wait for completion...");
-		
-		baseTest.captureScreenshot(result.getMethod().getMethodName()
-				+ "-Initial");
+		AbstractAppConnector baseTest = (AbstractAppConnector) result.getInstance();
+
+		logger.info("TESTCASE(Started): '" + baseTest.getClass().getSimpleName() + "-"
+				+ result.getMethod().getMethodName() + "'. Wait for completion...");
+
+		baseTest.captureScreenshot(result.getMethod().getMethodName() + "-Initial");
 	}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
-		AbstractUITestHelper baseTest = (AbstractUITestHelper) result.getInstance();
-		baseTest.captureScreenshot(result.getMethod().getMethodName()
-				+ "-Success");
-		logger.info("TESTCASE(Finished-Successful): '"
-				+ baseTest.getClass().getSimpleName() + "-"
+		AbstractAppConnector baseTest = (AbstractAppConnector) result.getInstance();
+		baseTest.captureScreenshot(result.getMethod().getMethodName() + "-Success");
+		logger.info("TESTCASE(Finished-Successful): '" + baseTest.getClass().getSimpleName() + "-"
 				+ result.getMethod().getMethodName() + "'.");
 	}
 
 	@Override
 	public void onTestFailure(ITestResult result) {
-		AbstractUITestHelper baseTest = (AbstractUITestHelper) result.getInstance();
-		baseTest.captureScreenshot(result.getMethod().getMethodName()
-				+ "-Failed");
-		logger.info("TESTCASE(Finished-Failed): '"
-				+ baseTest.getClass().getSimpleName() + "-"
-				+ result.getMethod().getMethodName() + "'.",
-				result.getThrowable());
+		AbstractAppConnector baseTest = (AbstractAppConnector) result.getInstance();
+		baseTest.captureScreenshot(result.getMethod().getMethodName() + "-Failed");
+		logger.info("TESTCASE(Finished-Failed): '" + baseTest.getClass().getSimpleName() + "-"
+				+ result.getMethod().getMethodName() + "'.", result.getThrowable());
 
-		/* if(!baseTest.getActiveUserProfileName().equals(baseTest.getInitUserProfileName())) {
-			baseTest.setActiveUserProfileName(baseTest.getInitUserProfileName());
-		} else {
-			baseTest.checkLogoutAndLoginAgain(baseTest.getActiveUserProfileName());
-		} */
-		
-		baseTest.getInitWebBrowser().refresh();
+		baseTest.getAppDriver().refresh();
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
-		AbstractUITestHelper baseTest = (AbstractUITestHelper) result.getInstance();
-		baseTest.captureScreenshot(result.getMethod().getMethodName()
-				+ "-Skipped");
-		logger.info("TESTCASE(Finished-Skipped): '"
-				+ baseTest.getClass().getSimpleName() + "-"
-				+ result.getMethod().getMethodName() + "'.",
-				result.getThrowable());
+		AbstractAppConnector baseTest = (AbstractAppConnector) result.getInstance();
+		baseTest.captureScreenshot(result.getMethod().getMethodName() + "-Skipped");
+		logger.info("TESTCASE(Finished-Skipped): '" + baseTest.getClass().getSimpleName() + "-"
+				+ result.getMethod().getMethodName() + "'.", result.getThrowable());
 
-		baseTest.getInitWebBrowser().refresh();
+		baseTest.getAppDriver().refresh();
 	}
 
 	@Override
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-		AbstractUITestHelper baseTest = (AbstractUITestHelper) result.getInstance();
-		baseTest.captureScreenshot(result.getMethod().getMethodName()
-				+ "-Failed");
-		logger.info("TESTCASE(Finished-Failed): '"
-				+ baseTest.getClass().getSimpleName() + "-"
-				+ result.getMethod().getMethodName() + "'.",
-				result.getThrowable());
+		AbstractAppConnector baseTest = (AbstractAppConnector) result.getInstance();
+		baseTest.captureScreenshot(result.getMethod().getMethodName() + "-Failed");
+		logger.info("TESTCASE(Finished-Failed): '" + baseTest.getClass().getSimpleName() + "-"
+				+ result.getMethod().getMethodName() + "'.", result.getThrowable());
 
-		baseTest.getInitWebBrowser().refresh();
+		baseTest.getAppDriver().refresh();
 	}
 
 	@Override
@@ -110,6 +90,5 @@ public class DefaultTestMethodPolicy implements ITestListener {
 	public void onFinish(ITestContext context) {
 		// DO NOT DO ANYTHING
 	}
-
 
 }

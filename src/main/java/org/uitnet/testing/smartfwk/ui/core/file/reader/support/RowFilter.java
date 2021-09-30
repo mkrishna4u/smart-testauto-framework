@@ -29,28 +29,28 @@ import org.testng.Assert;
  */
 public class RowFilter {
 	List<Object> statements;
-	
+
 	public RowFilter() {
 		statements = new LinkedList<>();
 	}
-	
+
 	public RowFilter condition(Condition condition) {
 		Assert.assertNotNull(condition, "Row Filter Condition can't be empty.");
 		statements.add(condition);
 		return this;
 	}
-	
+
 	public RowFilter and() {
 		statements.add(Join.and);
 		return this;
 	}
-	
+
 	public RowFilter or() {
 		statements.add(Join.or);
 		return this;
 	}
-	
+
 	public List<Object> getFilter() {
-		return  statements;
+		return statements;
 	}
 }

@@ -18,9 +18,9 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.link;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 
 /**
@@ -33,5 +33,5 @@ public abstract class Hyperlink extends UIObject {
 		super(locatorType, UIObjectType.hyperlink, displayName);
 	}
 
-	public abstract HyperlinkValidator getValidator(WebBrowser browser, Region region);
+	public abstract HyperlinkValidator getValidator(SmartAppDriver appDriver, Region region);
 }

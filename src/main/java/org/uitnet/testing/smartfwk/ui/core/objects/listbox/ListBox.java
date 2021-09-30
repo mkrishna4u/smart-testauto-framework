@@ -18,9 +18,9 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.listbox;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 
 /**
@@ -33,5 +33,5 @@ public abstract class ListBox extends UIObject {
 		super(locatorType, UIObjectType.listBox, displayName);
 	}
 
-	public abstract ListBoxValidator getValidator(WebBrowser browser, Region region);
+	public abstract ListBoxValidator getValidator(SmartAppDriver appDriver, Region region);
 }

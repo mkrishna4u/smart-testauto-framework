@@ -23,5 +23,5 @@ package org.uitnet.testing.smartfwk.ui.core.commons;
  *
  */
 public enum LocatorType {
-	DOM, IMAGE, WEB_PAGE
+	DOM, IMAGE
 }

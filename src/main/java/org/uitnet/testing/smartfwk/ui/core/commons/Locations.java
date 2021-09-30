@@ -35,19 +35,17 @@ public class Locations {
 		}
 		return rootDir;
 	}
-	
+
 	public static String getConfigDirPath() {
 		String configPath = getProjectRootDir() + File.separator + "test-config";
-		
+
 		return configPath;
 	}
-	
+
 	public static String getProjectTargetDirPath() {
-		//System.out.println(System.getProperties());
-		String configPath = System.getProperty("user.dir") + File.separator + "target" 
-				+ File.separator;
-		
-		
+		// System.out.println(System.getProperties());
+		String configPath = System.getProperty("user.dir") + File.separator + "target" + File.separator;
+
 		return configPath;
 	}
 }

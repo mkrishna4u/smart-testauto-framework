@@ -19,8 +19,9 @@ package org.uitnet.testing.smartfwk.ui.standard.imgobj.datagrid;
 
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.button.Button;
 
@@ -38,7 +39,7 @@ public class HeaderColumnSI extends Button {
 		this.columnImg = columnImg;
 		this.columnImgLocation = columnImgLocation;
 	}
-	
+
 	public String getColumnImage() {
 		return columnImg;
 	}
@@ -48,8 +49,8 @@ public class HeaderColumnSI extends Button {
 	}
 
 	@Override
-	public HeaderColumnValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new HeaderColumnValidatorSI(browser, this, region);
+	public HeaderColumnValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
+		return new HeaderColumnValidatorSI(appDriver, this, region);
 	}
 
 	@Override
@@ -58,8 +59,8 @@ public class HeaderColumnSI extends Button {
 	}
 
 	@Override
-	public HeaderColumnSI updateLocatorParameterWithValue(String paramName, String value) {
-		Assert.fail("updateLocatorParameterWithValue() API is not implemented."); 
+	public HeaderColumnSI updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
+		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
 		return this;
 	}
 

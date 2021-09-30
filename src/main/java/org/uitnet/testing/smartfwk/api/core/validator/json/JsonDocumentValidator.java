@@ -39,25 +39,25 @@ public class JsonDocumentValidator {
 
 	public JsonDocumentValidator(String jsonAsString) {
 		jsonDocReader = new JsonDocumentReader(jsonAsString);
-		
+
 	}
-	
+
 	public JsonDocumentValidator(File jsonFilePath) {
 		jsonDocReader = new JsonDocumentReader(jsonFilePath);
 	}
-	
+
 	public DocumentContext getDocumentContext() {
 		return jsonDocReader.getDocumentContext();
 	}
-	
+
 	public <T> List<T> readValuesAsList(String jsonPath) {
 		return jsonDocReader.readValuesAsList(jsonPath);
 	}
-	
+
 	public <T> Set<T> readValuesAsSet(String jsonPath) {
 		return jsonDocReader.readValuesAsSet(jsonPath);
 	}
-	
+
 	public <T> T readSingleValue(String jsonPath) {
 		return jsonDocReader.readSingleValue(jsonPath);
 	}
@@ -72,8 +72,8 @@ public class JsonDocumentValidator {
 		TypeRef<Set<T>> typeRef = new TypeRef<Set<T>>() {
 		};
 		Set<T> elems = jsonDocReader.getDocumentContext().read(jsonPath, typeRef);
-		Assert.assertFalse(elems.size() == 0,
-				"No record found for Element '" + elementName + "' on JSON path '" + jsonPath + "'. Expects records with values: " + Arrays.asList(values) + ".");
+		Assert.assertFalse(elems.size() == 0, "No record found for Element '" + elementName + "' on JSON path '"
+				+ jsonPath + "'. Expects records with values: " + Arrays.asList(values) + ".");
 
 		Set<T> valuesAsSet = new HashSet<>(Arrays.asList(values));
 		valuesAsSet.removeAll(elems);
@@ -86,8 +86,8 @@ public class JsonDocumentValidator {
 		TypeRef<Set<T>> typeRef = new TypeRef<Set<T>>() {
 		};
 		Set<T> elems = jsonDocReader.getDocumentContext().read(jsonPath, typeRef);
-		Assert.assertFalse(elems.size() == 0,
-				"No record found for Element '" + elementName + "' on JSON path '" + jsonPath + "'. Expects records with values: " + Arrays.asList(values) + ".");
+		Assert.assertFalse(elems.size() == 0, "No record found for Element '" + elementName + "' on JSON path '"
+				+ jsonPath + "'. Expects records with values: " + Arrays.asList(values) + ".");
 
 		Set<T> valuesAsSet1 = new HashSet<>(Arrays.asList(values));
 		Set<T> valuesAsSet2 = new HashSet<>(Arrays.asList(values));
@@ -99,7 +99,7 @@ public class JsonDocumentValidator {
 		Assert.assertTrue(elems.size() == 0, "Values " + elems + " are extra for Element '" + elementName
 				+ "' on JSON Path '" + jsonPath + "'. Expecting JSON path values: " + valuesAsSet2 + ".");
 	}
-	
+
 	public <T> void validateSingleValueMatch(String elementName, String jsonPath, Class<T> valueClazz, T value) {
 		T elemValue = jsonDocReader.getDocumentContext().read(jsonPath, valueClazz);
 		Assert.assertEquals(elemValue, value,
@@ -119,40 +119,17 @@ public class JsonDocumentValidator {
 	}
 
 	private static String sampleJson() {
-		String json = "{\r\n"
-				+ "    \"book\": \r\n"
-				+ "    [\r\n"
-				+ "        {\r\n"
-				+ "            \"title\": \"Beginning JSON\",\r\n"
-				+ "            \"author\": \"Ben Smith\",\r\n"
-				+ "            \"price\": 49.99\r\n"
-				+ "        },\r\n"
-				+ "\r\n"
-				+ "        {\r\n"
-				+ "            \"title\": \"JSON at Work\",\r\n"
-				+ "            \"author\": \"Tom Marrs\",\r\n"
-				+ "            \"price\": 29.99\r\n"
-				+ "        },\r\n"
-				+ "\r\n"
-				+ "        {\r\n"
-				+ "            \"title\": \"Learn JSON in a DAY\",\r\n"
-				+ "            \"author\": \"Acodemy\",\r\n"
-				+ "            \"price\": 8.99\r\n"
-				+ "        },\r\n"
-				+ "\r\n"
-				+ "        {\r\n"
+		String json = "{\r\n" + "    \"book\": \r\n" + "    [\r\n" + "        {\r\n"
+				+ "            \"title\": \"Beginning JSON\",\r\n" + "            \"author\": \"Ben Smith\",\r\n"
+				+ "            \"price\": 49.99\r\n" + "        },\r\n" + "\r\n" + "        {\r\n"
+				+ "            \"title\": \"JSON at Work\",\r\n" + "            \"author\": \"Tom Marrs\",\r\n"
+				+ "            \"price\": 29.99\r\n" + "        },\r\n" + "\r\n" + "        {\r\n"
+				+ "            \"title\": \"Learn JSON in a DAY\",\r\n" + "            \"author\": \"Acodemy\",\r\n"
+				+ "            \"price\": 8.99\r\n" + "        },\r\n" + "\r\n" + "        {\r\n"
 				+ "            \"title\": \"JSON: Questions and Answers\",\r\n"
-				+ "            \"author\": \"George Duckett\",\r\n"
-				+ "            \"price\": 6.00\r\n"
-				+ "        }\r\n"
-				+ "    ],\r\n"
-				+ "\r\n"
-				+ "    \"price_range\": \r\n"
-				+ "    {\r\n"
-				+ "        \"cheap\": 10.00,\r\n"
-				+ "        \"medium\": 20.00\r\n"
-				+ "    }\r\n"
-				+ "}";
+				+ "            \"author\": \"George Duckett\",\r\n" + "            \"price\": 6.00\r\n"
+				+ "        }\r\n" + "    ],\r\n" + "\r\n" + "    \"price_range\": \r\n" + "    {\r\n"
+				+ "        \"cheap\": 10.00,\r\n" + "        \"medium\": 20.00\r\n" + "    }\r\n" + "}";
 		return json;
 	}
 }

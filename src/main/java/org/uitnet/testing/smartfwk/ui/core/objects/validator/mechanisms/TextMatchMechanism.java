@@ -23,6 +23,6 @@ package org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms;
  *
  */
 public enum TextMatchMechanism {
-	exactMatchWithExpectedValue, startsWithExpectedValue, endsWithExpectedValue, containsExpectedValue, matchWithRegularExpression,
-	exactMatchWithExpectedValueWithRemovedWhiteSpace, 
+	exactMatchWithExpectedValue, startsWithExpectedValue, endsWithExpectedValue, containsExpectedValue,
+	matchWithRegularExpression, exactMatchWithExpectedValueWithRemovedWhiteSpace,
 }

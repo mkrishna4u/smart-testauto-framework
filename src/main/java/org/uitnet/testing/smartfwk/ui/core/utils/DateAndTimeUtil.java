@@ -27,8 +27,7 @@ import java.util.Date;
  *
  */
 public class DateAndTimeUtil {
-	private static final DateFormat DATE_ITEM_FORMATTER = new SimpleDateFormat(
-			"MM/dd/yyyy");
+	private static final DateFormat DATE_ITEM_FORMATTER = new SimpleDateFormat("MM/dd/yyyy");
 
 	public static String formatDate(Date date) {
 		return DATE_ITEM_FORMATTER.format(date);

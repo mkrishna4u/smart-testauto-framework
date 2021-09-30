@@ -23,14 +23,14 @@ package org.uitnet.testing.smartfwk.ui.core.objects.logon;
  *
  */
 public class DefaultLoginSuccessPageValidator extends LoginSuccessPageValidator {
-		
+
 	public DefaultLoginSuccessPageValidator() {
 		super(null, null);
 	}
 
 	@Override
 	protected void tryLogout(String activeUserProfileName) {
-		// Doing nothing		
+		// Doing nothing
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class DefaultLoginSuccessPageValidator extends LoginSuccessPageValidator 
 	}
 
 	@Override
-	protected boolean checkLoginSuccessPageVisible(String activeUserProfileName) {		
+	protected boolean checkLoginSuccessPageVisible(String activeUserProfileName) {
 		return true;
 	}
 }

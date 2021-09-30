@@ -17,11 +17,22 @@
  */
 package org.uitnet.testing.smartfwk.ui.standard.domobj;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.LocateBy;
+import org.uitnet.testing.smartfwk.ui.core.commons.Locator;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
+import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.image.Image;
+import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 
 /**
  * 
@@ -29,20 +40,44 @@ import org.uitnet.testing.smartfwk.ui.core.objects.image.Image;
  *
  */
 public class ImageSD extends Image {
-	protected String xpath;
+	protected Map<String, Locator> platFormLocators = new HashMap<>();
+
+	public ImageSD(String displayName) {
+		super(LocatorType.DOM, displayName);
+	}
+
+	public ImageSD(String displayName, Map<String, Locator> platFormLocators) {
+		super(LocatorType.DOM, displayName);
+		this.platFormLocators = platFormLocators;
+	}
 
 	public ImageSD(String displayName, String xpath) {
 		super(LocatorType.DOM, displayName);
-		this.xpath = xpath;
+		platFormLocators.put(SmartConstants.DEFAULT_XPATH_LOCATOR, new Locator(LocateBy.Xpath, xpath));
+	}
+
+	public ImageSD addPlatformLocatorForNativeApp(PlatformType platform, LocateBy locateBy, String locatorValue) {
+		LocatorUtil.setPlatformLocatorForNativeApp(platFormLocators, platform, locateBy, locatorValue);
+		return this;
+	}
+
+	public ImageSD addPlatformLocatorForWebApp(PlatformType platform, WebBrowserType browserType, LocateBy locateBy,
+			String locatorValue) {
+		LocatorUtil.setPlatformLocatorForWebApp(platFormLocators, platform, browserType, locateBy, locatorValue);
+		return this;
 	}
 
 	@Override
-	public ImageValidatorSD getValidator(WebBrowser browser, Region region) {
-		return new ImageValidatorSD(browser, this, region);
+	public ImageValidatorSD getValidator(SmartAppDriver appDriver, Region region) {
+		return new ImageValidatorSD(appDriver, this, region);
 	}
 
-	public String getLocatorXPath() {
-		return xpath;
+	public Locator getLocator(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {
+		return LocatorUtil.findLocator(platFormLocators, platform, appType, browserType);
+	}
+
+	public Map<String, Locator> getPlatformLocators() {
+		return platFormLocators;
 	}
 
 	@Override
@@ -52,10 +87,15 @@ public class ImageSD extends Image {
 	}
 
 	@Override
-	public ImageSD updateLocatorParameterWithValue(String paramName, String value) {
-		String newXPath = xpath.replaceAll(":" + paramName, value);
-		String newDisplayName = displayName.replaceAll(":"+ paramName, value);
-		return new ImageSD(newDisplayName, newXPath);
+	public ImageSD updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
+		String newDisplayName = displayName.replaceAll(":" + paramName, paramValue);
+
+		Map<String, Locator> newPlatFormLocators = new HashMap<>();
+		for (Map.Entry<String, Locator> locator : platFormLocators.entrySet()) {
+			newPlatFormLocators.put(locator.getKey(), new Locator(locator.getValue().getLocateBy(),
+					locator.getValue().getValue().replaceAll(":" + paramName, paramValue)));
+		}
+		return new ImageSD(newDisplayName, newPlatFormLocators);
 	}
 
 }

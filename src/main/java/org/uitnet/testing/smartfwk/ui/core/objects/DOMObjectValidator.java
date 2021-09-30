@@ -17,6 +17,7 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.objects;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.Dimension;
@@ -31,9 +32,11 @@ import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.Region;
 import org.testng.Assert;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
+import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.WebAttrMapUtil;
 
 import com.google.common.base.Function;
 
@@ -45,8 +48,8 @@ import com.google.common.base.Function;
 public class DOMObjectValidator extends UIObjectValidator {
 	private DOMObject domObject;
 
-	public DOMObjectValidator(WebBrowser browser, DOMObject domObject, Region region) {
-		super(browser, domObject, region);
+	public DOMObjectValidator(SmartAppDriver appDriver, DOMObject domObject, Region region) {
+		super(appDriver, domObject, region);
 		this.domObject = domObject;
 	}
 
@@ -72,7 +75,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Finds attribute value from element when it is not hidden.
 	 * 
@@ -80,25 +83,26 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 */
 	public String getAttributeValueWhenElementVisible(String attributeName, int numRetries) {
 		try {
-			for (int i = 0; i <= numRetries; i++) {				
+			for (int i = 0; i <= numRetries; i++) {
 				try {
-					if(isVisible(0)) {
+					if (isVisible(0)) {
 						return getAttributeValue(attributeName, 0);
 					}
 					Assert.fail("Element is not visible.");
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
 		} catch (Throwable th) {
-			Assert.fail("Failed to get attribute '" + attributeName + "' value from visible element '" + domObject.getDisplayName() + "'.", th);
+			Assert.fail("Failed to get attribute '" + attributeName + "' value from visible element '"
+					+ domObject.getDisplayName() + "'.", th);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Finds attribute value from visible element when it's value is not empty.
 	 * Leading and trailing whitespace will be removed in comparision.
@@ -110,26 +114,27 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i <= numRetries; i++) {
 				try {
 					String value = getAttributeValue(attributeName, 0);
-					if(!(value == null || "".equals(value.trim()))) {
+					if (!(value == null || "".equals(value.trim()))) {
 						return value;
 					}
 					Assert.fail("Attribute value is empty.");
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
 		} catch (Throwable th) {
-			Assert.fail("Failed to get non-empty attribute '" + attributeName + "' value from element '" + domObject.getDisplayName() + "'.", th);
+			Assert.fail("Failed to get non-empty attribute '" + attributeName + "' value from element '"
+					+ domObject.getDisplayName() + "'.", th);
 		}
 		return null;
 	}
 
 	/**
-	 * Finds first element with polling and it polls after 2 seconds for
-	 * numRetries times.
+	 * Finds first element with polling and it polls after 2 seconds for numRetries
+	 * times.
 	 * 
 	 * @param numRetries
 	 * @return
@@ -139,13 +144,15 @@ public class DOMObjectValidator extends UIObjectValidator {
 		WebElement webElem = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				// browser.getSeleniumWebDriver().manage().timeouts().pageLoadTimeout(30,
+				// appDriver.getWebDriver().manage().timeouts().pageLoadTimeout(30,
 				// TimeUnit.SECONDS);
-				// browser.getSeleniumWebDriver().manage().timeouts().implicitlyWait(10,
+				// appDriver.getWebDriver().manage().timeouts().implicitlyWait(10,
 				// TimeUnit.SECONDS);
-				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
+				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
+						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(webElem, "Unable to find element '" + domObject.getDisplayName() + "'.");
-				PageScrollUtil.scrollElemToViewport(browser, webElem);
+				PageScrollUtil.scrollElemToViewport(appDriver, webElem);
 				// System.out.println(domObject.getDisplayName() + ", DISPLAYED:
 				// " + webElem.isDisplayed() + ", " + webElem.isEnabled());
 				// Assert.assertTrue(webElem.isDisplayed(), "Unable to find
@@ -159,17 +166,17 @@ public class DOMObjectValidator extends UIObjectValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return webElem;
 	}
 
 	public void waitForPageLoad() {
-		WebDriverWait wait = new WebDriverWait(browser.getSeleniumWebDriver(), 30);
+		WebDriverWait wait = new WebDriverWait(appDriver.getWebDriver(), Duration.ofSeconds(30));
 		wait.until(new Function<WebDriver, Boolean>() {
 			public Boolean apply(WebDriver driver) {
-				String readyState = String.valueOf(((JavascriptExecutor) browser.getSeleniumWebDriver())
-						.executeScript("return document.readyState"));
+				String readyState = String.valueOf(
+						((JavascriptExecutor) appDriver.getWebDriver()).executeScript("return document.readyState"));
 				// System.out.println("Current Window State: " + readyState);
 				return "complete".equals(readyState);
 			}
@@ -177,8 +184,8 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	/**
-	 * Finds first element with polling and it polls after 2 seconds for
-	 * numRetries times. It does not throw any exception
+	 * Finds first element with polling and it polls after 2 seconds for numRetries
+	 * times. It does not throw any exception
 	 * 
 	 * @param numRetries
 	 * @return
@@ -188,7 +195,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 		WebElement webElem = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
+				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
+						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				if (webElem != null) {
 					break;
 				}
@@ -199,15 +208,15 @@ public class DOMObjectValidator extends UIObjectValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return webElem;
 	}
 
 	/**
 	 * This returns all the elements based on the locator. It waits for the
-	 * configured timeout if the element is not present. Performs polling
-	 * numRetries times.
+	 * configured timeout if the element is not present. Performs polling numRetries
+	 * times.
 	 * 
 	 * @param numRetries
 	 * @return
@@ -217,7 +226,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 		List<WebElement> webElems = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				webElems = browser.getSeleniumWebDriver().findElements(domObject.getLocatorAsBy());
+				webElems = LocatorUtil.findWebElements(appDriver.getWebDriver(),
+						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(webElems, "Unable to find elements for '" + domObject.getDisplayName() + "'.");
 				Assert.assertTrue(webElems.size() > 0,
 						"Unable to find elements for '" + domObject.getDisplayName() + "' locator.");
@@ -229,7 +240,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return webElems;
 	}
@@ -239,7 +250,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 		if (scrollbar == null) {
 			return this;
 		}
-		scrollbar.scrollElementToViewport(browser, getUIObject());
+		scrollbar.scrollElementToViewport(appDriver, getUIObject());
 		return this;
 	}
 
@@ -255,7 +266,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 		WebElement webElem = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
+				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
+						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				if (webElem != null) {
 					elemPresent = true;
 					break;
@@ -266,7 +279,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return elemPresent;
 	}
@@ -280,92 +293,88 @@ public class DOMObjectValidator extends UIObjectValidator {
 	@Override
 	public boolean isVisible(int numRetries) {
 		boolean elemVisible = false;
-		WebElement webElem = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
-				if (webElem != null && !("hidden".equals(webElem.getCssValue("visibility")) || webElem.getAttribute("hidden") != null)) {
+				if (WebAttrMapUtil.isElementVisible(appDriver, domObject)) {
 					elemVisible = true;
 					break;
 				}
+
 				Assert.fail();
 			} catch (Throwable th) {
 				if (i == numRetries) {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return elemVisible;
 	}
 
 	public boolean isReadonly(int numRetries) {
 		boolean elemReadonly = false;
-		WebElement webElem = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
-				if (webElem != null && webElem.getAttribute("readonly") != null) {
+				if (WebAttrMapUtil.isElementReadonly(appDriver, domObject)) {
 					elemReadonly = true;
 					break;
 				}
+
 				Assert.fail();
 			} catch (Throwable th) {
 				if (i == numRetries) {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return elemReadonly;
 	}
-	
+
 	public boolean isDisabled(int numRetries) {
 		boolean elemDisabled = false;
-		WebElement webElem = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
-				if (webElem != null && !webElem.isEnabled()) {
+				if (WebAttrMapUtil.isElementDisabled(appDriver, domObject)) {
 					elemDisabled = true;
 					break;
 				}
+
 				Assert.fail();
 			} catch (Throwable th) {
 				if (i == numRetries) {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return elemDisabled;
 	}
 
 	/**
-	 * Determine whether or not this element is selected or not. This operation
-	 * only applies to input elements such as checkboxes, options in a select
-	 * and radio buttons.
+	 * Determine whether or not this element is selected or not. This operation only
+	 * applies to input elements such as checkboxes, options in a select and radio
+	 * buttons.
 	 * 
 	 * @return True if the element is currently selected or checked, false
 	 *         otherwise.
 	 */
 	public boolean isSelected(int numRetries) {
 		boolean elemSelected = false;
-		WebElement webElem = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
-				if (webElem != null && webElem.isSelected()) {
+				if (WebAttrMapUtil.isElementSelected(appDriver, domObject)) {
 					elemSelected = true;
 					break;
 				}
+
 				Assert.fail();
 			} catch (Throwable th) {
 				if (i == numRetries) {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return elemSelected;
 	}
@@ -376,15 +385,14 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 * @param numRetries
 	 */
 	public String getText(int numRetries) {
-		try {			
-			WebElement webElem = findElement(numRetries);
-			return webElem.getText();
+		try {
+			return WebAttrMapUtil.getElementText(appDriver, domObject, numRetries);
 		} catch (Throwable th) {
 			Assert.fail("Failed to get text from element '" + domObject.getDisplayName() + "'.", th);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Finds text from element when it is not hidden.
 	 * 
@@ -392,27 +400,28 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 */
 	public String getTextWhenElementVisible(int numRetries) {
 		try {
-			for (int i = 0; i <= numRetries; i++) {				
+			for (int i = 0; i <= numRetries; i++) {
 				try {
-					if(isVisible(0)) {
+					if (isVisible(0)) {
 						return getText(0);
 					}
 					Assert.fail("Text is not visible.");
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
 		} catch (Throwable th) {
 			Assert.fail("Failed to get text from visible element '" + domObject.getDisplayName() + "'.", th);
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Finds text from visible element when it's value is not empty. Leading and trailing whitespace will be removed.
+	 * Finds text from visible element when it's value is not empty. Leading and
+	 * trailing whitespace will be removed.
 	 * 
 	 * @param numRetries
 	 */
@@ -420,49 +429,50 @@ public class DOMObjectValidator extends UIObjectValidator {
 		try {
 			for (int i = 0; i <= numRetries; i++) {
 				try {
-					if(isVisible(0)) {
+					if (isVisible(0)) {
 						String value = getText(0);
-						if(!(value == null || "".equals(value.trim()))) {
+						if (!(value == null || "".equals(value.trim()))) {
 							return value;
 						}
 						Assert.fail("Text is empty.");
 					}
 					Assert.fail("Text is not visible.");
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
 		} catch (Throwable th) {
 			Assert.fail("Failed to get non-empty text from visible element '" + domObject.getDisplayName() + "'.", th);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Validates whether the element is visible with non-empty text on screen.
+	 * 
 	 * @param numRetries
 	 */
 	public void validatePresentWithNonEmptyText(int numRetries) {
 		try {
 			for (int i = 0; i <= numRetries; i++) {
 				try {
-					if(isVisible(0)) {
+					if (isVisible(0)) {
 						String value = getText(0);
-						if(!(value == null || "".equals(value.trim()))) {
+						if (!(value == null || "".equals(value.trim()))) {
 							return;
 						}
 						Assert.fail("Text is empty.");
 					}
 					Assert.fail("Text is not visible.");
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
 		} catch (Throwable th) {
 			Assert.fail("Element '" + domObject.getDisplayName() + "' is not visible with non-empty text.", th);
@@ -470,9 +480,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	/**
-	 * Copy text into clipboard from the current cursor position. Applicable
-	 * only for editable fields i.e textbox, textarea etc. First it will click
-	 * on that element and then select all text and copy into clipboard.
+	 * Copy text into clipboard from the current cursor position. Applicable only
+	 * for editable fields i.e textbox, textarea etc. First it will click on that
+	 * element and then select all text and copy into clipboard.
 	 * 
 	 * @return
 	 */
@@ -481,13 +491,13 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					PageScrollUtil.scrollToViewportAndClick(browser, webElem);
-					
-					Actions webActions = new Actions(browser.getSeleniumWebDriver());
+					PageScrollUtil.scrollToViewportAndClick(appDriver, webElem);
+
+					Actions webActions = new Actions(appDriver.getWebDriver());
 					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "c"));
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
-					browser.waitForSeconds(2);
+					appDriver.waitForSeconds(2);
 				}
 			}
 		} catch (Throwable th) {
@@ -496,8 +506,8 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	/**
-	 * Replace the content of the element with the clipboard contents.
-	 * Applicable only for editable fields i.e textbox, textarea etc.
+	 * Replace the content of the element with the clipboard contents. Applicable
+	 * only for editable fields i.e textbox, textarea etc.
 	 * 
 	 * @return
 	 */
@@ -506,13 +516,14 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					PageScrollUtil.scrollToViewportAndClick(browser, webElem);
-					
-					Actions webActions = new Actions(browser.getSeleniumWebDriver());
-					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "v")).build().perform();
+					PageScrollUtil.scrollToViewportAndClick(appDriver, webElem);
+
+					Actions webActions = new Actions(appDriver.getWebDriver());
+					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "v")).build()
+							.perform();
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
-					browser.waitForSeconds(2);
+					appDriver.waitForSeconds(2);
 				}
 			}
 		} catch (Throwable th) {
@@ -526,10 +537,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					PageScrollUtil.scrollToViewportAndClick(browser, webElem);
+					PageScrollUtil.scrollToViewportAndClick(appDriver, webElem);
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
-					browser.waitForSeconds(2);
+					appDriver.waitForSeconds(2);
 				}
 			}
 		} catch (Throwable th) {
@@ -543,10 +554,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					PageScrollUtil.scrollToViewportAndDoubleClick(browser, webElem);
+					PageScrollUtil.scrollToViewportAndDoubleClick(appDriver, webElem);
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
-					browser.waitForSeconds(2);
+					appDriver.waitForSeconds(2);
 				}
 			}
 		} catch (Throwable th) {
@@ -561,7 +572,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			Point location = webElem.getLocation();
 			Dimension size = webElem.getSize();
 
-			browser.getSikuliScreen()
+			appDriver.getSikuliScreen()
 					.rightClick(new Region(location.getX(), location.getY(), size.getWidth(), size.getHeight()));
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on element '" + domObject.getDisplayName() + "'.", th);
@@ -572,10 +583,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
-				PageScrollUtil.scrollToViewportAndClickAndHold(browser, webElem);
+				PageScrollUtil.scrollToViewportAndClickAndHold(appDriver, webElem);
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
 		}
 	}
@@ -584,10 +595,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
-				PageScrollUtil.scrollToViewportAndRelease(browser, webElem);
+				PageScrollUtil.scrollToViewportAndRelease(appDriver, webElem);
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
 		}
 	}
@@ -597,12 +608,12 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement sourceElem = findElement(numRetries);
-					WebElement targetElem = target.getValidator(browser, region).findElement(numRetries);
+					WebElement targetElem = target.getValidator(appDriver, region).findElement(numRetries);
 
-					PageScrollUtil.scrollToViewportAndDragAndDrop(browser, sourceElem, targetElem);
+					PageScrollUtil.scrollToViewportAndDragAndDrop(appDriver, sourceElem, targetElem);
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
-					browser.waitForSeconds(2);
+					appDriver.waitForSeconds(2);
 				}
 			}
 		} catch (Throwable th) {
@@ -615,11 +626,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
-				Actions actions = new Actions(browser.getSeleniumWebDriver());
+				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyDown(webElem, keys).build().perform();
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
 		}
 	}
@@ -628,11 +639,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
-				Actions actions = new Actions(browser.getSeleniumWebDriver());
+				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyUp(webElem, keys).build().perform();
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
 		}
 	}
@@ -641,11 +652,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
-				Actions actions = new Actions(browser.getSeleniumWebDriver());
+				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyDown(webElem, keys).keyUp(webElem, keys).build().perform();
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
 		}
 	}
@@ -655,44 +666,32 @@ public class DOMObjectValidator extends UIObjectValidator {
 		Actions actions;
 		for (int i = 0; i < 5; i++) {
 			try {
-				WebElement webElem = findElement(numRetries);				
-				/*ClipboardUtil.clearContents();
-				
-				try {					
-					actions = new Actions(browser.getSeleniumWebDriver());
-					actions.sendKeys(webElem, Keys.CONTROL + "ax").build().perform();
-				} finally {
-					actions = new Actions(browser.getSeleniumWebDriver());
-					actions.keyUp(webElem, Keys.CONTROL).build().perform();
-				}
-				
-				String existingText = ClipboardUtil.getContents();		
-				ClipboardUtil.clearContents(); */
-				
+				WebElement webElem = findElement(numRetries);
+
 				switch (location) {
-				case start:					
-					newtext = text;					
-					actions = new Actions(browser.getSeleniumWebDriver());
+				case start:
+					newtext = text;
+					actions = new Actions(appDriver.getWebDriver());
 					webElem.sendKeys(Keys.HOME);
 					actions.sendKeys(webElem, newtext).build().perform();
 					break;
 				case end:
 					newtext = text;
-					actions = new Actions(browser.getSeleniumWebDriver());
+					actions = new Actions(appDriver.getWebDriver());
 					webElem.sendKeys(Keys.END);
 					actions.sendKeys(webElem, newtext).build().perform();
 					break;
 				case replace:
 					webElem.sendKeys(Keys.chord(Keys.CONTROL, "a"));
 					webElem.sendKeys(Keys.BACK_SPACE);
-					actions = new Actions(browser.getSeleniumWebDriver());
+					actions = new Actions(appDriver.getWebDriver());
 					actions.sendKeys(webElem, text).build().perform();
 					break;
-				} 
-								
+				}
+
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
 		}
 	}

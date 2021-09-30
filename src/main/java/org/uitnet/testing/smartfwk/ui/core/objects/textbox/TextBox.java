@@ -18,9 +18,9 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.textbox;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 
 /**
@@ -28,10 +28,10 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
  * @author Madhav Krishna
  *
  */
-public abstract class TextBox extends UIObject {	
+public abstract class TextBox extends UIObject {
 	public TextBox(LocatorType locatorType, String displayName) {
 		super(locatorType, UIObjectType.textBox, displayName);
 	}
 
-	public abstract TextBoxValidator getValidator(WebBrowser browser, Region region);
+	public abstract TextBoxValidator getValidator(SmartAppDriver appDriver, Region region);
 }

@@ -19,8 +19,9 @@ package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.checkbox.CheckBox;
 
@@ -48,8 +49,8 @@ public class CheckBoxSI extends CheckBox {
 	}
 
 	@Override
-	public CheckBoxValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new CheckBoxValidatorSI(browser, this, region);
+	public CheckBoxValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
+		return new CheckBoxValidatorSI(appDriver, this, region);
 	}
 
 	@Override
@@ -58,7 +59,7 @@ public class CheckBoxSI extends CheckBox {
 	}
 
 	@Override
-	public CheckBoxSI updateLocatorParameterWithValue(String paramName, String value) {
+	public CheckBoxSI updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
 		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
 		return this;
 	}

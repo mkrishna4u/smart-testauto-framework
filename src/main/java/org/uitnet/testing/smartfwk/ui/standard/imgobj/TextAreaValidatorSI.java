@@ -27,8 +27,8 @@ import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
@@ -44,8 +44,8 @@ import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
 public class TextAreaValidatorSI extends TextAreaValidator {
 	protected TextAreaSI textAreaObj;
 
-	public TextAreaValidatorSI(WebBrowser browser, TextAreaSI uiObject, Region region) {
-		super(browser, uiObject, region);
+	public TextAreaValidatorSI(SmartAppDriver appDriver, TextAreaSI uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.textAreaObj = uiObject;
 	}
 
@@ -190,7 +190,7 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 		Match match = findElement(numRetries);
 		try {
 			match.click();
-			switch(location) {
+			switch (location) {
 			case start:
 				match.type(Key.HOME);
 				break;
@@ -201,9 +201,9 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 				match.type("a", KeyModifier.CTRL);
 				break;
 			}
-			
+
 			match.type(text);
-			//validateTextValue(text, TextMatchMechanism.containsExpectedValue, 0);
+			// validateTextValue(text, TextMatchMechanism.containsExpectedValue, 0);
 		} catch (Throwable th) {
 			Assert.fail("Fail to type text '" + text + "' in TextArea '" + textAreaObj.getDisplayName() + "'.");
 		}
@@ -220,8 +220,8 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 		Match match = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				Region region = textAreaObj.getLocation().getRegionOfImageObject(browser, textAreaObj.getLeftSideImage(),
-						textAreaObj.getRightSideImage());
+				Region region = textAreaObj.getLocation().getRegionOfImageObject(appDriver,
+						textAreaObj.getLeftSideImage(), textAreaObj.getRightSideImage());
 				Assert.assertNotNull(region, "Failed to find TextArea '" + textAreaObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -232,7 +232,7 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return match;
 	}
@@ -257,7 +257,7 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
 		try {
 			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
 
 			Assert.assertNotNull(sourceElem, "Failed to find TextArea '" + textAreaObj.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
@@ -306,9 +306,9 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 			return match.getText();
 		} else {
 			match.click();
-			
+
 			ClipboardUtil.clearContents();
-			
+
 			match.type("ac", KeyModifier.CTRL);
 
 			String contents = ClipboardUtil.getContents();
@@ -338,13 +338,13 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 	@Deprecated
 	public void validateReadonly(int numRetries) {
 		Assert.fail("isDisabled() API is not supported by TextArea component.");
-		
+
 	}
 
 	@Override
 	@Deprecated
 	public void validateNotReadonly(int numRetries) {
 		Assert.fail("isDisabled() API is not supported by TextArea component.");
-		
+
 	}
 }

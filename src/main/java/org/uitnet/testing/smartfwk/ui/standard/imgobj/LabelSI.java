@@ -19,8 +19,9 @@ package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.label.Label;
 
@@ -48,8 +49,8 @@ public class LabelSI extends Label {
 	}
 
 	@Override
-	public LabelValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new LabelValidatorSI(browser, this, region);
+	public LabelValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
+		return new LabelValidatorSI(appDriver, this, region);
 	}
 
 	@Override
@@ -58,7 +59,7 @@ public class LabelSI extends Label {
 	}
 
 	@Override
-	public LabelSI updateLocatorParameterWithValue(String paramName, String value) {
+	public LabelSI updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
 		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
 		return this;
 	}

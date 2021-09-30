@@ -19,8 +19,9 @@ package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.button.Button;
 
@@ -38,7 +39,7 @@ public class ButtonSI extends Button {
 		this.buttonImg = buttonImg;
 		this.buttonImgLocation = buttonImgLocation;
 	}
-	
+
 	public String getButtonImage() {
 		return buttonImg;
 	}
@@ -48,8 +49,8 @@ public class ButtonSI extends Button {
 	}
 
 	@Override
-	public ButtonValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new ButtonValidatorSI(browser, this, region);
+	public ButtonValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
+		return new ButtonValidatorSI(appDriver, this, region);
 	}
 
 	@Override
@@ -58,8 +59,8 @@ public class ButtonSI extends Button {
 	}
 
 	@Override
-	public ButtonSI updateLocatorParameterWithValue(String paramName, String value) {
-		Assert.fail("updateLocatorParameterWithValue() API is not implemented."); 
+	public ButtonSI updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
+		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
 		return this;
 	}
 

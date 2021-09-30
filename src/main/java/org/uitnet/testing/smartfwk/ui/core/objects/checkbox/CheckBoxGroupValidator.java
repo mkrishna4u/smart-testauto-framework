@@ -18,8 +18,8 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.checkbox;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 
 /**
@@ -30,8 +30,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 public abstract class CheckBoxGroupValidator extends UIObjectValidator {
 	private CheckBoxGroup checkBoxGroup;
 
-	public CheckBoxGroupValidator(WebBrowser browser, CheckBoxGroup uiObject, Region region) {
-		super(browser, uiObject, region);
+	public CheckBoxGroupValidator(SmartAppDriver appDriver, CheckBoxGroup uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.checkBoxGroup = uiObject;
 	}
 

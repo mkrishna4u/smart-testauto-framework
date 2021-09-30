@@ -29,31 +29,33 @@ public class KeyboardEvent extends InputEvent<KeyboardEventName> {
 	protected Keys key;
 	protected String inputTextBeforeKeyAction;
 	protected NewTextLocation textLocation;
-	
-	public KeyboardEvent(KeyboardEventName name, Keys key, String inputTextBeforeKeyAction, NewTextLocation textLocation) {
+
+	public KeyboardEvent(KeyboardEventName name, Keys key, String inputTextBeforeKeyAction,
+			NewTextLocation textLocation) {
 		this.type = InputEventType.keyBoard;
 		this.name = name;
 		this.key = key;
 		this.inputTextBeforeKeyAction = inputTextBeforeKeyAction;
 		this.textLocation = textLocation;
 	}
-	
-	/**	
+
+	/**
 	 * @return the keyboard key.
 	 */
 	public Keys getKey() {
 		return key;
 	}
-	
+
 	/**
 	 * @return the input text that is associated with the key.
 	 */
 	public String getInputText() {
 		return inputTextBeforeKeyAction;
 	}
-	
+
 	/**
 	 * Location where to type the text.
+	 * 
 	 * @return
 	 */
 	public NewTextLocation getTextLocation() {

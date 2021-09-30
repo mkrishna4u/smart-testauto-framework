@@ -54,19 +54,19 @@ public abstract class AbstractApiTestHelper {
 	public AbstractApiTestHelper(String appName) {
 		this.appName = appName;
 		testConfigManager = TestConfigManager.getInstance();
-		
+
 	}
-	
+
 	protected void setBaseURL(String baseUrlKey) {
 		baseURL = testConfigManager.getAppConfig(appName).getApiConfig().getPropertyValue(baseUrlKey);
 	}
-	
+
 	public void setActiveProfileName(String profileName) {
 		if (activeProfileName == null || "".equals(activeProfileName)) {
 			session = login(testConfigManager.getAppConfig(appName).getApiConfig(),
 					testConfigManager.getUserProfile(appName, profileName));
 			activeProfileName = profileName;
-			
+
 		} else if (!activeProfileName.equals(profileName)) {
 			logout();
 			session = login(testConfigManager.getAppConfig(appName).getApiConfig(),
@@ -240,7 +240,7 @@ public abstract class AbstractApiTestHelper {
 			}
 		}
 
-		if (request.getResponseContentType() == null  || "".equals(request.getResponseContentType().trim())) {
+		if (request.getResponseContentType() == null || "".equals(request.getResponseContentType().trim())) {
 			requestBuilder.removeHeader("Accept");
 		} else {
 			requestBuilder.addHeader("Accept", request.getResponseContentType());
@@ -294,7 +294,7 @@ public abstract class AbstractApiTestHelper {
 			}
 		}
 
-		if (request.getResponseContentType() == null  || "".equals(request.getResponseContentType().trim())) {
+		if (request.getResponseContentType() == null || "".equals(request.getResponseContentType().trim())) {
 			requestBuilder.removeHeader("Accept");
 		} else {
 			requestBuilder.addHeader("Accept", request.getResponseContentType());

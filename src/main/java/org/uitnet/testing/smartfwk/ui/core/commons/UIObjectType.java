@@ -23,12 +23,11 @@ package org.uitnet.testing.smartfwk.ui.core.commons;
  *
  */
 public enum UIObjectType {
-	accordion, button, checkBox, checkBoxGroup, comboBox, listBox, choices,
-	 dateItem, dateTimeItem, timeItem, horizontalScrollBar, hyperlink, image, label, table, locator, menuItem, 
-	radioButton, radioButtonGroup, section, tabSheet, tab, textArea, textBox, textBoxWithSearchIcon, 
-	toolStrip, verticalScrollBar, webPageTitle, webPage, webURL, 
-	leftSideImageOfRectangle, rightSideImageOfRectangle, headerColumn,
-	
-	projectSpecific // Used only for project specific component, no handling will be there in core framework.
-}
+	accordion, button, checkBox, checkBoxGroup, comboBox, listBox, choices, dateItem, dateTimeItem, timeItem,
+	horizontalScrollBar, hyperlink, image, label, table, locator, menuItem, radioButton, radioButtonGroup, section,
+	tabSheet, tab, textArea, textBox, textBoxWithSearchIcon, toolStrip, verticalScrollBar, webPageTitle, webPage,
+	webURL, leftSideImageOfRectangle, rightSideImageOfRectangle, headerColumn,
 
+	projectSpecific // Used only for project specific component, no handling will be there in core
+					// framework.
+}

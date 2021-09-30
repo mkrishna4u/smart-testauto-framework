@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.tab;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 
 /**
@@ -29,8 +29,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 public abstract class TabValidator extends UIObjectValidator {
 	private Tab tab;
 
-	public TabValidator(WebBrowser browser, Tab uiObject, Region region) {
-		super(browser, uiObject, region);
+	public TabValidator(SmartAppDriver appDriver, Tab uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.tab = uiObject;
 	}
 

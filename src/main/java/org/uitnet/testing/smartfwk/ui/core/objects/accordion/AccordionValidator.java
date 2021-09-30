@@ -18,8 +18,8 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.accordion;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.Sections;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 
 /**
@@ -30,8 +30,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 public abstract class AccordionValidator extends UIObjectValidator {
 	private Accordion accordion;
 
-	public AccordionValidator(WebBrowser browser, Accordion uiObject, Region region) {
-		super(browser, uiObject, region);
+	public AccordionValidator(SmartAppDriver appDriver, Accordion uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.accordion = uiObject;
 	}
 

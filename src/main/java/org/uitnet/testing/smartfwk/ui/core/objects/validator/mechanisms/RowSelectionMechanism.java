@@ -32,24 +32,20 @@ public class RowSelectionMechanism {
 
 	/**
 	 * 
-	 * @param mechanism
-	 *            Mechanism used to select the row in a grid or combobox.
+	 * @param mechanism Mechanism used to select the row in a grid or combobox.
 	 */
 	public RowSelectionMechanism(SelectionMechanism mechanism) {
 		this.selectionMechanism = mechanism;
 		this.columnIndex = 0;
 	}
-	
+
 	/**
 	 * 
-	 * @param mechanism
-	 *            Mechanism used to select the row in a grid or combobox.
-	 * @param columnIndex
-	 *            Column index at which the selection mechanism will get
-	 *            applied.
+	 * @param mechanism   Mechanism used to select the row in a grid or combobox.
+	 * @param columnIndex Column index at which the selection mechanism will get
+	 *                    applied.
 	 */
-	public RowSelectionMechanism(SelectionMechanism mechanism,
-			Integer columnIndex) {
+	public RowSelectionMechanism(SelectionMechanism mechanism, Integer columnIndex) {
 		this.selectionMechanism = mechanism;
 		this.columnIndex = columnIndex;
 	}

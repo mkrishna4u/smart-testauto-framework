@@ -23,13 +23,14 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.sikuli.script.Region;
 import org.testng.Assert;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.label.LabelValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
+import org.uitnet.testing.smartfwk.ui.core.utils.WebAttrMapUtil;
 
 /**
  * 
@@ -39,10 +40,10 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
 public class WebPageTitleValidatorSD extends LabelValidator {
 	protected DOMObjectValidator domObjValidator;
 
-	public WebPageTitleValidatorSD(WebBrowser browser, WebPageTitleSD uiObject, Region region) {
-		super(browser, uiObject, region);
-		domObjValidator = new DOMObjectValidator(browser,
-				new DOMObject(uiObject.getDisplayName(), uiObject.getLocatorXPath()), region);
+	public WebPageTitleValidatorSD(SmartAppDriver appDriver, WebPageTitleSD uiObject, Region region) {
+		super(appDriver, uiObject, region);
+		domObjValidator = new DOMObjectValidator(appDriver,
+				new DOMObject(uiObject.getType(), uiObject.getDisplayName(), uiObject.getPlatformLocators()), region);
 	}
 
 	public DOMObjectValidator getDOMObjectValidator() {
@@ -113,26 +114,27 @@ public class WebPageTitleValidatorSD extends LabelValidator {
 	@Override
 	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement webElem = domObjValidator.findElement(0);
 					String actualValue = "";
-					if("input".equalsIgnoreCase(webElem.getTagName())) {
-						actualValue = webElem.getAttribute("value");
+					if ("input".equalsIgnoreCase(webElem.getTagName())) {
+						actualValue = WebAttrMapUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), 0);
 					} else {
-						actualValue = webElem.getText();
+						actualValue = WebAttrMapUtil.getElementText(appDriver, domObjValidator.getUIObject(), 0);
 					}
 					validateTextValue(actualValue, expectedValue, validationMechanism);
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
-			Assert.fail("Failed to validate expected value '" + expectedValue + "' for element '" + uiObject.getDisplayName() + "'.", th);
+		} catch (Throwable th) {
+			Assert.fail("Failed to validate expected value '" + expectedValue + "' for element '"
+					+ uiObject.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -140,10 +142,10 @@ public class WebPageTitleValidatorSD extends LabelValidator {
 	public String getValue(int numRetries) {
 		WebElement webElem = domObjValidator.findElement(numRetries);
 		String value = "";
-		if("input".equalsIgnoreCase(webElem.getTagName())) {
-			value = webElem.getAttribute("value");
+		if ("input".equalsIgnoreCase(webElem.getTagName())) {
+			value = WebAttrMapUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), 0);
 		} else {
-			value = webElem.getText();
+			value = WebAttrMapUtil.getElementText(appDriver, domObjValidator.getUIObject(), 0);
 		}
 		return value;
 	}

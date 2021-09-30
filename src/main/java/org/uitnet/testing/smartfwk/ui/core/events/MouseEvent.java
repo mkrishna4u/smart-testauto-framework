@@ -23,7 +23,7 @@ package org.uitnet.testing.smartfwk.ui.core.events;
  *
  */
 public class MouseEvent extends InputEvent<MouseEventName> {
-	
+
 	public MouseEvent(MouseEventName name) {
 		this.type = InputEventType.mouse;
 		this.name = name;

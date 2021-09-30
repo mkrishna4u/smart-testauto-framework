@@ -21,7 +21,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 
 /**
  * 
@@ -30,55 +30,62 @@ import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
  */
 public class PageScrollUtil {
 
-	public static void scrollToTopLeft(WebBrowser browser) {
-		JavascriptExecutor jse = (JavascriptExecutor) browser.getSeleniumWebDriver();
+	public static void scrollToTopLeft(SmartAppDriver appDriver) {
+		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(0, 0);");
 	}
-	
-	public static void scrollToTopRight(WebBrowser browser) {
-		JavascriptExecutor jse = (JavascriptExecutor) browser.getSeleniumWebDriver();
+
+	public static void scrollToTopRight(SmartAppDriver appDriver) {
+		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(window.innerWidth, 0);");
 	}
-	
-	public static void scrollToBottomLeft(WebBrowser browser) {
-		JavascriptExecutor jse = (JavascriptExecutor) browser.getSeleniumWebDriver();
+
+	public static void scrollToBottomLeft(SmartAppDriver appDriver) {
+		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(0, window.innerHeight);");
 	}
-	
-	public static void scrollToBottomRight(WebBrowser browser) {
-		JavascriptExecutor jse = (JavascriptExecutor) browser.getSeleniumWebDriver();
+
+	public static void scrollToBottomRight(SmartAppDriver appDriver) {
+		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(window.innerWidth, window.innerHeight);");
 	}
-	
-	public static void scrollElemToViewport(WebBrowser browser, WebElement element) {
-		if(element == null) { return; }
-		Rectangle rect = element.getRect();
-		JavascriptExecutor jse = (JavascriptExecutor) browser.getSeleniumWebDriver();
-		jse.executeScript("window.scrollTo(" + rect.getX() + ", " + rect.getY() + ");");
+
+	public static void scrollElemToViewport(SmartAppDriver appDriver, WebElement element) {
+		if (element == null) {
+			return;
+		}
+		
+		try {
+			Rectangle rect = element.getRect();
+			JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
+			jse.executeScript("window.scrollTo(" + rect.getX() + ", " + rect.getY() + ");");
+		} catch(Exception | Error ex) {
+			// Do nothing
+		}
 	}
-	
-	public static void scrollToViewportAndClick(WebBrowser browser, WebElement element) {
-		Actions action = new Actions(browser.getSeleniumWebDriver());
+
+	public static void scrollToViewportAndClick(SmartAppDriver appDriver, WebElement element) {
+		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(element).click().perform();
 	}
-	
-	public static void scrollToViewportAndDoubleClick(WebBrowser browser, WebElement element) {
-		Actions action = new Actions(browser.getSeleniumWebDriver());
+
+	public static void scrollToViewportAndDoubleClick(SmartAppDriver appDriver, WebElement element) {
+		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(element).doubleClick().perform();
 	}
-	
-	public static void scrollToViewportAndClickAndHold(WebBrowser browser, WebElement element) {
-		Actions action = new Actions(browser.getSeleniumWebDriver());
+
+	public static void scrollToViewportAndClickAndHold(SmartAppDriver appDriver, WebElement element) {
+		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(element).clickAndHold().perform();
 	}
-	
-	public static void scrollToViewportAndRelease(WebBrowser browser, WebElement element) {
-		Actions action = new Actions(browser.getSeleniumWebDriver());
+
+	public static void scrollToViewportAndRelease(SmartAppDriver appDriver, WebElement element) {
+		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(element).release().perform();
 	}
-	
-	public static void scrollToViewportAndDragAndDrop(WebBrowser browser, WebElement source, WebElement target) {
-		Actions action = new Actions(browser.getSeleniumWebDriver());
+
+	public static void scrollToViewportAndDragAndDrop(SmartAppDriver appDriver, WebElement source, WebElement target) {
+		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(source).dragAndDrop(source, target).perform();
 	}
 }

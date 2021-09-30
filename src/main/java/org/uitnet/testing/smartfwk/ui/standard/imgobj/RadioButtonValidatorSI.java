@@ -25,9 +25,9 @@ import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonValidator;
@@ -41,8 +41,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 public class RadioButtonValidatorSI extends RadioButtonValidator {
 	protected RadioButtonSI rbObject;
 
-	public RadioButtonValidatorSI(WebBrowser browser, RadioButtonSI uiObject, Region region) {
-		super(browser, uiObject, region);
+	public RadioButtonValidatorSI(SmartAppDriver appDriver, RadioButtonSI uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.rbObject = uiObject;
 	}
 
@@ -189,7 +189,7 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 		Match match = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				Region region = rbObject.getRadioButtonImageLocation().getRegionOfImageObject(browser,
+				Region region = rbObject.getRadioButtonImageLocation().getRegionOfImageObject(appDriver,
 						rbObject.getRadioButtonImage());
 				Assert.assertNotNull(region, "Failed to find RadioButton '" + rbObject.getDisplayName() + "'.");
 				match = new Match(region, 1);
@@ -201,7 +201,7 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return match;
 	}
@@ -219,16 +219,16 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 
 	@Override
 	public List<Match> findElements(int numRetries) {
-		Region r = rbObject.getRadioButtonImageLocation().getRegion(browser);
+		Region r = rbObject.getRadioButtonImageLocation().getRegion(appDriver);
 
 		return new ImageObject(UIObjectType.radioButton, rbObject.getDisplayName(), rbObject.getRadioButtonImage())
-				.getValidator(browser, r).findElements(numRetries);
+				.getValidator(appDriver, r).findElements(numRetries);
 	}
 
 	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
 		try {
 			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
 
 			Assert.assertNotNull(sourceElem, "Failed to find RadioButton '" + rbObject.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");

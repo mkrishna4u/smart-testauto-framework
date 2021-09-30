@@ -27,11 +27,11 @@ public class MultipartData {
 	public String contentType;
 	public String fileName;
 	public String filePath;
-	
+
 	public MultipartData() {
 		contentType = "application/octet-stream";
 	}
-	
+
 	public MultipartData(String name, String fileName, String contentType, String filePath) {
 		this.name = name;
 		this.fileName = fileName;

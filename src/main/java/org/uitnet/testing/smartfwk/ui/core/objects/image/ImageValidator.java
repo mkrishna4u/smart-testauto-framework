@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.image;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 
 /**
@@ -29,8 +29,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 public abstract class ImageValidator extends UIObjectValidator {
 	private Image image;
 
-	public ImageValidator(WebBrowser browser, Image uiObject, Region region) {
-		super(browser, uiObject, region);
+	public ImageValidator(SmartAppDriver appDriver, Image uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.image = uiObject;
 	}
 

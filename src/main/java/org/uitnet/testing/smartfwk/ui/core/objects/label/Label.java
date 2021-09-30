@@ -18,9 +18,9 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.label;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 
 /**
@@ -33,5 +33,5 @@ public abstract class Label extends UIObject {
 		super(locatorType, UIObjectType.label, displayName);
 	}
 
-	public abstract LabelValidator getValidator(WebBrowser browser, Region region);
+	public abstract LabelValidator getValidator(SmartAppDriver appDriver, Region region);
 }

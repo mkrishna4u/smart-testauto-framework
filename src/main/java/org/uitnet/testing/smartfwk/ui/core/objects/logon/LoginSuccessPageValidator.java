@@ -21,8 +21,8 @@ import java.awt.Rectangle;
 
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 
 /**
@@ -31,20 +31,21 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
  *
  */
 public abstract class LoginSuccessPageValidator {
-	protected WebBrowser browser;
+	protected SmartAppDriver appDriver;
 	protected UIObject uiObject;
 	protected Region region;
-	
+
 	public LoginSuccessPageValidator(UIObject locator, Region region) {
 		this.uiObject = locator;
-		if (browser != null) {
-			this.region = (region == null) ? new Region(
-					new Rectangle(0, 0, new Double(browser.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
-							new Double(browser.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
+		if (appDriver != null) {
+			this.region = (region == null)
+					? new Region(new Rectangle(0, 0,
+							new Double(appDriver.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
+							new Double(appDriver.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
 					: region;
 		}
 	}
-	
+
 	public UIObject getUIObject() {
 		return uiObject;
 	}
@@ -58,22 +59,22 @@ public abstract class LoginSuccessPageValidator {
 	}
 
 	public void validate(String activeUserProfileName) {
-		Assert.assertNotNull(browser, "WebBrowser instance is null. Please set before using this API.");
+		Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
 		validateInfo(activeUserProfileName);
 	}
 
 	public void logout(String activeUserProfileName) {
-		Assert.assertNotNull(browser, "WebBrowser instance is null. Please set before using this API.");
-		tryLogout(activeUserProfileName);		
+		Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
+		tryLogout(activeUserProfileName);
 	}
 
 	public boolean isLoginSuccessPageVisible(String activeUserProfileName) {
-		Assert.assertNotNull(browser, "WebBrowser instance is null. Please set before using this API.");
+		Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
 		return checkLoginSuccessPageVisible(activeUserProfileName);
 	}
 
-	public void setInitParams(WebBrowser browser) {
-		this.browser = browser;
+	public void setInitParams(SmartAppDriver appDriver) {
+		this.appDriver = appDriver;
 	}
 
 	protected abstract void tryLogout(String activeUserProfileName);

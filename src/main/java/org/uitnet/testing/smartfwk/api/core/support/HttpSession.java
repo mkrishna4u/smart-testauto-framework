@@ -28,24 +28,24 @@ import java.util.Map;
 public class HttpSession {
 	private Map<String, String> params;
 	private Map<String, String> cookies;
-	
+
 	public HttpSession() {
 		params = new LinkedHashMap<>();
 		cookies = new LinkedHashMap<>();
 	}
-	
+
 	public void addParam(String key, String value) {
 		this.params.put(key, value);
 	}
-	
+
 	public Map<String, String> getParams() {
 		return this.params;
 	}
-	
+
 	public void addCookie(String key, String value) {
 		this.cookies.put(key, value);
 	}
-	
+
 	public Map<String, String> getCookies() {
 		return this.cookies;
 	}

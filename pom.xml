@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uitnet.testing</groupId>
 	<artifactId>smart-testauto-framework</artifactId>
-	<version>1.1.0</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Smart Software Testing Automation Framework</name>
 	<description>Smart Software Testing Automation Framework is a tool used to automate the testing of software application. It includes the functionality i.e. Web UI Application Automation, Thick Client Automation, API Testing, Data Driven Testing etc.</description>
 	<url>https://github.com/mkrishna4u/smart-testauto-framework</url>
-	
+
 	<developers>
 		<developer>
 			<id>1</id>
@@ -20,14 +20,14 @@
 			<organizationUrl>http://uitnet.org</organizationUrl>
 		</developer>
 	</developers>
-	
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
 			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
 		</license>
 	</licenses>
-	
+
 	<scm>
 		<connection>scm:git:git://github.com/mkrishna4u/smart-testauto-framework.git</connection>
 		<developerConnection>scm:git:git://github.com/mkrishna4u/smart-testauto-framework.git</developerConnection>
@@ -36,7 +36,8 @@
 
 	<properties>
 		<testng.version>7.4.0</testng.version>
-		<selenium.version>4.0.0-beta-4</selenium.version>
+		<selenium.version>4.0.0-rc-1</selenium.version>
+		<appium-client.version>7.5.1</appium-client.version>
 		<cucumber.version>6.11.0</cucumber.version>
 		<sikulix.version>2.0.5</sikulix.version>
 		<slf4j.version>1.7.30</slf4j.version>
@@ -157,6 +158,11 @@
 			<version>${selenium.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>io.appium</groupId>
+			<artifactId>java-client</artifactId>
+			<version>${appium-client.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
@@ -215,7 +221,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>${maven-javadoc-plugin.version}</version>
@@ -246,7 +252,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 		</plugins>
 
 	</build>

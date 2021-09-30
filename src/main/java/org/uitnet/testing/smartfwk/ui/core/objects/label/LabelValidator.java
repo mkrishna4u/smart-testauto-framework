@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.label;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
@@ -30,8 +30,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
 public abstract class LabelValidator extends UIObjectValidator {
 	private Label label;
 
-	public LabelValidator(WebBrowser browser, Label uiObject, Region region) {
-		super(browser, uiObject, region);
+	public LabelValidator(SmartAppDriver appDriver, Label uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.label = uiObject;
 	}
 
@@ -40,8 +40,7 @@ public abstract class LabelValidator extends UIObjectValidator {
 		return this.label;
 	}
 
-	public abstract void validateValue(String expectedValue, TextMatchMechanism validationMechanism,
-			int numRetries);
+	public abstract void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int numRetries);
 
 	public abstract String getValue(int numRetries);
 }

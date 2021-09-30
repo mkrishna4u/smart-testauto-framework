@@ -20,8 +20,8 @@ package org.uitnet.testing.smartfwk.ui.core.objects.combobox;
 import java.util.List;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
@@ -33,8 +33,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
 public abstract class ComboBoxValidator extends UIObjectValidator {
 	private ComboBox comboBox;
 
-	public ComboBoxValidator(WebBrowser browser, ComboBox uiObject, Region region) {
-		super(browser, uiObject, region);
+	public ComboBoxValidator(SmartAppDriver appDriver, ComboBox uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.comboBox = uiObject;
 	}
 
@@ -44,7 +44,7 @@ public abstract class ComboBoxValidator extends UIObjectValidator {
 	}
 
 	public abstract boolean isDisabled(int numRetries);
-	
+
 	public abstract void validateDisabled(int numRetries);
 
 	public abstract void validateEnabled(int numRetries);
@@ -53,7 +53,7 @@ public abstract class ComboBoxValidator extends UIObjectValidator {
 			int numRetries);
 
 	public abstract String getSelectedItem(int numRetries);
-	
+
 	public abstract List<String> getSelectedItems(int numRetries);
 
 	public abstract void selectFirstItem(int numRetries);

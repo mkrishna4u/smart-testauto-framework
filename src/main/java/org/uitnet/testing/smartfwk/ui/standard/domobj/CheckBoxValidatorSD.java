@@ -23,7 +23,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.sikuli.script.Region;
 import org.testng.Assert;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
@@ -38,12 +38,12 @@ import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 public class CheckBoxValidatorSD extends CheckBoxValidator {
 	protected DOMObjectValidator domObjValidator;
 
-	public CheckBoxValidatorSD(WebBrowser browser, CheckBoxSD uiObject, Region region) {
-		super(browser, uiObject, region);
-		domObjValidator = new DOMObjectValidator(browser,
-				new DOMObject(uiObject.getDisplayName(), uiObject.getLocatorXPath()), region);
+	public CheckBoxValidatorSD(SmartAppDriver appDriver, CheckBoxSD uiObject, Region region) {
+		super(appDriver, uiObject, region);
+		domObjValidator = new DOMObjectValidator(appDriver,
+				new DOMObject(uiObject.getType(), uiObject.getDisplayName(), uiObject.getPlatformLocators()), region);
 	}
-	
+
 	public DOMObjectValidator getDOMObjectValidator() {
 		return domObjValidator;
 	}
@@ -117,18 +117,19 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	@Override
 	public void validateCheckBoxChecked(int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
-					Assert.assertTrue(isCheckBoxChecked(0), "Checkbox '" + uiObject.getDisplayName() + "' is not checked.");
+					Assert.assertTrue(isCheckBoxChecked(0),
+							"Checkbox '" + uiObject.getDisplayName() + "' is not checked.");
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to validate checkbox checked for element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
@@ -136,18 +137,19 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	@Override
 	public void validateCheckBoxUnchecked(int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
-					Assert.assertFalse(isCheckBoxChecked(0), "Checkbox '" + uiObject.getDisplayName() + "' is checked.");
+					Assert.assertFalse(isCheckBoxChecked(0),
+							"Checkbox '" + uiObject.getDisplayName() + "' is checked.");
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to validate checkbox unchecked for element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
@@ -155,10 +157,10 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	@Override
 	public void checkAndValidateChecked(int numRetries) {
 		domObjValidator.click(numRetries);
-				
+
 		try {
 			validateCheckBoxChecked(numRetries);
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to check the Checkbox '" + uiObject.getDisplayName() + "'.");
 		}
 	}
@@ -166,16 +168,16 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	@Override
 	public void uncheckAndValidateUnchecked(int numRetries) {
 		domObjValidator.click(numRetries);
-		
+
 		try {
 			validateCheckBoxUnchecked(numRetries);
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to uncheck the Checkbox '" + uiObject.getDisplayName() + "'.");
 		}
 	}
-	
+
 	@Override
-	public WebElement findElement(int numRetries) {		
+	public WebElement findElement(int numRetries) {
 		return domObjValidator.findElement(numRetries);
 	}
 
@@ -188,21 +190,21 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	public List<WebElement> findElements(int numRetries) {
 		return domObjValidator.findElements(numRetries);
 	}
-	
+
 	@Override
 	public boolean isDisabled(int numRetries) {
 		return domObjValidator.isDisabled(numRetries);
 	}
-	
+
 	@Override
 	public void validateDisabled(int numRetries) {
 		Assert.assertTrue(domObjValidator.isDisabled(numRetries),
-				"'" + uiObject.getDisplayName() + "' element is not disabled.");		
+				"'" + uiObject.getDisplayName() + "' element is not disabled.");
 	}
 
 	@Override
 	public void validateEnabled(int numRetries) {
 		Assert.assertFalse(domObjValidator.isDisabled(numRetries),
-				"'" + uiObject.getDisplayName() + "' element is not enabled.");	
+				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 	}
 }

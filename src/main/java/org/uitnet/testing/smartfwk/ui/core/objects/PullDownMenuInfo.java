@@ -26,11 +26,11 @@ public class PullDownMenuInfo {
 	protected int width;
 	protected int height;
 	protected PullDownMenuLocation location;
-	
+
 	/**
 	 * 
-	 * @param width in pixel. value < 1 indicate calculate automatically.
-	 * @param height in pixel. value < 1 indicate calculate automatically.
+	 * @param width    in pixel. value < 1 indicate calculate automatically.
+	 * @param height   in pixel. value < 1 indicate calculate automatically.
 	 * @param location
 	 */
 	public PullDownMenuInfo(int width, int height, PullDownMenuLocation location) {

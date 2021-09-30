@@ -43,8 +43,8 @@ public class VerticalScrollbar {
 
 	public VerticalScrollbar(String thumbGripTopPartImage, String thumbGripTopPartImageFocused,
 			String thumbGripBottomPartImage, String thumbGripBottomPartImageFocused, String topScrollImageEnabled,
-			String topScrollImageEnabledFocused, String bottomScrollImageEnabled, String bottomScrollImageEnabledFocused,
-			String topScrollImageDisabled, String bottomScrollImageDisabled) {
+			String topScrollImageEnabledFocused, String bottomScrollImageEnabled,
+			String bottomScrollImageEnabledFocused, String topScrollImageDisabled, String bottomScrollImageDisabled) {
 		this.thumbGripTopPartImage = thumbGripTopPartImage;
 		this.thumbGripTopPartImageFocused = thumbGripTopPartImageFocused;
 		this.thumbGripBottomPartImage = thumbGripBottomPartImage;
@@ -283,8 +283,8 @@ public class VerticalScrollbar {
 	}
 
 	/**
-	 * Clicks top scroll image n times and returns true if topThumbGrip is
-	 * scrolled to extreme top else returns false.
+	 * Clicks top scroll image n times and returns true if topThumbGrip is scrolled
+	 * to extreme top else returns false.
 	 * 
 	 * @param region
 	 * @param times
@@ -333,7 +333,7 @@ public class VerticalScrollbar {
 			Match thumbGripTopPartImageFound = findThumbGripTopPartImage(region);
 			Match topScrollImageEnabledFound = findTopScrollImage(region);
 			if (thumbGripTopPartImageFound != null && topScrollImageEnabledFound != null) {
-				thumbGripTopPartImageFound.drag(thumbGripTopPartImageFound);				
+				thumbGripTopPartImageFound.drag(thumbGripTopPartImageFound);
 				thumbGripTopPartImageFound.dropAt(topScrollImageEnabledFound);
 				System.out.println("AA");
 			} else if (topScrollImageEnabledFound != null) {

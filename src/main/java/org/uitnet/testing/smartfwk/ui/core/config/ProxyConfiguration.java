@@ -28,30 +28,30 @@ import org.testng.Assert;
  */
 public class ProxyConfiguration {
 	private ProxyConfigurationType proxyConfigType;
-		
+
 	private String httpProxyHostname;
 	private String httpProxyPort;
-	
+
 	private String sslProxyHostname;
 	private String sslProxyPort;
-	
+
 	private String ftpProxyHostname;
 	private String ftpProxyPort;
-	
+
 	private String socksHostname;
 	private String socksPort;
 	private String socksVersion;
-	
+
 	private String socksUsername;
 	private String socksPassword;
-	
+
 	private String noProxyFor;
-	
+
 	public ProxyConfiguration(String appName, Properties properties) {
 		proxyConfigType = ProxyConfigurationType.NO_PROXY;
 		initProxyConfig(appName, properties);
 	}
-	
+
 	private void initProxyConfig(String appName, Properties properties) {
 		String propValue = properties.getProperty("PROXY_CONFIGURATION");
 		if (propValue == null || "".equals(propValue.trim())) {
@@ -62,73 +62,73 @@ public class ProxyConfiguration {
 			propValue = propValue.trim();
 			proxyConfigType = ProxyConfigurationType.valueOf(propValue);
 		}
-		
+
 		httpProxyHostname = properties.getProperty("HTTP_PROXY_HOSTNAME");
-		if (httpProxyHostname == null || "".equals(httpProxyHostname.trim())) {			
+		if (httpProxyHostname == null || "".equals(httpProxyHostname.trim())) {
 		} else {
 			httpProxyHostname = httpProxyHostname.trim();
 		}
-		
+
 		httpProxyPort = properties.getProperty("HTTP_PROXY_PORT");
 		if (httpProxyPort == null || "".equals(httpProxyPort.trim())) {
 		} else {
 			httpProxyPort = httpProxyPort.trim();
 		}
-		
+
 		sslProxyHostname = properties.getProperty("SSL_PROXY_HOSTNAME");
 		if (sslProxyHostname == null || "".equals(sslProxyHostname.trim())) {
 		} else {
 			sslProxyHostname = sslProxyHostname.trim();
 		}
-		
+
 		sslProxyPort = properties.getProperty("SSL_PROXY_PORT");
 		if (sslProxyPort == null || "".equals(sslProxyPort.trim())) {
 		} else {
 			sslProxyPort = sslProxyPort.trim();
 		}
-		
+
 		ftpProxyHostname = properties.getProperty("FTP_PROXY_HOSTNAME");
 		if (ftpProxyHostname == null || "".equals(ftpProxyHostname.trim())) {
 		} else {
 			ftpProxyHostname = ftpProxyHostname.trim();
 		}
-		
+
 		ftpProxyPort = properties.getProperty("FTP_PROXY_PORT");
 		if (ftpProxyPort == null || "".equals(ftpProxyPort.trim())) {
 		} else {
 			ftpProxyPort = ftpProxyPort.trim();
 		}
-		
+
 		socksHostname = properties.getProperty("SOCKS_HOSTNAME");
 		if (socksHostname == null || "".equals(socksHostname.trim())) {
 		} else {
 			socksHostname = socksHostname.trim();
 		}
-		
+
 		socksPort = properties.getProperty("SOCKS_PORT");
 		if (socksPort == null || "".equals(socksPort.trim())) {
 		} else {
 			socksPort = socksPort.trim();
 		}
-		
+
 		socksVersion = properties.getProperty("SOCKS_VERSION");
 		if (socksVersion == null || "".equals(socksVersion.trim())) {
 		} else {
 			socksVersion = socksVersion.trim();
 		}
-		
+
 		socksUsername = properties.getProperty("SOCKS_USERNAME");
 		if (socksUsername == null || "".equals(socksUsername.trim())) {
 		} else {
 			socksUsername = socksUsername.trim();
 		}
-		
+
 		socksPassword = properties.getProperty("SOCKS_PASSWORD");
 		if (socksPassword == null || "".equals(socksPassword.trim())) {
 		} else {
 			socksPassword = socksPassword.trim();
 		}
-		
+
 		noProxyFor = properties.getProperty("NO_PROXY_FOR");
 		if (noProxyFor == null || "".equals(noProxyFor.trim())) {
 		} else {
@@ -187,5 +187,5 @@ public class ProxyConfiguration {
 	public String getNoProxyFor() {
 		return noProxyFor;
 	}
-	
+
 }

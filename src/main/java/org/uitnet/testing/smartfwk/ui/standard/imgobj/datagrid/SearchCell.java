@@ -30,8 +30,7 @@ public class SearchCell {
 	protected ValueType valueType;
 	protected TextMatchMechanism textValueValidationMechanism;
 
-	public SearchCell(HeaderColumnSI column, Object value,
-			ValueType valueType,
+	public SearchCell(HeaderColumnSI column, Object value, ValueType valueType,
 			TextMatchMechanism textValueValidationMechanism) {
 		this.column = column;
 		this.value = value;
@@ -67,16 +66,13 @@ public class SearchCell {
 		return textValueValidationMechanism;
 	}
 
-	public void setTextValueValidationMechanism(
-			TextMatchMechanism textValueValidationMechanism) {
+	public void setTextValueValidationMechanism(TextMatchMechanism textValueValidationMechanism) {
 		this.textValueValidationMechanism = textValueValidationMechanism;
 	}
 
 	@Override
 	public String toString() {
-		return "{Column=" + column.getDisplayName() + ", Value=" + value
-				+ ", ValueType=" + valueType.name()
-				+ ", TextValueValidationMechanism="
-				+ textValueValidationMechanism + "}";
+		return "{Column=" + column.getDisplayName() + ", Value=" + value + ", ValueType=" + valueType.name()
+				+ ", TextValueValidationMechanism=" + textValueValidationMechanism + "}";
 	}
 }

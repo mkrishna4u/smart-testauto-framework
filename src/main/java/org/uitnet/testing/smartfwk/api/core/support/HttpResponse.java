@@ -26,9 +26,9 @@ public class HttpResponse {
 	private int code;
 	private String message;
 	private String payload;
-	
+
 	public HttpResponse() {
-		
+
 	}
 
 	public int getCode() {

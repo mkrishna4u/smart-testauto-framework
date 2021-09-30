@@ -25,12 +25,12 @@ package org.uitnet.testing.smartfwk.ui.standard.imgobj.datagrid;
 public class RowLocation {
 	protected Integer y1;
 	protected Integer y2;
-	
+
 	public RowLocation(Integer y1, Integer y2) {
 		this.y1 = y1;
 		this.y2 = y2;
 	}
-	
+
 	public Integer getY1() {
 		return y1;
 	}
@@ -38,9 +38,9 @@ public class RowLocation {
 	public Integer getY2() {
 		return y2;
 	}
-	
+
 	public int getRowHeight() {
-		if(y1 != null && y2 != null) {
+		if (y1 != null && y2 != null) {
 			return (y2 - y1);
 		}
 		return 0;

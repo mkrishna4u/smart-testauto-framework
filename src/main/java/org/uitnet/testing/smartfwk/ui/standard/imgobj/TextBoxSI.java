@@ -18,8 +18,10 @@
 package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
 import org.sikuli.script.Region;
+import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.textbox.TextBox;
 
@@ -75,8 +77,8 @@ public class TextBoxSI extends TextBox {
 	}
 
 	@Override
-	public TextBoxValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new TextBoxValidatorSI(browser, this, region);
+	public TextBoxValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
+		return new TextBoxValidatorSI(appDriver, this, region);
 	}
 
 	@Override
@@ -85,8 +87,8 @@ public class TextBoxSI extends TextBox {
 	}
 
 	@Override
-	@Deprecated
-	public TextBoxSI updateLocatorParameterWithValue(String paramName, String value) {
+	public TextBoxSI updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
+		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
 		return this;
 	}
 

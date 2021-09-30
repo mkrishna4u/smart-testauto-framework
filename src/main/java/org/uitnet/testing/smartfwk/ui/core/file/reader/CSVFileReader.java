@@ -39,7 +39,7 @@ public class CSVFileReader {
 	public static Table getData(String filePath) {
 		return getData(filePath, ',', '"', true);
 	}
-	
+
 	public static Table getData(String filePath, char delimiter, char quoteChar, boolean trimCellData) {
 		Assert.assertNotNull(filePath, "CSV file name cannot be empty.");
 
@@ -47,28 +47,23 @@ public class CSVFileReader {
 		Table table = new Table(extractFileName(filePath));
 		List<String> row;
 		try (Reader fileReader = new FileReader(filePath)) {
-			Iterable<CSVRecord> records = CSVFormat.DEFAULT
-					.withAllowDuplicateHeaderNames(true)
-					.withQuote(quoteChar)
-					.withDelimiter(delimiter)
-					.withIgnoreEmptyLines(false)
-					.withIgnoreSurroundingSpaces()
+			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withAllowDuplicateHeaderNames(true).withQuote(quoteChar)
+					.withDelimiter(delimiter).withIgnoreEmptyLines(false).withIgnoreSurroundingSpaces()
 					.parse(fileReader);
 			int rowCounter = 0;
 			String colValue;
 			for (CSVRecord record : records) {
 				row = new ArrayList<>();
-				
-				if(record.size() == 1) {
-					if((table.getColumnNames().size() < 1 && "".equals(record.get(0).trim()))
+
+				if (record.size() == 1) {
+					if ((table.getColumnNames().size() < 1 && "".equals(record.get(0).trim()))
 							|| (table.getColumnNames().size() > 0)) {
 						rowCounter++;
 						continue;
-					}	
-					
-					
+					}
+
 				}
-				
+
 				for (int i = 0; i < record.size(); i++) {
 					colValue = record.get(i);
 					row.add(colValue);
@@ -76,15 +71,18 @@ public class CSVFileReader {
 
 				if (table.getColumnNames().size() == 0) {
 					List<String> dupCols = findDuplicates(row);
-					Assert.assertEquals(dupCols.size(), 0 , "Duplicate columns " + dupCols + " found in CSV file '" + filePath + "'. Please remove invalid one.");
+					Assert.assertEquals(dupCols.size(), 0, "Duplicate columns " + dupCols + " found in CSV file '"
+							+ filePath + "'. Please remove invalid one.");
 					int emptyColIndex = row.indexOf("");
-					Assert.assertFalse(emptyColIndex >= 0, "Empty column name found at column number " + (emptyColIndex + 1) 
-							+" in CSV file '" + filePath + "'. Please remove empty column name or give a valid name.");
+					Assert.assertFalse(emptyColIndex >= 0,
+							"Empty column name found at column number " + (emptyColIndex + 1) + " in CSV file '"
+									+ filePath + "'. Please remove empty column name or give a valid name.");
 					table.addColumnNames(row);
 				} else {
 					Assert.assertEquals(row.size(), table.getColumnNames().size(),
 							"Column count " + table.getColumnNames().size() + " and record column count " + row.size()
-									+ " does not match on row " + (rowCounter+1) + " within CSV file '" + filePath + "'.");
+									+ " does not match on row " + (rowCounter + 1) + " within CSV file '" + filePath
+									+ "'.");
 					table.addRow(row);
 				}
 
@@ -102,9 +100,10 @@ public class CSVFileReader {
 		String[] arr = new File(filePath).getName().split("[.]");
 		return arr[0].trim();
 	}
-	
+
 	private static List<String> findDuplicates(List<String> list) {
-		return list.stream().distinct().filter(entry -> Collections.frequency(list, entry) > 1).collect(Collectors.toList());
+		return list.stream().distinct().filter(entry -> Collections.frequency(list, entry) > 1)
+				.collect(Collectors.toList());
 	}
 
 //	public static void main(String[] args) {

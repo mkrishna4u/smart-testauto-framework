@@ -30,39 +30,39 @@ import java.util.List;
  */
 public class ItemList<T> {
 	private List<T> list;
-	
+
 	public ItemList() {
 		list = new LinkedList<T>();
 	}
-	
+
 	public ItemList(List<T> items) {
 		list = new ArrayList<T>();
 		list.addAll(items);
 	}
-	
+
 	public ItemList<T> add(T item) {
 		list.add(item);
 		return this;
 	}
-	
+
 	public ItemList<T> remove(T item) {
 		list.remove(item);
 		return this;
 	}
-	
+
 	public ItemList<T> removeAll(Collection<T> items) {
 		list.removeAll(items);
 		return this;
 	}
-	
+
 	public int size() {
 		return list.size();
 	}
-	
+
 	public List<T> getItems() {
 		return list;
 	}
-	
+
 	@Override
 	public String toString() {
 		return list.toString();

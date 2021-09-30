@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.link;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 
 /**
@@ -29,8 +29,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 public abstract class WebURLValidator extends UIObjectValidator {
 	private WebURL webURL;
 
-	public WebURLValidator(WebBrowser browser, WebURL uiObject, Region region) {
-		super(browser, uiObject, region);
+	public WebURLValidator(SmartAppDriver appDriver, WebURL uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.webURL = uiObject;
 	}
 

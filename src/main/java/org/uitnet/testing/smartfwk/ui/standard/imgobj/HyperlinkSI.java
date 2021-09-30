@@ -19,8 +19,9 @@ package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.link.Hyperlink;
 
@@ -48,8 +49,8 @@ public class HyperlinkSI extends Hyperlink {
 	}
 
 	@Override
-	public HyperlinkValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new HyperlinkValidatorSI(browser, this, region);
+	public HyperlinkValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
+		return new HyperlinkValidatorSI(appDriver, this, region);
 	}
 
 	@Override
@@ -58,7 +59,7 @@ public class HyperlinkSI extends Hyperlink {
 	}
 
 	@Override
-	public HyperlinkSI updateLocatorParameterWithValue(String paramName, String value) {
+	public HyperlinkSI updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
 		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
 		return this;
 	}

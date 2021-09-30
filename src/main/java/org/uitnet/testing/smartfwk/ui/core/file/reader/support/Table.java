@@ -183,9 +183,9 @@ public class Table {
 		boolean matched = false;
 		switch (op) {
 		case eq:
-			if(value1.equals("") && value2.equals("")) {
+			if (value1.equals("") && value2.equals("")) {
 				matched = true;
-			} else if(value1.equals("") || value2.equals("")) {
+			} else if (value1.equals("") || value2.equals("")) {
 				matched = false;
 			} else {
 				try {
@@ -196,9 +196,9 @@ public class Table {
 			}
 			break;
 		case ne:
-			if(value1.equals("") && value2.equals("")) {
+			if (value1.equals("") && value2.equals("")) {
 				matched = false;
-			} else if(value1.equals("") || value2.equals("")) {
+			} else if (value1.equals("") || value2.equals("")) {
 				matched = true;
 			} else {
 				try {
@@ -209,36 +209,36 @@ public class Table {
 			}
 			break;
 		case gt:
-			if(value1.equals("") && value2.equals("")) {
+			if (value1.equals("") && value2.equals("")) {
 				matched = true;
-			} else if(value1.equals("") || value2.equals("")) {
+			} else if (value1.equals("") || value2.equals("")) {
 				matched = false;
 			} else {
 				matched = Double.parseDouble(value1) > Double.parseDouble(value2);
 			}
 			break;
 		case gte:
-			if(value1.equals("") && value2.equals("")) {
+			if (value1.equals("") && value2.equals("")) {
 				matched = true;
-			} else if(value1.equals("") || value2.equals("")) {
+			} else if (value1.equals("") || value2.equals("")) {
 				matched = false;
 			} else {
 				matched = Double.parseDouble(value1) >= Double.parseDouble(value2);
 			}
 			break;
 		case lt:
-			if(value1.equals("") && value2.equals("")) {
+			if (value1.equals("") && value2.equals("")) {
 				matched = true;
-			} else if(value1.equals("") || value2.equals("")) {
+			} else if (value1.equals("") || value2.equals("")) {
 				matched = false;
 			} else {
 				matched = Double.parseDouble(value1) < Double.parseDouble(value2);
 			}
 			break;
 		case lte:
-			if(value1.equals("") && value2.equals("")) {
+			if (value1.equals("") && value2.equals("")) {
 				matched = true;
-			} else if(value1.equals("") || value2.equals("")) {
+			} else if (value1.equals("") || value2.equals("")) {
 				matched = false;
 			} else {
 				matched = Double.parseDouble(value1) <= Double.parseDouble(value2);

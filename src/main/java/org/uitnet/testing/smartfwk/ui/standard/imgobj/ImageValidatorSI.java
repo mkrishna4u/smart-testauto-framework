@@ -25,9 +25,9 @@ import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.image.ImageValidator;
@@ -41,8 +41,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 public class ImageValidatorSI extends ImageValidator {
 	protected ImageSI imageObj;
 
-	public ImageValidatorSI(WebBrowser browser, ImageSI uiObject, Region region) {
-		super(browser, uiObject, region);
+	public ImageValidatorSI(SmartAppDriver appDriver, ImageSI uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.imageObj = uiObject;
 	}
 
@@ -189,7 +189,7 @@ public class ImageValidatorSI extends ImageValidator {
 		Match match = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				Region region = imageObj.getImageLocation().getRegionOfImageObject(browser, imageObj.getImage());
+				Region region = imageObj.getImageLocation().getRegionOfImageObject(appDriver, imageObj.getImage());
 				Assert.assertNotNull(region, "Failed to find Image '" + imageObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -200,7 +200,7 @@ public class ImageValidatorSI extends ImageValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return match;
 	}
@@ -218,16 +218,16 @@ public class ImageValidatorSI extends ImageValidator {
 
 	@Override
 	public List<Match> findElements(int numRetries) {
-		Region r = imageObj.getImageLocation().getRegion(browser);
+		Region r = imageObj.getImageLocation().getRegion(appDriver);
 
 		return new ImageObject(UIObjectType.image, imageObj.getDisplayName(), imageObj.getImage())
-				.getValidator(browser, r).findElements(numRetries);
+				.getValidator(appDriver, r).findElements(numRetries);
 	}
 
 	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
 		try {
 			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
 
 			Assert.assertNotNull(sourceElem, "Failed to find Image '" + imageObj.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");

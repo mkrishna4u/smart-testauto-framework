@@ -22,7 +22,7 @@ import java.util.List;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
@@ -37,10 +37,10 @@ import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 public class ImageValidatorSD extends ImageValidator {
 	protected DOMObjectValidator domObjValidator;
 
-	public ImageValidatorSD(WebBrowser browser, ImageSD uiObject, Region region) {
-		super(browser, uiObject, region);
-		domObjValidator = new DOMObjectValidator(browser,
-				new DOMObject(uiObject.getDisplayName(), uiObject.getLocatorXPath()), region);
+	public ImageValidatorSD(SmartAppDriver appDriver, ImageSD uiObject, Region region) {
+		super(appDriver, uiObject, region);
+		domObjValidator = new DOMObjectValidator(appDriver,
+				new DOMObject(uiObject.getType(), uiObject.getDisplayName(), uiObject.getPlatformLocators()), region);
 	}
 
 	public DOMObjectValidator getDOMObjectValidator() {
@@ -107,9 +107,9 @@ public class ImageValidatorSD extends ImageValidator {
 		domObjValidator.scrollElementOnViewport(scrollbar);
 		return this;
 	}
-	
+
 	@Override
-	public WebElement findElement(int numRetries) {		
+	public WebElement findElement(int numRetries) {
 		return domObjValidator.findElement(numRetries);
 	}
 

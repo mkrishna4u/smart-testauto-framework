@@ -18,9 +18,9 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.datetime;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 
 /**
@@ -29,10 +29,10 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
  *
  */
 public abstract class DateTimeItem extends UIObject {
-	
+
 	public DateTimeItem(LocatorType locatorType, String displayName) {
 		super(locatorType, UIObjectType.dateTimeItem, displayName);
 	}
 
-	public abstract DateTimeItemValidator getValidator(WebBrowser browser, Region region);
+	public abstract DateTimeItemValidator getValidator(SmartAppDriver appDriver, Region region);
 }

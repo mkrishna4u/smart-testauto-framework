@@ -23,8 +23,8 @@ import org.openqa.selenium.Keys;
 import org.sikuli.script.Key;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.events.InputEvent;
 import org.uitnet.testing.smartfwk.ui.core.events.InputEventType;
 import org.uitnet.testing.smartfwk.ui.core.events.KeyboardEvent;
@@ -39,17 +39,18 @@ import org.uitnet.testing.smartfwk.ui.core.utils.DataMatchUtil;
  *
  */
 public abstract class UIObjectValidator {
-	protected WebBrowser browser;
+	protected SmartAppDriver appDriver;
 	protected UIObject uiObject;
 	protected Region region;
 
-	public UIObjectValidator(WebBrowser browser, UIObject uiObject, Region region) {
-		this.browser = browser;
+	public UIObjectValidator(SmartAppDriver appDriver, UIObject uiObject, Region region) {
+		this.appDriver = appDriver;
 		this.uiObject = uiObject;
-		if (browser != null) {
-			this.region = (region == null) ? Region.create(
-					new Rectangle(0, 0, new Double(browser.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
-							new Double(browser.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
+		if (appDriver != null) {
+			this.region = (region == null)
+					? Region.create(new Rectangle(0, 0,
+							new Double(appDriver.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
+							new Double(appDriver.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
 					: region;
 
 		}
@@ -70,7 +71,7 @@ public abstract class UIObjectValidator {
 	public void validatePresent(int numRetries) {
 		Assert.assertTrue(isPresent(numRetries), "Failed to find element '" + uiObject.getDisplayName() + "'");
 	}
-	
+
 	public void validateNotPresent(int numRetries) {
 		Assert.assertTrue(!isPresent(numRetries), "Element '" + uiObject.getDisplayName() + "' is already present.");
 	}
@@ -121,14 +122,12 @@ public abstract class UIObjectValidator {
 
 	}
 
-	protected boolean matchTextValue(String actualValue, String expectedValue,
-			TextMatchMechanism validationMechanism) {
+	protected boolean matchTextValue(String actualValue, String expectedValue, TextMatchMechanism validationMechanism) {
 		return DataMatchUtil.matchTextValue(actualValue, expectedValue, validationMechanism);
 	}
 
-	protected void validateTextValue(String actualValue, String expectedValue,
-			TextMatchMechanism validationMechanism) {
-		DataMatchUtil.validateTextValue(actualValue, expectedValue, validationMechanism);		
+	protected void validateTextValue(String actualValue, String expectedValue, TextMatchMechanism validationMechanism) {
+		DataMatchUtil.validateTextValue(actualValue, expectedValue, validationMechanism);
 	}
 
 	public String seleniumToSikuliKeyConverter(Keys key) {
@@ -208,13 +207,13 @@ public abstract class UIObjectValidator {
 		}
 		return null;
 	}
-	
+
 	public void validateVisible(int numRetries) {
-		Assert.assertTrue(isVisible(numRetries), "Element '" + uiObject.getDisplayName() + "' is not visible." );
+		Assert.assertTrue(isVisible(numRetries), "Element '" + uiObject.getDisplayName() + "' is not visible.");
 	}
 
 	public void validateHidden(int numRetries) {
-		Assert.assertFalse(isVisible(numRetries), "Element '" + uiObject.getDisplayName() + "' is visible." );
+		Assert.assertFalse(isVisible(numRetries), "Element '" + uiObject.getDisplayName() + "' is visible.");
 	}
 
 	public abstract boolean isPresent(int numRetries);

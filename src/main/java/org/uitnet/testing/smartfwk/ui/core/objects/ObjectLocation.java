@@ -24,8 +24,8 @@ import org.openqa.selenium.WebElement;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 
 /**
  * 
@@ -40,11 +40,11 @@ public class ObjectLocation {
 	private int leftMarginOfRefObjectInPx;
 
 	public ObjectLocation() {
-		this.objLocType = ObjectLocationType.WITHIN_SCREEN_LIMIT;		
+		this.objLocType = ObjectLocationType.WITHIN_SCREEN_LIMIT;
 		this.refObjectDistanceInPx = 0;
 		this.leftMarginOfRefObjectInPx = 10;
 	}
-	
+
 	/**
 	 * Object is within this limit.
 	 * 
@@ -83,9 +83,9 @@ public class ObjectLocation {
 	 * 
 	 * @param refObject
 	 * @param refObjectPosition
-	 * @param refObjDistanceInPx
-	 *            approximate distance of ref object from actual object to
-	 *            determine object area where it can be found.
+	 * @param refObjDistanceInPx approximate distance of ref object from actual
+	 *                           object to determine object area where it can be
+	 *                           found.
 	 */
 	public ObjectLocation(UIObject refObject, ReferenceObjectPosition refObjectPosition, int refObjDistanceInPx) {
 		this.objLocType = ObjectLocationType.RELATIVE_TO_REF_OBJ;
@@ -96,8 +96,8 @@ public class ObjectLocation {
 	}
 
 	/**
-	 * Left Margin of the ref object is applicable if ReferenceObjectPosition is
-	 * TOP or Bottom. It is used to determine the object distance from left side
+	 * Left Margin of the ref object is applicable if ReferenceObjectPosition is TOP
+	 * or Bottom. It is used to determine the object distance from left side
 	 * refObject.
 	 * 
 	 * @param leftMarginOfRefObjectInPx
@@ -112,25 +112,25 @@ public class ObjectLocation {
 		return this;
 	}
 
-	public Rectangle getRectangleOfImageObject(WebBrowser browser, String leftSideImageOfImageObject,
+	public Rectangle getRectangleOfImageObject(SmartAppDriver appDriver, String leftSideImageOfImageObject,
 			String rightSideImageOfImageObject) {
 		switch (objLocType) {
 		case WITHIN_CUSTOM_LIMIT:
 		case WITHIN_SCREEN_LIMIT:
 			Region region = null;
-			if(objLocType == ObjectLocationType.WITHIN_SCREEN_LIMIT) {
-				region = new Region(browser.getSikuliScreen().getRect());
+			if (objLocType == ObjectLocationType.WITHIN_SCREEN_LIMIT) {
+				region = new Region(appDriver.getSikuliScreen().getRect());
 			} else {
 				region = new Region(x, y, width, height);
 			}
-			
+
 			region.setAutoWaitTimeout(1);
 			ImageObject obj = new ImageObject(UIObjectType.leftSideImageOfRectangle, "Left Side Image",
 					leftSideImageOfImageObject);
-			List<Match> m1 = obj.getValidator(browser, region).findElements(3);
+			List<Match> m1 = obj.getValidator(appDriver, region).findElements(3);
 			obj = new ImageObject(UIObjectType.rightSideImageOfRectangle, "Right Side Image",
 					rightSideImageOfImageObject);
-			List<Match> m2 = obj.getValidator(browser, region).findElements(3);
+			List<Match> m2 = obj.getValidator(appDriver, region).findElements(3);
 
 			Rectangle objDim = new Rectangle();
 			objDim.x = m1.get(0).x;
@@ -140,22 +140,20 @@ public class ObjectLocation {
 
 			return objDim;
 		case RELATIVE_TO_REF_OBJ:
-			return calculateRectangleOfImgObjUsingRefObj(browser, leftSideImageOfImageObject,
+			return calculateRectangleOfImgObjUsingRefObj(appDriver, leftSideImageOfImageObject,
 					rightSideImageOfImageObject);
 		}
 		return null;
 	}
-	
-	public Rectangle getRectangleOfImageObject(WebBrowser browser, int width,
-			int height) {
+
+	public Rectangle getRectangleOfImageObject(SmartAppDriver appDriver, int width, int height) {
 		switch (objLocType) {
 		case WITHIN_CUSTOM_LIMIT:
 		case WITHIN_SCREEN_LIMIT:
 			Assert.fail("Size based components not supported for WITHIN_CUSTOM_LIMIT, WITHIN_SCREEN_LIMIT.");
 			return null;
 		case RELATIVE_TO_REF_OBJ:
-			return calculateRectangleOfImgObjUsingRefObj(browser, width,
-					height);
+			return calculateRectangleOfImgObjUsingRefObj(appDriver, width, height);
 		}
 		return null;
 	}
@@ -163,27 +161,27 @@ public class ObjectLocation {
 	/**
 	 * Applicable if ObjectLocationType = RELATIVE_TO_REF_OBJ
 	 * 
-	 * @param browser
+	 * @param appDriver
 	 * @param leftSideImageOfImageObject
 	 * @param rightSideImageOfImageObject
 	 * @return
 	 */
-	private Rectangle calculateRectangleOfImgObjUsingRefObj(WebBrowser browser, String leftSideImageOfImageObject,
+	private Rectangle calculateRectangleOfImgObjUsingRefObj(SmartAppDriver appDriver, String leftSideImageOfImageObject,
 			String rightSideImageOfImageObject) {
 		Rectangle rect = null;
 		ImageObject leftSideImgObj = new ImageObject(UIObjectType.leftSideImageOfRectangle, "Left Side Image",
 				leftSideImageOfImageObject);
-		ImageObjectValidator imgValidator = leftSideImgObj.getValidator(browser, null);
-		//imgValidator.getRegion().setAutoWaitTimeout(1);
+		ImageObjectValidator imgValidator = leftSideImgObj.getValidator(appDriver, null);
+		// imgValidator.getRegion().setAutoWaitTimeout(1);
 		List<Match> leftSideImgMatches = imgValidator.findElements(3);
 
 		ImageObject rightSideImgObj = new ImageObject(UIObjectType.rightSideImageOfRectangle, "Right Side Image",
 				rightSideImageOfImageObject);
-		imgValidator = rightSideImgObj.getValidator(browser, null);
+		imgValidator = rightSideImgObj.getValidator(appDriver, null);
 		imgValidator.getRegion().setAutoWaitTimeout(1);
 		List<Match> rightSideImgMatches = imgValidator.findElements(0);
 
-		Object refElem = refObject.getValidator(browser, null).findElement(0);
+		Object refElem = refObject.getValidator(appDriver, null).findElement(0);
 		Rectangle refElemRect = null;
 		if (refElem instanceof Match) {
 			Match refElemAsImg = (Match) refElem;
@@ -254,8 +252,7 @@ public class ObjectLocation {
 							+ "' relative to refernce object '" + refObject.getDisplayName() + "'.");
 
 			rect = new Rectangle(nearestLeftSideMatch.getX() + nearestLeftSideMatch.getW(), nearestLeftSideMatch.getY(),
-					nearestRightSideMatch.getX() - nearestLeftSideMatch.getX(),
-					nearestLeftSideMatch.getH());
+					nearestRightSideMatch.getX() - nearestLeftSideMatch.getX(), nearestLeftSideMatch.getH());
 			break;
 
 		case RIGHT:
@@ -301,8 +298,7 @@ public class ObjectLocation {
 							+ "' relative to refernce object '" + refObject.getDisplayName() + "'.");
 
 			rect = new Rectangle(nearestLeftSideMatch.getX() + nearestLeftSideMatch.getW(), nearestLeftSideMatch.getY(),
-					nearestRightSideMatch.getX() - nearestLeftSideMatch.getX(),
-					nearestLeftSideMatch.getH());
+					nearestRightSideMatch.getX() - nearestLeftSideMatch.getX(), nearestLeftSideMatch.getH());
 			break;
 
 		case TOP:
@@ -346,9 +342,8 @@ public class ObjectLocation {
 					"Failed to find nearest rightSideImage '" + rightSideImageOfImageObject
 							+ "' relative to refernce object '" + refObject.getDisplayName() + "'.");
 
-			rect = new Rectangle(nearestLeftSideMatch.getX() +  nearestLeftSideMatch.getW(), nearestLeftSideMatch.getY(),
-					nearestRightSideMatch.getX() - nearestLeftSideMatch.getX(),
-					nearestLeftSideMatch.getH());
+			rect = new Rectangle(nearestLeftSideMatch.getX() + nearestLeftSideMatch.getW(), nearestLeftSideMatch.getY(),
+					nearestRightSideMatch.getX() - nearestLeftSideMatch.getX(), nearestLeftSideMatch.getH());
 			break;
 
 		case BOTTOM:
@@ -393,19 +388,17 @@ public class ObjectLocation {
 							+ "' relative to refernce object '" + refObject.getDisplayName() + "'.");
 
 			rect = new Rectangle(nearestLeftSideMatch.getX() + nearestLeftSideMatch.getW(), nearestLeftSideMatch.getY(),
-					nearestRightSideMatch.getX() - nearestLeftSideMatch.getX(),
-					nearestLeftSideMatch.getH());
+					nearestRightSideMatch.getX() - nearestLeftSideMatch.getX(), nearestLeftSideMatch.getH());
 			break;
 		}
 
 		return rect;
 	}
-	
-	private Rectangle calculateRectangleOfImgObjUsingRefObj(WebBrowser browser, int width,
-			int height) {
+
+	private Rectangle calculateRectangleOfImgObjUsingRefObj(SmartAppDriver appDriver, int width, int height) {
 		Rectangle rect = null;
-		
-		Object refElem = refObject.getValidator(browser, null).findElement(0);
+
+		Object refElem = refObject.getValidator(appDriver, null).findElement(0);
 		Rectangle refElemRect = null;
 		if (refElem instanceof Match) {
 			Match refElemAsImg = (Match) refElem;
@@ -424,33 +417,33 @@ public class ObjectLocation {
 		int refObjY2 = new Double(refElemRect.getY() + refElemRect.getHeight()).intValue();
 
 		int elemX1, elemY1;
-		
+
 		switch (refObjectPosition) {
 		case LEFT:
 			elemX1 = refObjX2;
 			elemY1 = refObjY1 + refObjectDistanceInPx;
-			
+
 			rect = new Rectangle(elemX1, elemY1, width, height);
 			break;
 
 		case RIGHT:
 			elemX1 = refObjX1 - width;
 			elemY1 = refObjY1 + refObjectDistanceInPx;
-			
+
 			rect = new Rectangle(elemX1, elemY1, width, height);
 			break;
 
 		case TOP:
 			elemX1 = refObjX1 - leftMarginOfRefObjectInPx;
 			elemY1 = refObjY2;
-			
+
 			rect = new Rectangle(elemX1, elemY1, width, height);
 			break;
 
 		case BOTTOM:
 			elemX1 = refObjX1 - leftMarginOfRefObjectInPx;
 			elemY1 = refObjY1 - height;
-			
+
 			rect = new Rectangle(elemX1, elemY1, width, height);
 			break;
 		}
@@ -461,18 +454,18 @@ public class ObjectLocation {
 	/**
 	 * Applicable if ObjectLocationType = RELATIVE_TO_REF_OBJ
 	 * 
-	 * @param browser
+	 * @param appDriver
 	 * @param imageObject
 	 * @return
 	 */
-	private Rectangle calculateRectangleOfImgObjUsingRefObj(WebBrowser browser, String imageObject) {
+	private Rectangle calculateRectangleOfImgObjUsingRefObj(SmartAppDriver appDriver, String imageObject) {
 		Rectangle rect = null;
 		ImageObject imgObject = new ImageObject(UIObjectType.image, "Image Object", imageObject);
-		ImageObjectValidator imgValidator = imgObject.getValidator(browser, null);
+		ImageObjectValidator imgValidator = imgObject.getValidator(appDriver, null);
 		imgValidator.getRegion().setAutoWaitTimeout(1);
 		List<Match> imgMatches = imgValidator.findElements(3);
 
-		Object refElem = refObject.getValidator(browser, null).findElement(0);
+		Object refElem = refObject.getValidator(appDriver, null).findElement(0);
 		Rectangle refElemRect = null;
 		if (refElem instanceof Match) {
 			Match refElemAsImg = (Match) refElem;
@@ -605,25 +598,25 @@ public class ObjectLocation {
 		return rect;
 	}
 
-	public Rectangle getImageObjectMatch(WebBrowser browser, String imageObject) {
+	public Rectangle getImageObjectMatch(SmartAppDriver appDriver, String imageObject) {
 		switch (objLocType) {
 		case WITHIN_CUSTOM_LIMIT:
 		case WITHIN_SCREEN_LIMIT:
 			Region region = null;
-			if(objLocType == ObjectLocationType.WITHIN_SCREEN_LIMIT) {
-				region = new Region(browser.getSikuliScreen().getRect());
+			if (objLocType == ObjectLocationType.WITHIN_SCREEN_LIMIT) {
+				region = new Region(appDriver.getSikuliScreen().getRect());
 			} else {
 				region = new Region(x, y, width, height);
 			}
-			
+
 			region.setAutoWaitTimeout(1);
 			ImageObject obj = new ImageObject(UIObjectType.image, "Image Object", imageObject);
-			List<Match> m1 = obj.getValidator(browser, region).findElements(3);
+			List<Match> m1 = obj.getValidator(appDriver, region).findElements(3);
 
 			Rectangle objDim = m1.get(0).getRect();
 			return objDim;
 		case RELATIVE_TO_REF_OBJ:
-			return calculateRectangleOfImgObjUsingRefObj(browser, imageObject);
+			return calculateRectangleOfImgObjUsingRefObj(appDriver, imageObject);
 		}
 		return null;
 	}
@@ -633,31 +626,31 @@ public class ObjectLocation {
 	 * 
 	 * @return
 	 */
-	public Region getRegion(WebBrowser browser) {
+	public Region getRegion(SmartAppDriver appDriver) {
 		if (ObjectLocationType.WITHIN_CUSTOM_LIMIT == objLocType) {
 			return new Region(x, y, width, height);
-		} else if(ObjectLocationType.WITHIN_SCREEN_LIMIT == objLocType) {
-			return new Region(browser.getSikuliScreen().getRect());
+		} else if (ObjectLocationType.WITHIN_SCREEN_LIMIT == objLocType) {
+			return new Region(appDriver.getSikuliScreen().getRect());
 		}
 
 		Assert.fail("getRegion() api is applicable only for absolute location.");
 		return null;
 	}
 
-	public Region getRegionOfImageObject(WebBrowser browser, String leftSideImageOfImageObject,
+	public Region getRegionOfImageObject(SmartAppDriver appDriver, String leftSideImageOfImageObject,
 			String rightSideImageOfImageObject) {
-		return new Region(getRectangleOfImageObject(browser, leftSideImageOfImageObject, rightSideImageOfImageObject));
-
-	}
-	
-	public Region getRegionOfImageObject(WebBrowser browser, int width,
-			int height) {
-		return new Region(getRectangleOfImageObject(browser, width, height));
+		return new Region(
+				getRectangleOfImageObject(appDriver, leftSideImageOfImageObject, rightSideImageOfImageObject));
 
 	}
 
-	public Region getRegionOfImageObject(WebBrowser browser, String imageObject) {
-		return new Region(getImageObjectMatch(browser, imageObject));
+	public Region getRegionOfImageObject(SmartAppDriver appDriver, int width, int height) {
+		return new Region(getRectangleOfImageObject(appDriver, width, height));
+
+	}
+
+	public Region getRegionOfImageObject(SmartAppDriver appDriver, String imageObject) {
+		return new Region(getImageObjectMatch(appDriver, imageObject));
 
 	}
 }

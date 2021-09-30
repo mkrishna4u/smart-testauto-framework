@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.datetime;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
@@ -30,8 +30,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
 public abstract class DateTimeItemValidator extends UIObjectValidator {
 	private DateTimeItem dateTimeItem;
 
-	public DateTimeItemValidator(WebBrowser browser, DateTimeItem uiObject, Region region) {
-		super(browser, uiObject, region);
+	public DateTimeItemValidator(SmartAppDriver appDriver, DateTimeItem uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.dateTimeItem = uiObject;
 	}
 
@@ -48,5 +48,6 @@ public abstract class DateTimeItemValidator extends UIObjectValidator {
 
 	public abstract void selectDateTimeUsingDateTimePicker(String date, String time, int numRetries);
 
-	public abstract void validateDateTime(String date, String time, TextMatchMechanism dateValidationMechanism, TextMatchMechanism timeValidationMechanism, int numRetries);
+	public abstract void validateDateTime(String date, String time, TextMatchMechanism dateValidationMechanism,
+			TextMatchMechanism timeValidationMechanism, int numRetries);
 }

@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.radio;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 
 /**
@@ -29,8 +29,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 public abstract class RadioButtonValidator extends UIObjectValidator {
 	private RadioButton option;
 
-	public RadioButtonValidator(WebBrowser browser, RadioButton uiObject, Region region) {
-		super(browser, uiObject, region);
+	public RadioButtonValidator(SmartAppDriver appDriver, RadioButton uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.option = uiObject;
 	}
 
@@ -40,7 +40,7 @@ public abstract class RadioButtonValidator extends UIObjectValidator {
 	}
 
 	public abstract boolean isDisabled(int numRetries);
-	
+
 	public abstract void validateDisabled(int numRetries);
 
 	public abstract void validateEnabled(int numRetries);

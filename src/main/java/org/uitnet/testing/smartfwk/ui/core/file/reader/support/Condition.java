@@ -26,7 +26,7 @@ public class Condition {
 	private String columnName;
 	private Operator op;
 	private String value;
-	
+
 	public Condition(String columnName, Operator op, String value) {
 		this.columnName = columnName;
 		this.op = op;

@@ -18,10 +18,9 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.tab;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemSet;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.webpage.WebPage;
 
 /**
  * 
@@ -30,9 +29,9 @@ import org.uitnet.testing.smartfwk.ui.core.objects.webpage.WebPage;
  */
 public abstract class TabSheetValidator extends UIObjectValidator {
 	private TabSheet tabSheet;
-	
-	public TabSheetValidator(WebBrowser browser, TabSheet locator, Region region) {
-		super(browser, locator, region);
+
+	public TabSheetValidator(SmartAppDriver appDriver, TabSheet locator, Region region) {
+		super(appDriver, locator, region);
 		this.tabSheet = locator;
 	}
 
@@ -46,15 +45,14 @@ public abstract class TabSheetValidator extends UIObjectValidator {
 	}
 
 	public abstract void selectTab(String tabName, int numRetries);
-	
-	public abstract void validateSelectedTab(WebPage webPage,
-			String expectedSelectedTabName, int numRetries);
 
-	public abstract void validateTabsPresent(WebPage webPage,
-			ItemSet<String> allTabNames, int numRetries);
+	public abstract String findSelectedTab(int numRetries);
 
-	public abstract void validateDisabledTabs(WebPage webPage,
-			ItemSet<String> disabledTabNames, int numRetries);
+	public abstract void validateSelectedTab(String expectedSelectedTabName, int numRetries);
 
-	public abstract void validateEnabledTabsOnTabSheet(WebPage webPage, int numRetries);
+	public abstract void validateTabsPresent(ItemSet<String> allTabNames, int numRetries);
+
+	public abstract void validateDisabledTabs(ItemSet<String> disabledTabNames, int numRetries);
+
+	public abstract void validateEnabledTabs(ItemSet<String> enabledTabNames, int numRetries);
 }

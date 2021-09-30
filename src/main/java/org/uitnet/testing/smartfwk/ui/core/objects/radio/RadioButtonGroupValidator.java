@@ -18,8 +18,8 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.radio;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemMap;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 
 /**
@@ -30,8 +30,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 public abstract class RadioButtonGroupValidator extends UIObjectValidator {
 	private RadioButtonGroup optionGroup;
 
-	public RadioButtonGroupValidator(WebBrowser browser, RadioButtonGroup uiObject, Region region) {
-		super(browser, uiObject, region);
+	public RadioButtonGroupValidator(SmartAppDriver appDriver, RadioButtonGroup uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.optionGroup = uiObject;
 	}
 
@@ -50,7 +50,8 @@ public abstract class RadioButtonGroupValidator extends UIObjectValidator {
 
 	/**
 	 * 
-	 * @param options: ItemMap contains key: optionValue, value: optionDisplayValue
+	 * @param options:   ItemMap contains key: optionValue, value:
+	 *                   optionDisplayValue
 	 * @param numRetries
 	 */
 	public abstract void validateNotSelectedOptions(ItemMap<String, String> options, int numRetries);

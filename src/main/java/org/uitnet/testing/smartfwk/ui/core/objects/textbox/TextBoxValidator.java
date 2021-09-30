@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.textbox;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
@@ -31,8 +31,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
 public abstract class TextBoxValidator extends UIObjectValidator {
 	private TextBox textBox;
 
-	public TextBoxValidator(WebBrowser browser, TextBox uiObject, Region region) {
-		super(browser, uiObject, region);
+	public TextBoxValidator(SmartAppDriver appDriver, TextBox uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.textBox = uiObject;
 	}
 
@@ -42,21 +42,20 @@ public abstract class TextBoxValidator extends UIObjectValidator {
 	}
 
 	public abstract boolean isDisabled(int numRetries);
-	
+
 	public abstract void validateDisabled(int numRetries);
 
 	public abstract void validateEnabled(int numRetries);
-	
+
 	public abstract boolean isReadonly(int numRetries);
-	
+
 	public abstract void validateReadonly(int numRetries);
-	
+
 	public abstract void validateNotReadonly(int numRetries);
 
 	public abstract void typeText(String textToType, NewTextLocation location, int numRetries);
 
-	public abstract void validateValue(String expectedValue, TextMatchMechanism validationMechanism,
-			int numRetries);
-	
+	public abstract void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int numRetries);
+
 	public abstract String getValue(int numRetries);
 }

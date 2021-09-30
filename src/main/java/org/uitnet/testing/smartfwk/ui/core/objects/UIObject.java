@@ -18,9 +18,10 @@
 package org.uitnet.testing.smartfwk.ui.core.objects;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 
 /**
  * 
@@ -31,26 +32,28 @@ public abstract class UIObject {
 	protected LocatorType locatorType;
 	protected UIObjectType uiObjectType;
 	protected String displayName;
-	
+
 	public UIObject(LocatorType locatorType, UIObjectType type, String displayName) {
 		this.locatorType = locatorType;
 		this.uiObjectType = type;
 		this.displayName = displayName;
 	}
-	
+
 	public LocatorType getLocatorType() {
 		return locatorType;
 	}
-	
+
 	public UIObjectType getType() {
 		return uiObjectType;
 	}
-	
+
 	public String getDisplayName() {
 		return displayName;
 	}
 
 	public abstract UIObject clone();
-	public abstract UIObject updateLocatorParameterWithValue(String paramName, String value);
-	public abstract UIObjectValidator getValidator(WebBrowser browser, Region region);
+
+	public abstract UIObject updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String value);
+
+	public abstract UIObjectValidator getValidator(SmartAppDriver appDriver, Region region);
 }

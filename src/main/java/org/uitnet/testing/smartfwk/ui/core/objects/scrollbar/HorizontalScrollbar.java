@@ -334,14 +334,14 @@ public class HorizontalScrollbar {
 			Match leftScrollImageEnabledFound = findLeftScrollImage(region);
 			if (thumbGripLeftPartImageFound != null && leftScrollImageEnabledFound != null) {
 				thumbGripLeftPartImageFound.drag(leftScrollImageEnabledFound);
-				//thumbGripLeftPartImageFound.dropAt(leftScrollImageEnabledFound);
+				// thumbGripLeftPartImageFound.dropAt(leftScrollImageEnabledFound);
 			} else if (leftScrollImageEnabledFound != null) {
 				do {
 					leftScrollImageEnabledFound.click();
 					thumbGripLeftPartImageFound = findThumbGripLeftPartImage(region);
 					if (thumbGripLeftPartImageFound != null) {
 						thumbGripLeftPartImageFound.drag(leftScrollImageEnabledFound);
-						//thumbGripLeftPartImageFound.dropAt(leftScrollImageEnabledFound);
+						// thumbGripLeftPartImageFound.dropAt(leftScrollImageEnabledFound);
 						break;
 					}
 				} while (true);
@@ -358,14 +358,14 @@ public class HorizontalScrollbar {
 			Match rightScrollImageEnabledFound = findRightScrollImage(region);
 			if (thumbGripRightPartImageFound != null && rightScrollImageEnabledFound != null) {
 				thumbGripRightPartImageFound.drag(rightScrollImageEnabledFound);
-				//thumbGripRightPartImageFound.dropAt(rightScrollImageEnabledFound);
+				// thumbGripRightPartImageFound.dropAt(rightScrollImageEnabledFound);
 			} else if (rightScrollImageEnabledFound != null) {
 				do {
 					rightScrollImageEnabledFound.click();
 					thumbGripRightPartImageFound = findThumbGripRightPartImage(region);
 					if (thumbGripRightPartImageFound != null) {
 						thumbGripRightPartImageFound.drag(thumbGripRightPartImageFound);
-						//thumbGripRightPartImageFound.dropAt(rightScrollImageEnabledFound);
+						// thumbGripRightPartImageFound.dropAt(rightScrollImageEnabledFound);
 						break;
 					}
 				} while (true);

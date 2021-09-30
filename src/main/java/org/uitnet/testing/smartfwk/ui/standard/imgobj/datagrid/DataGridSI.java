@@ -22,19 +22,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.HorizontalScrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.VerticalScrollbar;
 
 /**
- * This DataGrid does not work 
- * 1. If the whole table is not visible including horizontal and vertical scrollbars of the tables. 
- * 2. If there is no row marker to identify the row break.
- * 3. Header columns are not fixed
- * 4. If all the primary key columns are not visible always.
- * 5. Primary key column value is not text
+ * This DataGrid does not work 1. If the whole table is not visible including
+ * horizontal and vertical scrollbars of the tables. 2. If there is no row
+ * marker to identify the row break. 3. Header columns are not fixed 4. If all
+ * the primary key columns are not visible always. 5. Primary key column value
+ * is not text
  * 
  * @author Madhav Krishna
  *
@@ -97,19 +96,19 @@ public class DataGridSI {
 	public List<HeaderColumnSI> getKeyHeaderColumns() {
 		return keyHeaderColumns;
 	}
-	
+
 	public HeaderColumnSI getKeyHeaderColumn(String columnDisplayName) {
-		for(HeaderColumnSI colObj : keyHeaderColumns) {
-			if(columnDisplayName.equals(colObj.getDisplayName())) {
+		for (HeaderColumnSI colObj : keyHeaderColumns) {
+			if (columnDisplayName.equals(colObj.getDisplayName())) {
 				return colObj;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
-	 * It should contain the whole image to cover additional header column height and
-	 * width.
+	 * It should contain the whole image to cover additional header column height
+	 * and width.
 	 * 
 	 * @param objects
 	 * @return
@@ -124,10 +123,10 @@ public class DataGridSI {
 	public List<HeaderColumnSI> getAdditionalHeaderColumns() {
 		return additionalHeaderColumns;
 	}
-	
+
 	public HeaderColumnSI getAdditionalHeaderColumn(String columnDisplayName) {
 		for (HeaderColumnSI colObj : additionalHeaderColumns) {
-			if(columnDisplayName.equals(colObj.getDisplayName())) {
+			if (columnDisplayName.equals(colObj.getDisplayName())) {
 				return colObj;
 			}
 		}
@@ -135,8 +134,8 @@ public class DataGridSI {
 	}
 
 	/**
-	 * you can just specify the first column left border + row border
-	 * combination as row marker.
+	 * you can just specify the first column left border + row border combination as
+	 * row marker.
 	 * 
 	 * @param images
 	 * @return
@@ -206,7 +205,7 @@ public class DataGridSI {
 		return this;
 	}
 
-	public DataGridValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new DataGridValidatorSI(browser, this, region);
+	public DataGridValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
+		return new DataGridValidatorSI(appDriver, this, region);
 	}
 }

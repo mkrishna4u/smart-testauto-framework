@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.accordion;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 
 /**
@@ -29,8 +29,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 public abstract class SectionValidator extends UIObjectValidator {
 	private Section section;
 
-	public SectionValidator(WebBrowser browser, Section uiObject, Region region) {
-		super(browser, uiObject, region);
+	public SectionValidator(SmartAppDriver appDriver, Section uiObject, Region region) {
+		super(appDriver, uiObject, region);
 	}
 
 	@Override

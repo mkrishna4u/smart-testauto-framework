@@ -28,10 +28,10 @@ import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.combobox.ComboBoxValidator;
@@ -47,8 +47,8 @@ import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
 public class ComboBoxValidatorSI extends ComboBoxValidator {
 	protected ComboBoxSI comboBoxObj;
 
-	public ComboBoxValidatorSI(WebBrowser browser, ComboBoxSI uiObject, Region region) {
-		super(browser, uiObject, region);
+	public ComboBoxValidatorSI(SmartAppDriver appDriver, ComboBoxSI uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.comboBoxObj = uiObject;
 	}
 
@@ -222,7 +222,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		Match match = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				Region region = comboBoxObj.getLocation().getRegionOfImageObject(browser,
+				Region region = comboBoxObj.getLocation().getRegionOfImageObject(appDriver,
 						comboBoxObj.getLeftSideImage(), comboBoxObj.getRightSideImage());
 				Assert.assertNotNull(region, "Failed to find ComboBox '" + comboBoxObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
@@ -234,7 +234,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return match;
 	}
@@ -259,7 +259,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
 		try {
 			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
 
 			Assert.assertNotNull(sourceElem, "Failed to find ComboBox '" + comboBoxObj.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
@@ -289,8 +289,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism,
-			int numRetries) {
+	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism, int numRetries) {
 		if (comboBoxObj.isDisabled() || comboBoxObj.isReadOnly()) {
 			Match match = findElement(numRetries);
 			validateTextValue(match.text(), expectedValue, validationMechanism);
@@ -338,8 +337,8 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	}
 
 	/**
-	 * It just search the text in pull down menu visible area if present then
-	 * click on it to select that.
+	 * It just search the text in pull down menu visible area if present then click
+	 * on it to select that.
 	 */
 	@Override
 	public void selectItem(String itemName, int numRetries) {
@@ -348,9 +347,10 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 
 		try {
 			match.click();
-			ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", itemName);
-			Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(5);
-			
+			ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem",
+					itemName);
+			Match menuItemMatch = menuItemObj.getValidator(appDriver, pullDownMenuRegion).findElement(5);
+
 			Assert.assertNotNull(menuItemMatch, "Failed to find item '" + itemName + "' in pull down menu of ComboBox '"
 					+ comboBoxObj.getDisplayName() + "'.");
 			menuItemMatch.click();
@@ -362,8 +362,8 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	}
 
 	/**
-	 * It just search the image item in pull down menu visible area if present
-	 * then click on it to select that.
+	 * It just search the image item in pull down menu visible area if present then
+	 * click on it to select that.
 	 */
 	public void selectItemByImage(String imageItem, int numRetries) {
 		Match match = findElement(numRetries);
@@ -371,8 +371,9 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 
 		try {
 			match.click();
-			ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", imageItem);
-			Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(5);
+			ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem",
+					imageItem);
+			Match menuItemMatch = menuItemObj.getValidator(appDriver, pullDownMenuRegion).findElement(5);
 			Assert.assertNotNull(menuItemMatch, "Failed to find item '" + imageItem
 					+ "' in pull down menu of ComboBox '" + comboBoxObj.getDisplayName() + "'.");
 			menuItemMatch.click();
@@ -425,9 +426,10 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			match.click();
 			for (String itemName : itemsToBeSelected.getItems()) {
 				currentItemName = itemName;
-				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", itemName);
-				Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(2);
-				//Match menuItemMatch = pullDownMenuRegion.find(itemName);
+				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem,
+						comboBoxObj.getDisplayName() + "-MenuItem", itemName);
+				Match menuItemMatch = menuItemObj.getValidator(appDriver, pullDownMenuRegion).findElement(2);
+				// Match menuItemMatch = pullDownMenuRegion.find(itemName);
 				Assert.assertNotNull(menuItemMatch, "Failed to find item '" + itemName
 						+ "' in pull down menu of ComboBox '" + comboBoxObj.getDisplayName() + "'.");
 				menuItemMatch.click();
@@ -451,8 +453,9 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			match.click();
 			for (String imageItem : imageItemsToBeSelected.getItems()) {
 				currentImageItem = imageItem;
-				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", imageItem);
-				Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(2);
+				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem,
+						comboBoxObj.getDisplayName() + "-MenuItem", imageItem);
+				Match menuItemMatch = menuItemObj.getValidator(appDriver, pullDownMenuRegion).findElement(2);
 				Assert.assertNotNull(menuItemMatch, "Failed to find item '" + imageItem
 						+ "' in pull down menu of ComboBox '" + comboBoxObj.getDisplayName() + "'.");
 				menuItemMatch.click();
@@ -477,8 +480,9 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		try {
 			for (String itemName : items.getItems()) {
 				currentItemName = itemName;
-				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", itemName);
-				Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(2);
+				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem,
+						comboBoxObj.getDisplayName() + "-MenuItem", itemName);
+				Match menuItemMatch = menuItemObj.getValidator(appDriver, pullDownMenuRegion).findElement(2);
 				if (menuItemMatch == null) {
 					throw new FindFailed("Found no match.");
 				}
@@ -503,8 +507,9 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		try {
 			for (String imageItem : imageItems.getItems()) {
 				currentImageItem = imageItem;
-				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", imageItem);
-				Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(5);
+				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem,
+						comboBoxObj.getDisplayName() + "-MenuItem", imageItem);
+				Match menuItemMatch = menuItemObj.getValidator(appDriver, pullDownMenuRegion).findElement(5);
 				if (menuItemMatch == null) {
 					throw new FindFailed("Found no match.");
 				}

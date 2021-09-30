@@ -19,7 +19,6 @@ package org.uitnet.testing.smartfwk.ui.core.config;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,9 +28,7 @@ import java.util.Properties;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.config.database.orm.OrmDatabaseQueryHandler;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowserFactory;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowserType;
+import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
 
 /**
  * 
@@ -47,21 +44,20 @@ public class TestConfigManager {
 	private List<String> appNames;
 	private String cucumberTestcasesDir;
 	private String appScreenCaptureDir;
-	private String seleniumConfigDir;
 	private String sikuliConfigDir;
 	private String sikuliResourcesDir;
+	private PlatformType hostPlatformType;
 
 	// Key: App-Name, Value AppConfig
 	private Map<String, AppConfig> appConfigs;
 
 	private Map<String, String> additionalProps;
 
-	private Map<String, SeleniumDriverConfig> seleniumDriverConfigs;
+	private Map<String, AppDriverConfig> seleniumDriverConfigs;
 	private SikuliSettings sikuliSettings;
 
 	private TestConfigManager() {
 		init();
-		initSeleniumDriverConfigs();
 		initSikuliSettings();
 	}
 
@@ -77,6 +73,7 @@ public class TestConfigManager {
 	}
 
 	private void init() {
+		hostPlatformType = OSDetectorUtil.getHostPlatform();
 		appNames = new LinkedList<String>();
 		appConfigs = new LinkedHashMap<String, AppConfig>();
 		additionalProps = new LinkedHashMap<String, String>();
@@ -149,17 +146,6 @@ public class TestConfigManager {
 				} else {
 					appScreenCaptureDir = Locations.getProjectRootDir() + File.separator + appScreenCaptureDir;
 				}
-			}
-
-			seleniumConfigDir = System.getProperty("SELENIUM_CONFIG_DIR");
-			if (seleniumConfigDir == null || "".equals(seleniumConfigDir.trim())) {
-				seleniumConfigDir = properties.getProperty("SELENIUM_CONFIG_DIR");
-				if (seleniumConfigDir == null || "".equals(seleniumConfigDir.trim())) {
-					seleniumConfigDir = Locations.getProjectRootDir() + "/test-config/selenium-config";
-				} else {
-					seleniumConfigDir = Locations.getProjectRootDir() + File.separator + seleniumConfigDir;
-				}
-
 			}
 
 			sikuliConfigDir = System.getProperty("SIKULI_CONFIG_DIR");
@@ -243,17 +229,6 @@ public class TestConfigManager {
 		return getDatabaseProfile(appName, profileName).getQueryHandler();
 	}
 
-	/**
-	 * If browser exist then return the same else creates the new browser.
-	 * 
-	 * @param appName
-	 * @param browserName
-	 * @return
-	 */
-	public WebBrowser getWebBrowser(String appName, String browserName) {
-		return WebBrowserFactory.getInstance().getAppWebBrowser(appName, browserName);
-	}
-
 	public String getAdditionalPropertyValue(String propName) {
 		Assert.assertTrue(additionalProps.containsKey(propName),
 				"Please specify the additional property '" + propName + "' in TestConfig.properties file.");
@@ -272,29 +247,6 @@ public class TestConfigManager {
 		return getUserProfile(appName, profileName).getAdditionalPropertyValue(propName);
 	}
 
-	private void initSeleniumDriverConfigs() {
-		seleniumDriverConfigs = new HashMap<String, SeleniumDriverConfig>();
-		for (Map.Entry<String, AppConfig> ac : appConfigs.entrySet()) {
-			WebBrowserType webBrowserType = ac.getValue().getAppWebBrowser();
-			String driverCfgFile = seleniumConfigDir + File.separator + "web-drivers" + File.separator
-					+ webBrowserType.name() + File.separator + "DriverConfig.properties";
-
-			Assert.assertTrue(new File(driverCfgFile).exists(),
-					"Missing DriverConfig.properties file for '" + webBrowserType.name() + "' browser.");
-
-			try (FileReader fileReader = new FileReader(driverCfgFile)) {
-				Properties properties = new Properties();
-				properties.load(fileReader);
-
-				SeleniumDriverConfig driverConfig = new SeleniumDriverConfig(seleniumConfigDir, properties);
-				seleniumDriverConfigs.put(webBrowserType.name(), driverConfig);
-			} catch (Exception ex) {
-				Assert.fail("Failed to read property file - " + driverCfgFile + ". Going to exit...", ex);
-				System.exit(1);
-			}
-		}
-	}
-
 	private void initSikuliSettings() {
 		String sikuliSettingsFile = sikuliConfigDir + File.separator + "SikuliSettings.properties";
 		try (FileReader fileReader = new FileReader(sikuliSettingsFile)) {
@@ -307,12 +259,12 @@ public class TestConfigManager {
 			System.exit(1);
 		}
 	}
-	
-	public Map<String, SeleniumDriverConfig> getSeleniumDriverConfings() {
+
+	public Map<String, AppDriverConfig> getSeleniumDriverConfings() {
 		return seleniumDriverConfigs;
 	}
-	
-	public SeleniumDriverConfig getSeleniumDriverConfig(WebBrowserType browserType) {
+
+	public AppDriverConfig getSeleniumDriverConfig(WebBrowserType browserType) {
 		return seleniumDriverConfigs.get(browserType.name());
 	}
 
@@ -322,6 +274,10 @@ public class TestConfigManager {
 
 	public String getSikuliResourcesDir() {
 		return sikuliResourcesDir;
+	}
+
+	public PlatformType getHostPlatformType() {
+		return hostPlatformType;
 	}
 
 }

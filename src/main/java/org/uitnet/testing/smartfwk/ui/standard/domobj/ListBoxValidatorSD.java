@@ -25,8 +25,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
@@ -43,16 +43,16 @@ import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
 public class ListBoxValidatorSD extends ListBoxValidator {
 	protected DOMObjectValidator domObjValidator;
 
-	public ListBoxValidatorSD(WebBrowser browser, ListBoxSD uiObject, Region region) {
-		super(browser, uiObject, region);
-		domObjValidator = new DOMObjectValidator(browser,
-				new DOMObject(uiObject.getDisplayName(), uiObject.getLocatorXPath()), region);
+	public ListBoxValidatorSD(SmartAppDriver appDriver, ListBoxSD uiObject, Region region) {
+		super(appDriver, uiObject, region);
+		domObjValidator = new DOMObjectValidator(appDriver,
+				new DOMObject(uiObject.getType(), uiObject.getDisplayName(), uiObject.getPlatformLocators()), region);
 	}
 
 	public DOMObjectValidator getDOMObjectValidator() {
 		return domObjValidator;
 	}
-	
+
 	@Override
 	public boolean isDisabled(int numRetries) {
 		return domObjValidator.isDisabled(numRetries);
@@ -135,12 +135,13 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	public void validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
 			int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
 
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
+					Assert.assertNotNull(options,
+							"Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
@@ -160,15 +161,16 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 								+ uiObject.getDisplayName() + "'.");
 					}
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
-			Assert.fail("Failed to validate selected item '" + expectedSelectedValue + "' for element '" + uiObject.getDisplayName() + "'.", th);
+		} catch (Throwable th) {
+			Assert.fail("Failed to validate selected item '" + expectedSelectedValue + "' for element '"
+					+ uiObject.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -214,25 +216,26 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	@Override
 	public void selectFirstItem(int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
 
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
+					Assert.assertNotNull(options,
+							"Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
-					PageScrollUtil.scrollToViewportAndClick(browser, options.get(0));
+					PageScrollUtil.scrollToViewportAndClick(appDriver, options.get(0));
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to select first item for element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
@@ -240,120 +243,130 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	@Override
 	public void selectLastItem(int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
 
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
+					Assert.assertNotNull(options,
+							"Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
-					PageScrollUtil.scrollToViewportAndClick(browser, options.get(options.size() - 1));
+					PageScrollUtil.scrollToViewportAndClick(appDriver, options.get(options.size() - 1));
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to select last item for element '" + uiObject.getDisplayName() + "'.", th);
-		}		
+		}
 	}
 
 	@Override
 	public void selectItem(String itemName, int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					
+
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
+					Assert.assertNotNull(options,
+							"Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 
 					String optionTextValue;
 					boolean found = false;
 
-					//performAction(new KeyboardEvent(KeyboardEventName.kbKeyUp, Keys.CONTROL, null), 0);
+					// performAction(new KeyboardEvent(KeyboardEventName.kbKeyUp, Keys.CONTROL,
+					// null), 0);
 					for (WebElement option : options) {
 						optionTextValue = option.getText();
 						if (optionTextValue != null && itemName.equals(optionTextValue.trim())) {
-							if(!option.isSelected()) {
-								PageScrollUtil.scrollToViewportAndClick(browser, option);
+							if (!option.isSelected()) {
+								PageScrollUtil.scrollToViewportAndClick(appDriver, option);
 							}
 							found = true;
-							//break;
-						} else if(option.isSelected()) {
-							PageScrollUtil.scrollToViewportAndClick(browser, option);
+							// break;
+						} else if (option.isSelected()) {
+							PageScrollUtil.scrollToViewportAndClick(appDriver, option);
 						}
 					}
 
 					if (!found) {
-						Assert.fail("Failed to find item '" + itemName + "' in Choices '" + uiObject.getDisplayName() + "'.");
+						Assert.fail("Failed to find item '" + itemName + "' in Choices '" + uiObject.getDisplayName()
+								+ "'.");
 					}
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
-			Assert.fail("Failed to select item '" + itemName + "' for element '" + uiObject.getDisplayName() + "'.", th);
-		}		
+		} catch (Throwable th) {
+			Assert.fail("Failed to select item '" + itemName + "' for element '" + uiObject.getDisplayName() + "'.",
+					th);
+		}
 	}
 
 	@Override
 	public void selectItems(ItemList<String> itemsToBeSelected, int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
 
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
+					Assert.assertNotNull(options,
+							"Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 
 					String optionTextValue;
 					List<String> foundItemList = new LinkedList<String>();
-					//int itemNum = 1;		
+					// int itemNum = 1;
 					for (WebElement option : options) {
 						optionTextValue = option.getText();
 						if (optionTextValue != null && itemsToBeSelected.getItems().contains(optionTextValue.trim())) {
 							try {
-								//if(itemNum != 1) {
-								//	performAction(new KeyboardEvent(KeyboardEventName.kbKeyDown, Keys.CONTROL, null), 0);
-								//}
-								PageScrollUtil.scrollToViewportAndClick(browser, option);
+								// if(itemNum != 1) {
+								// performAction(new KeyboardEvent(KeyboardEventName.kbKeyDown, Keys.CONTROL,
+								// null), 0);
+								// }
+								PageScrollUtil.scrollToViewportAndClick(appDriver, option);
 								foundItemList.add(optionTextValue.trim());
-								//if(itemNum != 1) {
-								//	performAction(new KeyboardEvent(KeyboardEventName.kbKeyUp, Keys.CONTROL, null), 0);
-								//}
+								// if(itemNum != 1) {
+								// performAction(new KeyboardEvent(KeyboardEventName.kbKeyUp, Keys.CONTROL,
+								// null), 0);
+								// }
 							} catch (Throwable th) {
-								//if(itemNum != 1) {
-								//performAction(new KeyboardEvent(KeyboardEventName.kbKeyUp, Keys.CONTROL, null), 0);
-								//}
+								// if(itemNum != 1) {
+								// performAction(new KeyboardEvent(KeyboardEventName.kbKeyUp, Keys.CONTROL,
+								// null), 0);
+								// }
 								throw th;
 							}
-							//itemNum++;
+							// itemNum++;
 						}
 					}
 
 					if (foundItemList.size() != itemsToBeSelected.size()) {
 						itemsToBeSelected.removeAll(foundItemList);
-						Assert.fail("Failed to find item(s) '" + itemsToBeSelected + "' in Choices '" + uiObject.getDisplayName() + "'.");
+						Assert.fail("Failed to find item(s) '" + itemsToBeSelected + "' in Choices '"
+								+ uiObject.getDisplayName() + "'.");
 					}
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to select item for element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
@@ -361,12 +374,13 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	@Override
 	public void validateItemsPresent(ItemList<String> items, int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
 
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
+					Assert.assertNotNull(options,
+							"Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
@@ -383,18 +397,19 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 						}
 
 						if (!found) {
-							Assert.fail("Failed to find item '" + item + "' in Choices '" + uiObject.getDisplayName() + "'.");
+							Assert.fail("Failed to find item '" + item + "' in Choices '" + uiObject.getDisplayName()
+									+ "'.");
 						}
 					}
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to validate item presence for element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}
@@ -402,12 +417,13 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	@Override
 	public void validateItemsNotPresent(ItemList<String> items, int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
 
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
-					Assert.assertNotNull(options, "Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
+					Assert.assertNotNull(options,
+							"Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
@@ -424,18 +440,19 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 						}
 
 						if (found) {
-							Assert.fail("Item '" + item + "' is present in Choices '" + uiObject.getDisplayName() + "'.");
+							Assert.fail(
+									"Item '" + item + "' is present in Choices '" + uiObject.getDisplayName() + "'.");
 						}
 					}
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
+		} catch (Throwable th) {
 			Assert.fail("Failed to validate eitem absence for element '" + uiObject.getDisplayName() + "'.", th);
 		}
 	}

@@ -20,8 +20,8 @@ package org.uitnet.testing.smartfwk.ui.core.objects.choices;
 import java.util.List;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
@@ -33,8 +33,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
 public abstract class ChoicesValidator extends UIObjectValidator {
 	private Choices choices;
 
-	public ChoicesValidator(WebBrowser browser, Choices uiObject, Region region) {
-		super(browser, uiObject, region);
+	public ChoicesValidator(SmartAppDriver appDriver, Choices uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.choices = uiObject;
 	}
 
@@ -47,16 +47,15 @@ public abstract class ChoicesValidator extends UIObjectValidator {
 
 	public abstract void validateItemEnabled(String itemName, int numRetries);
 
-	public abstract void validateItemSelected(String item, TextMatchMechanism validationMechanism,
-			int numRetries);
-	
+	public abstract void validateItemSelected(String item, TextMatchMechanism validationMechanism, int numRetries);
+
 	public abstract void validateItemsSelected(ItemList<String> items, TextMatchMechanism validationMechanism,
 			int numRetries);
 
 	public abstract String getSelectedItem(int numRetries);
-	
+
 	public abstract List<String> getSelectedItems(int numRetries);
-	
+
 	public abstract List<String> getAllItems(int numRetries);
 
 	public abstract void selectFirstItem(int numRetries);
@@ -66,7 +65,7 @@ public abstract class ChoicesValidator extends UIObjectValidator {
 	public abstract void selectItem(String itemName, int numRetries);
 
 	public abstract void selectItems(ItemList<String> itemsToBeSelected, int numRetries);
-	
+
 	public abstract void deselectItem(String itemName, int numRetries);
 
 	public abstract void deselectItems(ItemList<String> itemsToBeDeselected, int numRetries);

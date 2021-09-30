@@ -23,13 +23,14 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.sikuli.script.Region;
 import org.testng.Assert;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.button.ButtonValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
+import org.uitnet.testing.smartfwk.ui.core.utils.WebAttrMapUtil;
 
 /**
  * 
@@ -38,18 +39,17 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
  */
 public class ButtonValidatorSD extends ButtonValidator {
 	protected DOMObjectValidator domObjValidator;
-	
-	public ButtonValidatorSD(WebBrowser browser, ButtonSD uiObject, Region region) {
-		super(browser, uiObject, region);
-		domObjValidator = new DOMObjectValidator(browser, 
-				new DOMObject(uiObject.getDisplayName(), uiObject.getLocatorXPath()), 
-				region);
+
+	public ButtonValidatorSD(SmartAppDriver appDriver, ButtonSD uiObject, Region region) {
+		super(appDriver, uiObject, region);
+		domObjValidator = new DOMObjectValidator(appDriver,
+				new DOMObject(uiObject.getType(), uiObject.getDisplayName(), uiObject.getPlatformLocators()), region);
 	}
 
 	public DOMObjectValidator getDOMObjectValidator() {
 		return domObjValidator;
 	}
-	
+
 	@Override
 	public boolean isDisabled(int numRetries) {
 		return domObjValidator.isDisabled(numRetries);
@@ -58,13 +58,13 @@ public class ButtonValidatorSD extends ButtonValidator {
 	@Override
 	public void validateDisabled(int numRetries) {
 		Assert.assertTrue(domObjValidator.isDisabled(numRetries),
-				"'" + uiObject.getDisplayName() + "' element is not disabled.");		
+				"'" + uiObject.getDisplayName() + "' element is not disabled.");
 	}
 
 	@Override
 	public void validateEnabled(int numRetries) {
 		Assert.assertFalse(domObjValidator.isDisabled(numRetries),
-				"'" + uiObject.getDisplayName() + "' element is not enabled.");	
+				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class ButtonValidatorSD extends ButtonValidator {
 	}
 
 	@Override
-	public boolean isPresent(int numRetries) {		
+	public boolean isPresent(int numRetries) {
 		return domObjValidator.isPresent(numRetries);
 	}
 
@@ -131,26 +131,26 @@ public class ButtonValidatorSD extends ButtonValidator {
 	@Override
 	public void validateName(String expectedName, TextMatchMechanism validationMechanism, int numRetries) {
 		try {
-			for(int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= numRetries; i++) {
 				try {
-					WebElement webElem = domObjValidator.findElement(0);
-					String actualValue = webElem.getAttribute("value");
+					String actualValue = WebAttrMapUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), 0);
 					validateTextValue(actualValue, expectedName, validationMechanism);
 					return;
-				} catch(Throwable th) {
-					if(i == numRetries) {
+				} catch (Throwable th) {
+					if (i == numRetries) {
 						throw th;
 					}
 				}
-				browser.waitForSeconds(2);
+				appDriver.waitForSeconds(2);
 			}
-		} catch(Throwable th) {
-			Assert.fail("Failed to validate expected name '" + expectedName + "' for element '" + uiObject.getDisplayName() + "'.", th);
+		} catch (Throwable th) {
+			Assert.fail("Failed to validate expected name '" + expectedName + "' for element '"
+					+ uiObject.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	@Override
-	public WebElement findElement(int numRetries) {		
+	public WebElement findElement(int numRetries) {
 		return domObjValidator.findElement(numRetries);
 	}
 

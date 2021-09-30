@@ -18,12 +18,21 @@
 package org.uitnet.testing.smartfwk.ui.core.objects;
 
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.LocateBy;
+import org.uitnet.testing.smartfwk.ui.core.commons.Locator;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
+import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
+import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 
 /**
  * 
@@ -31,49 +40,69 @@ import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
  *
  */
 public class DOMObject extends UIObject {
-	protected String xpath;
+	protected Map<String, Locator> platFormLocators = new HashMap<>();
 
 	public DOMObject(String displayName, String xpath) {
 		super(LocatorType.DOM, UIObjectType.locator, displayName);
-		this.xpath = xpath;
+		platFormLocators.put(SmartConstants.DEFAULT_XPATH_LOCATOR, new Locator(LocateBy.Xpath, xpath));
 	}
-	
+
 	public DOMObject(UIObjectType elemType, String displayName, String xpath) {
 		super(LocatorType.DOM, elemType, displayName);
-		this.xpath = xpath;
+		platFormLocators.put(SmartConstants.DEFAULT_XPATH_LOCATOR, new Locator(LocateBy.Xpath, xpath));
 	}
 
-	public String getLocatorAsXPath() {
-		return xpath;
+	public DOMObject(UIObjectType elemType, String displayName, Map<String, Locator> platFormLocators) {
+		super(LocatorType.DOM, elemType, displayName);
+		this.platFormLocators = platFormLocators;
 	}
 
-	public By getLocatorAsBy() {
-		return By.xpath(xpath);
+	public Locator getLocator(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {
+		return LocatorUtil.findLocator(platFormLocators, platform, appType, browserType);
+	}
+
+	public Map<String, Locator> getPlatformLocators() {
+		return platFormLocators;
 	}
 
 	@Override
-	public DOMObject updateLocatorParameterWithValue(String paramName, String value) {
-		xpath = xpath.replaceAll(":" + paramName, value);
-		return this;
+	public DOMObject updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
+		String newDisplayName = displayName.replaceAll(":" + paramName, paramValue);
+
+		Map<String, Locator> newPlatFormLocators = new HashMap<>();
+		for (Map.Entry<String, Locator> locator : platFormLocators.entrySet()) {
+			newPlatFormLocators.put(locator.getKey(), new Locator(locator.getValue().getLocateBy(),
+					locator.getValue().getValue().replaceAll(":" + paramName, paramValue)));
+		}
+		return new DOMObject(uiObjectType, newDisplayName, newPlatFormLocators);
 	}
 
 	@Override
-	public DOMObjectValidator getValidator(WebBrowser browser, Region region) {
-		return new DOMObjectValidator(browser, this, region);
+	public DOMObjectValidator getValidator(SmartAppDriver appDriver, Region region) {
+		return new DOMObjectValidator(appDriver, this, region);
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public DOMObject clone() {
 		try {
-			Class[] paramTypes = new Class[2];
+			Class[] paramTypes = new Class[3];
 			paramTypes[0] = String.class;
 			paramTypes[1] = String.class;
+			paramTypes[2] = Map.class;
 			Constructor ctor = this.getClass().getConstructor(paramTypes);
 
-			Object[] paramValues = new Object[2];
-			paramValues[0] = displayName;
-			paramValues[1] = xpath;
+			Map<String, Locator> newPlatFormLocators = new HashMap<>();
+
+			for (Map.Entry<String, Locator> entry : platFormLocators.entrySet()) {
+				newPlatFormLocators.put(entry.getKey(),
+						new Locator(entry.getValue().getLocateBy(), entry.getValue().getValue()));
+			}
+
+			Object[] paramValues = new Object[3];
+			paramValues[0] = uiObjectType;
+			paramValues[1] = displayName;
+			paramValues[2] = newPlatFormLocators;
 
 			return (DOMObject) ctor.newInstance(paramValues);
 		} catch (Exception ex) {

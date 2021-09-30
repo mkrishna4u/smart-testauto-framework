@@ -38,7 +38,8 @@ public class OrmDatabaseQueryHandler {
 	private SessionFactory hibernateSessionFactory;
 
 	public OrmDatabaseQueryHandler(String hibernateCfgFile) {
-		Configuration hibernateCfg = new Configuration().configure(new File(Locations.getProjectRootDir() + File.separator + hibernateCfgFile));
+		Configuration hibernateCfg = new Configuration()
+				.configure(new File(Locations.getProjectRootDir() + File.separator + hibernateCfgFile));
 
 		hibernateSessionFactory = hibernateCfg.buildSessionFactory();
 	}
@@ -200,8 +201,7 @@ public class OrmDatabaseQueryHandler {
 
 	public static void main(String[] args) {
 		OrmDatabaseQueryHandler handler = new OrmDatabaseQueryHandler("profiles/database/hibernate.cfg.db.dev.xml");
-		
-		System.out.println(handler.getTableRowColumnValue("TEST_TABLE", "COLUMN_1",
-				"<SQL-QUERY>"));
+
+		System.out.println(handler.getTableRowColumnValue("TEST_TABLE", "COLUMN_1", "<SQL-QUERY>"));
 	}
 }

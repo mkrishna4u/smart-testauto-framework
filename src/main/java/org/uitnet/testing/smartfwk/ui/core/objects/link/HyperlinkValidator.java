@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.link;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
@@ -30,8 +30,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatc
 public abstract class HyperlinkValidator extends UIObjectValidator {
 	private Hyperlink hyperlink;
 
-	public HyperlinkValidator(WebBrowser browser, Hyperlink uiObject, Region region) {
-		super(browser, uiObject, region);
+	public HyperlinkValidator(SmartAppDriver appDriver, Hyperlink uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.hyperlink = uiObject;
 	}
 
@@ -40,8 +40,7 @@ public abstract class HyperlinkValidator extends UIObjectValidator {
 		return hyperlink;
 	}
 
-	public abstract void validateName(String expectedValue, TextMatchMechanism validationMechanism,
-			int numRetries);
+	public abstract void validateName(String expectedValue, TextMatchMechanism validationMechanism, int numRetries);
 
 	public abstract String getName(int numRetries);
 }

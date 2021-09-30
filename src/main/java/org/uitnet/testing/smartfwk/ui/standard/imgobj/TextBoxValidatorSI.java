@@ -27,8 +27,8 @@ import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
@@ -44,8 +44,8 @@ import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
 public class TextBoxValidatorSI extends TextBoxValidator {
 	protected TextBoxSI textBoxObj;
 
-	public TextBoxValidatorSI(WebBrowser browser, TextBoxSI uiObject, Region region) {
-		super(browser, uiObject, region);
+	public TextBoxValidatorSI(SmartAppDriver appDriver, TextBoxSI uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.textBoxObj = uiObject;
 	}
 
@@ -168,8 +168,8 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 			match.click();
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on TextBox '" + textBoxObj.getDisplayName()
-					+ "'.", th);
+			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on TextBox '"
+					+ textBoxObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -184,15 +184,13 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 					+ textBoxObj.getDisplayName() + "'.", th);
 		}
 	}
-	
-	
 
 	@Override
 	public void typeText(String text, NewTextLocation location, int numRetries) {
 		Match match = findElement(numRetries);
 		try {
 			match.click();
-			switch(location) {
+			switch (location) {
 			case start:
 				match.type(Key.HOME);
 				break;
@@ -203,9 +201,9 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 				match.type("a", KeyModifier.CTRL);
 				break;
 			}
-			
+
 			match.type(text);
-			//validateValue(text, TextMatchMechanism.containsExpectedValue, 0);
+			// validateValue(text, TextMatchMechanism.containsExpectedValue, 0);
 		} catch (Throwable th) {
 			Assert.fail("Fail to type text '" + text + "' in TextBox '" + textBoxObj.getDisplayName() + "'.");
 		}
@@ -222,8 +220,8 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 		Match match = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				Region region = textBoxObj.getLocation().getRegionOfImageObject(browser, textBoxObj.getLeftSideImage(),
-						textBoxObj.getRightSideImage());
+				Region region = textBoxObj.getLocation().getRegionOfImageObject(appDriver,
+						textBoxObj.getLeftSideImage(), textBoxObj.getRightSideImage());
 				Assert.assertNotNull(region, "Failed to find TextBox '" + textBoxObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -234,7 +232,7 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 					break;
 				}
 			}
-			browser.waitForSeconds(2);
+			appDriver.waitForSeconds(2);
 		}
 		return match;
 	}
@@ -259,7 +257,7 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
 		try {
 			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
 
 			Assert.assertNotNull(sourceElem, "Failed to find TextBox '" + textBoxObj.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
@@ -290,7 +288,7 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 
 	@Override
 	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int numRetries) {
-		if(textBoxObj.isDisabled()) {
+		if (textBoxObj.isDisabled()) {
 			Match match = findElement(numRetries);
 			validateTextValue(match.text(), expectedValue, validationMechanism);
 		} else {
@@ -320,7 +318,7 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 		}
 
 	}
-	
+
 	@Override
 	@Deprecated
 	public boolean isDisabled(int numRetries) {
@@ -339,14 +337,14 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 	@Deprecated
 	public void validateReadonly(int numRetries) {
 		Assert.fail("isDisabled() API is not supported by TextBox component.");
-		
+
 	}
 
 	@Override
 	@Deprecated
 	public void validateNotReadonly(int numRetries) {
 		Assert.fail("isDisabled() API is not supported by TextBox component.");
-		
+
 	}
 
 }

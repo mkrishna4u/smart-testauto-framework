@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.checkbox;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.config.webbrowser.WebBrowser;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 
 /**
@@ -29,8 +29,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 public abstract class CheckBoxValidator extends UIObjectValidator {
 	private CheckBox checkBox;
 
-	public CheckBoxValidator(WebBrowser browser, CheckBox uiObject, Region region) {
-		super(browser, uiObject, region);
+	public CheckBoxValidator(SmartAppDriver appDriver, CheckBox uiObject, Region region) {
+		super(appDriver, uiObject, region);
 		this.checkBox = uiObject;
 	}
 
@@ -48,7 +48,7 @@ public abstract class CheckBoxValidator extends UIObjectValidator {
 	public abstract void checkAndValidateChecked(int numRetries);
 
 	public abstract void uncheckAndValidateUnchecked(int numRetries);
-	
+
 	public abstract boolean isDisabled(int numRetries);
 
 	public abstract void validateDisabled(int numRetries);
