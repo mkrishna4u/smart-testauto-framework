@@ -48,5 +48,8 @@ Use the following github quickstart project and follow the instructions there to
 
 Work in progress to add more quickstart projects for different platforms...
 
-#License
+# Documentation & More Details
+Please refer <a href="https://github.com/mkrishna4u/smart-testauto-framework/wiki">wiki</a> pages for more details about this framework.
+
+# License
 Apache License, 2.0
