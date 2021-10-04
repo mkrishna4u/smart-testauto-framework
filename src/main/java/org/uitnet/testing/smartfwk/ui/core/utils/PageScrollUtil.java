@@ -17,11 +17,23 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import java.time.Duration;
+
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 
 /**
  * 
@@ -50,16 +62,182 @@ public class PageScrollUtil {
 		jse.executeScript("window.scrollTo(window.innerWidth, window.innerHeight);");
 	}
 
+	public static boolean isElementInViewport(SmartAppDriver appDriver, WebElement element) {
+		Point winPos = appDriver.getWebDriver().manage().window().getPosition();
+		Dimension winDim = appDriver.getWebDriver().manage().window().getSize();
+		Point elemPos = element.getLocation();
+
+		int winX1 = winPos.getX();
+		int winY1 = winPos.getY();
+
+		int winX2 = winX1 + winDim.getWidth();
+		int winY2 = winY1 + winDim.getHeight();
+
+		int elemX1 = elemPos.getX() >= 0 ? elemPos.getX() + 20 : elemPos.getX();
+		int elemY1 = elemPos.getY() >= 0 ? elemPos.getY() + 20 : elemPos.getY();
+
+		if ((elemX1 >= winX1 && elemX1 <= winX2) || (elemY1 >= winY1 && elemY1 <= winY2)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public static void scrollElemToViewport(SmartAppDriver appDriver, WebElement element) {
 		if (element == null) {
 			return;
 		}
-		
+
 		try {
-			Rectangle rect = element.getRect();
+			if (isElementInViewport(appDriver, element)) {
+				return;
+			}
+
 			JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
-			jse.executeScript("window.scrollTo(" + rect.getX() + ", " + rect.getY() + ");");
-		} catch(Exception | Error ex) {
+			if (appDriver.getAppType() == ApplicationType.web_app) {
+				Rectangle rect = element.getRect();
+				int elemX1 = rect.getX() >= 0 ? rect.getX() + 20 : rect.getX();
+				int elemY1 = rect.getY() >= 0 ? rect.getY() + 20 : rect.getY();
+				jse.executeScript("window.scrollTo(" + elemX1 + ", " + elemY1 + ");");
+			} else if (appDriver.getTestPlatformType() == PlatformType.android_mobile
+					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
+//				locatableElem.getCoordinates().inViewPort();
+
+//				Point winPos = appDriver.getWebDriver().manage().window().getPosition();
+//				Dimension winDim = appDriver.getWebDriver().manage().window().getSize();
+//
+//				int centralX = winPos.getX() + (winDim.getWidth() / 2);
+//				int centralY = winPos.getY() + (winDim.getHeight() / 2);
+//				
+//				Point elemPos = element.getLocation();
+//				int elemX1 = elemPos.getX() >= 0 ? elemPos.getX() + 20 : elemPos.getX();
+//				int elemY1 = elemPos.getY() >= 0 ? elemPos.getY() + 20 : elemPos.getY();
+//				
+//				AppiumDriver appiumDriver = (AppiumDriver) appDriver.getWebDriver();
+//				
+//				TouchAction ta = new TouchAction(appiumDriver);
+//				ta.press(PointOption.point(new Point(centralX, centralY)));	
+//				ta.waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)));
+//				ta.moveTo(PointOption.point(new Point(elemX1, elemY1)));
+//				ta.release();
+//				ta.perform();
+			}
+		} catch (Exception | Error ex) {
+			// Do nothing
+		}
+	}
+
+	/**
+	 * This method is applicable only to mobile native apps.
+	 * @param appDriver
+	 * @param xStart
+	 * @param yStart
+	 * @param xStop
+	 * @param yStop
+	 */
+	@SuppressWarnings("rawtypes")
+	public static void swipe(SmartAppDriver appDriver, int xStart, int yStart, int xStop, int yStop) {
+		try {
+			if (appDriver.getTestPlatformType() == PlatformType.android_mobile
+					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
+				new TouchAction((AppiumDriver) appDriver.getWebDriver())
+					.press(PointOption.point(xStart, yStart))
+					.waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
+					.moveTo(PointOption.point(xStop, yStop))
+					.release()
+					.perform();
+			} else {
+				Assert.fail("This method is not applicable for platform '" + appDriver.getTestPlatformType() + "'.");
+			}
+		} catch (Exception e) {
+			// Do nothing
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static void swipePageUp(SmartAppDriver appDriver) {
+		try {
+			Point winPos = appDriver.getWebDriver().manage().window().getPosition();
+			Dimension winDim = appDriver.getWebDriver().manage().window().getSize();
+			
+			if (appDriver.getTestPlatformType() == PlatformType.android_mobile
+					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
+				new TouchAction((AppiumDriver) appDriver.getWebDriver())
+					.press(PointOption.point(winPos.getX(),  (winDim.getHeight() - 10)))
+					.waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
+					.moveTo(PointOption.point(winPos.getX(), 0))
+					.release()
+					.perform();
+			} else {
+				Assert.fail("This method is not applicable for platform '" + appDriver.getTestPlatformType() + "'.");
+			}
+		} catch (Exception e) {
+			// Do nothing
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static void swipePageDown(SmartAppDriver appDriver) {
+		try {
+			Point winPos = appDriver.getWebDriver().manage().window().getPosition();
+			Dimension winDim = appDriver.getWebDriver().manage().window().getSize();
+			
+			if (appDriver.getTestPlatformType() == PlatformType.android_mobile
+					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
+				new TouchAction((AppiumDriver) appDriver.getWebDriver())
+					.press(PointOption.point(winPos.getX(),  0))
+					.waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
+					.moveTo(PointOption.point(winPos.getX(), winDim.getHeight()))
+					.release()
+					.perform();
+			} else {
+				Assert.fail("This method is not applicable for platform '" + appDriver.getTestPlatformType() + "'.");
+			}
+		} catch (Exception e) {
+			// Do nothing
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static void swipePageRight(SmartAppDriver appDriver) {
+		try {
+			Point winPos = appDriver.getWebDriver().manage().window().getPosition();
+			Dimension winDim = appDriver.getWebDriver().manage().window().getSize();
+			
+			if (appDriver.getTestPlatformType() == PlatformType.android_mobile
+					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
+				new TouchAction((AppiumDriver) appDriver.getWebDriver())
+					.press(PointOption.point(0, winPos.getY()))
+					.waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
+					.moveTo(PointOption.point(winDim.getWidth(), winPos.getY()))
+					.release()
+					.perform();
+			} else {
+				Assert.fail("This method is not applicable for platform '" + appDriver.getTestPlatformType() + "'.");
+			}
+		} catch (Exception e) {
+			// Do nothing
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static void swipePageLeft(SmartAppDriver appDriver) {
+		try {
+			Point winPos = appDriver.getWebDriver().manage().window().getPosition();
+			Dimension winDim = appDriver.getWebDriver().manage().window().getSize();
+			
+			if (appDriver.getTestPlatformType() == PlatformType.android_mobile
+					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
+				new TouchAction((AppiumDriver) appDriver.getWebDriver())
+					.press(PointOption.point(winDim.getWidth(), winPos.getY()))
+					.waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
+					.moveTo(PointOption.point(0, winPos.getY()))
+					.release()
+					.perform();
+			} else {
+				Assert.fail("This method is not applicable for platform '" + appDriver.getTestPlatformType() + "'.");
+			}
+		} catch (Exception e) {
 			// Do nothing
 		}
 	}

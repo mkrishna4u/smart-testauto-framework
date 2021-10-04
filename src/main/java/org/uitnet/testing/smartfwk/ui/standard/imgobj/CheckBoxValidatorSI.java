@@ -20,6 +20,7 @@ package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 import java.util.List;
 
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Button;
 import org.sikuli.script.Location;
 import org.sikuli.script.Match;
@@ -32,6 +33,9 @@ import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.checkbox.CheckBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
+
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.TouchAction;
 
 /**
  * 
@@ -305,6 +309,28 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 	@Deprecated
 	public void validateEnabled(int numRetries) {
 		Assert.fail("validateEnabled() is not supported for CheckBox component.");
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	@Deprecated
+	public TouchAction getNewMobileTouchAction() {
+		Assert.fail("getNewMobileTouchAction() API is not supported by Button component.");
+		return null;
+	}
+
+	@Override
+	@Deprecated
+	public MultiTouchAction getNewMobileMultiTouchAction() {
+		Assert.fail("getNewMobileMultiTouchAction() API is not supported by Button component.");
+		return null;
+	}
+
+	@Override
+	@Deprecated
+	public Actions getNewSeleniumActions() {
+		Assert.fail("getNewSeleniumActions() API is not supported by Button component.");
+		return null;
 	}
 
 }

@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
@@ -31,6 +32,9 @@ import org.uitnet.testing.smartfwk.ui.core.objects.label.LabelValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.WebAttrMapUtil;
+
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.TouchAction;
 
 /**
  * 
@@ -154,4 +158,19 @@ public class LabelValidatorSD extends LabelValidator {
 		return domObjValidator.findElements(numRetries);
 	}
 
+	@SuppressWarnings("rawtypes")
+	@Override
+	public TouchAction getNewMobileTouchAction() {
+		return domObjValidator.getNewMobileTouchAction();
+	}
+
+	@Override
+	public MultiTouchAction getNewMobileMultiTouchAction() {
+		return domObjValidator.getNewMobileMultiTouchAction();
+	}
+
+	@Override
+	public Actions getNewSeleniumActions() {
+		return domObjValidator.getNewSeleniumActions();
+	}
 }

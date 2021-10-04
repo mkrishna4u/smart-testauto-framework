@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Button;
 import org.sikuli.script.Key;
 import org.sikuli.script.KeyModifier;
@@ -34,6 +35,9 @@ import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
+
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.TouchAction;
 
 /**
  * 
@@ -361,5 +365,27 @@ public class ImageObjectValidator extends UIObjectValidator {
 		String contents = ClipboardUtil.getContents();
 		ClipboardUtil.clearContents();
 		return contents;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	@Deprecated
+	public TouchAction getNewMobileTouchAction() {
+		Assert.fail("getNewMobileTouchAction() API is not supported by Button component.");
+		return null;
+	}
+
+	@Override
+	@Deprecated
+	public MultiTouchAction getNewMobileMultiTouchAction() {
+		Assert.fail("getNewMobileMultiTouchAction() API is not supported by Button component.");
+		return null;
+	}
+
+	@Override
+	@Deprecated
+	public Actions getNewSeleniumActions() {
+		Assert.fail("getNewSeleniumActions() API is not supported by Button component.");
+		return null;
 	}
 }

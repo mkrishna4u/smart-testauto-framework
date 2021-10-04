@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
@@ -32,6 +33,9 @@ import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonGroupValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
+
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.TouchAction;
 
 /**
  * 
@@ -284,6 +288,22 @@ public class RadioButtonGroupValidatorSD extends RadioButtonGroupValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to validate not selected item for element '" + uiObject.getDisplayName() + "'.", th);
 		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public TouchAction getNewMobileTouchAction() {
+		return domObjValidator.getNewMobileTouchAction();
+	}
+
+	@Override
+	public MultiTouchAction getNewMobileMultiTouchAction() {
+		return domObjValidator.getNewMobileMultiTouchAction();
+	}
+
+	@Override
+	public Actions getNewSeleniumActions() {
+		return domObjValidator.getNewSeleniumActions();
 	}
 
 }

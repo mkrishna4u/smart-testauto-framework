@@ -33,12 +33,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.WebAttrMapUtil;
 
 import com.google.common.base.Function;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.TouchAction;
 
 /**
  * 
@@ -144,20 +149,12 @@ public class DOMObjectValidator extends UIObjectValidator {
 		WebElement webElem = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				// appDriver.getWebDriver().manage().timeouts().pageLoadTimeout(30,
-				// TimeUnit.SECONDS);
-				// appDriver.getWebDriver().manage().timeouts().implicitlyWait(10,
-				// TimeUnit.SECONDS);
 				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
 						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
 								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(webElem, "Unable to find element '" + domObject.getDisplayName() + "'.");
 				PageScrollUtil.scrollElemToViewport(appDriver, webElem);
-				// System.out.println(domObject.getDisplayName() + ", DISPLAYED:
-				// " + webElem.isDisplayed() + ", " + webElem.isEnabled());
-				// Assert.assertTrue(webElem.isDisplayed(), "Unable to find
-				// element '" + domObject.getDisplayName() + "'. Reason - Not
-				// displayed.");
+				
 				break;
 			} catch (Throwable th) {
 				if (i == numRetries) {
@@ -696,4 +693,30 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
+	@Override
+	public TouchAction getNewMobileTouchAction() {
+		if (appDriver.getTestPlatformType() == PlatformType.ios_mobile
+				|| appDriver.getTestPlatformType() == PlatformType.android_mobile) {
+			return new TouchAction((AppiumDriver) appDriver.getWebDriver());
+		}
+
+		return null;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public MultiTouchAction getNewMobileMultiTouchAction() {
+		if (appDriver.getTestPlatformType() == PlatformType.ios_mobile
+				|| appDriver.getTestPlatformType() == PlatformType.android_mobile) {
+			return new MultiTouchAction((AppiumDriver) appDriver.getWebDriver());
+		}
+
+		return null;
+	}
+
+	@Override
+	public Actions getNewSeleniumActions() {
+		return new Actions(appDriver.getWebDriver());
+	}
 }

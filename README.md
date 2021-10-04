@@ -1,4 +1,5 @@
 # Smart Software Testing Automation Framework (smart-testauto-fwk)
+
 A software testing automation framework that can be used to smartly test any type of application softwares (i.e. Web Applications, Native Applications) that utilize the functionality of the following Java based software testing automation tools: Cucumber, Selenium, SikulliX, Appium etc. It supports **LOW CODE** strategy for easy maintenance of steps definitions and standardizing the way of configuring application data, writing the test scenarios and step definitions.
 
 Using this software we can easily test the following functionality of the software applications:
