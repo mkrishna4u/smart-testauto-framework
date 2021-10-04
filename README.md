@@ -4,9 +4,9 @@ A software testing automation framework that can be used to smartly test any typ
 
 Using this software we can easily test the following functionality of the software applications:
 
-1.  Web User Interface running on different web browsers (like Chrome, Firefox etc.) on different platforms (like windows, mobile, mac, linux, android, iOS etc.)
-2.  Native applications like Desktop applications (like calculator), Mobile applications (like calculator)
-3.  Visualization testing / Image recognition testing (like image based testing using *SI object classes like ImageSI, ButtonSI, TextboxSI object classes etc.). NOTE: To perform visualization testing, application must be launched and visible on PC. Visualization testing can not be performed on headless web browsers.
+1.  **Web User Interface** running on different web browsers (like Chrome, Firefox etc.) on different platforms (like windows, mobile, mac, linux, android, iOS etc.)
+2.  **Native applications** like **Desktop applications** (like calculator), **Mobile applications** (like calculator)
+3.  **Visualization testing / Image recognition testing** (like image based testing using *SI object classes like ImageSI, ButtonSI, TextboxSI object classes etc.). NOTE: To perform visualization testing, application must be launched and visible on PC. Visualization testing can not be performed on headless web browsers.
 4.  Perform **Data Driven Testing (DDT)** on user interface against your relational database i.e. Oracle, MySQL, Postgres, MariaDB etc. Use **OrmDatabaseQueryHandler** class to perform CRUD operations on database.
 5.  Perform **Data Driven Testing (DDT)** using excel and CSV data. Reads excel (.xlsx and .xls) files data using **ExcelFileReader** class. Reads CSV file data using **CSVFileReader** class.
 6.  **API Testing (REST API)** using **AbstractApiTestHelper** class. This class maintains sessions and supports customizable login(..) and logout() APIs.
@@ -18,6 +18,18 @@ Using this software we can easily test the following functionality of the softwa
 12. Single class **SmartAppConnector** is used to connect to any configured application in the project. Please refer supported Platform Types, Application Types and Web Browser Types below to more about your application that you may want to perform testing automation.
 13. Platform specific sample driver configuration files (AppDriver.properties) are present in the following directory **sample-config/apps-drivers**. Copy specific file in your application config directory like **test-config/apps-config/<app-name>/** and also copy your application file like ?.app, ?.apk ?.exe, or ?.api etc.
 
+## Integrated software testing tools (High level)
+1. Cucumber
+2. Selenium
+3. SikuliX
+4. Appium (For mobile testing)
+5. TestNG
+6. Maven
+7. Relational Database ORM tools
+8. Excel / CSV file reader tools
+ 
+This framework removes the complexity of all other software tools and provides a *Single Platform* for testing automation. Using that you can automate any app on any platform.
+  
 ## Supported Platform Types
 1. windows
 2. linux
