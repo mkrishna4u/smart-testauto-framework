@@ -89,15 +89,15 @@ public class PageScrollUtil {
 		}
 
 		try {
-			if (isElementInViewport(appDriver, element)) {
-				return;
-			}
+//			if (isElementInViewport(appDriver, element)) {
+//				return;
+//			}
 
 			JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 			if (appDriver.getAppType() == ApplicationType.web_app) {
 				Rectangle rect = element.getRect();
-				int elemX1 = rect.getX() >= 0 ? rect.getX() + 20 : rect.getX();
-				int elemY1 = rect.getY() >= 0 ? rect.getY() + 20 : rect.getY();
+				int elemX1 = rect.getX() >= 0 ? rect.getX() - 20 : rect.getX();
+				int elemY1 = rect.getY() >= 0 ? rect.getY() - 20 : rect.getY();
 				jse.executeScript("window.scrollTo(" + elemX1 + ", " + elemY1 + ");");
 			} else if (appDriver.getTestPlatformType() == PlatformType.android_mobile
 					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
