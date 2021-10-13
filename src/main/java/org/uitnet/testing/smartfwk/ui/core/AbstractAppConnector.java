@@ -32,6 +32,7 @@ import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.UserProfile;
 import org.uitnet.testing.smartfwk.ui.core.config.database.orm.OrmDatabaseQueryHandler;
+import org.uitnet.testing.smartfwk.ui.core.handler.ScrollElementToViewportHandler;
 import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginPageValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginSuccessPageValidator;
 import org.uitnet.testing.smartfwk.ui.core.utils.ScreenCaptureUtil;
@@ -79,6 +80,10 @@ public abstract class AbstractAppConnector {
 
 	public void scenarioTearDown() {
 
+	}
+	
+	public void setScrollElementToViewportHandler(ScrollElementToViewportHandler handler) {
+		appDriver.setScrollElementToViewportHandler(handler);
 	}
 
 	public String getAppName() {

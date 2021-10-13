@@ -153,7 +153,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
 								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(webElem, "Unable to find element '" + domObject.getDisplayName() + "'.");
-				PageScrollUtil.scrollElemToViewport(appDriver, webElem);
+				
+				if(appDriver.getScrollElementToViewportHandler() != null) {
+					appDriver.getScrollElementToViewportHandler().handle(appDriver, webElem);
+				}
 				
 				break;
 			} catch (Throwable th) {
@@ -196,6 +199,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
 								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				if (webElem != null) {
+					if(appDriver.getScrollElementToViewportHandler() != null) {
+						appDriver.getScrollElementToViewportHandler().handle(appDriver, webElem);
+					}
 					break;
 				}
 				Assert.fail();
@@ -488,7 +494,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					PageScrollUtil.scrollToViewportAndClick(appDriver, webElem);
+					PageScrollUtil.mouseClick(appDriver, webElem);
 
 					Actions webActions = new Actions(appDriver.getWebDriver());
 					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "c"));
@@ -513,7 +519,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					PageScrollUtil.scrollToViewportAndClick(appDriver, webElem);
+					PageScrollUtil.mouseClick(appDriver, webElem);
 
 					Actions webActions = new Actions(appDriver.getWebDriver());
 					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "v")).build()
@@ -534,7 +540,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					PageScrollUtil.scrollToViewportAndClick(appDriver, webElem);
+					PageScrollUtil.mouseClick(appDriver, webElem);
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					appDriver.waitForSeconds(2);
@@ -551,7 +557,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
-					PageScrollUtil.scrollToViewportAndDoubleClick(appDriver, webElem);
+					PageScrollUtil.mouseDoubleClick(appDriver, webElem);
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					appDriver.waitForSeconds(2);
@@ -580,7 +586,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
-				PageScrollUtil.scrollToViewportAndClickAndHold(appDriver, webElem);
+				PageScrollUtil.mouseClickAndHold(appDriver, webElem);
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				appDriver.waitForSeconds(2);
@@ -592,7 +598,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
-				PageScrollUtil.scrollToViewportAndRelease(appDriver, webElem);
+				PageScrollUtil.mouseRelease(appDriver, webElem);
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				appDriver.waitForSeconds(2);
@@ -607,7 +613,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					WebElement sourceElem = findElement(numRetries);
 					WebElement targetElem = target.getValidator(appDriver, region).findElement(numRetries);
 
-					PageScrollUtil.scrollToViewportAndDragAndDrop(appDriver, sourceElem, targetElem);
+					PageScrollUtil.mouseDragAndDrop(appDriver, sourceElem, targetElem);
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					appDriver.waitForSeconds(2);

@@ -58,6 +58,8 @@ import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.config.ProxyConfiguration;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.handler.DefaultScrollElementToViewportHandler;
+import org.uitnet.testing.smartfwk.ui.core.handler.ScrollElementToViewportHandler;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -78,6 +80,7 @@ public class SmartAppDriver {
 	private Screen sikuliDriver;
 	private AppConfig appConfig;
 	private boolean opened = false;
+	private ScrollElementToViewportHandler scrollElemToViewportCallback;
 
 	public SmartAppDriver(String appName, ApplicationType appType, PlatformType testPlatformType) {
 		this.appId = AppIdGenerator.getInstance().nextValue();
@@ -86,6 +89,14 @@ public class SmartAppDriver {
 		this.testPlatformType = testPlatformType;
 		this.sikuliDriver = new Screen();
 		this.appConfig = TestConfigManager.getInstance().getAppConfig(appName);
+	}
+	
+	public void setScrollElementToViewportHandler(ScrollElementToViewportHandler handler) {
+		scrollElemToViewportCallback = handler;
+	}
+	
+	public ScrollElementToViewportHandler getScrollElementToViewportHandler() {
+		return scrollElemToViewportCallback;
 	}
 
 	public WebDriver openAppIfNotOpened() {
@@ -97,6 +108,8 @@ public class SmartAppDriver {
 	}
 
 	private void prepareWebDriver() {
+		scrollElemToViewportCallback = new DefaultScrollElementToViewportHandler();
+		
 		if (testPlatformType == PlatformType.windows) {
 			if (appType == ApplicationType.native_app) {
 				prepareWindowsNativeAppDriver();

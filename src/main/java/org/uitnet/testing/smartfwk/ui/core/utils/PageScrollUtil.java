@@ -42,22 +42,22 @@ import io.appium.java_client.touch.offset.PointOption;
  */
 public class PageScrollUtil {
 
-	public static void scrollToTopLeft(SmartAppDriver appDriver) {
+	public static void scrollToTopLeftPage(SmartAppDriver appDriver) {
 		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(0, 0);");
 	}
 
-	public static void scrollToTopRight(SmartAppDriver appDriver) {
+	public static void scrollToTopRightPage(SmartAppDriver appDriver) {
 		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(window.innerWidth, 0);");
 	}
 
-	public static void scrollToBottomLeft(SmartAppDriver appDriver) {
+	public static void scrollToBottomLeftPage(SmartAppDriver appDriver) {
 		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(0, window.innerHeight);");
 	}
 
-	public static void scrollToBottomRight(SmartAppDriver appDriver) {
+	public static void scrollToBottomRightPage(SmartAppDriver appDriver) {
 		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(window.innerWidth, window.innerHeight);");
 	}
@@ -83,7 +83,7 @@ public class PageScrollUtil {
 		return false;
 	}
 
-	public static void scrollElemToViewport(SmartAppDriver appDriver, WebElement element) {
+	public static void scrollElementToViewport(SmartAppDriver appDriver, WebElement element) {
 		if (element == null) {
 			return;
 		}
@@ -242,27 +242,56 @@ public class PageScrollUtil {
 		}
 	}
 
-	public static void scrollToViewportAndClick(SmartAppDriver appDriver, WebElement element) {
+	public static void mouseClick(SmartAppDriver appDriver, WebElement element) {
+		if(appDriver.getScrollElementToViewportHandler() != null) {
+			appDriver.getScrollElementToViewportHandler().handle(appDriver, element);
+		}
+		
 		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(element).click().perform();
 	}
 
-	public static void scrollToViewportAndDoubleClick(SmartAppDriver appDriver, WebElement element) {
+	public static void mouseDoubleClick(SmartAppDriver appDriver, WebElement element) {
+		if(appDriver.getScrollElementToViewportHandler() != null) {
+			appDriver.getScrollElementToViewportHandler().handle(appDriver, element);
+		}
+		
 		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(element).doubleClick().perform();
 	}
+	
+	public static void mouseContextClick(SmartAppDriver appDriver, WebElement element) {
+		if(appDriver.getScrollElementToViewportHandler() != null) {
+			appDriver.getScrollElementToViewportHandler().handle(appDriver, element);
+		}
+		
+		Actions action = new Actions(appDriver.getWebDriver());
+		action.moveToElement(element).contextClick().perform();
+	}
 
-	public static void scrollToViewportAndClickAndHold(SmartAppDriver appDriver, WebElement element) {
+	public static void mouseClickAndHold(SmartAppDriver appDriver, WebElement element) {
+		if(appDriver.getScrollElementToViewportHandler() != null) {
+			appDriver.getScrollElementToViewportHandler().handle(appDriver, element);
+		}
+		
 		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(element).clickAndHold().perform();
 	}
 
-	public static void scrollToViewportAndRelease(SmartAppDriver appDriver, WebElement element) {
+	public static void mouseRelease(SmartAppDriver appDriver, WebElement element) {
+		if(appDriver.getScrollElementToViewportHandler() != null) {
+			appDriver.getScrollElementToViewportHandler().handle(appDriver, element);
+		}
+		
 		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(element).release().perform();
 	}
 
-	public static void scrollToViewportAndDragAndDrop(SmartAppDriver appDriver, WebElement source, WebElement target) {
+	public static void mouseDragAndDrop(SmartAppDriver appDriver, WebElement source, WebElement target) {
+		if(appDriver.getScrollElementToViewportHandler() != null) {
+			appDriver.getScrollElementToViewportHandler().handle(appDriver, source);
+		}
+		
 		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(source).dragAndDrop(source, target).perform();
 	}

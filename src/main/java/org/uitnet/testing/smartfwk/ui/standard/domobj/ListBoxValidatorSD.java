@@ -230,7 +230,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
-					PageScrollUtil.scrollToViewportAndClick(appDriver, options.get(0));
+					PageScrollUtil.mouseClick(appDriver, options.get(0));
 					return;
 				} catch (Throwable th) {
 					if (i == numRetries) {
@@ -257,7 +257,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
-					PageScrollUtil.scrollToViewportAndClick(appDriver, options.get(options.size() - 1));
+					PageScrollUtil.mouseClick(appDriver, options.get(options.size() - 1));
 					return;
 				} catch (Throwable th) {
 					if (i == numRetries) {
@@ -291,12 +291,12 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 						optionTextValue = option.getText();
 						if (optionTextValue != null && itemName.equals(optionTextValue.trim())) {
 							if (!option.isSelected()) {
-								PageScrollUtil.scrollToViewportAndClick(appDriver, option);
+								PageScrollUtil.mouseClick(appDriver, option);
 							}
 							found = true;
 							// break;
 						} else if (option.isSelected()) {
-							PageScrollUtil.scrollToViewportAndClick(appDriver, option);
+							PageScrollUtil.mouseClick(appDriver, option);
 						}
 					}
 
@@ -340,7 +340,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 								// performAction(new KeyboardEvent(KeyboardEventName.kbKeyDown, Keys.CONTROL,
 								// null), 0);
 								// }
-								PageScrollUtil.scrollToViewportAndClick(appDriver, option);
+								PageScrollUtil.mouseClick(appDriver, option);
 								foundItemList.add(optionTextValue.trim());
 								// if(itemNum != 1) {
 								// performAction(new KeyboardEvent(KeyboardEventName.kbKeyUp, Keys.CONTROL,

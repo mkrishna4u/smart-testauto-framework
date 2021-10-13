@@ -223,7 +223,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					PageScrollUtil.scrollToViewportAndClick(appDriver, selectElement);
+					PageScrollUtil.mouseClick(appDriver, selectElement);
 
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
 					Assert.assertNotNull(options,
@@ -231,7 +231,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
-					PageScrollUtil.scrollToViewportAndClick(appDriver, options.get(0));
+					PageScrollUtil.mouseClick(appDriver, options.get(0));
 					return;
 				} catch (Throwable th) {
 					if (i == numRetries) {
@@ -251,7 +251,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					PageScrollUtil.scrollToViewportAndClick(appDriver, selectElement);
+					PageScrollUtil.mouseClick(appDriver, selectElement);
 
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
 					Assert.assertNotNull(options,
@@ -259,7 +259,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
-					PageScrollUtil.scrollToViewportAndClick(appDriver, options.get(options.size() - 1));
+					PageScrollUtil.mouseClick(appDriver, options.get(options.size() - 1));
 					return;
 				} catch (Throwable th) {
 					if (i == numRetries) {
@@ -279,7 +279,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 			for (int i = 0; i <= numRetries; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
-					PageScrollUtil.scrollToViewportAndClick(appDriver, selectElement);
+					PageScrollUtil.mouseClick(appDriver, selectElement);
 
 					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
 					Assert.assertNotNull(options,
@@ -290,7 +290,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 					for (WebElement option : options) {
 						optionTextValue = option.getText();
 						if (optionTextValue != null && itemName.equals(optionTextValue.trim())) {
-							PageScrollUtil.scrollToViewportAndClick(appDriver, option);
+							PageScrollUtil.mouseClick(appDriver, option);
 							found = true;
 							break;
 						}
