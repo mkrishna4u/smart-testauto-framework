@@ -18,10 +18,14 @@
 package org.uitnet.testing.smartfwk.ui.core.config;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.sikuli.basics.Settings;
+import org.sikuli.script.OCR;
+import org.sikuli.script.OCR.Options;
 import org.testng.Assert;
 
 public class SikuliSettings {
@@ -33,6 +37,7 @@ public class SikuliSettings {
 		this.sikuliSettingsFilePath = sikuliSettingsFilePath;
 		this.props = props;
 		this.ocrDataPath = sikuliSettingsFilePath + File.separator + "tessdata";
+		initializeSikuli();
 	}
 
 	public String getOcrDataPath() {
@@ -61,4 +66,52 @@ public class SikuliSettings {
 
 		return keyValuePairs;
 	}
+
+	protected void initializeSikuli() {
+		try {
+			Map<String, String> settings = getAllSettings();
+			String value;
+			for (String name : settings.keySet()) {
+				value = settings.get(name);
+
+				Field f = Settings.class.getDeclaredField(name);
+				if (f.isAccessible()) {
+					f.set(null, createObjectFromTypedValue(name, value));
+				} else {
+					f.setAccessible(true);
+					f.set(null, createObjectFromTypedValue(name, value));
+					f.setAccessible(false);
+				}
+			}
+
+			System.out.println("Sikuli OCRDataPath set to: " + getOcrDataPath());
+			Options ocrOptions = OCR.globalOptions();
+			ocrOptions.dataPath(getOcrDataPath());
+		} catch (Throwable th) {
+			Assert.fail("Failed to initialize the sikuli driver.", th);
+		}
+	}
+
+	protected Object createObjectFromTypedValue(String propertyName, String typedValue) {
+		String typeValueArr[] = typedValue.split(":");
+		Assert.assertTrue(typeValueArr.length > 1,
+				"typedValue format is wrong for property '" + propertyName + "'. It should be <data-type>:<value>");
+
+		switch (typeValueArr[0]) {
+		case "integer":
+			return Integer.parseInt(typeValueArr[1]);
+		case "string":
+			return typeValueArr[1];
+		case "float":
+			return Float.parseFloat(typeValueArr[1]);
+		case "double":
+			return Double.parseDouble(typeValueArr[1]);
+		case "boolean":
+			return Boolean.parseBoolean(typeValueArr[1]);
+		}
+
+		Assert.fail("'" + typeValueArr[0] + "' datatype is not supported for '" + propertyName + "' property.");
+		return null;
+	}
+
 }
