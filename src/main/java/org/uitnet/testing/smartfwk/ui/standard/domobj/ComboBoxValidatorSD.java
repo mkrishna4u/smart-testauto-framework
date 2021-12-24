@@ -73,6 +73,23 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 		Assert.assertFalse(domObjValidator.isDisabled(numRetries),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 	}
+	
+	@Override
+	public boolean isDisabledButNotReadonly(int numRetries) {
+		return domObjValidator.isDisabledButNotReadonly(numRetries);
+	}
+
+	@Override
+	public void validateDisabledButNotReadonly(int numRetries) {
+		Assert.assertTrue(domObjValidator.isDisabledButNotReadonly(numRetries),
+				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+	}
+
+	@Override
+	public void validateEnabledButNotReadonly(int numRetries) {
+		Assert.assertFalse(domObjValidator.isDisabledButNotReadonly(numRetries),
+				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+	}
 
 	@Override
 	public void typeText(String textToType, NewTextLocation location, int numRetries) {

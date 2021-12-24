@@ -44,6 +44,10 @@ public abstract class DateItemValidator extends UIObjectValidator {
 
 	public abstract void validateEnabled(int numRetries);
 
+	public abstract void validateDisabledButNotReadonly(int numRetries);
+
+	public abstract void validateEnabledButNotReadonly(int numRetries);
+
 	public abstract void typeDate(String date, int numRetries);
 
 	public abstract void selectDateUsingDatePicker(String date, int numRetries);

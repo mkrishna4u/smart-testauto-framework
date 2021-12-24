@@ -353,6 +353,26 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 		return elemDisabled;
 	}
+	
+	public boolean isDisabledButNotReadonly(int numRetries) {
+		boolean elemDisabled = false;
+		for (int i = 0; i <= numRetries; i++) {
+			try {
+				if (WebElementUtil.isElementDisabledButNotReadonly(appDriver, domObject)) {
+					elemDisabled = true;
+					break;
+				}
+
+				Assert.fail();
+			} catch (Throwable th) {
+				if (i == numRetries) {
+					break;
+				}
+			}
+			appDriver.waitForSeconds(2);
+		}
+		return elemDisabled;
+	}
 
 	/**
 	 * Determine whether or not this element is selected or not. This operation only

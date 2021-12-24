@@ -44,6 +44,12 @@ public abstract class RadioButtonValidator extends UIObjectValidator {
 	public abstract void validateDisabled(int numRetries);
 
 	public abstract void validateEnabled(int numRetries);
+	
+	public abstract boolean isDisabledButNotReadonly(int numRetries);
+
+	public abstract void validateDisabledButNotReadonly(int numRetries);
+
+	public abstract void validateEnabledButNotReadonly(int numRetries);
 
 	public abstract void select(int numRetries);
 

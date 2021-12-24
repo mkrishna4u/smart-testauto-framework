@@ -508,21 +508,37 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	@Override
 	@Deprecated
 	public TouchAction getNewMobileTouchAction() {
-		Assert.fail("getNewMobileTouchAction() API is not supported by Button component.");
+		Assert.fail("getNewMobileTouchAction() API is not supported by ListBox component.");
 		return null;
 	}
 
 	@Override
 	@Deprecated
 	public MultiTouchAction getNewMobileMultiTouchAction() {
-		Assert.fail("getNewMobileMultiTouchAction() API is not supported by Button component.");
+		Assert.fail("getNewMobileMultiTouchAction() API is not supported by ListBox component.");
 		return null;
 	}
 
 	@Override
 	@Deprecated
 	public Actions getNewSeleniumActions() {
-		Assert.fail("getNewSeleniumActions() API is not supported by Button component.");
+		Assert.fail("getNewSeleniumActions() API is not supported by ListBox component.");
 		return null;
+	}
+
+	@Override
+	public boolean isDisabledButNotReadonly(int numRetries) {
+		Assert.fail("isDisabledButNotReadonly() API is not supported by ListBox component.");
+		return false;
+	}
+
+	@Override
+	public void validateDisabledButNotReadonly(int numRetries) {
+		Assert.fail("validateDisabledButNotReadonly() API is not supported by ListBox component.");
+	}
+
+	@Override
+	public void validateEnabledButNotReadonly(int numRetries) {
+		Assert.fail("validateEnabledButNotReadonly() API is not supported by ListBox component.");
 	}
 }

@@ -44,6 +44,10 @@ public abstract class TimeItemValidator extends UIObjectValidator {
 
 	public abstract void validateEnabled(int numRetries);
 
+	public abstract void validateDisabledButNotReadonly(int numRetries);
+
+	public abstract void validateEnabledButNotReadonly(int numRetries);
+
 	public abstract void typeTime(String time, int numRetries);
 
 	public abstract void validateTime(String time, TextMatchMechanism validationMechanism, int numRetries);

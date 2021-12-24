@@ -135,44 +135,31 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 
 	@Override
 	public void validateDisabled(int numRetries) {
-		try {
-			for (int i = 0; i <= numRetries; i++) {
-				try {
-					WebElement webElem = findElement(0);
-					Assert.assertFalse(webElem.isEnabled(),
-							"Radio button '" + uiObject.getDisplayName() + "' is not disabled.");
-					return;
-				} catch (Throwable th) {
-					if (i == numRetries) {
-						throw th;
-					}
-				}
-				appDriver.waitForSeconds(2);
-			}
-		} catch (Throwable th) {
-			Assert.fail("Failed to validate disabled element '" + uiObject.getDisplayName() + "'.", th);
-		}
+		Assert.assertTrue(domObjValidator.isDisabled(numRetries),
+				"'" + uiObject.getDisplayName() + "' element is not disabled.");
 	}
 
 	@Override
 	public void validateEnabled(int numRetries) {
-		try {
-			for (int i = 0; i <= numRetries; i++) {
-				try {
-					WebElement webElem = findElement(0);
-					Assert.assertTrue(webElem.isEnabled(),
-							"Radio button '" + uiObject.getDisplayName() + "' is not enabled.");
-					return;
-				} catch (Throwable th) {
-					if (i == numRetries) {
-						throw th;
-					}
-				}
-				appDriver.waitForSeconds(2);
-			}
-		} catch (Throwable th) {
-			Assert.fail("Failed to validate not disabled element '" + uiObject.getDisplayName() + "'.", th);
-		}
+		Assert.assertFalse(domObjValidator.isDisabled(numRetries),
+				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+	}
+	
+	@Override
+	public boolean isDisabledButNotReadonly(int numRetries) {
+		return domObjValidator.isDisabledButNotReadonly(numRetries);
+	}
+
+	@Override
+	public void validateDisabledButNotReadonly(int numRetries) {
+		Assert.assertTrue(domObjValidator.isDisabledButNotReadonly(numRetries),
+				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+	}
+
+	@Override
+	public void validateEnabledButNotReadonly(int numRetries) {
+		Assert.assertFalse(domObjValidator.isDisabledButNotReadonly(numRetries),
+				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 	}
 
 	@Override

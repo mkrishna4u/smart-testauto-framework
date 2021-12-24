@@ -333,4 +333,20 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 		return null;
 	}
 
+	@Override
+	public boolean isDisabledButNotReadonly(int numRetries) {
+		Assert.fail("validateDisabledButNotReadonly() API is not supported by Button component.");
+		return false;
+	}
+
+	@Override
+	public void validateDisabledButNotReadonly(int numRetries) {
+		Assert.fail("validateDisabledButNotReadonly() API is not supported by Button component.");
+	}
+
+	@Override
+	public void validateEnabledButNotReadonly(int numRetries) {
+		Assert.fail("validateDisabledButNotReadonly() API is not supported by Button component.");
+	}
+
 }

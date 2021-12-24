@@ -46,6 +46,12 @@ public abstract class TextBoxValidator extends UIObjectValidator {
 	public abstract void validateDisabled(int numRetries);
 
 	public abstract void validateEnabled(int numRetries);
+	
+	public abstract boolean isDisabledButNotReadonly(int numRetries);
+
+	public abstract void validateDisabledButNotReadonly(int numRetries);
+
+	public abstract void validateEnabledButNotReadonly(int numRetries);
 
 	public abstract boolean isReadonly(int numRetries);
 
