@@ -37,7 +37,7 @@ import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
-import org.uitnet.testing.smartfwk.ui.core.utils.WebAttrMapUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.WebElementUtil;
 
 import com.google.common.base.Function;
 
@@ -298,7 +298,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 		boolean elemVisible = false;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				if (WebAttrMapUtil.isElementVisible(appDriver, domObject)) {
+				if (WebElementUtil.isElementVisible(appDriver, domObject)) {
 					elemVisible = true;
 					break;
 				}
@@ -318,7 +318,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 		boolean elemReadonly = false;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				if (WebAttrMapUtil.isElementReadonly(appDriver, domObject)) {
+				if (WebElementUtil.isElementReadonly(appDriver, domObject)) {
 					elemReadonly = true;
 					break;
 				}
@@ -338,7 +338,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 		boolean elemDisabled = false;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				if (WebAttrMapUtil.isElementDisabled(appDriver, domObject)) {
+				if (WebElementUtil.isElementDisabled(appDriver, domObject)) {
 					elemDisabled = true;
 					break;
 				}
@@ -366,7 +366,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 		boolean elemSelected = false;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				if (WebAttrMapUtil.isElementSelected(appDriver, domObject)) {
+				if (WebElementUtil.isElementSelected(appDriver, domObject)) {
 					elemSelected = true;
 					break;
 				}
@@ -389,7 +389,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 */
 	public String getText(int numRetries) {
 		try {
-			return WebAttrMapUtil.getElementText(appDriver, domObject, numRetries);
+			return WebElementUtil.getElementText(appDriver, domObject, numRetries);
 		} catch (Throwable th) {
 			Assert.fail("Failed to get text from element '" + domObject.getDisplayName() + "'.", th);
 		}

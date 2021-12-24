@@ -110,13 +110,26 @@ public class CSVFileReader {
 //		Table table = CSVFileReader.getData("test-data/usa-states.csv");
 //
 //		System.out.println(table);
-//		
+//		System.out.println("Table row count: " + table.getRowCount());
 //		List<TableRow> filteredRows = table.getRows(new RowFilter()
 //				.condition(new Condition("State Code", Operator.ne, "07"))
 //				.and()
 //				.condition(new Condition("State Abbr", Operator.ne, "MK"))
 //				);
+		
+//		List<TableRow> filteredRows = table.getRows(new RowFilter()
+//				.condition(new Condition("State Code", Operator.dontStartsWith, "R"))
+//				.and()
+//				.condition(new Condition("State Code", Operator.dontStartsWith, "1"))
+//				);
+//		
+//		List<TableRow> filteredRows = table.getRows(new RowFilter()
+//				.condition(new Condition("State Name", Operator.dontContains, "AA"))
+//				.and()
+//				.condition(new Condition("State Abbr", Operator.ne, ""))
+//				);
 //		
 //		System.out.println("\n\n" + filteredRows);
+//		System.out.println("Filtered row count: " + filteredRows.size());
 //	}
 }

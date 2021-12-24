@@ -31,13 +31,32 @@ import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
  * @author Madhav Krishna
  *
  */
-public class WebAttrMapUtil {
+public class WebElementUtil {
 
-	private WebAttrMapUtil() {
+	private WebElementUtil() {
 		// Do nothing
 	}
 
 	public static boolean isElementDisabled(SmartAppDriver appDriver, DOMObject domObject) {
+		boolean disabled = false;
+		boolean isReadonlyCalled = false;
+		 try {
+			 disabled = isElementDisabledButNotReadonly(appDriver, domObject);
+			 if(!disabled) {
+				 isReadonlyCalled = true;
+				 disabled = isElementReadonly(appDriver, domObject);
+			 }
+		 } catch(Exception | Error e) {
+			 if(!isReadonlyCalled) {
+				 disabled = isElementReadonly(appDriver, domObject);
+			 } else {
+				 throw e;
+			 }
+		 }
+		 return disabled;
+	}
+	
+	public static boolean isElementDisabledButNotReadonly(SmartAppDriver appDriver, DOMObject domObject) {
 		boolean disabled = false;
 
 		WebElement webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
@@ -46,7 +65,7 @@ public class WebAttrMapUtil {
 
 		if (appDriver.getAppType() == ApplicationType.native_app) {
 			try {
-				if (webElem != null && !webElem.isEnabled()) {
+				if (webElem != null && ((webElem.getAttribute("disabled") != null) || !webElem.isEnabled())) {
 					disabled = true;
 				}
 			} catch (Exception | Error ex) {
@@ -75,7 +94,7 @@ public class WebAttrMapUtil {
 				}
 			}
 		} else {
-			if (webElem != null && !webElem.isEnabled()) {
+			if (webElem != null && ((webElem.getAttribute("disabled") != null) || !webElem.isEnabled())) {
 				disabled = true;
 			}
 		}
@@ -127,8 +146,9 @@ public class WebAttrMapUtil {
 			}
 		} else {
 
-			if (webElem != null && !("hidden".equals(LocatorUtil.getCssValue(webElem, "visibility"))
-					|| webElem.getAttribute("hidden") != null)) {
+			if (webElem != null && !("hidden".equals(LocatorUtil.getCssValue(webElem, "visibility")) 
+					|| "none".equals(LocatorUtil.getCssValue(webElem, "display")))
+					|| webElem.getAttribute("hidden") != null) {
 				visible = true;
 			}
 		}

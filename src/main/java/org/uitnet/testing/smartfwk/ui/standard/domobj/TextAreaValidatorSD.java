@@ -31,7 +31,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.textarea.TextAreaValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
-import org.uitnet.testing.smartfwk.ui.core.utils.WebAttrMapUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.WebElementUtil;
 
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
@@ -97,7 +97,7 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 		try {
 			for (int i = 0; i <= numRetries; i++) {
 				try {
-					String actualValue = WebAttrMapUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), 0);
+					String actualValue = WebElementUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), 0);
 					validateTextValue(actualValue, expectedValue, validationMechanism);
 					return;
 				} catch (Throwable th) {
@@ -171,7 +171,7 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 
 	@Override
 	public String getTextValue(int numRetries) {
-		return WebAttrMapUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), numRetries);
+		return WebElementUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), numRetries);
 	}
 
 	@Override

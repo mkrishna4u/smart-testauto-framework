@@ -31,7 +31,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.label.LabelValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
-import org.uitnet.testing.smartfwk.ui.core.utils.WebAttrMapUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.WebElementUtil;
 
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
@@ -123,9 +123,9 @@ public class WebPageTitleValidatorSD extends LabelValidator {
 					WebElement webElem = domObjValidator.findElement(0);
 					String actualValue = "";
 					if ("input".equalsIgnoreCase(webElem.getTagName())) {
-						actualValue = WebAttrMapUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), 0);
+						actualValue = WebElementUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), 0);
 					} else {
-						actualValue = WebAttrMapUtil.getElementText(appDriver, domObjValidator.getUIObject(), 0);
+						actualValue = WebElementUtil.getElementText(appDriver, domObjValidator.getUIObject(), 0);
 					}
 					validateTextValue(actualValue, expectedValue, validationMechanism);
 					return;
@@ -147,9 +147,9 @@ public class WebPageTitleValidatorSD extends LabelValidator {
 		WebElement webElem = domObjValidator.findElement(numRetries);
 		String value = "";
 		if ("input".equalsIgnoreCase(webElem.getTagName())) {
-			value = WebAttrMapUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), 0);
+			value = WebElementUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), 0);
 		} else {
-			value = WebAttrMapUtil.getElementText(appDriver, domObjValidator.getUIObject(), 0);
+			value = WebElementUtil.getElementText(appDriver, domObjValidator.getUIObject(), 0);
 		}
 		return value;
 	}

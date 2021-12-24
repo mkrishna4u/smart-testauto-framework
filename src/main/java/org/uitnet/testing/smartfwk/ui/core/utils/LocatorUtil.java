@@ -230,7 +230,7 @@ public class LocatorUtil {
 	
 	public static String getCssValue(WebElement webElem, String cssKey) {
 		try {
-			return webElem.getCssValue("visibility");
+			return webElem.getCssValue(cssKey);
 		} catch(Exception | Error ex) {
 			return "";
 		}

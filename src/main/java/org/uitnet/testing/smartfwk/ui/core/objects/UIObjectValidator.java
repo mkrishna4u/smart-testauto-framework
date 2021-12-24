@@ -215,6 +215,10 @@ public abstract class UIObjectValidator {
 	public void validateVisible(int numRetries) {
 		Assert.assertTrue(isVisible(numRetries), "Element '" + uiObject.getDisplayName() + "' is not visible.");
 	}
+	
+	public void validateNotVisible(int numRetries) {
+		Assert.assertFalse(isVisible(numRetries), "Element '" + uiObject.getDisplayName() + "' is visible.");
+	}
 
 	public void validateHidden(int numRetries) {
 		Assert.assertFalse(isVisible(numRetries), "Element '" + uiObject.getDisplayName() + "' is visible.");

@@ -165,9 +165,11 @@ public abstract class AbstractAppConnector {
 		if (!this.activeUserProfileName.equals(userProfileName)) {
 			relogin(userProfileName);
 			this.activeUserProfileName = userProfileName;
+			this.activeUserProfile = appDriver.getAppConfig().getUserProfile(userProfileName);
 		} else {
 			checkLogoutAndLoginAgain(userProfileName);
 			this.activeUserProfileName = userProfileName;
+			this.activeUserProfile = appDriver.getAppConfig().getUserProfile(userProfileName);
 		}
 		return this.appDriver;
 	}

@@ -9,8 +9,12 @@ State Code, State Name, State Abbr
 , Arizona,
 , Alaska, AK
 , Maryland, MD
+R2, "AA, PP-r2", MM
 
-07, "AA PP", MM
+17, "AA PP", MM
 , Arizona, KK
 
 07, "AA, PP", MM
+R1, "AA, PP-r1", MM
+
+R3, "AA, PP-r3", MM

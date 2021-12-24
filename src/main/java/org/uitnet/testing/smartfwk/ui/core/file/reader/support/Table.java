@@ -247,11 +247,20 @@ public class Table {
 		case startsWith:
 			matched = value1.startsWith(value2);
 			break;
+		case dontStartsWith:
+			matched = !value1.startsWith(value2);
+			break;
 		case contains:
 			matched = value1.contains(value2);
 			break;
+		case dontContains:
+			matched = !value1.contains(value2);
+			break;
 		case endsWith:
 			matched = value1.endsWith(value2);
+			break;
+		case dontEndsWith:
+			matched = !value1.endsWith(value2);
 			break;
 		default:
 			break;

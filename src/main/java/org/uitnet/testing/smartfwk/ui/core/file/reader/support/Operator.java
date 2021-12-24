@@ -43,12 +43,21 @@ public enum Operator {
 
 	/** Starts with value operator */
 	startsWith("startsWith"),
-
-	/** Ends with value operator */
+	
+	/** Don't Starts With value operator */
+	dontStartsWith("dontStartsWith"),
+	
+	/** Ends With value operator */
 	endsWith("endsWith"),
 
+	/** Don't Ends With value operator */
+	dontEndsWith("dontEndsWith"),
+
 	/** Contains value operator */
-	contains("contains");
+	contains("contains"),
+	
+	/** Don't Contains value operator */
+	dontContains("dontContains");
 
 	private String op;
 
