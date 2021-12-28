@@ -18,7 +18,7 @@ Using this software we can easily test the following functionality of the softwa
 12. Single class **SmartAppConnector** is used to connect to any configured application in the project. Please refer supported Platform Types, Application Types and Web Browser Types below to more about your application that you may want to perform testing automation.
 13. Platform specific sample driver configuration files (AppDriver.properties) are present in the following directory **sample-config/apps-drivers**. Copy specific file in your application config directory like **test-config/apps-config/<app-name>/** and also copy your application file like ?.app, ?.apk ?.exe, or ?.api etc.
 14. Use **DefaultSmartCache** class to store the global cached data that you can access in any step definition or test case. You can also be able to implement your own cache using **SmartCache** class.
-15. Use **TestDataBuilder** class to build test data of any length that may include alphabets, numbers, special characters, newline, whitespaces, leading characters etc.
+15. Use **TestDataBuilder** class to build randomized test data of any length that may include alphabets, numbers, special characters, newline, whitespaces, leading characters etc.
 
 ## Integrated software testing tools (High level)
 1. Cucumber
