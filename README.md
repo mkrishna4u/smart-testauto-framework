@@ -17,6 +17,8 @@ Using this software we can easily test the following functionality of the softwa
 11. Write scenarios and its definitions once for any platform and run the same scenarios and definitions on any other platforms for any of the software application without changing the scenario and the step definition (Note the behavior of the application on different platforms should be same but locator may change). In this case you can attach multiple locators (platform specific) to a single UI control (like textbox, buttons etc.).
 12. Single class **SmartAppConnector** is used to connect to any configured application in the project. Please refer supported Platform Types, Application Types and Web Browser Types below to more about your application that you may want to perform testing automation.
 13. Platform specific sample driver configuration files (AppDriver.properties) are present in the following directory **sample-config/apps-drivers**. Copy specific file in your application config directory like **test-config/apps-config/<app-name>/** and also copy your application file like ?.app, ?.apk ?.exe, or ?.api etc.
+14. Use **DefaultSmartCache** class to store the global cached data that you can access in any step definition or test case. You can also be able to implement your own cache using **SmartCache** class.
+15. Use **TestDataBuilder** class to build test data of any length that may include alphabets, numbers, special characters, newline, whitespaces, leading characters etc.
 
 ## Integrated software testing tools (High level)
 1. Cucumber
@@ -27,6 +29,7 @@ Using this software we can easily test the following functionality of the softwa
 6. Maven
 7. Relational Database ORM tools
 8. Excel / CSV file reader tools
+9. Java / JDK: Minimum Version Required = 11
  
 This framework removes the complexity of all other software tools and provides a *Single Platform* for testing automation. Using that you can automate any app on any platform.
   

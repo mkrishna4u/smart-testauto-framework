@@ -18,6 +18,7 @@
 package org.uitnet.testing.smartfwk.api.core;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -50,9 +51,13 @@ public abstract class AbstractApiTestHelper {
 	protected HttpSession session;
 	protected TestConfigManager testConfigManager;
 	protected String activeProfileName;
+	protected UserProfile activeUserProfile;
+	protected int sessionExpiryDurationInSeconds;
+	protected long lastRequestAccessTimeInMs;
 
-	public AbstractApiTestHelper(String appName) {
+	public AbstractApiTestHelper(String appName, int sessionExpiryDurationInSeconds) {
 		this.appName = appName;
+		this.sessionExpiryDurationInSeconds = sessionExpiryDurationInSeconds;
 		testConfigManager = TestConfigManager.getInstance();
 
 	}
@@ -66,12 +71,16 @@ public abstract class AbstractApiTestHelper {
 			session = login(testConfigManager.getAppConfig(appName).getApiConfig(),
 					testConfigManager.getUserProfile(appName, profileName));
 			activeProfileName = profileName;
+			activeUserProfile = testConfigManager.getUserProfile(appName, profileName);
+			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 
 		} else if (!activeProfileName.equals(profileName)) {
 			logout();
 			session = login(testConfigManager.getAppConfig(appName).getApiConfig(),
 					testConfigManager.getUserProfile(appName, profileName));
 			activeProfileName = profileName;
+			activeUserProfile = testConfigManager.getUserProfile(appName, profileName);
+			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
 	}
 
@@ -307,6 +316,13 @@ public abstract class AbstractApiTestHelper {
 
 	protected HttpResponse prepareResponse(OkHttpClient client, okhttp3.Request.Builder requestBuilder,
 			boolean expectResponseBody, String targetURL) {
+		if(isSessionExpired()) {
+			logout();
+			setActiveProfileName(activeProfileName);
+		} else {
+			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
+		}
+		
 		HttpResponse httpResponse = new HttpResponse();
 		try (Response response = client.newCall(requestBuilder.build()).execute()) {
 			httpResponse.setCode(response.code());
@@ -323,6 +339,27 @@ public abstract class AbstractApiTestHelper {
 		}
 
 		return httpResponse;
+	}
+	
+	protected boolean isSessionExpired() {
+		long currTimeInMs = Calendar.getInstance().getTimeInMillis();
+		long durationInSeconds = (currTimeInMs - lastRequestAccessTimeInMs) / 1000;
+		if(durationInSeconds >=  sessionExpiryDurationInSeconds) {
+			return true;
+		}
+		return false;
+	}
+
+	public UserProfile getActiveUserProfile() {
+		return activeUserProfile;
+	}
+
+	public int getSessionExpiryDurationInSeconds() {
+		return sessionExpiryDurationInSeconds;
+	}
+
+	public long getLastRequestAccessTimeInMs() {
+		return lastRequestAccessTimeInMs;
 	}
 
 	protected abstract HttpSession login(ApiConfig apiConfig, UserProfile userProfile);

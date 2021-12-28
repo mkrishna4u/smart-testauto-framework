@@ -27,25 +27,20 @@ import java.util.Map;
  */
 public class HttpRequest {
 	private String payload;
-	private String payloadType;
 	private Map<String, String> headers;
-	private String responseContentType;
 
 	public HttpRequest() {
 		headers = new LinkedHashMap<>();
 		headers.put("Content-Type", MediaType.APPLICATION_JSON);
 		headers.put("Accept", MediaType.APPLICATION_JSON);
-		payloadType = MediaType.APPLICATION_JSON;
 	}
 
 	public HttpRequest(Map<String, String> headers, String payload, String payloadType, String responseContentType) {
 		headers = new LinkedHashMap<>();
 		headers.putAll(headers);
-		headers.put("Content-Type", MediaType.APPLICATION_JSON);
-		headers.put("Accept", MediaType.APPLICATION_JSON);
+		headers.put("Content-Type", payloadType);
+		headers.put("Accept", responseContentType);
 		this.payload = payload;
-		this.payloadType = payloadType;
-		this.responseContentType = responseContentType;
 	}
 
 	public String getPayload() {
@@ -58,11 +53,11 @@ public class HttpRequest {
 	}
 
 	public String getPayloadType() {
-		return payloadType;
+		return headers.get("Content-Type");
 	}
 
 	public HttpRequest setPayloadType(String payloadType) {
-		this.payloadType = payloadType;
+		headers.put("Content-Type", payloadType);
 		return this;
 	}
 
@@ -76,11 +71,11 @@ public class HttpRequest {
 	}
 
 	public String getResponseContentType() {
-		return responseContentType;
+		return headers.get("Accept");
 	}
 
 	public HttpRequest setResponseContentType(String responseContentType) {
-		this.responseContentType = responseContentType;
+		headers.put("Accept", responseContentType);
 		return this;
 	}
 }

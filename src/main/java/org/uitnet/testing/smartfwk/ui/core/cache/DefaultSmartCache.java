@@ -15,13 +15,32 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.data.providers;
+package org.uitnet.testing.smartfwk.ui.core.cache;
 
 /**
+ * Default implementation of SmartCache using Singleton class.
  * 
  * @author Madhav Krishna
  *
  */
-public class DataProviderExcelSheet {
-
+public class DefaultSmartCache extends SmartCache {
+	private static DefaultSmartCache instance;
+	
+	private DefaultSmartCache() {
+		super();
+	}
+	
+	public static SmartCache getInstance() {
+		if(instance != null) {
+			return instance;
+		}
+		
+		synchronized(DefaultSmartCache.class) {
+			if(instance == null) {
+				instance = new DefaultSmartCache();
+			}
+		}
+		
+		return instance;
+	}
 }
