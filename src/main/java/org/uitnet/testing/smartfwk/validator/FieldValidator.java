@@ -58,7 +58,8 @@ public class FieldValidator {
 	}
 
 	/**
-	 * Considers null and empty value as empty. Also multiple whitespaces are considered as empty.
+	 * Considers null and empty value as empty. Also multiple whitespaces are
+	 * considered as empty.
 	 * 
 	 * @param fieldName
 	 * @param actualValue
@@ -69,7 +70,8 @@ public class FieldValidator {
 	}
 
 	/**
-	 * Considers null and empty value as empty. Also multiple whitespaces are considered as empty.
+	 * Considers null and empty value as empty. Also multiple whitespaces are
+	 * considered as empty.
 	 * 
 	 * @param fieldName
 	 * @param actualValue
@@ -138,9 +140,17 @@ public class FieldValidator {
 	 * @param actualValue
 	 * @param expectedValue
 	 */
-	public static void validateFieldValueAsExpectedValue(String fieldName, String actualValue, String expectedValue) {
-		Assert.assertEquals(actualValue, expectedValue,
-				"Field '" + fieldName + "' value is not matched with expected value.");
+	public static void validateFieldValueAsExpectedValue(String fieldName, Object actualValue, Object expectedValue) {
+
+		if (actualValue == null || expectedValue == null) {
+			if (actualValue != expectedValue) {
+				Assert.fail("Field '" + fieldName + "' value is not matched with expected value. Actual Value: "
+						+ actualValue + ", Expected Value: " + expectedValue);
+			}
+		} else if (!("" + actualValue).equals(("" + expectedValue))) {
+			Assert.fail("Field '" + fieldName + "' value is not matched with expected value. Actual Value: "
+					+ actualValue + ", Expected Value: " + expectedValue);
+		}
 	}
 
 	/**
@@ -152,9 +162,14 @@ public class FieldValidator {
 	 * @param expectedValue
 	 * @param validationMechanism
 	 */
-	public static void validateFieldValueAsExpectedValue(String fieldName, String actualValue, String expectedValue,
+	public static void validateFieldValueAsExpectedValue(String fieldName, Object actualValue, Object expectedValue,
 			TextMatchMechanism textMatchMechanism) {
-		if (!DataMatchUtil.matchTextValue(actualValue, expectedValue, textMatchMechanism)) {
+		if (actualValue == null || expectedValue == null) {
+			if (actualValue != expectedValue) {
+				Assert.fail("Field '" + fieldName + "' value is not matched with expected value. Actual Value: "
+						+ actualValue + ", Expected Value: " + expectedValue);
+			}
+		} else if (!DataMatchUtil.matchTextValue("" + actualValue, "" + expectedValue, textMatchMechanism)) {
 			Assert.fail("Field '" + fieldName + "' value is not matched with expected value. Actual Value: "
 					+ actualValue + ", Expected value: " + expectedValue + ", Text Match Mechanism: "
 					+ textMatchMechanism.name());
@@ -168,10 +183,17 @@ public class FieldValidator {
 	 * @param actualValue
 	 * @param expectedValue
 	 */
-	public static void validateFieldValueAsNotExpectedValue(String fieldName, String actualValue,
-			String expectedValue) {
-		Assert.assertNotEquals(actualValue, expectedValue,
-				"Field '" + fieldName + "' value should not be same as expected value.");
+	public static void validateFieldValueAsNotExpectedValue(String fieldName, Object actualValue,
+			Object expectedValue) {
+		if (actualValue == null || expectedValue == null) {
+			if (actualValue == expectedValue) {
+				Assert.fail("Field '" + fieldName + "' value should not match with expected value. Actual Value: "
+						+ actualValue + ", Expected Value: " + expectedValue);
+			}
+		} else if (("" + actualValue).equals(("" + expectedValue))) {
+			Assert.fail("Field '" + fieldName + "' value should not match with expected value. Actual Value: "
+					+ actualValue + ", Expected Value: " + expectedValue);
+		}
 	}
 
 	/**
@@ -182,7 +204,7 @@ public class FieldValidator {
 	 * @param actualValue
 	 * @param expectedDateFormat
 	 */
-	public static void validateFieldValuaAsExpectedDateTimeFormat(String fieldName, String actualValue,
+	public static void validateFieldValueAsExpectedDateTimeFormat(String fieldName, String actualValue,
 			String expectedDateFormat) {
 		try {
 			if (!StringUtil.isEmptyAfterTrim(actualValue)) {
@@ -197,20 +219,21 @@ public class FieldValidator {
 	}
 
 	/**
-	 * Validates field value contains the same number of characters as expected count.
+	 * Validates field value contains the same number of characters as expected
+	 * count.
 	 * 
-	 * @param fieldName - field name
-	 * @param actualValue - field value
+	 * @param fieldName      - field name
+	 * @param actualValue    - field value
 	 * @param expectedLength - expected char count.
 	 */
-	public static void validateFieldValueAsOfExpectedLength(String fieldName, String actualValue, int expectedLength) {
+	public static void validateFieldValueAsOfExpectedLength(String fieldName, Object actualValue, int expectedLength) {
 		validateFieldValueAsNotNull(fieldName, actualValue);
-		Assert.assertEquals(actualValue.length(), expectedLength,
+		Assert.assertEquals(("" + actualValue).length(), expectedLength,
 				"Field '" + fieldName
 						+ "' value does not contain same number of character count as expected count. Actual count: "
-						+ actualValue.length() + ", Expected count: " + expectedLength + ".");
+						+ ("" + actualValue).length() + ", Expected count: " + expectedLength + ".");
 	}
-	
+
 	/**
 	 * Validate field value as a valid email.
 	 * 
@@ -219,30 +242,49 @@ public class FieldValidator {
 	 */
 	public static void validateFieldValueAsEmail(String fieldName, String actualValue) {
 		validateFieldValueAsNotNull(fieldName, actualValue);
-		
-		if(actualValue.contains(" ")) {
-			Assert.fail("Field '" + fieldName + "' value is not a valid email. It should not contain whitespace. Actual value: " + actualValue);
+
+		String actualValue2 = actualValue.trim();
+
+		if (actualValue2.contains(" ")) {
+			Assert.fail("Field '" + fieldName
+					+ "' value is not a valid email. It should not contain whitespace. Actual value: " + actualValue);
 		}
-		
-		String[] parts = actualValue.split("@");
-		if(parts.length < 2) {
-			Assert.fail("Field '" + fieldName + "' value is not a valid email. It does not contain '@' symbol. Actual value: " + actualValue);
+
+		String[] parts = actualValue2.split("@");
+
+		if (parts.length < 2) {
+			Assert.fail("Field '" + fieldName
+					+ "' value is not a valid email. It does not contain domain part after '@' symbol. Actual value: "
+					+ actualValue);
 		}
-		
-		if(parts.length > 2) {
-			Assert.fail("Field '" + fieldName + "' value is not a valid email. It contains multiple '@' symbols. Actual value: " + actualValue);
+
+		if (parts.length > 2) {
+			Assert.fail("Field '" + fieldName
+					+ "' value is not a valid email. It contains multiple '@' symbols. Actual value: " + actualValue);
 		}
-		
-		if(!parts[1].contains(".")) {
-			Assert.fail("Field '" + fieldName + "' value is not a valid email. It does not contain period after '@' symbol. Actual value: " + actualValue);
+
+		if (parts[0].length() == 0) {
+			Assert.fail("Field '" + fieldName
+					+ "' value is not a valid email. It does not contain left part before '@' symbol. Actual value: "
+					+ actualValue);
 		}
-		
-		if(!parts[1].startsWith(".")) {
-			Assert.fail("Field '" + fieldName + "' value is not a valid email. It should not start with period after '@' symbol. Actual value: " + actualValue);
+
+		if (!parts[1].contains(".")) {
+			Assert.fail("Field '" + fieldName
+					+ "' value is not a valid email. It does not contain period(.) after '@' symbol. Actual value: "
+					+ actualValue);
 		}
-		
-		if(!parts[1].endsWith(".")) {
-			Assert.fail("Field '" + fieldName + "' value is not a valid email. It should not ends with period after '@' symbol. Actual value: " + actualValue);
+
+		if (parts[1].startsWith(".")) {
+			Assert.fail("Field '" + fieldName
+					+ "' value is not a valid email. It should not start with period(.) after '@' symbol. Actual value: "
+					+ actualValue);
+		}
+
+		if (parts[1].endsWith(".")) {
+			Assert.fail("Field '" + fieldName
+					+ "' value is not a valid email. It should not ends with period(.) after '@' symbol. Actual value: "
+					+ actualValue);
 		}
 	}
 

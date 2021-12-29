@@ -17,6 +17,8 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
+
 /**
  * 
  * @author Madhav Krishna
@@ -114,5 +116,21 @@ public class StringUtil {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Checks whether the text matches with expected value based on text match mechanism.
+	 * @param actualValue
+	 * @param expectedValue
+	 * @param textMatchMechanism
+	 * @return if matches then returns true else returns false.
+	 */
+	public static boolean isTextMatchedWithExpectedValue(String text, String expectedValue,
+			TextMatchMechanism textMatchMechanism) {
+		return DataMatchUtil.matchTextValue(text, expectedValue, textMatchMechanism);
+	}
+	
+	public static void main(String[] args) {
+		isTextMatchedWithExpectedValue("23245r", "dsfsd", null);
 	}
 }
