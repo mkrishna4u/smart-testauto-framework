@@ -19,6 +19,7 @@ Using this software we can easily test the following functionality of the softwa
 13. Platform specific sample driver configuration files (AppDriver.properties) are present in the following directory **sample-config/apps-drivers**. Copy specific file in your application config directory like **test-config/apps-config/<app-name>/** and also copy your application file like ?.app, ?.apk ?.exe, or ?.api etc.
 14. Use **DefaultSmartCache** class to store the global cached data that you can access in any step definition or test case. You can also be able to implement your own cache using **SmartCache** class.
 15. Use **TestDataBuilder** class to build randomized test data of any length that may include alphabets, numbers, special characters, newline, whitespaces, leading characters etc.
+16. Use **FieldValidator** class to validate the field value as per the expected value or criteria. Also **StringUtil** class is very handy to check the textual / string data.
 
 ## Integrated software testing tools (High level)
 1. Cucumber
@@ -31,7 +32,7 @@ Using this software we can easily test the following functionality of the softwa
 8. Excel / CSV file reader tools
 9. Java / JDK: Minimum Version Required = 11
  
-This framework removes the complexity of all other software tools and provides a *Single Platform* for testing automation. Using that you can automate any app on any platform.
+This framework removes the complexity of all other software tools and provides a **Single Homogeneous Platform** for testing automation. Using that you can automate any app on any platform.
   
 ## Supported Platform Types
 1. windows
