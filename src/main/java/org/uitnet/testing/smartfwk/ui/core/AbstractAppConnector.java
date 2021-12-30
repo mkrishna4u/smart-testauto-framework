@@ -271,10 +271,11 @@ public abstract class AbstractAppConnector {
 
 		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea);
 	}
-
+	
 	private String prepareScreenshotFileName(Scenario scenario) {
-		String[] idParts = scenario.getId().split("/");
-		String fileName = idParts[idParts.length - 1].replace(".", "-").replace(":", "-ScenarioLine(") + ")";
+		String scenName = scenario.getName().replaceAll(" ", "-").replaceAll("[^-a-zA-Z0-9-]", "");
+		scenName = scenName.substring(0, scenName.length() >= 100 ? 100 : scenName.length());
+		String fileName = scenName + "(Line-"+ scenario.getLine() + ")";
 		return fileName;
 	}
 
