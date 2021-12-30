@@ -340,7 +340,10 @@ public abstract class AbstractApiTestHelper {
 			httpResponse.setMessage("Bad Request");
 			Assert.fail("Failed to make API call on target URL: " + targetURL, ex);
 		} finally {
-			logoutRequest = false;
+			if(logoutRequest) {
+				logoutRequest = false;
+				session = null;
+			}
 		}
 
 		return httpResponse;
