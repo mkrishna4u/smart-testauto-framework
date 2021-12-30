@@ -316,11 +316,13 @@ public abstract class AbstractApiTestHelper {
 
 	protected HttpResponse prepareResponse(OkHttpClient client, okhttp3.Request.Builder requestBuilder,
 			boolean expectResponseBody, String targetURL) {
-		if(isSessionExpired()) {
-			logout();
-			setActiveProfileName(activeProfileName);
-		} else {
-			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
+		if(session != null) {
+			if(isSessionExpired()) {
+				logout();
+				setActiveProfileName(activeProfileName);
+			} else {
+				lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
+			}
 		}
 		
 		HttpResponse httpResponse = new HttpResponse();
