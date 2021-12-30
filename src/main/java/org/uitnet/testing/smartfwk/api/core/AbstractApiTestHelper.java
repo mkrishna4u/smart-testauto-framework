@@ -54,6 +54,7 @@ public abstract class AbstractApiTestHelper {
 	protected UserProfile activeUserProfile;
 	protected int sessionExpiryDurationInSeconds;
 	protected long lastRequestAccessTimeInMs;
+	protected boolean logoutRequest = false;
 
 	public AbstractApiTestHelper(String appName, int sessionExpiryDurationInSeconds) {
 		this.appName = appName;
@@ -316,7 +317,7 @@ public abstract class AbstractApiTestHelper {
 
 	protected HttpResponse prepareResponse(OkHttpClient client, okhttp3.Request.Builder requestBuilder,
 			boolean expectResponseBody, String targetURL) {
-		if(session != null) {
+		if(session != null && !logoutRequest) {
 			if(isSessionExpired()) {
 				logout();
 				setActiveProfileName(activeProfileName);
@@ -338,6 +339,8 @@ public abstract class AbstractApiTestHelper {
 			httpResponse.setCode(400);
 			httpResponse.setMessage("Bad Request");
 			Assert.fail("Failed to make API call on target URL: " + targetURL, ex);
+		} finally {
+			logoutRequest = false;
 		}
 
 		return httpResponse;
