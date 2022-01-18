@@ -18,6 +18,12 @@
 package org.uitnet.testing.smartfwk.validator;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
@@ -43,7 +49,9 @@ public class FieldValidator {
 	 * @param actualValue
 	 */
 	public static void validateFieldValueAsNull(String fieldName, Object actualValue) {
-		Assert.assertNull(actualValue, "Field '" + fieldName + "' value should be null. Actual Value: " + actualValue);
+		if (actualValue != null) {
+			Assert.fail("Field '" + fieldName + "' value should be null.");
+		}
 	}
 
 	/**
@@ -53,32 +61,77 @@ public class FieldValidator {
 	 * @param actualValue
 	 */
 	public static void validateFieldValueAsNotNull(String fieldName, Object actualValue) {
-		Assert.assertNotNull(actualValue,
-				"Field '" + fieldName + "' value should not be null. Actual Value: " + actualValue);
+		if (actualValue == null) {
+			Assert.fail("Field '" + fieldName + "' value should not be null.");
+		}
 	}
 
 	/**
-	 * Considers null and empty value as empty. Also multiple whitespaces are
-	 * considered as empty.
+	 * Considers null and empty value as empty. It removes all leading and trailing
+	 * whitespaces to check empty.
 	 * 
 	 * @param fieldName
 	 * @param actualValue
 	 */
-	public static void validateFieldValueAsEmpty(String fieldName, String actualValue) {
-		Assert.assertTrue(StringUtil.isEmptyAfterTrim(actualValue),
-				"Field '" + fieldName + "' value should be empty. Actual Value: " + actualValue);
+	@SuppressWarnings("rawtypes")
+	public static void validateFieldValueAsEmpty(String fieldName, Object actualValue) {
+		if (actualValue != null) {
+			if (actualValue instanceof String) {
+				if (!StringUtil.isEmptyAfterTrim((String) actualValue)) {
+					Assert.fail("Field '" + fieldName + "' value is not empty. Found " + ((String) actualValue).length()
+							+ " characters. Text: " + ((String) actualValue));
+				}
+			} else if (actualValue instanceof Collection) {
+				if (((Collection) actualValue).size() != 0) {
+					Assert.fail("Field '" + fieldName + "' value is not empty. Found "
+							+ ((Collection) actualValue).size() + " elements. Elems: " + ((Collection) actualValue));
+				}
+			} else if (actualValue instanceof Map) {
+				if (((Map) actualValue).size() != 0) {
+					Assert.fail("Field '" + fieldName + "' value is not empty. Found " + ((Map) actualValue).size()
+							+ " elements. Elems: " + ((Map) actualValue));
+				}
+			} else if (actualValue.getClass().isArray()) {
+				if (((Object[]) actualValue).length != 0) {
+					Assert.fail("Field '" + fieldName + "' value is not empty. Found " + ((Object[]) actualValue).length
+							+ " elements. Elems: " + Arrays.asList((Object[]) actualValue));
+				}
+			} else {
+				Assert.fail("Field '" + fieldName + "' value is not empty. Found "
+						+ ((String) ("" + actualValue)).length() + " characters. Text: " + actualValue);
+			}
+		}
+
 	}
 
 	/**
-	 * Considers null and empty value as empty. Also multiple whitespaces are
-	 * considered as empty.
+	 * Considers null and empty value as empty. It removes all leading and trailing
+	 * whitespaces to check empty.
 	 * 
 	 * @param fieldName
 	 * @param actualValue
 	 */
-	public static void validateFieldValueAsNonEmpty(String fieldName, String actualValue) {
-		Assert.assertFalse(StringUtil.isEmptyAfterTrim(actualValue),
-				"Field '" + fieldName + "' value should not be empty. Actual Value: " + actualValue);
+	@SuppressWarnings("rawtypes")
+	public static void validateFieldValueAsNonEmpty(String fieldName, Object actualValue) {
+		validateFieldValueAsNotNull(fieldName, actualValue);
+
+		if (actualValue instanceof String) {
+			if (StringUtil.isEmptyAfterTrim((String) actualValue)) {
+				Assert.fail("Field '" + fieldName + "' value is empty.");
+			}
+		} else if (actualValue instanceof Collection) {
+			if (((Collection) actualValue).size() == 0) {
+				Assert.fail("Field '" + fieldName + "' does not contain any element.");
+			}
+		} else if (actualValue instanceof Map) {
+			if (((Map) actualValue).size() == 0) {
+				Assert.fail("Field '" + fieldName + "' does not contain any element.");
+			}
+		} else if (actualValue.getClass().isArray()) {
+			if (((Object[]) actualValue).length == 0) {
+				Assert.fail("Field '" + fieldName + "' does not contain any element.");
+			}
+		}
 	}
 
 	/**
@@ -134,7 +187,8 @@ public class FieldValidator {
 	}
 
 	/**
-	 * Validates field value as expected value.
+	 * Validates field value as expected value. Only numeric and String arguments
+	 * are allowed.
 	 * 
 	 * @param fieldName
 	 * @param actualValue
@@ -155,7 +209,7 @@ public class FieldValidator {
 
 	/**
 	 * Validates field value should match with expected value based on text match
-	 * mechanism.
+	 * mechanism. Only numeric and String arguments are allowed.
 	 * 
 	 * @param fieldName
 	 * @param actualValue
@@ -177,7 +231,8 @@ public class FieldValidator {
 	}
 
 	/**
-	 * Validates field value as not expected value.
+	 * Validates field value as not expected value. Only numeric and String
+	 * arguments are allowed.
 	 * 
 	 * @param fieldName
 	 * @param actualValue
@@ -226,12 +281,41 @@ public class FieldValidator {
 	 * @param actualValue    - field value
 	 * @param expectedLength - expected char count.
 	 */
+	@SuppressWarnings("rawtypes")
 	public static void validateFieldValueAsOfExpectedLength(String fieldName, Object actualValue, int expectedLength) {
 		validateFieldValueAsNotNull(fieldName, actualValue);
-		Assert.assertEquals(("" + actualValue).length(), expectedLength,
-				"Field '" + fieldName
-						+ "' value does not contain same number of character count as expected count. Actual count: "
-						+ ("" + actualValue).length() + ", Expected count: " + expectedLength + ".");
+
+		int actualLength = 0;
+		if (actualValue instanceof Collection) {
+			actualLength = ((Collection) actualValue).size();
+			if (actualLength != expectedLength) {
+				Assert.fail("Field '" + fieldName
+						+ "' does not contain same number of elements as expected. Expected Length: " + expectedLength
+						+ ", Actual Length: " + actualLength + ". Actual Elements: " + ((Collection) actualValue));
+			}
+		} else if (actualValue instanceof Map) {
+			actualLength = ((Map) actualValue).size();
+			if (actualLength != expectedLength) {
+				Assert.fail("Field '" + fieldName
+						+ "' does not contain same number of elements as expected. Expected Length: " + expectedLength
+						+ ", Actual Length: " + actualLength + ". Actual Elements: " + ((Map) actualValue));
+			}
+		} else if (actualValue.getClass().isArray()) {
+			actualLength = ((Object[]) actualValue).length;
+			if (actualLength != expectedLength) {
+				Assert.fail("Field '" + fieldName
+						+ "' does not contain same number of elements as expected. Expected Length: " + expectedLength
+						+ ", Actual Length: " + actualLength + ". Actual Elements: "
+						+ Arrays.asList((Object[]) actualValue));
+			}
+		} else {
+			actualLength = ("" + actualValue).length();
+			if (actualLength != expectedLength) {
+				Assert.fail("Field '" + fieldName
+						+ "' value does not contain same number of character count as expected. Expected Length: "
+						+ expectedLength + ", Actual Length: " + actualLength + ". Actual Text: " + actualValue);
+			}
+		}
 	}
 
 	/**
@@ -286,6 +370,161 @@ public class FieldValidator {
 					+ "' value is not a valid email. It should not ends with period(.) after '@' symbol. Actual value: "
 					+ actualValue);
 		}
+	}
+
+	/**
+	 * Validate field value in expected range.
+	 * 
+	 * @param fieldName
+	 * @param value
+	 * @param min
+	 * @param max
+	 */
+	public static void validateFieldValueInExpectedRange(String fieldName, Double value, double min, double max) {
+		validateFieldValueAsNotNull(fieldName, value);
+		if (value < min || value > max) {
+			Assert.fail("Field '" + fieldName + "' value '" + value + "' should be in the range (" + min + ", " + max
+					+ ").");
+		}
+	}
+
+	/**
+	 * Validate field value in expected range.
+	 * 
+	 * @param fieldName
+	 * @param value
+	 * @param min
+	 * @param max
+	 */
+	public static void validateFieldValueInExpectedRange(String fieldName, Integer value, int min, int max) {
+		validateFieldValueAsNotNull(fieldName, value);
+		if (value < min || value > max) {
+			Assert.fail("Field '" + fieldName + "' value '" + value + "' should be in the range (" + min + ", " + max
+					+ ").");
+		}
+	}
+
+	/**
+	 * Validate field value in expected range.
+	 * 
+	 * @param fieldName
+	 * @param value
+	 * @param min
+	 * @param max
+	 */
+	public static void validateFieldValueInExpectedRange(String fieldName, Long value, long min, long max) {
+		validateFieldValueAsNotNull(fieldName, value);
+		if (value < min || value > max) {
+			Assert.fail("Field '" + fieldName + "' value '" + value + "' should be in the range (" + min + ", " + max
+					+ ").");
+		}
+	}
+
+	/**
+	 * This checks the actualElements length is same as expectedElements length. If
+	 * not then throw error with differential information.
+	 * 
+	 * @param fieldName
+	 * @param actualElements
+	 * @param expectedElements
+	 */
+	public static void validateFieldLengthAsOfExpectedLength(String fieldName, Collection<String> actualElements,
+			Collection<String> expectedElements) {
+		validateFieldValueAsNotNull(fieldName, actualElements);
+		validateFieldValueAsNotNull(fieldName, expectedElements);
+
+		Collection<String> diffList = new LinkedList<String>();
+		if (expectedElements.size() > actualElements.size()) {
+			diffList.addAll(expectedElements);
+			diffList.removeAll(actualElements);
+			if (diffList.size() > 0) {
+				Assert.fail("Field '" + fieldName + "' length is not same as expected length. Expected length: "
+						+ expectedElements.size() + ", Actual length: " + actualElements.size()
+						+ ", Additional Elements (Expected): " + diffList);
+			}
+		} else if (actualElements.size() > expectedElements.size()) {
+			diffList.addAll(actualElements);
+			diffList.removeAll(expectedElements);
+			if (diffList.size() > 0) {
+				Assert.fail("Field '" + fieldName + "' length is not same as expected length. Expected length: "
+						+ expectedElements.size() + ", Actual length: " + actualElements.size()
+						+ ", Additional Elements (Actual): " + diffList);
+			}
+		}
+	}
+
+	/**
+	 * Validate field contains exactly same elements as in expected elements. Order
+	 * does not match. Also removes leading and trailing spaces.
+	 * 
+	 * @param fieldName
+	 * @param actualElements
+	 * @param expectedElements
+	 */
+	public static void validateFieldContainsExactlySameElementsAsExpected(String fieldName,
+			Collection<String> actualElements, Collection<String> expectedElements) {
+		validateFieldLengthAsOfExpectedLength(fieldName, actualElements, expectedElements);
+
+		List<String> unmatchedElements = new LinkedList<String>();
+		boolean found = false;
+		for (String ee : expectedElements) {
+			found = false;
+			for (String ae : actualElements) {
+				if (StringUtil.trim(ee).equals(StringUtil.trim(ae))) {
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				unmatchedElements.add(ee);
+			}
+		}
+
+		if (unmatchedElements.size() > 0) {
+			Assert.fail("Field '" + fieldName + "' does not contain the following elements: " + unmatchedElements);
+		}
+	}
+
+	/**
+	 * Validate field contains exactly same elements as in expected elements and in
+	 * the same order. Also removes leading and trailing spaces.
+	 * 
+	 * @param fieldName
+	 * @param actualElements
+	 * @param expectedElements
+	 */
+	public static void validateFieldContainsExactlySameElementsInOrderAsExpected(String fieldName,
+			List<String> actualElements, List<String> expectedElements) {
+		validateFieldLengthAsOfExpectedLength(fieldName, actualElements, expectedElements);
+
+		Map<Integer, String> unmatchedElements = new LinkedHashMap<Integer, String>();
+		String ee = null, ae = null;
+		for (int i = 0; i < expectedElements.size(); i++) {
+			ee = StringUtil.trim(expectedElements.get(i));
+			try {
+				ae = StringUtil.trim(actualElements.get(i));
+				if (!ee.equals(ae)) {
+					unmatchedElements.put(i + 1, ee);
+				}
+			} catch (Exception ex) {
+				unmatchedElements.put(i + 1, ee);
+			}
+		}
+
+		if (unmatchedElements.size() > 0) {
+			Assert.fail("Field '" + fieldName + "' does not contain the following elements in order as expected: "
+					+ unmatchedElements);
+		}
+	}
+
+	/**
+	 * Used to fail the step.
+	 * 
+	 * @param message
+	 */
+	public static void fail(String message) {
+		Assert.fail(message);
 	}
 
 }
