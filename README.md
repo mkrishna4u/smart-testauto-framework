@@ -1,7 +1,7 @@
 # Smart Software Testing Automation Framework (smart-testauto-framework)
 ** Data driven End-to-End testing (UI and API Testing) is made easy. Develop testcases for one environment and run the same testcases on different environments.**
 
-A software testing automation framework that can be used to smartly test any type of application softwares (i.e. Web Applications, Native Applications) that utilize the functionality of the following Java based software testing automation tools: Cucumber, Selenium, SikulliX, Appium etc. It supports **LOW CODE** strategy for easy maintenance of steps definitions and standardizing the way of configuring application data, writing the test scenarios and step definitions.
+A software testing automation framework that can be used to smartly test any type of application softwares (i.e. Web Applications, Native Applications, REST Server) that utilize the functionality of the following Java based software testing automation tools: Cucumber, Selenium, SikulliX, Appium etc. It supports **LOW CODE** strategy for easy maintenance of steps definitions and standardizing the way of configuring application data, writing the test scenarios and step definitions.
 
 Using this software we can easily test the following functionality of the software applications:
 
@@ -10,7 +10,7 @@ Using this software we can easily test the following functionality of the softwa
 3.  **Visualization testing / Image recognition testing** (like image based testing using *SI object classes like ImageSI, ButtonSI, TextboxSI object classes etc.). NOTE: To perform visualization testing, application must be launched and visible on PC. Visualization testing can not be performed on headless web browsers.
 4.  Perform **Data Driven Testing (DDT)** on user interface against your relational database i.e. Oracle, MySQL, Postgres, MariaDB etc. Use **OrmDatabaseQueryHandler** class to perform CRUD operations on database.
 5.  Perform **Data Driven Testing (DDT)** using excel and CSV data. Reads excel (.xlsx and .xls) files data using **ExcelFileReader** class. Reads CSV file data using **CSVFileReader** class.
-6.  **API Testing (REST API)** using **AbstractApiTestHelper** class. This class maintains sessions and supports customizable login(..) and logout() APIs.
+6.  **API Testing (REST API)** using **AbstractApiTestHelper** class. This class maintains sessions and supports customizable login(..) and logout() APIs. Create your own class that extends AbstractApiTestHelper class and use it to perform HTTP operations like GET, POST, PUT, DELETE etc.
 7.  Read JSON data using **JsonDocumentReader**. It uses the JSON Path information available on https://github.com/json-path/JsonPath
 8. Validate JSON data using **JsonDocumentValidator** class. It uses the JSON Path information available on https://github.com/json-path/JsonPath
 9. **Configure multiple applications** in a single project and write test scenarios that involves communication among multiple applications and automate test steps in a simple way by adding less code.
