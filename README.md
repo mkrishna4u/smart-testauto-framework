@@ -1,4 +1,5 @@
-# Smart Software Testing Automation Framework (smart-testauto-fwk)
+# Smart Software Testing Automation Framework (smart-testauto-framework)
+** Data driven End-to-End testing is made easy. Write UI testing automation code based on requirements and UI Mockups and without having system ready.**
 
 A software testing automation framework that can be used to smartly test any type of application softwares (i.e. Web Applications, Native Applications) that utilize the functionality of the following Java based software testing automation tools: Cucumber, Selenium, SikulliX, Appium etc. It supports **LOW CODE** strategy for easy maintenance of steps definitions and standardizing the way of configuring application data, writing the test scenarios and step definitions.
 
@@ -20,6 +21,7 @@ Using this software we can easily test the following functionality of the softwa
 14. Use **DefaultSmartCache** class to store the global cached data that you can access in any step definition or test case. You can also be able to implement your own cache using **SmartCache** class.
 15. Use **TestDataBuilder** class to build randomized test data of any length that may include alphabets, numbers, special characters, newline, whitespaces, leading characters etc.
 16. Use **FieldValidator** class to validate the field value as per the expected value or criteria. Also **StringUtil** class is very handy to check the textual / string data.
+17. **Multiple environment support**, means same testcases can be executed on different environments like **development, acceptance and pre-production etc.** without changing the code. To do so create environment files in **test-config/apps-config/<app-name>/environments/** directory and also create the **AppDriver-<env-name>.properties** and **database-profiles/<env-name>/** for each environment. During testcase execution time, specify the following system property in **mvn** command **"-Dapps.active.environment=<app-name1>:<environment-name>,<app-name2>:<environment-name>"**.
 
 ## Integrated software testing tools (High level)
 1. Cucumber

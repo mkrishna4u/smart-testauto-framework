@@ -78,12 +78,7 @@ public class TestConfigManager {
 		appConfigs = new LinkedHashMap<String, AppConfig>();
 		additionalProps = new LinkedHashMap<String, String>();
 
-		String systemTestCfgFilePath = System.getProperty("TEST_CONFIG_FILE_PATH");
-		systemTestCfgFilePath = (systemTestCfgFilePath == null || "".equals(systemTestCfgFilePath.trim()))
-				? TEST_CONFIG_FILE_PATH
-				: (Locations.getConfigDirPath() + systemTestCfgFilePath);
-
-		try (FileReader fileReader = new FileReader(systemTestCfgFilePath)) {
+		try (FileReader fileReader = new FileReader(TEST_CONFIG_FILE_PATH)) {
 			Properties properties = new Properties();
 			properties.load(fileReader);
 
@@ -98,15 +93,7 @@ public class TestConfigManager {
 	private void initTestConfig(Properties properties) {
 		try {
 			// Apply config file properties to TestConfiguration
-			appsConfigDir = System.getProperty("APPS_CONFIG_DIR");
-			if (appsConfigDir == null || "".equals(appsConfigDir.trim())) {
-				appsConfigDir = properties.getProperty("APPS_CONFIG_DIR");
-				if (appsConfigDir == null || "".equals(appsConfigDir.trim())) {
-					appsConfigDir = Locations.getProjectRootDir() + "/test-config/apps-config";
-				} else {
-					appsConfigDir = Locations.getProjectRootDir() + File.separator + appsConfigDir;
-				}
-			}
+			appsConfigDir = Locations.getProjectRootDir() + File.separator + "test-config" + File.separator + "apps-config";
 
 			String appNamesAsStr = System.getProperty("APP_NAMES");
 			if (appNamesAsStr == null || "".equals(appNamesAsStr.trim())) {
@@ -128,46 +115,13 @@ public class TestConfigManager {
 				System.exit(1);
 			}
 
-			cucumberTestcasesDir = System.getProperty("CUCUMBER_TESTCASES_DIR");
-			if (cucumberTestcasesDir == null || "".equals(cucumberTestcasesDir.trim())) {
-				cucumberTestcasesDir = properties.getProperty("CUCUMBER_TESTCASES_DIR");
-				if (cucumberTestcasesDir == null || "".equals(cucumberTestcasesDir.trim())) {
-					cucumberTestcasesDir = Locations.getProjectRootDir() + "/cucumber-testcases";
-				} else {
-					cucumberTestcasesDir = Locations.getProjectRootDir() + File.separator + cucumberTestcasesDir;
-				}
-			}
+			cucumberTestcasesDir = Locations.getProjectRootDir() + File.separator + "cucumber-testcases";
 
-			appScreenCaptureDir = System.getProperty("APP_SCREEN_CAPTURE_DIR");
-			if (appScreenCaptureDir == null || "".equals(appScreenCaptureDir.trim())) {
-				appScreenCaptureDir = properties.getProperty("APP_SCREEN_CAPTURE_DIR");
-				if (appScreenCaptureDir == null || "".equals(appScreenCaptureDir.trim())) {
-					appScreenCaptureDir = Locations.getProjectRootDir() + "/test-results/screen-captures";
-				} else {
-					appScreenCaptureDir = Locations.getProjectRootDir() + File.separator + appScreenCaptureDir;
-				}
-			}
+			appScreenCaptureDir = Locations.getProjectRootDir() + File.separator + "test-results" + File.separator + "screen-captures";
 
-			sikuliConfigDir = System.getProperty("SIKULI_CONFIG_DIR");
-			if (sikuliConfigDir == null || "".equals(sikuliConfigDir.trim())) {
-				sikuliConfigDir = properties.getProperty("SIKULI_CONFIG_DIR");
-				if (sikuliConfigDir == null || "".equals(sikuliConfigDir.trim())) {
-					sikuliConfigDir = Locations.getProjectRootDir() + "/test-config/sikuli-config";
-				} else {
-					sikuliConfigDir = Locations.getProjectRootDir() + File.separator + sikuliConfigDir;
-				}
+			sikuliConfigDir = Locations.getProjectRootDir() + File.separator + "test-config" + File.separator + "sikuli-config";
 
-			}
-
-			sikuliResourcesDir = System.getProperty("SIKULI_RESOURCES_DIR");
-			if (sikuliResourcesDir == null || "".equals(sikuliResourcesDir.trim())) {
-				sikuliResourcesDir = properties.getProperty("SIKULI_RESOURCES_DIR");
-				if (sikuliResourcesDir == null || "".equals(sikuliResourcesDir.trim())) {
-					sikuliResourcesDir = Locations.getProjectRootDir() + "/sikuli-resources";
-				} else {
-					sikuliResourcesDir = Locations.getProjectRootDir() + File.separator + sikuliResourcesDir;
-				}
-			}
+			sikuliResourcesDir = Locations.getProjectRootDir() + File.separator + "sikuli-resources";
 
 			String keyStr;
 			for (Object key : properties.keySet()) {
@@ -187,7 +141,7 @@ public class TestConfigManager {
 		String appConfigFile;
 		FileReader fileReader;
 		String currAppName = null;
-		;
+		
 		try {
 			AppConfig appConfig;
 			for (String appName : appNames) {
@@ -197,7 +151,7 @@ public class TestConfigManager {
 				Properties properties = new Properties();
 				properties.load(fileReader);
 				fileReader.close();
-
+				
 				appConfig = new AppConfig(currAppName, properties, appsConfigDir);
 				appConfigs.put(appName, appConfig);
 			}
@@ -213,6 +167,10 @@ public class TestConfigManager {
 		AppConfig appConfig = appConfigs.get(appName);
 		Assert.assertNotNull(appConfig, "Please configure application config for application '" + appName + "'.");
 		return appConfig;
+	}
+
+	public String getCucumberTestcasesDir() {
+		return cucumberTestcasesDir;
 	}
 
 	public UserProfile getUserProfile(String appName, String profileName) {

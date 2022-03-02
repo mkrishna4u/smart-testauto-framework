@@ -36,10 +36,11 @@ import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
  */
 public class OrmDatabaseQueryHandler {
 	private SessionFactory hibernateSessionFactory;
-
-	public OrmDatabaseQueryHandler(String hibernateCfgFile) {
+		
+	public OrmDatabaseQueryHandler(String appName, String profileName) {
 		Configuration hibernateCfg = new Configuration()
-				.configure(new File(Locations.getProjectRootDir() + File.separator + hibernateCfgFile));
+				.configure(new File(Locations.getConfigDirPath() + File.separator + "apps-config" + File.separator +
+						appName + File.separator + "database-profiles" + File.separator + profileName  + ".xml"));
 
 		hibernateSessionFactory = hibernateCfg.buildSessionFactory();
 	}
@@ -199,9 +200,4 @@ public class OrmDatabaseQueryHandler {
 		return columnValue;
 	}
 
-	public static void main(String[] args) {
-		OrmDatabaseQueryHandler handler = new OrmDatabaseQueryHandler("profiles/database/hibernate.cfg.db.dev.xml");
-
-		System.out.println(handler.getTableRowColumnValue("TEST_TABLE", "COLUMN_1", "<SQL-QUERY>"));
-	}
 }

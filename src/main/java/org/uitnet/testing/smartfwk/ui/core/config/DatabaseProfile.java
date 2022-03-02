@@ -27,14 +27,12 @@ import org.uitnet.testing.smartfwk.ui.core.config.database.orm.OrmDatabaseQueryH
 public class DatabaseProfile {
 	private String appName;
 	private String name;
-	private String profileFilePath;
 	private OrmDatabaseQueryHandler queryHandler;
 
-	public DatabaseProfile(String appName, String profileName, String profileFilePath) {
+	public DatabaseProfile(String appName, String profileName) {
 		this.appName = appName;
 		this.name = profileName;
-		this.profileFilePath = profileFilePath;
-		queryHandler = new OrmDatabaseQueryHandler(profileFilePath);
+		queryHandler = new OrmDatabaseQueryHandler(appName, profileName);
 	}
 
 	public String getAppName() {
@@ -43,10 +41,6 @@ public class DatabaseProfile {
 
 	public String getName() {
 		return name;
-	}
-
-	public String getProfileFilePath() {
-		return profileFilePath;
 	}
 
 	public OrmDatabaseQueryHandler getQueryHandler() {

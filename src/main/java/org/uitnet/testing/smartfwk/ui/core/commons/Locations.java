@@ -48,4 +48,32 @@ public class Locations {
 
 		return configPath;
 	}
+	
+	/**
+	 * This reads the active environment from system property '-Dapps.active.environment'.
+	 * Multiple environments are configured comma separated. like:
+	 * 
+	 * -Dapps.active.environment=app1:environment1,app2:environment1,app3:environment2
+	 * 
+	 * @param appName
+	 * @return
+	 */
+	public static String getAppActiveEnvironmentName(String appName) {
+		String appsEnv = System.getProperty("apps.active.environment");
+		if (!(appsEnv == null || "".equals(appsEnv.trim()))) {
+			String[] appsEnvArr = appsEnv.split(",");
+			String[] appEnvArr = null;
+			String appName1 = null;
+			for(String appEnv : appsEnvArr) {
+				appEnvArr = appEnv.split(":");
+				if(appEnvArr.length != 2) { continue; }
+				appName1 = appEnvArr[0].trim();
+				
+				if(appName1.equals(appName)) {
+					return appEnvArr[1].trim();
+				}				
+			}
+		}
+		return null;
+	}
 }
