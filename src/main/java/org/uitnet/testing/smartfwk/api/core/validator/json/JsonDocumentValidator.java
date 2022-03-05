@@ -62,10 +62,47 @@ public class JsonDocumentValidator {
 		return jsonDocReader.readSingleValue(jsonPath);
 	}
 
-	public void validatePathValuesPresent(String elementName, String jsonPath) {
+	public void validatePathPresent(String elementName, String jsonPath) {
 		List<?> elems = jsonDocReader.getDocumentContext().read(jsonPath);
-		Assert.assertTrue(elems.size() > 0,
+		Assert.assertTrue(elems != null && elems.size() > 0,
 				"Element '" + elementName + "' does not exist on JSON Path '" + jsonPath + "'.");
+	}
+
+	/**
+	 * Use validatePathPresent(..) instead.
+	 * 
+	 * @param elementName
+	 * @param jsonPath
+	 */
+	@Deprecated
+	public void validatePathValuesPresent(String elementName, String jsonPath) {
+		validatePathPresent(elementName, jsonPath);
+	}
+
+	public void validateExpectedNRecordsPresent(String elementName, String jsonPath, int expectedN) {
+		List<?> result = null;
+		try {
+			result = jsonDocReader.getDocumentContext().read(jsonPath);
+		} catch (Exception e) {
+			Assert.fail("Element '" + elementName + "' has incorrect JSON Path '" + jsonPath + "'.", e);
+		}
+
+		Assert.assertNotNull(result, "Element '" + elementName + "' does not exist on JSON Path '" + jsonPath + "'.");
+		Assert.assertTrue(result.size() == expectedN, "Element '" + elementName + "' does not have exact '" + expectedN
+				+ "' records on JSON Path '" + jsonPath + "'. Found: " + result.size());
+	}
+
+	public void validateAtleastNRecordsPresent(String elementName, String jsonPath, int atleastN) {
+		List<?> result = null;
+		try {
+			result = jsonDocReader.getDocumentContext().read(jsonPath);
+		} catch (Exception e) {
+			Assert.fail("Element '" + elementName + "' has incorrect JSON Path '" + jsonPath + "'.", e);
+		}
+
+		Assert.assertNotNull(result, "Element '" + elementName + "' does not exist on JSON Path '" + jsonPath + "'.");
+		Assert.assertTrue(result.size() >= atleastN, "Element '" + elementName + "' does not have atleast '" + atleastN
+				+ "' records on JSON Path '" + jsonPath + "'. Found: " + result.size());
 	}
 
 	public <T> void validateValuesPresent(String elementName, String jsonPath, T[] values) {
@@ -109,7 +146,7 @@ public class JsonDocumentValidator {
 	public static void main(String[] args) {
 		String jsonString = sampleJson();
 		JsonDocumentValidator validator = new JsonDocumentValidator(jsonString);
-		validator.validatePathValuesPresent("Price Range", "$..price_range");
+		validator.validatePathPresent("Price Range", "$..price_range");
 		validator.validateValuesPresent("Price", "$.book[*].price", new Double[] { 49.99, 29.99d, 8.99 });
 		validator.validateExactMatchForValues("Price", "$.book[*].price", new Double[] { 49.99, 29.99, 8.99, 6.00 });
 		validator.validateSingleValueMatch("First Book Author", "$.book[0].author", String.class, "Ben Smith");

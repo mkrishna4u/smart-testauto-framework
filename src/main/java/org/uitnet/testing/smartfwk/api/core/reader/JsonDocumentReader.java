@@ -85,7 +85,7 @@ public class JsonDocumentReader {
 		return jsonDocCtx.read(jsonPath, typeRef);
 	}
 
-	private void init() {
+	protected void init() {
 		Configuration.setDefaults(new Configuration.Defaults() {
 
 			private final JsonProvider jsonProvider = new JacksonJsonProvider();
