@@ -39,17 +39,17 @@ public abstract class TabValidator extends UIObjectValidator {
 		return tab;
 	}
 
-	public abstract void validateDisabled(int numRetries);
+	public abstract void validateDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabled(int numRetries);
+	public abstract void validateEnabled(int maxIterationsToLocateElements);
 
-	public abstract void selectTab(int numRetries);
+	public abstract void selectTab(int maxIterationsToLocateElements);
 
-	public abstract void validateTabName(String tabName, int numRetries);
+	public abstract void validateTabName(String tabName, int maxIterationsToLocateElements);
 
-	public abstract void validateSelected(int numRetries);
+	public abstract void validateSelected(int maxIterationsToLocateElements);
 
-	public abstract void validateNotSelected(int numRetries);
+	public abstract void validateNotSelected(int maxIterationsToLocateElements);
 
-	public abstract void closeTab(int numRetries);
+	public abstract void closeTab(int maxIterationsToLocateElements);
 }

@@ -40,19 +40,19 @@ public abstract class RadioButtonGroupValidator extends UIObjectValidator {
 		return optionGroup;
 	}
 
-	public abstract void validateDisabled(int numRetries);
+	public abstract void validateDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabled(int numRetries);
+	public abstract void validateEnabled(int maxIterationsToLocateElements);
 
-	public abstract void selectOption(String value, String displayValue, int numRetries);
+	public abstract void selectOption(String value, String displayValue, int maxIterationsToLocateElements);
 
-	public abstract void validateSelectedOption(String value, String displayValue, int numRetries);
+	public abstract void validateSelectedOption(String value, String displayValue, int maxIterationsToLocateElements);
 
 	/**
 	 * 
 	 * @param options:   ItemMap contains key: optionValue, value:
 	 *                   optionDisplayValue
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 */
-	public abstract void validateNotSelectedOptions(ItemMap<String, String> options, int numRetries);
+	public abstract void validateNotSelectedOptions(ItemMap<String, String> options, int maxIterationsToLocateElements);
 }

@@ -40,16 +40,16 @@ public abstract class AccordionValidator extends UIObjectValidator {
 		return accordion;
 	}
 
-	public abstract void validateDisabledSections(Sections sections, int numRetries);
+	public abstract void validateDisabledSections(Sections sections, int maxIterationsToLocateElements);
 
-	public abstract void validateOpenedSections(Sections sections, int numRetries);
+	public abstract void validateOpenedSections(Sections sections, int maxIterationsToLocateElements);
 
-	public abstract void validateClosedSections(Sections sections, int numRetries);
+	public abstract void validateClosedSections(Sections sections, int maxIterationsToLocateElements);
 
-	public abstract void vaidateSectionsPresence(Sections sections, int numRetries);
+	public abstract void vaidateSectionsPresence(Sections sections, int maxIterationsToLocateElements);
 
-	public abstract void openSection(String section, int numRetries);
+	public abstract void openSection(String section, int maxIterationsToLocateElements);
 
-	public abstract void closeSection(String section, int numRetries);
+	public abstract void closeSection(String section, int maxIterationsToLocateElements);
 
 }

@@ -41,28 +41,28 @@ public abstract class TextAreaValidator extends UIObjectValidator {
 		return textArea;
 	}
 
-	public abstract boolean isDisabled(int numRetries);
+	public abstract boolean isDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabled(int numRetries);
+	public abstract void validateDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabled(int numRetries);
+	public abstract void validateEnabled(int maxIterationsToLocateElements);
 	
-	public abstract boolean isDisabledButNotReadonly(int numRetries);
+	public abstract boolean isDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabledButNotReadonly(int numRetries);
+	public abstract void validateDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabledButNotReadonly(int numRetries);
+	public abstract void validateEnabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract boolean isReadonly(int numRetries);
+	public abstract boolean isReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateReadonly(int numRetries);
+	public abstract void validateReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateNotReadonly(int numRetries);
+	public abstract void validateNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void typeText(String textToType, NewTextLocation location, int numRetries);
+	public abstract void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements);
 
 	public abstract void validateTextValue(String expectedValue, TextMatchMechanism validationMechanism,
-			int numRetries);
+			int maxIterationsToLocateElements);
 
-	public abstract String getTextValue(int numRetries);
+	public abstract String getTextValue(int maxIterationsToLocateElements);
 }

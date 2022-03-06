@@ -52,58 +52,58 @@ public class ImageValidatorSD extends ImageValidator {
 	}
 
 	@Override
-	public void typeText(String textToType, NewTextLocation location, int numRetries) {
-		domObjValidator.typeText(textToType, location, numRetries);
+	public void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
+		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
 	}
 
 	@Override
-	public boolean isPresent(int numRetries) {
-		return domObjValidator.isPresent(numRetries);
+	public boolean isPresent(int maxIterationsToLocateElements) {
+		return domObjValidator.isPresent(maxIterationsToLocateElements);
 	}
 
 	@Override
-	public boolean isVisible(int numRetries) {
-		return domObjValidator.isVisible(numRetries);
+	public boolean isVisible(int maxIterationsToLocateElements) {
+		return domObjValidator.isVisible(maxIterationsToLocateElements);
 	}
 
 	@Override
-	public void click(int numRetries) {
-		domObjValidator.click(numRetries);
+	public void click(int maxIterationsToLocateElements) {
+		domObjValidator.click(maxIterationsToLocateElements);
 	}
 
 	@Override
-	public void doubleClick(int numRetries) {
-		domObjValidator.doubleClick(numRetries);
+	public void doubleClick(int maxIterationsToLocateElements) {
+		domObjValidator.doubleClick(maxIterationsToLocateElements);
 	}
 
 	@Override
-	public void rightClick(int numRetries) {
-		domObjValidator.rightClick(numRetries);
+	public void rightClick(int maxIterationsToLocateElements) {
+		domObjValidator.rightClick(maxIterationsToLocateElements);
 	}
 
 	@Override
-	public void clickAndHold(int numRetries) {
-		domObjValidator.clickAndHold(numRetries);
+	public void clickAndHold(int maxIterationsToLocateElements) {
+		domObjValidator.clickAndHold(maxIterationsToLocateElements);
 	}
 
 	@Override
-	public void release(int numRetries) {
-		domObjValidator.release(numRetries);
+	public void release(int maxIterationsToLocateElements) {
+		domObjValidator.release(maxIterationsToLocateElements);
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int numRetries) {
-		domObjValidator.performKeyDown(keys, numRetries);
+	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int numRetries) {
-		domObjValidator.performKeyUp(keys, numRetries);
+	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+		domObjValidator.performKeyUp(keys, maxIterationsToLocateElements);
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int numRetries) {
-		domObjValidator.performKeyPressed(keys, numRetries);
+	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+		domObjValidator.performKeyPressed(keys, maxIterationsToLocateElements);
 	}
 
 	@Override
@@ -113,18 +113,18 @@ public class ImageValidatorSD extends ImageValidator {
 	}
 
 	@Override
-	public WebElement findElement(int numRetries) {
-		return domObjValidator.findElement(numRetries);
+	public WebElement findElement(int maxIterationsToLocateElements) {
+		return domObjValidator.findElement(maxIterationsToLocateElements);
 	}
 
 	@Override
-	public WebElement findElementNoException(int numRetries) {
-		return domObjValidator.findElementNoException(numRetries);
+	public WebElement findElementNoException(int maxIterationsToLocateElements) {
+		return domObjValidator.findElementNoException(maxIterationsToLocateElements);
 	}
 
 	@Override
-	public List<WebElement> findElements(int numRetries) {
-		return domObjValidator.findElements(numRetries);
+	public List<WebElement> findElements(int maxIterationsToLocateElements) {
+		return domObjValidator.findElements(maxIterationsToLocateElements);
 	}
 	
 	@SuppressWarnings("rawtypes")

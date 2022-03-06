@@ -72,32 +72,32 @@ public abstract class UIObjectValidator {
 		return region;
 	}
 
-	public void validatePresent(int numRetries) {
-		Assert.assertTrue(isPresent(numRetries), "Failed to find element '" + uiObject.getDisplayName() + "'");
+	public void validatePresent(int maxIterationsToLocateElements) {
+		Assert.assertTrue(isPresent(maxIterationsToLocateElements), "Failed to find element '" + uiObject.getDisplayName() + "'");
 	}
 
-	public void validateNotPresent(int numRetries) {
-		Assert.assertTrue(!isPresent(numRetries), "Element '" + uiObject.getDisplayName() + "' is already present.");
+	public void validateNotPresent(int maxIterationsToLocateElements) {
+		Assert.assertTrue(!isPresent(maxIterationsToLocateElements), "Element '" + uiObject.getDisplayName() + "' is already present.");
 	}
 
-	public <EVENTNAME> void performAction(InputEvent<EVENTNAME> event, int numRetries) {
+	public <EVENTNAME> void performAction(InputEvent<EVENTNAME> event, int maxIterationsToLocateElements) {
 		if (event.getType() == InputEventType.mouse) {
 			MouseEvent mouseEvent = (MouseEvent) event;
 			switch (mouseEvent.getName()) {
 			case mouseClick:
-				click(numRetries);
+				click(maxIterationsToLocateElements);
 				break;
 			case mouseRightClick:
-				rightClick(numRetries);
+				rightClick(maxIterationsToLocateElements);
 				break;
 			case mouseDoubleClick:
-				doubleClick(numRetries);
+				doubleClick(maxIterationsToLocateElements);
 				break;
 			case mouseClickAndHold:
-				clickAndHold(numRetries);
+				clickAndHold(maxIterationsToLocateElements);
 				break;
 			case mouseRelease:
-				release(numRetries);
+				release(maxIterationsToLocateElements);
 				break;
 			}
 		} else if (event.getType() == InputEventType.keyBoard) {
@@ -105,21 +105,21 @@ public abstract class UIObjectValidator {
 			switch (kbEvent.getName()) {
 			case kbKeyDown:
 				if (kbEvent.getInputText() != null) {
-					typeText(kbEvent.getInputText(), kbEvent.getTextLocation(), numRetries);
+					typeText(kbEvent.getInputText(), kbEvent.getTextLocation(), maxIterationsToLocateElements);
 				}
-				performKeyDown(kbEvent.getKey(), numRetries);
+				performKeyDown(kbEvent.getKey(), maxIterationsToLocateElements);
 				break;
 			case kbKeyUp:
 				if (kbEvent.getInputText() != null) {
-					typeText(kbEvent.getInputText(), kbEvent.getTextLocation(), numRetries);
+					typeText(kbEvent.getInputText(), kbEvent.getTextLocation(), maxIterationsToLocateElements);
 				}
-				performKeyUp(kbEvent.getKey(), numRetries);
+				performKeyUp(kbEvent.getKey(), maxIterationsToLocateElements);
 				break;
 			case keyPressed:
 				if (kbEvent.getInputText() != null) {
-					typeText(kbEvent.getInputText(), kbEvent.getTextLocation(), numRetries);
+					typeText(kbEvent.getInputText(), kbEvent.getTextLocation(), maxIterationsToLocateElements);
 				}
-				performKeyPressed(kbEvent.getKey(), numRetries);
+				performKeyPressed(kbEvent.getKey(), maxIterationsToLocateElements);
 				break;
 			}
 		}
@@ -212,47 +212,47 @@ public abstract class UIObjectValidator {
 		return null;
 	}
 
-	public void validateVisible(int numRetries) {
-		Assert.assertTrue(isVisible(numRetries), "Element '" + uiObject.getDisplayName() + "' is not visible.");
+	public void validateVisible(int maxIterationsToLocateElements) {
+		Assert.assertTrue(isVisible(maxIterationsToLocateElements), "Element '" + uiObject.getDisplayName() + "' is not visible.");
 	}
 	
-	public void validateNotVisible(int numRetries) {
-		Assert.assertFalse(isVisible(numRetries), "Element '" + uiObject.getDisplayName() + "' is visible.");
+	public void validateNotVisible(int maxIterationsToLocateElements) {
+		Assert.assertFalse(isVisible(maxIterationsToLocateElements), "Element '" + uiObject.getDisplayName() + "' is visible.");
 	}
 
-	public void validateHidden(int numRetries) {
-		Assert.assertFalse(isVisible(numRetries), "Element '" + uiObject.getDisplayName() + "' is visible.");
+	public void validateHidden(int maxIterationsToLocateElements) {
+		Assert.assertFalse(isVisible(maxIterationsToLocateElements), "Element '" + uiObject.getDisplayName() + "' is visible.");
 	}
 
-	public abstract boolean isPresent(int numRetries);
+	public abstract boolean isPresent(int maxIterationsToLocateElements);
 
-	public abstract boolean isVisible(int numRetries);
+	public abstract boolean isVisible(int maxIterationsToLocateElements);
 
-	public abstract void click(int numRetries);
+	public abstract void click(int maxIterationsToLocateElements);
 
-	public abstract void doubleClick(int numRetries);
+	public abstract void doubleClick(int maxIterationsToLocateElements);
 
-	public abstract void rightClick(int numRetries);
+	public abstract void rightClick(int maxIterationsToLocateElements);
 
-	public abstract void clickAndHold(int numRetries);
+	public abstract void clickAndHold(int maxIterationsToLocateElements);
 
-	public abstract void release(int numRetries);
+	public abstract void release(int maxIterationsToLocateElements);
 
-	public abstract void performKeyDown(Keys keys, int numRetries);
+	public abstract void performKeyDown(Keys keys, int maxIterationsToLocateElements);
 
-	public abstract void performKeyUp(Keys keys, int numRetries);
+	public abstract void performKeyUp(Keys keys, int maxIterationsToLocateElements);
 
-	public abstract void performKeyPressed(Keys keys, int numRetries);
+	public abstract void performKeyPressed(Keys keys, int maxIterationsToLocateElements);
 
-	public abstract void typeText(String text, NewTextLocation location, int numRetries);
+	public abstract void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements);
 
 	public abstract UIObjectValidator scrollElementOnViewport(Scrollbar scrollbar);
 
-	public abstract Object findElement(int numRetries);
+	public abstract Object findElement(int maxIterationsToLocateElements);
 
-	public abstract Object findElementNoException(int numRetries);
+	public abstract Object findElementNoException(int maxIterationsToLocateElements);
 
-	public abstract Object findElements(int numRetries);
+	public abstract Object findElements(int maxIterationsToLocateElements);
 	
 	@SuppressWarnings("rawtypes")
 	public abstract TouchAction getNewMobileTouchAction();

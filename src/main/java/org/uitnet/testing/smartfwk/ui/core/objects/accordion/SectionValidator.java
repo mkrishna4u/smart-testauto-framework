@@ -38,9 +38,9 @@ public abstract class SectionValidator extends UIObjectValidator {
 		return section;
 	}
 
-	public abstract void selectSection(int numRetries);
+	public abstract void selectSection(int maxIterationsToLocateElements);
 
-	public abstract void isSectionSelected(int numRetries);
+	public abstract void isSectionSelected(int maxIterationsToLocateElements);
 
-	public abstract void validateSectionSelected(int numRetries);
+	public abstract void validateSectionSelected(int maxIterationsToLocateElements);
 }

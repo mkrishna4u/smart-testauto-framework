@@ -58,24 +58,24 @@ public class ImageObjectValidator extends UIObjectValidator {
 	}
 
 	/**
-	 * Finds first element with polling and it polls after 2 seconds for numRetries
+	 * Finds first element with polling and it polls after 2 seconds for maxIterationsToLocateElements
 	 * times.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 * @return
 	 */
 	@Override
-	public Match findElement(int numRetries) {
+	public Match findElement(int maxIterationsToLocateElements) {
 		Match match = null;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				match = region.find(imgLocator.getImage());
 				Assert.assertNotNull(match, "Unable to find element '" + imgLocator.getDisplayName() + "'.");
 				break;
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					Assert.fail("Unable to find element '" + imgLocator.getDisplayName()
-							+ "'. Reason timeout(waited for " + (numRetries * 2) + " seconds).", th);
+							+ "'. Reason timeout(waited for " + (maxIterationsToLocateElements * 2) + " seconds).", th);
 					break;
 				}
 			}
@@ -85,16 +85,16 @@ public class ImageObjectValidator extends UIObjectValidator {
 	}
 
 	/**
-	 * Finds first element with polling and it polls after 2 seconds for numRetries
+	 * Finds first element with polling and it polls after 2 seconds for maxIterationsToLocateElements
 	 * times. It does not throw any exception
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 * @return
 	 */
 	@Override
-	public Match findElementNoException(int numRetries) {
+	public Match findElementNoException(int maxIterationsToLocateElements) {
 		Match match = null;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				match = region.find(imgLocator.getImage());
 				if (match != null) {
@@ -102,7 +102,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 				}
 			} catch (Throwable th) {
 				match = null;
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					break;
 				}
 			}
@@ -113,16 +113,16 @@ public class ImageObjectValidator extends UIObjectValidator {
 
 	/**
 	 * This returns all the elements based on the locator. It waits for the
-	 * configured timeout if the element is not present. Performs polling numRetries
+	 * configured timeout if the element is not present. Performs polling maxIterationsToLocateElements
 	 * times.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 * @return
 	 */
 	@Override
-	public List<Match> findElements(int numRetries) {
+	public List<Match> findElements(int maxIterationsToLocateElements) {
 		List<Match> list = new LinkedList<Match>();
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				Iterator<Match> matches = region.findAll(imgLocator.getImage());
 
@@ -134,9 +134,9 @@ public class ImageObjectValidator extends UIObjectValidator {
 						"Unable to find elements for '" + imgLocator.getDisplayName() + "' locator.");
 				break;
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					Assert.fail("Unable to find elements for '" + uiObject.getDisplayName()
-							+ "' locator. Reason timeout(waited for " + (numRetries * 2) + " seconds).", th);
+							+ "' locator. Reason timeout(waited for " + (maxIterationsToLocateElements * 2) + " seconds).", th);
 					break;
 				}
 			}
@@ -157,13 +157,13 @@ public class ImageObjectValidator extends UIObjectValidator {
 	/**
 	 * Return true only if first element is present but it might not be visible.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 * @return
 	 */
-	public boolean isPresent(int numRetries) {
+	public boolean isPresent(int maxIterationsToLocateElements) {
 		boolean elemPresent = false;
 		Match match = null;
-		match = findElementNoException(numRetries);
+		match = findElementNoException(maxIterationsToLocateElements);
 		if (match != null) {
 			elemPresent = true;
 		}
@@ -173,16 +173,16 @@ public class ImageObjectValidator extends UIObjectValidator {
 	/**
 	 * Return true only if first element is visible.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 * @return
 	 */
-	public boolean isVisible(int numRetries) {
-		return isPresent(numRetries);
+	public boolean isVisible(int maxIterationsToLocateElements) {
+		return isPresent(maxIterationsToLocateElements);
 	}
 
-	public void click(int numRetries) {
+	public void click(int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on element '" + imgLocator.getDisplayName() + "'.", th);
@@ -205,45 +205,45 @@ public class ImageObjectValidator extends UIObjectValidator {
 		return null;
 	}
 
-	public void click(ImageSection imageSection, int numRetries) {
+	public void click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
 	}
 
-	public void doubleClick(int numRetries) {
+	public void doubleClick(int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
 	}
 
-	public void doubleClick(ImageSection imageSection, int numRetries) {
+	public void doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
 	}
 
-	public void rightClick(int numRetries) {
+	public void rightClick(int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
 	}
 
-	public void rightClick(ImageSection imageSection, int numRetries) {
+	public void rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on element '" + imgLocator.getDisplayName() + "'.", th);
@@ -251,9 +251,9 @@ public class ImageObjectValidator extends UIObjectValidator {
 	}
 
 	@Override
-	public void clickAndHold(int numRetries) {
+	public void clickAndHold(int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on element '" + imgLocator.getDisplayName() + "'.", th);
@@ -261,19 +261,19 @@ public class ImageObjectValidator extends UIObjectValidator {
 	}
 
 	@Override
-	public void release(int numRetries) {
+	public void release(int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseUp(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse release on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
 	}
 
-	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
+	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
 		try {
-			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
+			Match sourceElem = findElement(maxIterationsToLocateElements);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(maxIterationsToLocateElements);
 
 			Assert.assertNotNull(sourceElem, "Failed to find element '" + imgLocator.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
@@ -286,9 +286,9 @@ public class ImageObjectValidator extends UIObjectValidator {
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int numRetries) {
+	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
@@ -298,9 +298,9 @@ public class ImageObjectValidator extends UIObjectValidator {
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int numRetries) {
+	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
@@ -310,9 +310,9 @@ public class ImageObjectValidator extends UIObjectValidator {
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int numRetries) {
+	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
@@ -323,9 +323,9 @@ public class ImageObjectValidator extends UIObjectValidator {
 	}
 
 	@Override
-	public void typeText(String text, NewTextLocation location, int numRetries) {
+	public void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 			switch (location) {
 			case start:
@@ -346,18 +346,18 @@ public class ImageObjectValidator extends UIObjectValidator {
 		}
 	}
 
-	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int numRetries) {
-		Match match = findElement(numRetries);
+	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+		Match match = findElement(maxIterationsToLocateElements);
 		validateTextValue(match.text(), expectedValue, validationMechanism);
 	}
 
-	public String getText(int numRetries) {
-		Match match = findElement(numRetries);
+	public String getText(int maxIterationsToLocateElements) {
+		Match match = findElement(maxIterationsToLocateElements);
 		return match.text();
 	}
 
-	public String getEditableFieldTextUsingClipboard(int numRetries) {
-		Match match = findElement(numRetries);
+	public String getEditableFieldTextUsingClipboard(int maxIterationsToLocateElements) {
+		Match match = findElement(maxIterationsToLocateElements);
 		match.click();
 		match.type("a", KeyModifier.CTRL);
 		match.type("c", KeyModifier.CTRL);

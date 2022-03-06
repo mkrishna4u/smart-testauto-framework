@@ -40,7 +40,7 @@ public abstract class MenuItemValidator extends UIObjectValidator {
 		return menuItem;
 	}
 
-	public abstract void validateDisabledItemsPresent(ItemList<String> disabledItems, int numRetries);
+	public abstract void validateDisabledItemsPresent(ItemList<String> disabledItems, int maxIterationsToLocateElements);
 
-	public abstract void validateEnabledItemsPresent(ItemList<String> enabledItems, int numRetries);
+	public abstract void validateEnabledItemsPresent(ItemList<String> enabledItems, int maxIterationsToLocateElements);
 }

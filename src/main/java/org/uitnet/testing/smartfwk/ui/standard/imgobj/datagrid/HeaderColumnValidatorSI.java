@@ -52,47 +52,47 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public void validateName(String expectedName, TextMatchMechanism validationMechanism, int numRetries) {
-		Match match = findElement(numRetries);
+	public void validateName(String expectedName, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+		Match match = findElement(maxIterationsToLocateElements);
 		validateTextValue(match.text(), expectedName, validationMechanism);
 	}
 
 	@Override
 	@Deprecated
-	public void validateDisabled(int numRetries) {
+	public void validateDisabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabled() API is not supported by HeaderColumnSI.");
 	}
 
 	@Override
 	@Deprecated
-	public void validateEnabled(int numRetries) {
+	public void validateEnabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabled() API is not supported by HeaderColumnSI.");
 	}
 
 	@Override
-	public boolean isPresent(int numRetries) {
-		Match m = findElementNoException(numRetries);
+	public boolean isPresent(int maxIterationsToLocateElements) {
+		Match m = findElementNoException(maxIterationsToLocateElements);
 		return (m != null);
 	}
 
 	@Override
-	public boolean isVisible(int numRetries) {
-		return isPresent(numRetries);
+	public boolean isVisible(int maxIterationsToLocateElements) {
+		return isPresent(maxIterationsToLocateElements);
 	}
 
 	@Override
-	public void click(int numRetries) {
+	public void click(int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on HeaderColumn '" + headerColObj.getDisplayName() + "'.", th);
 		}
 	}
 
-	public void click(ImageSection imageSection, int numRetries) {
+	public void click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on HeaderColumn '" + headerColObj.getDisplayName() + "'.", th);
@@ -100,9 +100,9 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public void doubleClick(int numRetries) {
+	public void doubleClick(int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on HeaderColumn '" + headerColObj.getDisplayName() + "'.",
@@ -110,9 +110,9 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 		}
 	}
 
-	public void doubleClick(ImageSection imageSection, int numRetries) {
+	public void doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on HeaderColumn '" + headerColObj.getDisplayName() + "'.",
@@ -121,9 +121,9 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public void rightClick(int numRetries) {
+	public void rightClick(int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on HeaderColumn '" + headerColObj.getDisplayName() + "'.",
@@ -131,9 +131,9 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 		}
 	}
 
-	public void rightClick(ImageSection imageSection, int numRetries) {
+	public void rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on HeaderColumn '" + headerColObj.getDisplayName() + "'.",
@@ -142,9 +142,9 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public void clickAndHold(int numRetries) {
+	public void clickAndHold(int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on HeaderColumn '" + headerColObj.getDisplayName() + "'.",
@@ -153,9 +153,9 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public void release(int numRetries) {
+	public void release(int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on HeaderColumn '" + headerColObj.getDisplayName() + "'.",
@@ -164,9 +164,9 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int numRetries) {
+	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
@@ -176,9 +176,9 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int numRetries) {
+	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
@@ -188,9 +188,9 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int numRetries) {
+	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		try {
-			Match match = findElement(numRetries);
+			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
@@ -202,7 +202,7 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 
 	@Override
 	@Deprecated
-	public void typeText(String text, NewTextLocation location, int numRetries) {
+	public void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
 		Assert.fail("typeText() API is not supported for HeaderColumn element.");
 
 	}
@@ -214,9 +214,9 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public Match findElement(int numRetries) {
+	public Match findElement(int maxIterationsToLocateElements) {
 		Match match = null;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				Region region = headerColObj.getColumnImageLocation().getRegionOfImageObject(appDriver,
 						headerColObj.getColumnImage());
@@ -224,9 +224,9 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 				match = new Match(region, 1);
 				break;
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					Assert.fail("Unable to find HeaderColumn '" + headerColObj.getDisplayName()
-							+ "'. Reason timeout(waited for " + (numRetries * 2) + " seconds).", th);
+							+ "'. Reason timeout(waited for " + (maxIterationsToLocateElements * 2) + " seconds).", th);
 					break;
 				}
 			}
@@ -236,10 +236,10 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public Match findElementNoException(int numRetries) {
+	public Match findElementNoException(int maxIterationsToLocateElements) {
 		Match match = null;
 		try {
-			match = findElement(numRetries);
+			match = findElement(maxIterationsToLocateElements);
 		} catch (Throwable th) {
 			// Do nothing
 		}
@@ -247,17 +247,17 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public List<Match> findElements(int numRetries) {
+	public List<Match> findElements(int maxIterationsToLocateElements) {
 		Region r = headerColObj.getColumnImageLocation().getRegion(appDriver);
 
 		return new ImageObject(UIObjectType.headerColumn, headerColObj.getDisplayName(), headerColObj.getColumnImage())
-				.getValidator(appDriver, r).findElements(numRetries);
+				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
-	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
+	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
 		try {
-			Match sourceElem = findElement(numRetries);
-			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(numRetries);
+			Match sourceElem = findElement(maxIterationsToLocateElements);
+			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(maxIterationsToLocateElements);
 
 			Assert.assertNotNull(sourceElem, "Failed to find HeaderColumn '" + headerColObj.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
@@ -288,7 +288,7 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 
 	@Override
 	@Deprecated
-	public boolean isDisabled(int numRetries) {
+	public boolean isDisabled(int maxIterationsToLocateElements) {
 		Assert.fail("isDisabled() API is not supported by HeaderColumnSI.");
 		return false;
 	}

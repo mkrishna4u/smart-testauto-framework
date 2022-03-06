@@ -44,15 +44,15 @@ public abstract class TabSheetValidator extends UIObjectValidator {
 		this.tabSheet = component;
 	}
 
-	public abstract void selectTab(String tabName, int numRetries);
+	public abstract void selectTab(String tabName, int maxIterationsToLocateElements);
 
-	public abstract String findSelectedTab(int numRetries);
+	public abstract String findSelectedTab(int maxIterationsToLocateElements);
 
-	public abstract void validateSelectedTab(String expectedSelectedTabName, int numRetries);
+	public abstract void validateSelectedTab(String expectedSelectedTabName, int maxIterationsToLocateElements);
 
-	public abstract void validateTabsPresent(ItemSet<String> allTabNames, int numRetries);
+	public abstract void validateTabsPresent(ItemSet<String> allTabNames, int maxIterationsToLocateElements);
 
-	public abstract void validateDisabledTabs(ItemSet<String> disabledTabNames, int numRetries);
+	public abstract void validateDisabledTabs(ItemSet<String> disabledTabNames, int maxIterationsToLocateElements);
 
-	public abstract void validateEnabledTabs(ItemSet<String> enabledTabNames, int numRetries);
+	public abstract void validateEnabledTabs(ItemSet<String> enabledTabNames, int maxIterationsToLocateElements);
 }

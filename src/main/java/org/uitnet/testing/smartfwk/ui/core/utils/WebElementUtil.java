@@ -192,11 +192,11 @@ public class WebElementUtil {
 		return selected;
 	}
 	
-	public static String getElementText(SmartAppDriver appDriver, DOMObject domObject, int numRetries) {
+	public static String getElementText(SmartAppDriver appDriver, DOMObject domObject, int maxIterationsToLocateElements) {
 		String text = "";
 		WebElement webElem = null;
 		
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
 						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
@@ -218,7 +218,7 @@ public class WebElementUtil {
 					}
 				}
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					throw th;
 				}
 			}
@@ -228,11 +228,11 @@ public class WebElementUtil {
 		return text;
 	}
 	
-	public static String getInputTextValue(SmartAppDriver appDriver, DOMObject domObject, int numRetries) {
+	public static String getInputTextValue(SmartAppDriver appDriver, DOMObject domObject, int maxIterationsToLocateElements) {
 		String text = "";
 		WebElement webElem = null;
 		
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
 						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
@@ -254,7 +254,7 @@ public class WebElementUtil {
 					}
 				}
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					throw th;
 				}
 			}

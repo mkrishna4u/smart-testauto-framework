@@ -40,17 +40,17 @@ public abstract class DateItemValidator extends UIObjectValidator {
 		return this.dateItem;
 	}
 
-	public abstract void validateDisabled(int numRetries);
+	public abstract void validateDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabled(int numRetries);
+	public abstract void validateEnabled(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabledButNotReadonly(int numRetries);
+	public abstract void validateDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabledButNotReadonly(int numRetries);
+	public abstract void validateEnabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void typeDate(String date, int numRetries);
+	public abstract void typeDate(String date, int maxIterationsToLocateElements);
 
-	public abstract void selectDateUsingDatePicker(String date, int numRetries);
+	public abstract void selectDateUsingDatePicker(String date, int maxIterationsToLocateElements);
 
-	public abstract void validateDate(String date, TextMatchMechanism validationMechanism, int numRetries);
+	public abstract void validateDate(String date, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
 }

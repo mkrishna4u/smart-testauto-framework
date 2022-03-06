@@ -43,34 +43,34 @@ public abstract class ChoicesValidator extends UIObjectValidator {
 		return this.choices;
 	}
 
-	public abstract void validateItemDisabled(String itemName, int numRetries);
+	public abstract void validateItemDisabled(String itemName, int maxIterationsToLocateElements);
 
-	public abstract void validateItemEnabled(String itemName, int numRetries);
+	public abstract void validateItemEnabled(String itemName, int maxIterationsToLocateElements);
 
-	public abstract void validateItemSelected(String item, TextMatchMechanism validationMechanism, int numRetries);
+	public abstract void validateItemSelected(String item, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
 
 	public abstract void validateItemsSelected(ItemList<String> items, TextMatchMechanism validationMechanism,
-			int numRetries);
+			int maxIterationsToLocateElements);
 
-	public abstract String getSelectedItem(int numRetries);
+	public abstract String getSelectedItem(int maxIterationsToLocateElements);
 
-	public abstract List<String> getSelectedItems(int numRetries);
+	public abstract List<String> getSelectedItems(int maxIterationsToLocateElements);
 
-	public abstract List<String> getAllItems(int numRetries);
+	public abstract List<String> getAllItems(int maxIterationsToLocateElements);
 
-	public abstract void selectFirstItem(int numRetries);
+	public abstract void selectFirstItem(int maxIterationsToLocateElements);
 
-	public abstract void selectLastItem(int numRetries);
+	public abstract void selectLastItem(int maxIterationsToLocateElements);
 
-	public abstract void selectItem(String itemName, int numRetries);
+	public abstract void selectItem(String itemName, int maxIterationsToLocateElements);
 
-	public abstract void selectItems(ItemList<String> itemsToBeSelected, int numRetries);
+	public abstract void selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements);
 
-	public abstract void deselectItem(String itemName, int numRetries);
+	public abstract void deselectItem(String itemName, int maxIterationsToLocateElements);
 
-	public abstract void deselectItems(ItemList<String> itemsToBeDeselected, int numRetries);
+	public abstract void deselectItems(ItemList<String> itemsToBeDeselected, int maxIterationsToLocateElements);
 
-	public abstract void validateItemsPresent(ItemList<String> items, int numRetries);
+	public abstract void validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements);
 
-	public abstract void validateItemsNotPresent(ItemList<String> items, int numRetries);
+	public abstract void validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements);
 }

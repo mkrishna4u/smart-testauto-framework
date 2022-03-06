@@ -81,9 +81,9 @@ public class DataGridValidatorSI {
 		return dataGrid;
 	}
 
-	protected void initializeDataGridHeader(int numRetries) {
+	protected void initializeDataGridHeader(int maxIterationsToLocateElements) {
 		Match firstColumnMatch = dataGrid.getKeyHeaderColumns().get(0).getValidator(appDriver, region)
-				.findElement(numRetries);
+				.findElement(maxIterationsToLocateElements);
 
 		dataGridHeaderX1 = firstColumnMatch.getX();
 		dataGridHeaderY1 = firstColumnMatch.getY();
@@ -113,10 +113,10 @@ public class DataGridValidatorSI {
 	 * It initializes the datagrid location on the screen. It also initializes the
 	 * data grid record area.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 */
-	public void initializeDataGrid(int numRetries) {
-		initializeDataGridHeader(numRetries);
+	public void initializeDataGrid(int maxIterationsToLocateElements) {
+		initializeDataGridHeader(maxIterationsToLocateElements);
 		dataGridRecordsAreaX1 = dataGridHeaderX1;
 		dataGridRecordsAreaY1 = dataGridHeaderY1 + dataGridHeaderH;
 		dataGridRecordsAreaW = dataGridHeaderW;
@@ -557,7 +557,7 @@ public class DataGridValidatorSI {
 	}
 
 	// TODO - Have to implement
-	public boolean isPresent(int numRetries) {
+	public boolean isPresent(int maxIterationsToLocateElements) {
 		return false;
 	}
 

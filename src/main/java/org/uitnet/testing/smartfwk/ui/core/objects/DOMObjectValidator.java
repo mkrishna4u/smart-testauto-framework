@@ -67,12 +67,12 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 * Returns the attribute value of the first element.
 	 * 
 	 * @param attributeName
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 * @return
 	 */
-	public String getAttributeValue(String attributeName, int numRetries) {
+	public String getAttributeValue(String attributeName, int maxIterationsToLocateElements) {
 		try {
-			WebElement webElem = findElement(numRetries);
+			WebElement webElem = findElement(maxIterationsToLocateElements);
 			return webElem.getAttribute(attributeName);
 		} catch (Throwable th) {
 			Assert.fail("Failed to get attribute (name='" + attributeName + "') value for element '"
@@ -84,18 +84,18 @@ public class DOMObjectValidator extends UIObjectValidator {
 	/**
 	 * Finds attribute value from element when it is not hidden.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 */
-	public String getAttributeValueWhenElementVisible(String attributeName, int numRetries) {
+	public String getAttributeValueWhenElementVisible(String attributeName, int maxIterationsToLocateElements) {
 		try {
-			for (int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					if (isVisible(0)) {
 						return getAttributeValue(attributeName, 0);
 					}
 					Assert.fail("Element is not visible.");
 				} catch (Throwable th) {
-					if (i == numRetries) {
+					if (i == maxIterationsToLocateElements) {
 						throw th;
 					}
 				}
@@ -112,11 +112,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 * Finds attribute value from visible element when it's value is not empty.
 	 * Leading and trailing whitespace will be removed in comparision.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 */
-	public String getAttributeValueWhenAttributeValueNonEmpty(String attributeName, int numRetries) {
+	public String getAttributeValueWhenAttributeValueNonEmpty(String attributeName, int maxIterationsToLocateElements) {
 		try {
-			for (int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					String value = getAttributeValue(attributeName, 0);
 					if (!(value == null || "".equals(value.trim()))) {
@@ -124,7 +124,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					}
 					Assert.fail("Attribute value is empty.");
 				} catch (Throwable th) {
-					if (i == numRetries) {
+					if (i == maxIterationsToLocateElements) {
 						throw th;
 					}
 				}
@@ -138,16 +138,16 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	/**
-	 * Finds first element with polling and it polls after 2 seconds for numRetries
+	 * Finds first element with polling and it polls after 2 seconds for maxIterationsToLocateElements
 	 * times.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 * @return
 	 */
 	@Override
-	public WebElement findElement(int numRetries) {
+	public WebElement findElement(int maxIterationsToLocateElements) {
 		WebElement webElem = null;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
 						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
@@ -160,9 +160,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 				
 				break;
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					Assert.fail("Unable to find element '" + domObject.getDisplayName()
-							+ "'. Reason timeout(waited for " + (numRetries * 2) + " seconds).", th);
+							+ "'. Reason timeout(waited for " + (maxIterationsToLocateElements * 2) + " seconds).", th);
 					break;
 				}
 			}
@@ -184,16 +184,16 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	/**
-	 * Finds first element with polling and it polls after 2 seconds for numRetries
+	 * Finds first element with polling and it polls after 2 seconds for maxIterationsToLocateElements
 	 * times. It does not throw any exception
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 * @return
 	 */
 	@Override
-	public WebElement findElementNoException(int numRetries) {
+	public WebElement findElementNoException(int maxIterationsToLocateElements) {
 		WebElement webElem = null;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
 						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
@@ -207,7 +207,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				Assert.fail();
 			} catch (Throwable th) {
 				webElem = null;
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					break;
 				}
 			}
@@ -218,16 +218,16 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 	/**
 	 * This returns all the elements based on the locator. It waits for the
-	 * configured timeout if the element is not present. Performs polling numRetries
+	 * configured timeout if the element is not present. Performs polling maxIterationsToLocateElements
 	 * times.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 * @return
 	 */
 	@Override
-	public List<WebElement> findElements(int numRetries) {
+	public List<WebElement> findElements(int maxIterationsToLocateElements) {
 		List<WebElement> webElems = null;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElems = LocatorUtil.findWebElements(appDriver.getWebDriver(),
 						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
@@ -237,9 +237,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 						"Unable to find elements for '" + domObject.getDisplayName() + "' locator.");
 				break;
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					Assert.fail("Unable to find elements for '" + uiObject.getDisplayName()
-							+ "' locator. Reason timeout(waited for " + (numRetries * 2) + " seconds).", th);
+							+ "' locator. Reason timeout(waited for " + (maxIterationsToLocateElements * 2) + " seconds).", th);
 					break;
 				}
 			}
@@ -260,14 +260,14 @@ public class DOMObjectValidator extends UIObjectValidator {
 	/**
 	 * Return true only if first element is present but it might not be visible.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 * @return
 	 */
 	@Override
-	public boolean isPresent(int numRetries) {
+	public boolean isPresent(int maxIterationsToLocateElements) {
 		boolean elemPresent = false;
 		WebElement webElem = null;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
 						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
@@ -278,7 +278,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				}
 				Assert.fail();
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					break;
 				}
 			}
@@ -290,13 +290,13 @@ public class DOMObjectValidator extends UIObjectValidator {
 	/**
 	 * Return true only if element is visible.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 * @return
 	 */
 	@Override
-	public boolean isVisible(int numRetries) {
+	public boolean isVisible(int maxIterationsToLocateElements) {
 		boolean elemVisible = false;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				if (WebElementUtil.isElementVisible(appDriver, domObject)) {
 					elemVisible = true;
@@ -305,7 +305,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 				Assert.fail();
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					break;
 				}
 			}
@@ -314,9 +314,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 		return elemVisible;
 	}
 
-	public boolean isReadonly(int numRetries) {
+	public boolean isReadonly(int maxIterationsToLocateElements) {
 		boolean elemReadonly = false;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				if (WebElementUtil.isElementReadonly(appDriver, domObject)) {
 					elemReadonly = true;
@@ -325,7 +325,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 				Assert.fail();
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					break;
 				}
 			}
@@ -334,9 +334,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 		return elemReadonly;
 	}
 
-	public boolean isDisabled(int numRetries) {
+	public boolean isDisabled(int maxIterationsToLocateElements) {
 		boolean elemDisabled = false;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				if (WebElementUtil.isElementDisabled(appDriver, domObject)) {
 					elemDisabled = true;
@@ -345,7 +345,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 				Assert.fail();
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					break;
 				}
 			}
@@ -354,9 +354,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 		return elemDisabled;
 	}
 	
-	public boolean isDisabledButNotReadonly(int numRetries) {
+	public boolean isDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		boolean elemDisabled = false;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				if (WebElementUtil.isElementDisabledButNotReadonly(appDriver, domObject)) {
 					elemDisabled = true;
@@ -365,7 +365,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 				Assert.fail();
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					break;
 				}
 			}
@@ -382,9 +382,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 * @return True if the element is currently selected or checked, false
 	 *         otherwise.
 	 */
-	public boolean isSelected(int numRetries) {
+	public boolean isSelected(int maxIterationsToLocateElements) {
 		boolean elemSelected = false;
-		for (int i = 0; i <= numRetries; i++) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				if (WebElementUtil.isElementSelected(appDriver, domObject)) {
 					elemSelected = true;
@@ -393,7 +393,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 				Assert.fail();
 			} catch (Throwable th) {
-				if (i == numRetries) {
+				if (i == maxIterationsToLocateElements) {
 					break;
 				}
 			}
@@ -405,11 +405,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 	/**
 	 * Finds text from element when element is present in HTML.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 */
-	public String getText(int numRetries) {
+	public String getText(int maxIterationsToLocateElements) {
 		try {
-			return WebElementUtil.getElementText(appDriver, domObject, numRetries);
+			return WebElementUtil.getElementText(appDriver, domObject, maxIterationsToLocateElements);
 		} catch (Throwable th) {
 			Assert.fail("Failed to get text from element '" + domObject.getDisplayName() + "'.", th);
 		}
@@ -419,18 +419,18 @@ public class DOMObjectValidator extends UIObjectValidator {
 	/**
 	 * Finds text from element when it is not hidden.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 */
-	public String getTextWhenElementVisible(int numRetries) {
+	public String getTextWhenElementVisible(int maxIterationsToLocateElements) {
 		try {
-			for (int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					if (isVisible(0)) {
 						return getText(0);
 					}
 					Assert.fail("Text is not visible.");
 				} catch (Throwable th) {
-					if (i == numRetries) {
+					if (i == maxIterationsToLocateElements) {
 						throw th;
 					}
 				}
@@ -446,11 +446,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 * Finds text from visible element when it's value is not empty. Leading and
 	 * trailing whitespace will be removed.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 */
-	public String getTextWhenElementValueNonEmpty(int numRetries) {
+	public String getTextWhenElementValueNonEmpty(int maxIterationsToLocateElements) {
 		try {
-			for (int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					if (isVisible(0)) {
 						String value = getText(0);
@@ -461,7 +461,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					}
 					Assert.fail("Text is not visible.");
 				} catch (Throwable th) {
-					if (i == numRetries) {
+					if (i == maxIterationsToLocateElements) {
 						throw th;
 					}
 				}
@@ -476,11 +476,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 	/**
 	 * Validates whether the element is visible with non-empty text on screen.
 	 * 
-	 * @param numRetries
+	 * @param maxIterationsToLocateElements
 	 */
-	public void validatePresentWithNonEmptyText(int numRetries) {
+	public void validatePresentWithNonEmptyText(int maxIterationsToLocateElements) {
 		try {
-			for (int i = 0; i <= numRetries; i++) {
+			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					if (isVisible(0)) {
 						String value = getText(0);
@@ -491,7 +491,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					}
 					Assert.fail("Text is not visible.");
 				} catch (Throwable th) {
-					if (i == numRetries) {
+					if (i == maxIterationsToLocateElements) {
 						throw th;
 					}
 				}
@@ -509,11 +509,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 * 
 	 * @return
 	 */
-	public void copyTextToClipboard(int numRetries) {
+	public void copyTextToClipboard(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i < 5; i++) {
 				try {
-					WebElement webElem = findElement(numRetries);
+					WebElement webElem = findElement(maxIterationsToLocateElements);
 					PageScrollUtil.mouseClick(appDriver, webElem);
 
 					Actions webActions = new Actions(appDriver.getWebDriver());
@@ -534,11 +534,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 * 
 	 * @return
 	 */
-	public void pasteTextFromClipboard(int numRetries) {
+	public void pasteTextFromClipboard(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i < 5; i++) {
 				try {
-					WebElement webElem = findElement(numRetries);
+					WebElement webElem = findElement(maxIterationsToLocateElements);
 					PageScrollUtil.mouseClick(appDriver, webElem);
 
 					Actions webActions = new Actions(appDriver.getWebDriver());
@@ -555,11 +555,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	@Override
-	public void click(int numRetries) {
+	public void click(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i < 5; i++) {
 				try {
-					WebElement webElem = findElement(numRetries);
+					WebElement webElem = findElement(maxIterationsToLocateElements);
 					PageScrollUtil.mouseClick(appDriver, webElem);
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
@@ -572,11 +572,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	@Override
-	public void doubleClick(int numRetries) {
+	public void doubleClick(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i < 5; i++) {
 				try {
-					WebElement webElem = findElement(numRetries);
+					WebElement webElem = findElement(maxIterationsToLocateElements);
 					PageScrollUtil.mouseDoubleClick(appDriver, webElem);
 					break;
 				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
@@ -589,9 +589,9 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	@Override
-	public void rightClick(int numRetries) {
+	public void rightClick(int maxIterationsToLocateElements) {
 		try {
-			WebElement webElem = findElement(numRetries);
+			WebElement webElem = findElement(maxIterationsToLocateElements);
 			Point location = webElem.getLocation();
 			Dimension size = webElem.getSize();
 
@@ -602,10 +602,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 	}
 
-	public void clickAndHold(int numRetries) {
+	public void clickAndHold(int maxIterationsToLocateElements) {
 		for (int i = 0; i < 5; i++) {
 			try {
-				WebElement webElem = findElement(numRetries);
+				WebElement webElem = findElement(maxIterationsToLocateElements);
 				PageScrollUtil.mouseClickAndHold(appDriver, webElem);
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
@@ -614,10 +614,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 	}
 
-	public void release(int numRetries) {
+	public void release(int maxIterationsToLocateElements) {
 		for (int i = 0; i < 5; i++) {
 			try {
-				WebElement webElem = findElement(numRetries);
+				WebElement webElem = findElement(maxIterationsToLocateElements);
 				PageScrollUtil.mouseRelease(appDriver, webElem);
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
@@ -626,12 +626,12 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 	}
 
-	public void dragAndDrop(DOMObject target, int numRetries) {
+	public void dragAndDrop(DOMObject target, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i < 5; i++) {
 				try {
-					WebElement sourceElem = findElement(numRetries);
-					WebElement targetElem = target.getValidator(appDriver, region).findElement(numRetries);
+					WebElement sourceElem = findElement(maxIterationsToLocateElements);
+					WebElement targetElem = target.getValidator(appDriver, region).findElement(maxIterationsToLocateElements);
 
 					PageScrollUtil.mouseDragAndDrop(appDriver, sourceElem, targetElem);
 					break;
@@ -645,10 +645,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 	}
 
-	public void performKeyDown(Keys keys, int numRetries) {
+	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		for (int i = 0; i < 5; i++) {
 			try {
-				WebElement webElem = findElement(numRetries);
+				WebElement webElem = findElement(maxIterationsToLocateElements);
 				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyDown(webElem, keys).build().perform();
 				break;
@@ -658,10 +658,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 	}
 
-	public void performKeyUp(Keys keys, int numRetries) {
+	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		for (int i = 0; i < 5; i++) {
 			try {
-				WebElement webElem = findElement(numRetries);
+				WebElement webElem = findElement(maxIterationsToLocateElements);
 				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyUp(webElem, keys).build().perform();
 				break;
@@ -671,10 +671,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 	}
 
-	public void performKeyPressed(Keys keys, int numRetries) {
+	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		for (int i = 0; i < 5; i++) {
 			try {
-				WebElement webElem = findElement(numRetries);
+				WebElement webElem = findElement(maxIterationsToLocateElements);
 				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyDown(webElem, keys).keyUp(webElem, keys).build().perform();
 				break;
@@ -684,12 +684,12 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 	}
 
-	public void typeText(String text, NewTextLocation location, int numRetries) {
+	public void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
 		String newtext;
 		Actions actions;
 		for (int i = 0; i < 5; i++) {
 			try {
-				WebElement webElem = findElement(numRetries);
+				WebElement webElem = findElement(maxIterationsToLocateElements);
 
 				switch (location) {
 				case start:
