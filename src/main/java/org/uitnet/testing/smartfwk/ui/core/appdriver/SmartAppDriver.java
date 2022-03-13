@@ -275,8 +275,8 @@ public class SmartAppDriver {
 						.pageLoadTimeout(Duration.ofSeconds(webDriverCfg.getPageLoadTimeoutInSecs()));
 
 				wdriver.manage().window()
-						.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
-								new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+						.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
 				wdriver.navigate().to(appConfig.getAppLaunchUrl());
@@ -319,8 +319,8 @@ public class SmartAppDriver {
 						.pageLoadTimeout(Duration.ofSeconds(webDriverCfg.getPageLoadTimeoutInSecs()));
 
 				wdriver.manage().window()
-						.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
-								new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+						.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
 				wdriver.navigate().to(appConfig.getAppLaunchUrl());
@@ -354,8 +354,8 @@ public class SmartAppDriver {
 						.pageLoadTimeout(Duration.ofSeconds(webDriverCfg.getPageLoadTimeoutInSecs()));
 
 				wdriver.manage().window()
-						.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
-								new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+						.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
 				wdriver.navigate().to(appConfig.getAppLaunchUrl());
@@ -402,8 +402,8 @@ public class SmartAppDriver {
 						.pageLoadTimeout(Duration.ofSeconds(webDriverCfg.getPageLoadTimeoutInSecs()));
 
 				wdriver.manage().window()
-						.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
-								new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+						.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
 				wdriver.navigate().to(appConfig.getAppLaunchUrl());
@@ -449,8 +449,8 @@ public class SmartAppDriver {
 						.pageLoadTimeout(Duration.ofSeconds(webDriverCfg.getPageLoadTimeoutInSecs()));
 
 				wdriver.manage().window()
-						.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
-								new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+						.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
 				wdriver.navigate().to(appConfig.getAppLaunchUrl());
@@ -490,8 +490,8 @@ public class SmartAppDriver {
 						.pageLoadTimeout(Duration.ofSeconds(webDriverCfg.getPageLoadTimeoutInSecs()));
 
 				wdriver.manage().window()
-						.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
-								new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+						.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
 				wdriver.navigate().to(appConfig.getAppLaunchUrl());
@@ -502,8 +502,8 @@ public class SmartAppDriver {
 				RemoteWebDriver wdriver = appConfig.getRemoteWebDriverProvider().createRemoteWebDriver();
 				wdriver.manage().window().setPosition(new Point(0, 0));
 				wdriver.manage().window()
-						.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
-								new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+						.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 
 				wdriver.navigate().to(appConfig.getAppLaunchUrl());
 				webDriver = wdriver;

@@ -20,6 +20,7 @@ package org.uitnet.testing.smartfwk.ui.core.config;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -90,6 +91,7 @@ public class AppDriverConfig {
 		init(properties);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void init(Properties properties) {
 		browserType = WebBrowserType.valueOf2(getProperty(properties, "BROWSER_TYPE"));
 		driverSystemPropertyName = getProperty(properties, "DRIVER_SYSTEM_PROPERTY_NAME");
@@ -131,7 +133,25 @@ public class AppDriverConfig {
 
 			// initialize driver capabilities
 			if (strKey.startsWith("DriverCapability.")) {
-				driverCapabilities.put(strKey.substring("DriverCapability.".length()), parseTypedValue(strKey, value));
+				String propName = getPropertyName(strKey, "DriverCapability");
+				if(strKey.endsWith("}")) {
+					Map<String, Object> keyValueMap = (Map<String, Object>) driverCapabilities.get(propName);
+					if(keyValueMap == null) {
+						keyValueMap = new HashMap<>();
+						driverCapabilities.put(propName, keyValueMap);
+					}
+					String subProbName = getSubPropertyName(strKey);
+					keyValueMap.put(subProbName, parseTypedValue(strKey, value));
+				} else if(strKey.endsWith("]")) {
+					List<Object> propValues = (List<Object>) driverCapabilities.get(propName);
+					if(propValues == null) {
+						propValues = new LinkedList<Object>();
+						driverCapabilities.put(propName, propValues);
+					}
+					propValues.add(parseTypedValue(strKey, value));
+				} else {
+					driverCapabilities.put(strKey.substring("DriverCapability.".length()), parseTypedValue(strKey, value));
+				}
 			}
 			
 			// initialize web attribute map			
@@ -141,8 +161,26 @@ public class AppDriverConfig {
 
 			// initialize driver experimental options
 			if (strKey.startsWith("ExperimentalOption.")) {
-				experimentalOptions.put(strKey.substring("ExperimentalOption.".length()),
+				String propName = getPropertyName(strKey, "ExperimentalOption");
+				if(strKey.endsWith("}")) {
+					Map<String, Object> keyValueMap = (Map<String, Object>) experimentalOptions.get(propName);
+					if(keyValueMap == null) {
+						keyValueMap = new HashMap<>();
+						experimentalOptions.put(propName, keyValueMap);
+					}
+					String subProbName = getSubPropertyName(strKey);
+					keyValueMap.put(subProbName, parseTypedValue(strKey, value));
+				} else if(strKey.endsWith("]")) {
+					List<Object> propValues = (List<Object>) experimentalOptions.get(propName);
+					if(propValues == null) {
+						propValues = new LinkedList<Object>();
+						experimentalOptions.put(propName, propValues);
+					}
+					propValues.add(parseTypedValue(strKey, value));
+				} else {
+					experimentalOptions.put(strKey.substring("ExperimentalOption.".length()),
 						parseTypedValue(strKey, value));
+				}
 			}
 
 			// load browser extensions
@@ -174,6 +212,34 @@ public class AppDriverConfig {
 		}
 		scriptTimeoutInSecs = Integer.parseInt(getProperty(properties, "SCRIPT_TIMEOUT_IN_SECONDS"));
 		pageLoadTimeoutInSecs = Integer.parseInt(getProperty(properties, "PAGE_LOAD_TIMEOUT_IN_SECONDS"));
+	}
+	
+	private String getPropertyName(String strKey, String keyPrefix) {
+		String keyPart = null;
+		try {
+			keyPart = strKey.substring((keyPrefix + ".").length());
+			if(keyPart.endsWith("}")) {
+				String str1 = keyPart.substring(0, keyPart.lastIndexOf("{")).trim();
+				return str1;
+			} else if(keyPart.endsWith("]")) {
+				String str1 = keyPart.substring(0, keyPart.lastIndexOf("[")).trim();
+				return str1;
+			} 
+			Assert.fail("Failed to parse property '" + strKey + "'.");
+		}catch(Exception | Error e) {
+			Assert.fail("Failed to parse property '" + strKey + "'.");
+		}
+		return null;
+	}
+	
+	private String getSubPropertyName(String strKey) {
+		String keyPart = null;
+		try {
+			keyPart = strKey.substring(strKey.lastIndexOf("{") + 1, strKey.lastIndexOf("}")).trim();
+		}catch(Exception | Error e) {
+			Assert.fail("Failed to parse property '" + strKey + "' to retrieve map key.");
+		}
+		return keyPart;
 	}
 
 	private Object parseTypedValue(String key, String typedValue) {
