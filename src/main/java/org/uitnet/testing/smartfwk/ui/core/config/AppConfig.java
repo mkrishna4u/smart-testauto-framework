@@ -27,6 +27,7 @@ import java.util.Properties;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.RemoteWebDriverProvider;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
+import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.utils.ScreenCaptureUtil;
 
 /**
@@ -72,8 +73,7 @@ public class AppConfig {
 		String activeEnvironmentName = Locations.getAppActiveEnvironmentName(appName);
 		environmentConfig = new EnvironmentConfig(appName, activeEnvironmentName);
 
-		System.out.println("Going to set active environment '"
-				+ environmentConfig.getName() + "' for application '"
+		System.out.println("Going to set active environment '" + environmentConfig.getName() + "' for application '"
 				+ this.appName + "'.");
 
 		properties.putAll(environmentConfig.getProperties());
@@ -123,9 +123,13 @@ public class AppConfig {
 
 		appLaunchUrl = properties.getProperty("APP_LAUNCH_URL");
 		if (appLaunchUrl == null || "".equals(appLaunchUrl.trim())) {
-			Assert.fail("FATAL: Please specify APP_LAUNCH_URL in AppConfig.properties. AppName: " + appName
-					+ ". Exiting ...");
-			System.exit(1);
+			if(!DefaultInfo.DEFAULT_APP_NAME.equals(this.appName)) {
+				Assert.fail("FATAL: Please specify APP_LAUNCH_URL in AppConfig.properties. AppName: " + appName
+						+ ". Exiting ...");
+				System.exit(1);
+			} else {
+				appLaunchUrl = "";
+			}
 		} else {
 			appLaunchUrl = appLaunchUrl.trim();
 		}
@@ -144,9 +148,7 @@ public class AppConfig {
 
 		appLoginPageValidatorClass = properties.getProperty("APP_LOGIN_PAGE_VALIDATOR_CLASS");
 		if (appLoginPageValidatorClass == null || "".equals(appLoginPageValidatorClass.trim())) {
-			Assert.fail("FATAL: Please specify APP_LOGIN_PAGE_VALIDATOR_CLASS in AppConfig.properties. AppName: "
-					+ appName + ". Exiting ...");
-			System.exit(1);
+			appLoginPageValidatorClass = DefaultInfo.DEFAULT_APP_LOGIN_PAGE_VALIDATOR;
 		} else {
 			appLoginPageValidatorClass = appLoginPageValidatorClass.trim();
 			/*
@@ -158,10 +160,7 @@ public class AppConfig {
 
 		appLoginSuccessPageValidatorClass = properties.getProperty("APP_LOGIN_SUCCESS_PAGE_VALIDATOR_CLASS");
 		if (appLoginSuccessPageValidatorClass == null || "".equals(appLoginSuccessPageValidatorClass.trim())) {
-			Assert.fail(
-					"FATAL: Please specify APP_LOGIN_SUCCESS_PAGE_VALIDATOR_CLASS in AppConfig.properties. AppName: "
-							+ appName + ". Exiting ...");
-			System.exit(1);
+			appLoginSuccessPageValidatorClass = DefaultInfo.DEFAULT_APP_LOGIN_SUCCESS_PAGE_VALIDATOR;
 		} else {
 			appLoginSuccessPageValidatorClass = appLoginSuccessPageValidatorClass.trim();
 			/*
@@ -214,9 +213,7 @@ public class AppConfig {
 
 		propValue = properties.getProperty("USER_PROFILE_NAMES");
 		if (propValue == null || "".equals(propValue.trim())) {
-			Assert.fail("FATAL: Please specify USER_PROFILE_NAMES in AppConfig.properties. AppName: " + appName
-					+ ". Exiting ...");
-			System.exit(1);
+			userProfiles.put(DefaultInfo.DEFAULT_USER_PROFILE_NAME, null);
 		} else {
 			String[] arr = propValue.split(",");
 			String keyStr;
@@ -227,13 +224,7 @@ public class AppConfig {
 				}
 				userProfiles.put(keyStr, null);
 			}
-			if (userProfiles.size() == 0) {
-				Assert.fail(
-						"FATAL: Please specify atleast one user profile (USER_PROFILE_NAMES) in AppConfig.properties. AppName: "
-								+ appName + ". Exiting ...");
-				System.exit(1);
-			}
-
+			
 			initUserProfiles();
 		}
 
@@ -283,9 +274,11 @@ public class AppConfig {
 
 		propValue = properties.getProperty("API_CONFIG_FILE_NAME");
 		if (propValue == null || "".equals(propValue.trim())) {
-			Assert.fail("FATAL: Please specify API_CONFIG_FILE_NAME in AppConfig.properties. AppName: " + appName
-					+ ". Exiting ...");
-			System.exit(1);
+			if(!DefaultInfo.DEFAULT_APP_NAME.equals(this.appName)) {
+				Assert.fail("FATAL: Please specify API_CONFIG_FILE_NAME in AppConfig.properties. AppName: " + appName
+						+ ". Exiting ...");
+				System.exit(1);
+			}
 		} else {
 			String apiConfigFile = appsConfigDir + File.separator + this.appName + File.separator + "api-configs"
 					+ File.separator + propValue;
@@ -313,9 +306,9 @@ public class AppConfig {
 		String configFile;
 		FileReader fileReader;
 		String currProfileName = null;
-		;
 		try {
 			UserProfile userProfile;
+			
 			for (String profileName : userProfiles.keySet()) {
 				currProfileName = profileName;
 				configFile = userProfileConfigDir + File.separator + currProfileName + ".properties";
@@ -327,6 +320,7 @@ public class AppConfig {
 				userProfile = new UserProfile(appName, currProfileName, properties);
 				userProfiles.put(currProfileName, userProfile);
 			}
+			userProfiles.put(DefaultInfo.DEFAULT_USER_PROFILE_NAME, null);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			Assert.fail("Error in loading user profile '" + currProfileName + ".properties' for application name '"
@@ -337,7 +331,7 @@ public class AppConfig {
 
 	private void initDatabaseProfiles() {
 		String currProfileName = null;
-		
+
 		try {
 			DatabaseProfile dbProfile;
 			for (String profileName : dbProfiles.keySet()) {
@@ -357,9 +351,11 @@ public class AppConfig {
 	private void initAppDriverConfig(Properties properties) {
 		String propValue = properties.getProperty("APP_DRIVER_CONFIG_FILE_NAME");
 		if (propValue == null || "".equals(propValue.trim())) {
-			Assert.fail("FATAL: Please specify APP_DRIVER_CONFIG_FILE_NAME in AppConfig.properties. AppName: " + appName
-					+ ". Exiting ...");
-			System.exit(1);
+			if(!DefaultInfo.DEFAULT_APP_NAME.equals(this.appName)) {
+				Assert.fail("FATAL: Please specify APP_DRIVER_CONFIG_FILE_NAME in AppConfig.properties. AppName: " + appName
+						+ ". Exiting ...");
+				System.exit(1);
+			}
 		} else {
 			String driverCfgFile = appsConfigDir + File.separator + appName + File.separator + "driver-configs"
 					+ File.separator + propValue;
@@ -436,15 +432,15 @@ public class AppConfig {
 
 	public UserProfile getUserProfile(String profileName) {
 		UserProfile profile = userProfiles.get(profileName);
-		Assert.assertNotNull(profile,
-				"Please configure user profile '" + profileName + "' for application '" + appName + "'.");
+//		Assert.assertNotNull(profile,
+//				"Please configure user profile '" + profileName + "' for application '" + appName + "'.");
 		return profile;
 	}
 
 	public DatabaseProfile getDatabaseProfile(String profileName) {
 		DatabaseProfile profile = dbProfiles.get(profileName);
-		Assert.assertNotNull(profile,
-				"Please configure database profile '" + profileName + "' for application '" + appName + "'.");
+//		Assert.assertNotNull(profile,
+//				"Please configure database profile '" + profileName + "' for application '" + appName + "'.");
 		return profile;
 	}
 

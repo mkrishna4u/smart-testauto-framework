@@ -17,13 +17,23 @@
  */
 package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.image.Image;
+import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 
 /**
  * 
@@ -31,17 +41,28 @@ import org.uitnet.testing.smartfwk.ui.core.objects.image.Image;
  *
  */
 public class ImageSI extends Image {
-	protected String image;
+	protected Map<String, String> platformImages = new HashMap<>();
 	protected ObjectLocation imageLocation;
 
 	public ImageSI(String displayName, String image, ObjectLocation imageLocation) {
 		super(LocatorType.IMAGE, displayName);
-		this.image = image;
+		platformImages.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
+				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + image);
 		this.imageLocation = imageLocation;
 	}
 
-	public String getImage() {
-		return image;
+	public ImageSI addPlatformImageForNativeApp(PlatformType platform, String image) {
+		LocatorUtil.setPlatformImageForNativeApp(platformImages, platform, image);
+		return this;
+	}
+
+	public ImageSI addPlatformImageForWebApp(PlatformType platform, WebBrowserType browserType, String image) {
+		LocatorUtil.setPlatformImageForWebApp(platformImages, platform, browserType, image);
+		return this;
+	}
+
+	public String getImage(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {
+		return LocatorUtil.findImage(platformImages, platform, appType, browserType);
 	}
 
 	public ObjectLocation getImageLocation() {

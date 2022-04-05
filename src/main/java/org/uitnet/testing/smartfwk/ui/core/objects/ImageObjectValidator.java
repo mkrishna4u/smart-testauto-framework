@@ -58,8 +58,8 @@ public class ImageObjectValidator extends UIObjectValidator {
 	}
 
 	/**
-	 * Finds first element with polling and it polls after 2 seconds for maxIterationsToLocateElements
-	 * times.
+	 * Finds first element with polling and it polls after 2 seconds for
+	 * maxIterationsToLocateElements times.
 	 * 
 	 * @param maxIterationsToLocateElements
 	 * @return
@@ -69,7 +69,8 @@ public class ImageObjectValidator extends UIObjectValidator {
 		Match match = null;
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
-				match = region.find(imgLocator.getImage());
+				match = region.find(imgLocator.getImage(appDriver.getAppConfig().getTestPlatformType(),
+						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(match, "Unable to find element '" + imgLocator.getDisplayName() + "'.");
 				break;
 			} catch (Throwable th) {
@@ -85,8 +86,8 @@ public class ImageObjectValidator extends UIObjectValidator {
 	}
 
 	/**
-	 * Finds first element with polling and it polls after 2 seconds for maxIterationsToLocateElements
-	 * times. It does not throw any exception
+	 * Finds first element with polling and it polls after 2 seconds for
+	 * maxIterationsToLocateElements times. It does not throw any exception
 	 * 
 	 * @param maxIterationsToLocateElements
 	 * @return
@@ -96,7 +97,8 @@ public class ImageObjectValidator extends UIObjectValidator {
 		Match match = null;
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
-				match = region.find(imgLocator.getImage());
+				match = region.find(imgLocator.getImage(appDriver.getAppConfig().getTestPlatformType(),
+						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				if (match != null) {
 					break;
 				}
@@ -113,8 +115,8 @@ public class ImageObjectValidator extends UIObjectValidator {
 
 	/**
 	 * This returns all the elements based on the locator. It waits for the
-	 * configured timeout if the element is not present. Performs polling maxIterationsToLocateElements
-	 * times.
+	 * configured timeout if the element is not present. Performs polling
+	 * maxIterationsToLocateElements times.
 	 * 
 	 * @param maxIterationsToLocateElements
 	 * @return
@@ -124,7 +126,9 @@ public class ImageObjectValidator extends UIObjectValidator {
 		List<Match> list = new LinkedList<Match>();
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
-				Iterator<Match> matches = region.findAll(imgLocator.getImage());
+				Iterator<Match> matches = region
+						.findAll(imgLocator.getImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 
 				Assert.assertNotNull(matches, "Unable to find elements for '" + imgLocator.getDisplayName() + "'.");
 				while (matches.hasNext()) {
@@ -136,7 +140,8 @@ public class ImageObjectValidator extends UIObjectValidator {
 			} catch (Throwable th) {
 				if (i == maxIterationsToLocateElements) {
 					Assert.fail("Unable to find elements for '" + uiObject.getDisplayName()
-							+ "' locator. Reason timeout(waited for " + (maxIterationsToLocateElements * 2) + " seconds).", th);
+							+ "' locator. Reason timeout(waited for " + (maxIterationsToLocateElements * 2)
+							+ " seconds).", th);
 					break;
 				}
 			}
@@ -346,7 +351,8 @@ public class ImageObjectValidator extends UIObjectValidator {
 		}
 	}
 
-	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism,
+			int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		validateTextValue(match.text(), expectedValue, validationMechanism);
 	}

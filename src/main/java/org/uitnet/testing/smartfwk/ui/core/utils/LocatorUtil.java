@@ -17,6 +17,7 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ import org.uitnet.testing.smartfwk.ui.core.commons.LocateBy;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locator;
 import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 
 import io.appium.java_client.AppiumDriver;
@@ -52,6 +54,24 @@ public class LocatorUtil {
 	public static void setPlatformLocatorForWebApp(Map<String, Locator> platFormLocators, PlatformType platform,
 			WebBrowserType browserType, LocateBy locateBy, String locatorValue) {
 		platFormLocators.put(createWebAppKey(platform, browserType), new Locator(locateBy, locatorValue));
+	}
+	
+	public static void setPlatformImageForNativeApp(Map<String, String> platFormImages, PlatformType platform,
+			String image) {
+		int dotLastIdx = image.lastIndexOf(".");
+		String imgFileName = image.substring(0, dotLastIdx) + "-" + platform.getType();
+		String imgFileExtn = image.substring(dotLastIdx + 1, image.length());
+		String imgPath = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgFileName + "." + imgFileExtn;
+		platFormImages.put(createNativeAppKey(platform), imgPath);
+	}
+	
+	public static void setPlatformImageForWebApp(Map<String, String> platFormImages, PlatformType platform,
+			WebBrowserType browserType, String image) {
+		int dotLastIdx = image.lastIndexOf(".");
+		String imgFileName = image.substring(0, dotLastIdx) + "-" + platform.getType() + "-" + browserType.getType();
+		String imgFileExtn = image.substring(dotLastIdx + 1, image.length());
+		String imgPath = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgFileName + "." + imgFileExtn;
+		platFormImages.put(createWebAppKey(platform, browserType), imgPath);
 	}
 
 	public static Locator findLocator(Map<String, Locator> platFormLocators, PlatformType platform,
@@ -78,6 +98,32 @@ public class LocatorUtil {
 		}
 
 		return locator;
+	}
+	
+	public static String findImage(Map<String, String> platFormImages, PlatformType platform,
+			ApplicationType appType, WebBrowserType browserType) {
+		String image = null;
+		if (appType == ApplicationType.web_app) {
+			image = platFormImages.get(createWebAppKey(platform, browserType));
+
+			if (image == null) {
+				image = platFormImages.get(SmartConstants.DEFAULT_IMAGE_LOCATOR);
+			}
+			Assert.assertNotNull(image, "No image found for platformType: " + platform.getType() + ", appType: "
+					+ appType.getType() + ", browserType: " + browserType.getType());
+		} else if (appType == ApplicationType.native_app) {
+			image = platFormImages.get(createNativeAppKey(platform));
+
+			if (image == null) {
+				image = platFormImages.get(SmartConstants.DEFAULT_IMAGE_LOCATOR);
+			}
+			Assert.assertNotNull(image,
+					"No image found for platformType: " + platform.getType() + ", appType: " + appType.getType());
+		} else {
+			Assert.fail("Application type '" + appType.getType() + "' is not supported.");
+		}
+
+		return image;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

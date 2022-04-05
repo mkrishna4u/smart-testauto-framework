@@ -18,14 +18,21 @@
 package org.uitnet.testing.smartfwk.ui.core.objects;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
+import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 
 /**
  * 
@@ -33,24 +40,40 @@ import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
  *
  */
 public class ImageObject extends UIObject {
-	protected String image;
+	protected Map<String, String> platformImages = new HashMap<>();
 
 	public ImageObject(UIObjectType elemType, String displayName, String image) {
 		super(LocatorType.IMAGE, elemType, displayName);
-		this.image = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + image;
+		platformImages.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
+				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + image);
+	}
+
+	public ImageObject(UIObjectType elemType, String displayName, Map<String, String> platformImages) {
+		super(LocatorType.IMAGE, elemType, displayName);
+		this.platformImages = platformImages;
+	}
+
+	public ImageObject addPlatformImageForNativeApp(PlatformType platform, String image) {
+		LocatorUtil.setPlatformImageForNativeApp(platformImages, platform, image);
+		return this;
+	}
+
+	public ImageObject addPlatformImageForWebApp(PlatformType platform, WebBrowserType browserType, String image) {
+		LocatorUtil.setPlatformImageForWebApp(platformImages, platform, browserType, image);
+		return this;
 	}
 
 	public ImageObjectValidator getValidator(SmartAppDriver appDriver, Region region) {
 		return new ImageObjectValidator(appDriver, this, region);
 	}
 
-	public String getImage() {
-		return image;
+	public String getImage(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {
+		return LocatorUtil.findImage(platformImages, platform, appType, browserType);
 	}
 
 	@Override
 	public UIObject clone() {
-		return new ImageObject(uiObjectType, getDisplayName(), image);
+		return new ImageObject(uiObjectType, getDisplayName(), platformImages);
 	}
 
 	@Override

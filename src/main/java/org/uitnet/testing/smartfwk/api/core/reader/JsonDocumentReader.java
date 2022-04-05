@@ -24,6 +24,10 @@ import java.util.Set;
 
 import org.testng.Assert;
 
+import com.fasterxml.jackson.core.json.JsonReadFeature;
+import com.fasterxml.jackson.core.json.JsonWriteFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -46,7 +50,9 @@ public class JsonDocumentReader {
 		try {
 			init();
 			Assert.assertNotNull(jsonFilePath, "JSON file path cannot be null.");
-			jsonDocCtx = JsonPath.parse(jsonFilePath);
+			ObjectMapper objectMapper = new ObjectMapper();
+			JacksonJsonProvider provider = new JacksonJsonProvider(objectMapper);
+			jsonDocCtx = JsonPath.using(Configuration.builder().jsonProvider(provider).build()).parse(jsonFilePath);
 		} catch (Exception ex) {
 			Assert.fail("Failed to parse JSON document.", ex);
 		}
@@ -87,18 +93,19 @@ public class JsonDocumentReader {
 
 	protected void init() {
 		Configuration.setDefaults(new Configuration.Defaults() {
-
-			private final JsonProvider jsonProvider = new JacksonJsonProvider();
-			private final MappingProvider mappingProvider = new JacksonMappingProvider();
-
+			private ObjectMapper objectMapper = JsonMapper.builder().enable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
+					.enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES)
+					.disable(JsonWriteFeature.QUOTE_FIELD_NAMES).build();
+					
 			@Override
 			public JsonProvider jsonProvider() {
+				JsonProvider jsonProvider = new JacksonJsonProvider(objectMapper);
 				return jsonProvider;
 			}
 
 			@Override
 			public MappingProvider mappingProvider() {
-				return mappingProvider;
+				return new JacksonMappingProvider(objectMapper);
 			}
 
 			@Override

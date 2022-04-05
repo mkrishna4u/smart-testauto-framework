@@ -103,6 +103,10 @@ public class SmartAppDriver {
 		if (!opened) {
 			prepareWebDriver();
 			opened = true;
+		} else {
+			if (appType == ApplicationType.web_app) {
+				webDriver.get(appConfig.getAppLaunchUrl());
+			}
 		}
 		return webDriver;
 	}
@@ -524,14 +528,18 @@ public class SmartAppDriver {
 	 * Closes current window, if it is a last window then close the app.
 	 */
 	public void closeCurrentWindow() {
-		webDriver.close();
+		if(webDriver != null) {
+			webDriver.close();
+		}
 	}
 
 	/**
 	 * Closes all the windows associated with this app and the app itself.
 	 */
 	public void closeApp() {
-		webDriver.quit();
+		if(webDriver != null) {
+			webDriver.quit();
+		}
 		opened = false;
 	}
 

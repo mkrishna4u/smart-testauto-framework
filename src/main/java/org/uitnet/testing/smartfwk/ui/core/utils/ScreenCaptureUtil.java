@@ -17,16 +17,23 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.cache.DefaultSmartCache;
 
 /**
  * 
@@ -58,16 +65,10 @@ public class ScreenCaptureUtil {
 				screenRectangle = new Rectangle(screenSize);
 			}
 
-			Robot robot = new Robot();
-			BufferedImage image = robot.createScreenCapture(screenRectangle);
-
 			File dirObj = new File(dir);
 
 			if (!dirObj.exists()) {
 				dirObj.mkdirs();
-//				Assert.assertTrue(dirObj.mkdirs(),
-//						"Failed to create the directory '" + dir
-//								+ "' for saving the screenshots.");
 			}
 
 			if (testClassName == null) {
@@ -77,7 +78,8 @@ public class ScreenCaptureUtil {
 						+ ".png";
 			}
 
-			ImageIO.write(image, "png", new File(imageFile));
+			captureScreenshot(screenRectangle, imageFile);
+
 		} catch (Exception ex) {
 			Assert.fail("Failed to take screenshot.", ex);
 		}
@@ -86,6 +88,22 @@ public class ScreenCaptureUtil {
 
 	private synchronized static int getNextScreenshotId() {
 		return ++screenshotId;
+	}
+
+	private static void captureScreenshot(Rectangle screenRectangle, String targetImageFileName)
+			throws AWTException, IOException {
+		SmartAppDriver appDriver = DefaultSmartCache.getInstance().getAppDriver();
+
+		if (appDriver != null) {
+			TakesScreenshot takeScreenshot = (TakesScreenshot) appDriver.getWebDriver();
+			File imageFile = takeScreenshot.getScreenshotAs(OutputType.FILE);
+			File targetFile = new File(targetImageFileName);
+			FileUtils.copyFile(imageFile, targetFile);
+		} else {
+			Robot robot = new Robot();
+			BufferedImage image = robot.createScreenCapture(screenRectangle);
+			ImageIO.write(image, "png", new File(targetImageFileName));
+		}
 	}
 
 }

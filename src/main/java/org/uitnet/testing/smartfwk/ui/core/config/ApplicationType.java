@@ -35,7 +35,12 @@ public enum ApplicationType {
 	/**
 	 * Web apps are the app that use the web browser.
 	 */
-	web_app("web-app");
+	web_app("web-app"),
+	
+	/**
+	 * Undefined.
+	 */
+	not_applicable("na");;
 
 	private String type;
 

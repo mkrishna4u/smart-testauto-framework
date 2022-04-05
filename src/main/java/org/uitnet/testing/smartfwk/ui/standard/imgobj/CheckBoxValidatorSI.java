@@ -194,7 +194,8 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				Region region = cbObject.getCheckBoxImageLocation().getRegionOfImageObject(appDriver,
-						cbObject.getCheckBoxImage());
+						cbObject.getCheckBoxImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(region, "Failed to find CheckBox '" + cbObject.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -225,8 +226,10 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 	public List<Match> findElements(int maxIterationsToLocateElements) {
 		Region r = cbObject.getCheckBoxImageLocation().getRegion(appDriver);
 
-		return new ImageObject(UIObjectType.checkBox, cbObject.getDisplayName(), cbObject.getCheckBoxImage())
-				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
+		return new ImageObject(UIObjectType.checkBox, cbObject.getDisplayName(),
+				cbObject.getCheckBoxImage(appDriver.getAppConfig().getTestPlatformType(),
+						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()))
+								.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
 	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
@@ -310,7 +313,7 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 	public void validateEnabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabled() is not supported for CheckBox component.");
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	@Deprecated

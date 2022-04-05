@@ -20,6 +20,7 @@ package org.uitnet.testing.smartfwk.ui.core.config;
 import java.util.Properties;
 
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 
 /**
  * 
@@ -49,7 +50,9 @@ public class ProxyConfiguration {
 
 	public ProxyConfiguration(String appName, Properties properties) {
 		proxyConfigType = ProxyConfigurationType.NO_PROXY;
-		initProxyConfig(appName, properties);
+		if(!DefaultInfo.DEFAULT_APP_NAME.equals(appName)) {
+			initProxyConfig(appName, properties);
+		}
 	}
 
 	private void initProxyConfig(String appName, Properties properties) {

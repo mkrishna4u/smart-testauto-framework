@@ -194,7 +194,8 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				Region region = rbObject.getRadioButtonImageLocation().getRegionOfImageObject(appDriver,
-						rbObject.getRadioButtonImage());
+						rbObject.getRadioButtonImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(region, "Failed to find RadioButton '" + rbObject.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -225,8 +226,10 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 	public List<Match> findElements(int maxIterationsToLocateElements) {
 		Region r = rbObject.getRadioButtonImageLocation().getRegion(appDriver);
 
-		return new ImageObject(UIObjectType.radioButton, rbObject.getDisplayName(), rbObject.getRadioButtonImage())
-				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
+		return new ImageObject(UIObjectType.radioButton, rbObject.getDisplayName(),
+				rbObject.getRadioButtonImage(appDriver.getAppConfig().getTestPlatformType(),
+						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()))
+								.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
 	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {

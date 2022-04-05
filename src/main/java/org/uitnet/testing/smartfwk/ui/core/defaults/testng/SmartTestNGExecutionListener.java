@@ -15,25 +15,26 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.standard.imgobj;
+package org.uitnet.testing.smartfwk.ui.core.defaults.testng;
 
-import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
-import org.uitnet.testing.smartfwk.ui.core.objects.ImageObjectValidator;
+import org.testng.IExecutionListener;
+import org.testng.Reporter;
+import org.uitnet.testing.smartfwk.ui.core.SmartAppConnector;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public class WebPageTitleValidatorSI extends ImageObjectValidator {
+public class SmartTestNGExecutionListener implements IExecutionListener {
+	@Override
+	public void onExecutionStart() {
 
-	public WebPageTitleValidatorSI(SmartAppDriver appDriver, WebPageTitleSI locator, Region region) {
-		super(appDriver, locator, region);
 	}
 
 	@Override
-	public WebPageTitleSI getUIObject() {
-		return (WebPageTitleSI) imgLocator;
+	public void onExecutionFinish() {
+		Reporter.log("Going to close all opened applications.", true);
+		SmartAppConnector.close();
 	}
 }

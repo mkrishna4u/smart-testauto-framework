@@ -17,13 +17,23 @@
  */
 package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.textarea.TextArea;
+import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 
 /**
  * 
@@ -31,27 +41,42 @@ import org.uitnet.testing.smartfwk.ui.core.objects.textarea.TextArea;
  *
  */
 public class TextAreaSI extends TextArea {
-	protected String leftSideImg;
-	protected String rightSideImg;
+	protected Map<String, String> leftSideImgs = new HashMap<>();
+	protected Map<String, String> rightSideImgs = new HashMap<>();
 	protected ObjectLocation location;
 	protected boolean readOnly;
 	protected boolean disabled;
 
 	public TextAreaSI(String displayName, String leftSideImg, String rightSideImg, ObjectLocation location) {
 		super(LocatorType.IMAGE, displayName);
-		this.leftSideImg = leftSideImg;
-		this.rightSideImg = rightSideImg;
+		leftSideImgs.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
+				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + leftSideImg);
+		rightSideImgs.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
+				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + rightSideImg);
 		this.location = location;
 		this.readOnly = false;
 		this.disabled = false;
 	}
 
-	public String getLeftSideImage() {
-		return leftSideImg;
+	public TextAreaSI addPlatformImageForNativeApp(PlatformType platform, String leftSideImg, String rightSideImg) {
+		LocatorUtil.setPlatformImageForNativeApp(leftSideImgs, platform, leftSideImg);
+		LocatorUtil.setPlatformImageForNativeApp(rightSideImgs, platform, rightSideImg);
+		return this;
 	}
 
-	public String getRightSideImage() {
-		return rightSideImg;
+	public TextAreaSI addPlatformImageForWebApp(PlatformType platform, WebBrowserType browserType, String leftSideImg,
+			String rightSideImg) {
+		LocatorUtil.setPlatformImageForWebApp(leftSideImgs, platform, browserType, leftSideImg);
+		LocatorUtil.setPlatformImageForWebApp(rightSideImgs, platform, browserType, rightSideImg);
+		return this;
+	}
+
+	public String getLeftSideImage(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {
+		return LocatorUtil.findImage(leftSideImgs, platform, appType, browserType);
+	}
+
+	public String getRightSideImage(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {
+		return LocatorUtil.findImage(rightSideImgs, platform, appType, browserType);
 	}
 
 	public ObjectLocation getLocation() {
@@ -83,7 +108,8 @@ public class TextAreaSI extends TextArea {
 
 	@Override
 	public TextAreaSI clone() {
-		return new TextAreaSI(displayName, leftSideImg, rightSideImg, location);
+		Assert.fail("clone() API is not implemented.");
+		return this;
 	}
 
 	@Override

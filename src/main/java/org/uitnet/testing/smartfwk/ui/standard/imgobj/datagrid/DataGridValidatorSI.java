@@ -228,7 +228,8 @@ public class DataGridValidatorSI {
 							Assert.assertNotNull(m);
 						} else if (gridCell.getValueType() == ValueType.imageAsImageObject) {
 							imgObjToValidate = (ImageObject) gridCell.getValue();
-							Match m = cellRegion.find(imgObjToValidate.getImage());
+							Match m = cellRegion.find(imgObjToValidate.getImage(appDriver.getAppConfig().getTestPlatformType(),
+									appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 							Assert.assertNotNull(m);
 						} else {
 							Assert.fail("ValueType '" + gridCell.getValueType().name() + "' is not supported.");
@@ -495,7 +496,8 @@ public class DataGridValidatorSI {
 				Assert.assertNotNull(m);
 			} else if (cellValue.getValueType() == ValueType.imageAsImageObject) {
 				imgObjToValidate = (ImageObject) cellValue.getValue();
-				Match m = cellRegion.find(imgObjToValidate.getImage());
+				Match m = cellRegion.find(imgObjToValidate.getImage(appDriver.getAppConfig().getTestPlatformType(),
+						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(m);
 			}
 		} catch (Throwable th) {

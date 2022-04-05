@@ -17,13 +17,23 @@
  */
 package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.button.Button;
+import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 
 /**
  * 
@@ -31,17 +41,28 @@ import org.uitnet.testing.smartfwk.ui.core.objects.button.Button;
  *
  */
 public class ButtonSI extends Button {
-	protected String buttonImg;
+	protected Map<String, String> platformImages = new HashMap<>();
 	protected ObjectLocation buttonImgLocation;
 
 	public ButtonSI(String displayName, String buttonImg, ObjectLocation buttonImgLocation) {
 		super(LocatorType.IMAGE, displayName);
-		this.buttonImg = buttonImg;
+		platformImages.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
+				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + buttonImg);
 		this.buttonImgLocation = buttonImgLocation;
 	}
 
-	public String getButtonImage() {
-		return buttonImg;
+	public ButtonSI addPlatformImageForNativeApp(PlatformType platform, String buttonImg) {
+		LocatorUtil.setPlatformImageForNativeApp(platformImages, platform, buttonImg);
+		return this;
+	}
+
+	public ButtonSI addPlatformImageForWebApp(PlatformType platform, WebBrowserType browserType, String buttonImg) {
+		LocatorUtil.setPlatformImageForWebApp(platformImages, platform, browserType, buttonImg);
+		return this;
+	}
+
+	public String getButtonImage(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {
+		return LocatorUtil.findImage(platformImages, platform, appType, browserType);
 	}
 
 	public ObjectLocation getButtonImageLocation() {

@@ -225,7 +225,10 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				Region region = textBoxObj.getLocation().getRegionOfImageObject(appDriver,
-						textBoxObj.getLeftSideImage(), textBoxObj.getRightSideImage());
+						textBoxObj.getLeftSideImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()),
+						textBoxObj.getRightSideImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(region, "Failed to find TextBox '" + textBoxObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -291,7 +294,8 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 	}
 
 	@Override
-	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism,
+			int maxIterationsToLocateElements) {
 		if (textBoxObj.isDisabled()) {
 			Match match = findElement(maxIterationsToLocateElements);
 			validateTextValue(match.text(), expectedValue, validationMechanism);

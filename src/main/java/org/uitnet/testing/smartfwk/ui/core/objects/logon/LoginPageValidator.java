@@ -22,6 +22,7 @@ import java.awt.Rectangle;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 
 /**
@@ -46,17 +47,24 @@ public abstract class LoginPageValidator {
 	}
 
 	public void validate(String activeUserProfileName) {
-		Assert.assertNotNull(appDriver, "AppDriver instance is null. Please set before using this API.");
-		validateInfo(activeUserProfileName);
+		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
+			Assert.assertNotNull(appDriver, "AppDriver instance is null. Please set before using this API.");
+			validateInfo(activeUserProfileName);
+		}
 	}
 
 	public void login(String activeUserProfileName) {
-		tryLogin(activeUserProfileName);
+		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
+			tryLogin(activeUserProfileName);
+		}
 	}
 
 	public boolean isLoginPageVisible(String activeUserProfileName) {
-		Assert.assertNotNull(appDriver, "AppDriver instance is null. Please set before using this API.");
-		return checkLoginPageVisible(activeUserProfileName);
+		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
+			Assert.assertNotNull(appDriver, "AppDriver instance is null. Please set before using this API.");
+			return checkLoginPageVisible(activeUserProfileName);
+		}
+		return false;
 	}
 
 	public void setInitParams(SmartAppDriver appDriver) {

@@ -23,6 +23,7 @@ import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
+import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 
 /**
@@ -59,18 +60,25 @@ public abstract class LoginSuccessPageValidator {
 	}
 
 	public void validate(String activeUserProfileName) {
-		Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
-		validateInfo(activeUserProfileName);
+		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
+			Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
+			validateInfo(activeUserProfileName);
+		}
 	}
 
 	public void logout(String activeUserProfileName) {
-		Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
-		tryLogout(activeUserProfileName);
+		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
+			Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
+			tryLogout(activeUserProfileName);
+		}
 	}
 
 	public boolean isLoginSuccessPageVisible(String activeUserProfileName) {
-		Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
-		return checkLoginSuccessPageVisible(activeUserProfileName);
+		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
+			Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
+			return checkLoginSuccessPageVisible(activeUserProfileName);
+		}
+		return false;
 	}
 
 	public void setInitParams(SmartAppDriver appDriver) {

@@ -227,7 +227,10 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				Region region = comboBoxObj.getLocation().getRegionOfImageObject(appDriver,
-						comboBoxObj.getLeftSideImage(), comboBoxObj.getRightSideImage());
+						comboBoxObj.getLeftSideImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()),
+						comboBoxObj.getRightSideImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(region, "Failed to find ComboBox '" + comboBoxObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -293,7 +296,8 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism,
+			int maxIterationsToLocateElements) {
 		if (comboBoxObj.isDisabled() || comboBoxObj.isReadOnly()) {
 			Match match = findElement(maxIterationsToLocateElements);
 			validateTextValue(match.text(), expectedValue, validationMechanism);

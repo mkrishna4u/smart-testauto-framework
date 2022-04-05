@@ -52,7 +52,8 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 	}
 
 	@Override
-	public void validateName(String expectedName, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+	public void validateName(String expectedName, TextMatchMechanism validationMechanism,
+			int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		validateTextValue(match.text(), expectedName, validationMechanism);
 	}
@@ -212,7 +213,8 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				Region region = hyperlinkObj.getHyperlinkImageLocation().getRegionOfImageObject(appDriver,
-						hyperlinkObj.getHyperlinkImage());
+						hyperlinkObj.getHyperlinkImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(region, "Failed to find Hyperlink '" + hyperlinkObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -243,8 +245,10 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 	public List<Match> findElements(int maxIterationsToLocateElements) {
 		Region r = hyperlinkObj.getHyperlinkImageLocation().getRegion(appDriver);
 
-		return new ImageObject(UIObjectType.hyperlink, hyperlinkObj.getDisplayName(), hyperlinkObj.getHyperlinkImage())
-				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
+		return new ImageObject(UIObjectType.hyperlink, hyperlinkObj.getDisplayName(),
+				hyperlinkObj.getHyperlinkImage(appDriver.getAppConfig().getTestPlatformType(),
+						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()))
+								.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
 	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {

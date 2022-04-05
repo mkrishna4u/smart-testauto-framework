@@ -15,32 +15,40 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.standard.imgobj;
+package org.uitnet.testing.smartfwk.ui.core.defaults;
 
-import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
-import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
+import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginPageValidator;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public class WebPageTitleSI extends ImageObject {
+public class DefaultAppLoginPageValidator extends LoginPageValidator {
 
-	public WebPageTitleSI(String displayName, String image) {
-		super(UIObjectType.webPageTitle, displayName, image);
+	public DefaultAppLoginPageValidator() {
+		super(null, null);
 	}
 
 	@Override
-	public WebPageTitleValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
-		return new WebPageTitleValidatorSI(appDriver, this, region);
+	public void setInitParams(SmartAppDriver appDriver) {
+		this.appDriver = appDriver;
 	}
 
 	@Override
-	public String toString() {
-		return getDisplayName();
+	protected void tryLogin(String activeUserProfileName) {
+		// Write code to perform login on application
+	}
+
+	@Override
+	protected void validateInfo(String activeUserProfileName) {
+		// Write code to validate that login page is visible
+	}
+
+	@Override
+	public boolean checkLoginPageVisible(String activeUserProfileName) {
+		return false;
 	}
 
 }

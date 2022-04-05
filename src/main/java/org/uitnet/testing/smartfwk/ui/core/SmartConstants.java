@@ -24,6 +24,7 @@ package org.uitnet.testing.smartfwk.ui.core;
  */
 public class SmartConstants {
 	public static final String DEFAULT_XPATH_LOCATOR = "default-xpath";
+	public static final String DEFAULT_IMAGE_LOCATOR = "default-image";
 	public static final String WEBATTRMAPKEY_CHECK_ELEMENT_ENABLED_ATTR = "CHECK_ELEMENT_ENABLED_ATTR";
 	public static final String WEBATTRMAPKEY_CHECK_ELEMENT_DISABLED_ATTR = "CHECK_ELEMENT_DISABLED_ATTR";
 	public static final String WEBATTRMAPKEY_CHECK_TEXTBOX_TYPE_AS_PASSWORD_ATTR = "CHECK_TEXTBOX_TYPE_AS_PASSWORD_ATTR";

@@ -17,13 +17,23 @@
  */
 package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.link.Hyperlink;
+import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 
 /**
  * 
@@ -31,17 +41,28 @@ import org.uitnet.testing.smartfwk.ui.core.objects.link.Hyperlink;
  *
  */
 public class HyperlinkSI extends Hyperlink {
-	protected String hyperlinkImg;
+	protected Map<String, String> platformImages = new HashMap<>();
 	protected ObjectLocation hyperlinkImgLocation;
 
 	public HyperlinkSI(String displayName, String hyperlinkImg, ObjectLocation hyperlinkImgLocation) {
 		super(LocatorType.IMAGE, displayName);
-		this.hyperlinkImg = hyperlinkImg;
+		platformImages.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
+				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + hyperlinkImg);
 		this.hyperlinkImgLocation = hyperlinkImgLocation;
 	}
 
-	public String getHyperlinkImage() {
-		return hyperlinkImg;
+	public HyperlinkSI addPlatformImageForNativeApp(PlatformType platform, String hyperlinkImg) {
+		LocatorUtil.setPlatformImageForNativeApp(platformImages, platform, hyperlinkImg);
+		return this;
+	}
+
+	public HyperlinkSI addPlatformImageForWebApp(PlatformType platform, WebBrowserType browserType, String hyperlinkImg) {
+		LocatorUtil.setPlatformImageForWebApp(platformImages, platform, browserType, hyperlinkImg);
+		return this;
+	}
+
+	public String getHyperlinkImage(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {
+		return LocatorUtil.findImage(platformImages, platform, appType, browserType);
 	}
 
 	public ObjectLocation getHyperlinkImageLocation() {

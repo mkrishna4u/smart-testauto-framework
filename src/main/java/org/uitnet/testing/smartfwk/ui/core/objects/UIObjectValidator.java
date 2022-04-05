@@ -53,8 +53,8 @@ public abstract class UIObjectValidator {
 		if (appDriver != null) {
 			this.region = (region == null)
 					? Region.create(new Rectangle(0, 0,
-							new Double(appDriver.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
-							new Double(appDriver.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
+							Double.valueOf(appDriver.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
+							Double.valueOf(appDriver.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
 					: region;
 
 		}

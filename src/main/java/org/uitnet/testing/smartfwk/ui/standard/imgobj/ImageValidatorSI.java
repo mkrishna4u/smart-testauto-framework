@@ -193,7 +193,9 @@ public class ImageValidatorSI extends ImageValidator {
 		Match match = null;
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
-				Region region = imageObj.getImageLocation().getRegionOfImageObject(appDriver, imageObj.getImage());
+				Region region = imageObj.getImageLocation().getRegionOfImageObject(appDriver,
+						imageObj.getImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(region, "Failed to find Image '" + imageObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -224,8 +226,10 @@ public class ImageValidatorSI extends ImageValidator {
 	public List<Match> findElements(int maxIterationsToLocateElements) {
 		Region r = imageObj.getImageLocation().getRegion(appDriver);
 
-		return new ImageObject(UIObjectType.image, imageObj.getDisplayName(), imageObj.getImage())
-				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
+		return new ImageObject(UIObjectType.image, imageObj.getDisplayName(),
+				imageObj.getImage(appDriver.getAppConfig().getTestPlatformType(), appDriver.getAppConfig().getAppType(),
+						appDriver.getAppConfig().getAppWebBrowser())).getValidator(appDriver, r)
+								.findElements(maxIterationsToLocateElements);
 	}
 
 	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {

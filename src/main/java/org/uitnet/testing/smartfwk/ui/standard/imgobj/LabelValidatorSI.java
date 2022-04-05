@@ -52,7 +52,8 @@ public class LabelValidatorSI extends LabelValidator {
 	}
 
 	@Override
-	public void validateValue(String expectedName, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+	public void validateValue(String expectedName, TextMatchMechanism validationMechanism,
+			int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		validateTextValue(match.text(), expectedName, validationMechanism);
 	}
@@ -206,7 +207,8 @@ public class LabelValidatorSI extends LabelValidator {
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				Region region = labelObj.getLabelImageLocation().getRegionOfImageObject(appDriver,
-						labelObj.getLabelImage());
+						labelObj.getLabelImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(region, "Failed to find Label '" + labelObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -237,8 +239,10 @@ public class LabelValidatorSI extends LabelValidator {
 	public List<Match> findElements(int maxIterationsToLocateElements) {
 		Region r = labelObj.getLabelImageLocation().getRegion(appDriver);
 
-		return new ImageObject(UIObjectType.label, labelObj.getDisplayName(), labelObj.getLabelImage())
-				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
+		return new ImageObject(UIObjectType.label, labelObj.getDisplayName(),
+				labelObj.getLabelImage(appDriver.getAppConfig().getTestPlatformType(),
+						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()))
+								.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
 	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {

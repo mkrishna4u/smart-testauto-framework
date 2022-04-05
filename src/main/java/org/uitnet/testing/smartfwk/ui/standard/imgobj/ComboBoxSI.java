@@ -17,14 +17,24 @@
  */
 package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.PullDownMenuInfo;
 import org.uitnet.testing.smartfwk.ui.core.objects.combobox.ComboBox;
+import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 
 /**
  * 
@@ -32,8 +42,9 @@ import org.uitnet.testing.smartfwk.ui.core.objects.combobox.ComboBox;
  *
  */
 public class ComboBoxSI extends ComboBox {
-	protected String leftSideImg;
-	protected String rightSideImg;
+	protected Map<String, String> leftSideImgs = new HashMap<>();
+	protected Map<String, String> rightSideImgs = new HashMap<>();
+	
 	protected ObjectLocation location;
 	protected PullDownMenuInfo pullDownMenuInfo;
 	protected boolean readOnly;
@@ -42,20 +53,35 @@ public class ComboBoxSI extends ComboBox {
 	public ComboBoxSI(String displayName, String leftSideImg, String rightSideImg, ObjectLocation location,
 			PullDownMenuInfo pullDownMenuInfo) {
 		super(LocatorType.IMAGE, displayName);
-		this.leftSideImg = leftSideImg;
-		this.rightSideImg = rightSideImg;
+		this.leftSideImgs.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
+				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + leftSideImg);
+		this.rightSideImgs.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
+				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + rightSideImg);
+		
 		this.location = location;
 		this.pullDownMenuInfo = pullDownMenuInfo;
 		this.readOnly = true;
 		this.disabled = false;
 	}
-
-	public String getLeftSideImage() {
-		return leftSideImg;
+	
+	public ComboBoxSI addPlatformImageForNativeApp(PlatformType platform, String leftSideImg, String rightSideImg) {
+		LocatorUtil.setPlatformImageForNativeApp(leftSideImgs, platform, leftSideImg);
+		LocatorUtil.setPlatformImageForNativeApp(rightSideImgs, platform, rightSideImg);
+		return this;
 	}
 
-	public String getRightSideImage() {
-		return rightSideImg;
+	public ComboBoxSI addPlatformImageForWebApp(PlatformType platform, WebBrowserType browserType, String leftSideImg, String rightSideImg) {
+		LocatorUtil.setPlatformImageForWebApp(leftSideImgs, platform, browserType, leftSideImg);
+		LocatorUtil.setPlatformImageForWebApp(rightSideImgs, platform, browserType, rightSideImg);
+		return this;
+	}
+
+	public String getLeftSideImage(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {
+		return LocatorUtil.findImage(leftSideImgs, platform, appType, browserType);
+	}
+
+	public String getRightSideImage(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {
+		return LocatorUtil.findImage(rightSideImgs, platform, appType, browserType);
 	}
 
 	public ObjectLocation getLocation() {
@@ -89,7 +115,8 @@ public class ComboBoxSI extends ComboBox {
 
 	@Override
 	public ComboBoxSI clone() {
-		return new ComboBoxSI(displayName, leftSideImg, rightSideImg, location, pullDownMenuInfo);
+		Assert.fail("clone() API is not implemented.");
+		return this;
 	}
 
 	@Override

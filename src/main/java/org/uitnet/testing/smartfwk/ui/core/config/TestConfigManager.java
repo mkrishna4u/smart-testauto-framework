@@ -28,6 +28,7 @@ import java.util.Properties;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.config.database.orm.OrmDatabaseQueryHandler;
+import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
 
 /**
@@ -143,6 +144,7 @@ public class TestConfigManager {
 		String currAppName = null;
 		
 		try {
+			appConfigs.put(DefaultInfo.DEFAULT_APP_NAME, createDefaultAppConfig(appsConfigDir));
 			AppConfig appConfig;
 			for (String appName : appNames) {
 				currAppName = appName;
@@ -161,6 +163,19 @@ public class TestConfigManager {
 					+ "'. Going to exit...", ex);
 			System.exit(1);
 		}
+	}
+	
+	private AppConfig createDefaultAppConfig(String appsConfigDir) {
+		Properties props = new Properties();
+		props.setProperty("APPLICATION_NAME", DefaultInfo.DEFAULT_APP_NAME);
+		props.setProperty("APPLICATION_TYPE", ApplicationType.not_applicable.getType());
+		props.setProperty("TEST_PLATFORM_TYPE", PlatformType.unknown.getType());
+		props.setProperty("APP_WEB_BROWSER", WebBrowserType.notApplicable.getType());
+		props.setProperty("ENABLE_BROWSER_EXTENSIONS", "false");
+		
+		props.setProperty("BROWSER_WINDOW_SIZE", "1024 x 768");
+		AppConfig appConfig = new AppConfig(DefaultInfo.DEFAULT_APP_NAME, props, appsConfigDir);
+		return appConfig;
 	}
 
 	public AppConfig getAppConfig(String appName) {

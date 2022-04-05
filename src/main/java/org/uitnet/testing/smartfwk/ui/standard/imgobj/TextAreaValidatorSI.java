@@ -225,7 +225,10 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				Region region = textAreaObj.getLocation().getRegionOfImageObject(appDriver,
-						textAreaObj.getLeftSideImage(), textAreaObj.getRightSideImage());
+						textAreaObj.getLeftSideImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()),
+						textAreaObj.getRightSideImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(region, "Failed to find TextArea '" + textAreaObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -291,7 +294,8 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 	}
 
 	@Override
-	public void validateTextValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+	public void validateTextValue(String expectedValue, TextMatchMechanism validationMechanism,
+			int maxIterationsToLocateElements) {
 		if (textAreaObj.isDisabled()) {
 			Match match = findElement(maxIterationsToLocateElements);
 			validateTextValue(match.text(), expectedValue, validationMechanism);
@@ -351,7 +355,7 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 		Assert.fail("isDisabled() API is not supported by TextArea component.");
 
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	@Deprecated

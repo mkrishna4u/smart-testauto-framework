@@ -52,7 +52,8 @@ public class ButtonValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public void validateName(String expectedName, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+	public void validateName(String expectedName, TextMatchMechanism validationMechanism,
+			int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		validateTextValue(match.text(), expectedName, validationMechanism);
 	}
@@ -213,7 +214,8 @@ public class ButtonValidatorSI extends ButtonValidator {
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				Region region = buttonObj.getButtonImageLocation().getRegionOfImageObject(appDriver,
-						buttonObj.getButtonImage());
+						buttonObj.getButtonImage(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(region, "Failed to find Button '" + buttonObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
@@ -244,8 +246,10 @@ public class ButtonValidatorSI extends ButtonValidator {
 	public List<Match> findElements(int maxIterationsToLocateElements) {
 		Region r = buttonObj.getButtonImageLocation().getRegion(appDriver);
 
-		return new ImageObject(UIObjectType.button, buttonObj.getDisplayName(), buttonObj.getButtonImage())
-				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
+		return new ImageObject(UIObjectType.button, buttonObj.getDisplayName(),
+				buttonObj.getButtonImage(appDriver.getAppConfig().getTestPlatformType(),
+						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()))
+								.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
 	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
@@ -286,7 +290,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 		Assert.fail("isDisabled() API is not supported by Button component.");
 		return false;
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	@Deprecated
