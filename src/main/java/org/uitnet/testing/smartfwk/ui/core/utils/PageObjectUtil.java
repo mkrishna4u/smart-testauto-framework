@@ -81,7 +81,7 @@ public class PageObjectUtil {
 			value = f.get(clazz);
 		} catch (Exception ex) {
 			Assert.fail("Failed to load the page object '" + poInfo.getPoClassName() + "." + poInfo.getPoObjectName()
-					+ "'.", ex);
+					+ "'. Reason: " + ex.getCause().getLocalizedMessage(), ex);
 		}
 		return new FieldValue(f, value);
 	}
@@ -94,7 +94,7 @@ public class PageObjectUtil {
 			validatorObj = method.invoke(fv.getValue(), appDriver, null);
 		} catch (Exception ex) {
 			Assert.fail("Failed to get validator for the page object '" + poInfo.getPoClassName() + "."
-					+ poInfo.getPoObjectName() + "'.", ex);
+					+ poInfo.getPoObjectName() + "'. Reason: " + ex.getCause().getLocalizedMessage(), ex);
 		}
 		return validatorObj;
 	}
@@ -105,9 +105,9 @@ public class PageObjectUtil {
 		Method method = ObjectUtil.findClassMethod(validatorObj.getClass(), methodName, methodArgTypes);
 		try {
 			return ObjectUtil.invokeMethod(validatorObj, method, methodArgValues);
-		} catch (Exception ex) {
-			Assert.fail("Failed to perform '" + methodName + "' operation using page object '" + poInfo.getPoClassName()
-					+ "." + poInfo.getPoObjectName() + "'.", ex);
+		} catch (Exception | Error ex) {
+			Assert.fail("'" + methodName + "' operation is failed for page object '" + poInfo.getPoClassName()
+					+ "." + poInfo.getPoObjectName() + "'. Reason: " + ex.getCause().getLocalizedMessage(), ex);
 		}
 		return null;
 	}

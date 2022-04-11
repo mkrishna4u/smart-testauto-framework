@@ -17,6 +17,7 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.testng.Assert;
@@ -68,14 +69,9 @@ public class ObjectUtil {
 		return foundMethod;
 	}
 
-	public static Object invokeMethod(Object clazzObj, Method m, Object[] argValues) {
+	public static Object invokeMethod(Object clazzObj, Method m, Object[] argValues) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object out = null;
-		try {
-			out = m.invoke(clazzObj, argValues);
-		} catch (Exception ex) {
-			Assert.fail("Failed to call '" + m.getName() + "' method from object " + clazzObj + ".", ex);
-		}
-
+		out = m.invoke(clazzObj, argValues);
 		return out;
 	}
 }

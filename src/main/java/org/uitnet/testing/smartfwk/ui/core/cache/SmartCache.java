@@ -29,10 +29,11 @@ import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import io.cucumber.java.Scenario;
 
 /**
- * Abstract SmartCache class that can be used to store the data and can be retrieved at any time.
- * Also you can use events to inform subscriber for the change of cached data.
- * NOTE: To use this cache, create a singleton class that extends this cache or you can use the 
- * default implementation DefaultSmartCache.
+ * Abstract SmartCache class that can be used to store the data and can be
+ * retrieved at any time. Also you can use events to inform subscriber for the
+ * change of cached data. NOTE: To use this cache, create a singleton class that
+ * extends this cache or you can use the default implementation
+ * DefaultSmartCache.
  * 
  * @author Madhav Krishna
  *
@@ -43,58 +44,62 @@ public abstract class SmartCache {
 	private SmartAppDriver appDriver;
 	private Scenario runningScenario;
 	private SubmissionPublisher<SmartCache> publisher;
-	
+
 	public SmartCache() {
 		cache = new HashMap<>();
 		publisher = new SubmissionPublisher<>();
 	}
-	
+
 	public <V> void add(String key, V value) {
 		cache.put(key, value);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <V> V get(String key) {
 		return (V) cache.get(key);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <V> V removeAndget(String key) {
 		return (V) cache.remove(key);
 	}
-	
+
+	public void clear() {
+		cache.clear();
+	}
+
 	public Set<String> getKeysStartsWith(String startsWithStr) {
 		Set<String> keys = new HashSet<>();
-		for(String k : cache.keySet()) {
-			if(k.startsWith(startsWithStr)) {
+		for (String k : cache.keySet()) {
+			if (k.startsWith(startsWithStr)) {
 				keys.add(k);
 			}
 		}
 		return keys;
 	}
-	
+
 	public Set<String> getKeysEndsWith(String endsWithStr) {
 		Set<String> keys = new HashSet<>();
-		for(String k : cache.keySet()) {
-			if(k.endsWith(endsWithStr)) {
+		for (String k : cache.keySet()) {
+			if (k.endsWith(endsWithStr)) {
 				keys.add(k);
 			}
 		}
 		return keys;
 	}
-	
+
 	public boolean isKeyPresent(String key) {
 		return cache.get(key) != null;
 	}
-	
+
 	public void subscribe(SmartCacheSubscriber subscriber) {
 		publisher.subscribe(subscriber);
 	}
-	
+
 	public void publish(SmartCache cache) {
 		publisher.submit(cache);
 	}
-	
+
 	public AbstractAppConnector getAppConnector() {
 		return appConnector;
 	}
