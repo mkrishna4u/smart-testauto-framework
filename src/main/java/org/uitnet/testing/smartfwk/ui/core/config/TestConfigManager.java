@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.sikuli.script.Screen;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.config.database.orm.OrmDatabaseQueryHandler;
@@ -172,8 +173,7 @@ public class TestConfigManager {
 		props.setProperty("TEST_PLATFORM_TYPE", PlatformType.unknown.getType());
 		props.setProperty("APP_WEB_BROWSER", WebBrowserType.notApplicable.getType());
 		props.setProperty("ENABLE_BROWSER_EXTENSIONS", "false");
-		
-		props.setProperty("BROWSER_WINDOW_SIZE", "1024 x 768");
+		props.setProperty("BROWSER_WINDOW_SIZE", Screen.getPrimaryScreen().w + " x " + Screen.getPrimaryScreen().h);
 		AppConfig appConfig = new AppConfig(DefaultInfo.DEFAULT_APP_NAME, props, appsConfigDir);
 		return appConfig;
 	}
