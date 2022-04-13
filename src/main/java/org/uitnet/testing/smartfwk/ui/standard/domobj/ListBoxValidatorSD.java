@@ -36,9 +36,6 @@ import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
 
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
 /**
  * 
  * @author Madhav Krishna
@@ -73,7 +70,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 	}
-	
+
 	@Override
 	public boolean isDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		return domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements);
@@ -491,17 +488,6 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	@Override
 	public List<WebElement> findElements(int maxIterationsToLocateElements) {
 		return domObjValidator.findElements(maxIterationsToLocateElements);
-	}
-	
-	@SuppressWarnings("rawtypes")
-	@Override
-	public TouchAction getNewMobileTouchAction() {
-		return domObjValidator.getNewMobileTouchAction();
-	}
-
-	@Override
-	public MultiTouchAction getNewMobileMultiTouchAction() {
-		return domObjValidator.getNewMobileMultiTouchAction();
 	}
 
 	@Override

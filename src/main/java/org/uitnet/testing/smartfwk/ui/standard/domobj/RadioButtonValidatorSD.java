@@ -31,9 +31,6 @@ import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
 /**
  * 
  * @author Madhav Krishna
@@ -144,7 +141,7 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 	}
-	
+
 	@Override
 	public boolean isDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		return domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements);
@@ -229,17 +226,6 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 			Assert.fail("Failed to validate element '" + uiObject.getDisplayName() + "' as not selected.", th);
 		}
 
-	}
-	
-	@SuppressWarnings("rawtypes")
-	@Override
-	public TouchAction getNewMobileTouchAction() {
-		return domObjValidator.getNewMobileTouchAction();
-	}
-
-	@Override
-	public MultiTouchAction getNewMobileMultiTouchAction() {
-		return domObjValidator.getNewMobileMultiTouchAction();
 	}
 
 	@Override

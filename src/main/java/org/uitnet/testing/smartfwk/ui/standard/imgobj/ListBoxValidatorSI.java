@@ -39,9 +39,6 @@ import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
 
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
 /**
  * 
  * @author Madhav Krishna
@@ -292,7 +289,8 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism,
+			int maxIterationsToLocateElements) {
 		if (listBoxObj.isDisabled()) {
 			Match match = findElement(maxIterationsToLocateElements);
 			validateTextValue(match.text(), expectedValue, validationMechanism);
@@ -502,21 +500,6 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	public boolean isDisabled(int maxIterationsToLocateElements) {
 		Assert.fail("isDisabled() API is not supported by ListBox component.");
 		return false;
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	@Deprecated
-	public TouchAction getNewMobileTouchAction() {
-		Assert.fail("getNewMobileTouchAction() API is not supported by ListBox component.");
-		return null;
-	}
-
-	@Override
-	@Deprecated
-	public MultiTouchAction getNewMobileMultiTouchAction() {
-		Assert.fail("getNewMobileMultiTouchAction() API is not supported by ListBox component.");
-		return null;
 	}
 
 	@Override

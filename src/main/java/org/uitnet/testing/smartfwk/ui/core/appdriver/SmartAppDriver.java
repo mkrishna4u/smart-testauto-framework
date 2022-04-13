@@ -27,7 +27,6 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.Proxy.ProxyType;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -41,9 +40,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerDriverService;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.opera.OperaDriverService;
-import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -90,11 +86,11 @@ public class SmartAppDriver {
 		this.sikuliDriver = new Screen();
 		this.appConfig = TestConfigManager.getInstance().getAppConfig(appName);
 	}
-	
+
 	public void setScrollElementToViewportHandler(ScrollElementToViewportHandler handler) {
 		scrollElemToViewportCallback = handler;
 	}
-	
+
 	public ScrollElementToViewportHandler getScrollElementToViewportHandler() {
 		return scrollElemToViewportCallback;
 	}
@@ -113,7 +109,7 @@ public class SmartAppDriver {
 
 	private void prepareWebDriver() {
 		scrollElemToViewportCallback = new DefaultScrollElementToViewportHandler();
-		
+
 		if (testPlatformType == PlatformType.windows) {
 			if (appType == ApplicationType.native_app) {
 				prepareWindowsNativeAppDriver();
@@ -158,8 +154,8 @@ public class SmartAppDriver {
 		}
 
 		try {
-			webDriver = new WindowsDriver<WebElement>(
-					new URI(appConfig.getAppDriverConfig().getRemoteDriverURL()).toURL(), capabilities);
+			webDriver = new WindowsDriver(new URI(appConfig.getAppDriverConfig().getRemoteDriverURL()).toURL(),
+					capabilities);
 
 		} catch (Exception ex) {
 			Assert.fail("Failed to initialize windows driver.", ex);
@@ -184,9 +180,9 @@ public class SmartAppDriver {
 
 		try {
 
-			webDriver = new AndroidDriver<WebElement>(
-					new URI(appConfig.getAppDriverConfig().getRemoteDriverURL()).toURL(), capabilities);
-			
+			webDriver = new AndroidDriver(new URI(appConfig.getAppDriverConfig().getRemoteDriverURL()).toURL(),
+					capabilities);
+
 		} catch (Exception ex) {
 			Assert.fail("Failed to initialize android driver.", ex);
 		}
@@ -202,7 +198,7 @@ public class SmartAppDriver {
 			capabilities.setCapability(entry.getKey(), entry.getValue());
 		}
 
-		webDriver = new IOSDriver<WebElement>(capabilities);
+		webDriver = new IOSDriver(capabilities);
 	}
 
 	private void prepareMacNativeAppDriver() {
@@ -215,7 +211,7 @@ public class SmartAppDriver {
 			capabilities.setCapability(entry.getKey(), entry.getValue());
 		}
 
-		webDriver = new Mac2Driver<WebElement>(capabilities);
+		webDriver = new Mac2Driver(capabilities);
 	}
 
 	private void prepareWebAppDriverForNonMobileApp() {
@@ -416,12 +412,9 @@ public class SmartAppDriver {
 			}
 			case opera: {
 				System.setProperty(webDriverCfg.getDriverSystemPropertyName(), webDriverCfg.getDriverBinaryFilePath());
-				System.setProperty(OperaDriverService.OPERA_DRIVER_VERBOSE_LOG_PROPERTY,
-						String.valueOf("OFF".equals(webDriverCfg.getLogLevel())));
 
-				OperaDriverService service = OperaDriverService.createDefaultService();
-
-				OperaOptions options = new OperaOptions();
+				ChromeOptions options = new ChromeOptions();
+				options.setHeadless(webDriverCfg.isHeadless());
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());
 				options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
 				options.addArguments(webDriverCfg.getArguments());
@@ -445,7 +438,7 @@ public class SmartAppDriver {
 					options.setCapability(CapabilityType.PROXY, proxy);
 				}
 
-				OperaDriver wdriver = new OperaDriver(service, options);
+				ChromeDriver wdriver = new ChromeDriver(options);
 				wdriver.setLogLevel(webDriverCfg.getLogLevel());
 
 				wdriver.manage().timeouts().scriptTimeout(Duration.ofSeconds(webDriverCfg.getScriptTimeoutInSecs()));
@@ -528,7 +521,7 @@ public class SmartAppDriver {
 	 * Closes current window, if it is a last window then close the app.
 	 */
 	public void closeCurrentWindow() {
-		if(webDriver != null) {
+		if (webDriver != null) {
 			webDriver.close();
 		}
 	}
@@ -537,7 +530,7 @@ public class SmartAppDriver {
 	 * Closes all the windows associated with this app and the app itself.
 	 */
 	public void closeApp() {
-		if(webDriver != null) {
+		if (webDriver != null) {
 			webDriver.quit();
 		}
 		opened = false;

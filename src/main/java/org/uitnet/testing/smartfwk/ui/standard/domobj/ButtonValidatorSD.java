@@ -33,9 +33,6 @@ import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.WebElementUtil;
 
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
 /**
  * 
  * @author Madhav Krishna
@@ -166,17 +163,6 @@ public class ButtonValidatorSD extends ButtonValidator {
 	@Override
 	public List<WebElement> findElements(int maxIterationsToLocateElements) {
 		return domObjValidator.findElements(maxIterationsToLocateElements);
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public TouchAction getNewMobileTouchAction() {
-		return domObjValidator.getNewMobileTouchAction();
-	}
-
-	@Override
-	public MultiTouchAction getNewMobileMultiTouchAction() {
-		return domObjValidator.getNewMobileMultiTouchAction();
 	}
 
 	@Override

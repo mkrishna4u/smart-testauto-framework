@@ -21,7 +21,6 @@ import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
@@ -33,17 +32,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
-import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.WebElementUtil;
 
 import com.google.common.base.Function;
-
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
 
 /**
  * 
@@ -519,7 +513,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					Actions webActions = new Actions(appDriver.getWebDriver());
 					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "c"));
 					break;
-				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+				} catch (MoveTargetOutOfBoundsException ex) {
 					appDriver.waitForSeconds(2);
 				}
 			}
@@ -545,7 +539,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "v")).build()
 							.perform();
 					break;
-				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+				} catch (MoveTargetOutOfBoundsException ex) {
 					appDriver.waitForSeconds(2);
 				}
 			}
@@ -562,7 +556,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					WebElement webElem = findElement(maxIterationsToLocateElements);
 					PageScrollUtil.mouseClick(appDriver, webElem);
 					break;
-				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+				} catch (MoveTargetOutOfBoundsException ex) {
 					appDriver.waitForSeconds(2);
 				}
 			}
@@ -579,7 +573,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					WebElement webElem = findElement(maxIterationsToLocateElements);
 					PageScrollUtil.mouseDoubleClick(appDriver, webElem);
 					break;
-				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+				} catch (MoveTargetOutOfBoundsException ex) {
 					appDriver.waitForSeconds(2);
 				}
 			}
@@ -608,7 +602,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
 				PageScrollUtil.mouseClickAndHold(appDriver, webElem);
 				break;
-			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
@@ -620,7 +614,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
 				PageScrollUtil.mouseRelease(appDriver, webElem);
 				break;
-			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
@@ -635,7 +629,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 					PageScrollUtil.mouseDragAndDrop(appDriver, sourceElem, targetElem);
 					break;
-				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+				} catch (MoveTargetOutOfBoundsException ex) {
 					appDriver.waitForSeconds(2);
 				}
 			}
@@ -652,7 +646,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyDown(webElem, keys).build().perform();
 				break;
-			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
@@ -665,7 +659,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyUp(webElem, keys).build().perform();
 				break;
-			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
@@ -678,7 +672,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyDown(webElem, keys).keyUp(webElem, keys).build().perform();
 				break;
-			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
@@ -713,32 +707,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 				}
 
 				break;
-			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public TouchAction getNewMobileTouchAction() {
-		if (appDriver.getTestPlatformType() == PlatformType.ios_mobile
-				|| appDriver.getTestPlatformType() == PlatformType.android_mobile) {
-			return new TouchAction((AppiumDriver) appDriver.getWebDriver());
-		}
-
-		return null;
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public MultiTouchAction getNewMobileMultiTouchAction() {
-		if (appDriver.getTestPlatformType() == PlatformType.ios_mobile
-				|| appDriver.getTestPlatformType() == PlatformType.android_mobile) {
-			return new MultiTouchAction((AppiumDriver) appDriver.getWebDriver());
-		}
-
-		return null;
 	}
 
 	@Override

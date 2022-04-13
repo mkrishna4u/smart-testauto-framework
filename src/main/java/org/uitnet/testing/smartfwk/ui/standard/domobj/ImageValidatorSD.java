@@ -30,9 +30,6 @@ import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.image.ImageValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
 /**
  * 
  * @author Madhav Krishna
@@ -127,17 +124,6 @@ public class ImageValidatorSD extends ImageValidator {
 		return domObjValidator.findElements(maxIterationsToLocateElements);
 	}
 	
-	@SuppressWarnings("rawtypes")
-	@Override
-	public TouchAction getNewMobileTouchAction() {
-		return domObjValidator.getNewMobileTouchAction();
-	}
-
-	@Override
-	public MultiTouchAction getNewMobileMultiTouchAction() {
-		return domObjValidator.getNewMobileMultiTouchAction();
-	}
-
 	@Override
 	public Actions getNewSeleniumActions() {
 		return domObjValidator.getNewSeleniumActions();

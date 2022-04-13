@@ -31,9 +31,6 @@ import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.checkbox.CheckBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
 /**
  * 
  * @author Madhav Krishna
@@ -227,17 +224,6 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	public void validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
-	}
-	
-	@SuppressWarnings("rawtypes")
-	@Override
-	public TouchAction getNewMobileTouchAction() {
-		return domObjValidator.getNewMobileTouchAction();
-	}
-
-	@Override
-	public MultiTouchAction getNewMobileMultiTouchAction() {
-		return domObjValidator.getNewMobileMultiTouchAction();
 	}
 
 	@Override

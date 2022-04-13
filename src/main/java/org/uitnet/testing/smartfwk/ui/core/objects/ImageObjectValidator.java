@@ -36,9 +36,6 @@ import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
 
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
 /**
  * 
  * @author Madhav Krishna
@@ -371,21 +368,6 @@ public class ImageObjectValidator extends UIObjectValidator {
 		String contents = ClipboardUtil.getContents();
 		ClipboardUtil.clearContents();
 		return contents;
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	@Deprecated
-	public TouchAction getNewMobileTouchAction() {
-		Assert.fail("getNewMobileTouchAction() API is not supported by Button component.");
-		return null;
-	}
-
-	@Override
-	@Deprecated
-	public MultiTouchAction getNewMobileMultiTouchAction() {
-		Assert.fail("getNewMobileMultiTouchAction() API is not supported by Button component.");
-		return null;
 	}
 
 	@Override

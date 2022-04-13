@@ -34,9 +34,6 @@ import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonGroupValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
 /**
  * 
  * @author Madhav Krishna
@@ -288,17 +285,6 @@ public class RadioButtonGroupValidatorSD extends RadioButtonGroupValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to validate not selected item for element '" + uiObject.getDisplayName() + "'.", th);
 		}
-	}
-	
-	@SuppressWarnings("rawtypes")
-	@Override
-	public TouchAction getNewMobileTouchAction() {
-		return domObjValidator.getNewMobileTouchAction();
-	}
-
-	@Override
-	public MultiTouchAction getNewMobileMultiTouchAction() {
-		return domObjValidator.getNewMobileMultiTouchAction();
 	}
 
 	@Override

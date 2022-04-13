@@ -34,9 +34,6 @@ import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.DataMatchUtil;
 
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
 /**
  * 
  * @author Madhav Krishna
@@ -73,11 +70,13 @@ public abstract class UIObjectValidator {
 	}
 
 	public void validatePresent(int maxIterationsToLocateElements) {
-		Assert.assertTrue(isPresent(maxIterationsToLocateElements), "Failed to find element '" + uiObject.getDisplayName() + "'");
+		Assert.assertTrue(isPresent(maxIterationsToLocateElements),
+				"Failed to find element '" + uiObject.getDisplayName() + "'");
 	}
 
 	public void validateNotPresent(int maxIterationsToLocateElements) {
-		Assert.assertTrue(!isPresent(maxIterationsToLocateElements), "Element '" + uiObject.getDisplayName() + "' is already present.");
+		Assert.assertTrue(!isPresent(maxIterationsToLocateElements),
+				"Element '" + uiObject.getDisplayName() + "' is already present.");
 	}
 
 	public <EVENTNAME> void performAction(InputEvent<EVENTNAME> event, int maxIterationsToLocateElements) {
@@ -213,15 +212,18 @@ public abstract class UIObjectValidator {
 	}
 
 	public void validateVisible(int maxIterationsToLocateElements) {
-		Assert.assertTrue(isVisible(maxIterationsToLocateElements), "Element '" + uiObject.getDisplayName() + "' is not visible.");
+		Assert.assertTrue(isVisible(maxIterationsToLocateElements),
+				"Element '" + uiObject.getDisplayName() + "' is not visible.");
 	}
-	
+
 	public void validateNotVisible(int maxIterationsToLocateElements) {
-		Assert.assertFalse(isVisible(maxIterationsToLocateElements), "Element '" + uiObject.getDisplayName() + "' is visible.");
+		Assert.assertFalse(isVisible(maxIterationsToLocateElements),
+				"Element '" + uiObject.getDisplayName() + "' is visible.");
 	}
 
 	public void validateHidden(int maxIterationsToLocateElements) {
-		Assert.assertFalse(isVisible(maxIterationsToLocateElements), "Element '" + uiObject.getDisplayName() + "' is visible.");
+		Assert.assertFalse(isVisible(maxIterationsToLocateElements),
+				"Element '" + uiObject.getDisplayName() + "' is visible.");
 	}
 
 	public abstract boolean isPresent(int maxIterationsToLocateElements);
@@ -253,11 +255,6 @@ public abstract class UIObjectValidator {
 	public abstract Object findElementNoException(int maxIterationsToLocateElements);
 
 	public abstract Object findElements(int maxIterationsToLocateElements);
-	
-	@SuppressWarnings("rawtypes")
-	public abstract TouchAction getNewMobileTouchAction();
-	
-	public abstract MultiTouchAction getNewMobileMultiTouchAction();
-	
+
 	public abstract Actions getNewSeleniumActions();
 }

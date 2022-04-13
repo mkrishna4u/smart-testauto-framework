@@ -34,9 +34,6 @@ import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.image.ImageValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
 /**
  * 
  * @author Madhav Krishna
@@ -228,8 +225,8 @@ public class ImageValidatorSI extends ImageValidator {
 
 		return new ImageObject(UIObjectType.image, imageObj.getDisplayName(),
 				imageObj.getImage(appDriver.getAppConfig().getTestPlatformType(), appDriver.getAppConfig().getAppType(),
-						appDriver.getAppConfig().getAppWebBrowser())).getValidator(appDriver, r)
-								.findElements(maxIterationsToLocateElements);
+						appDriver.getAppConfig().getAppWebBrowser()))
+				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
 	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
@@ -261,21 +258,6 @@ public class ImageValidatorSI extends ImageValidator {
 		case center:
 			return imageMatch.getCenter();
 		}
-		return null;
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	@Deprecated
-	public TouchAction getNewMobileTouchAction() {
-		Assert.fail("getNewMobileTouchAction() API is not supported by Button component.");
-		return null;
-	}
-
-	@Override
-	@Deprecated
-	public MultiTouchAction getNewMobileMultiTouchAction() {
-		Assert.fail("getNewMobileMultiTouchAction() API is not supported by Button component.");
 		return null;
 	}
 

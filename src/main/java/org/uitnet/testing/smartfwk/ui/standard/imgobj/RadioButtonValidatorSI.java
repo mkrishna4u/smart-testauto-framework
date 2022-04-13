@@ -34,9 +34,6 @@ import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
 /**
  * 
  * @author Madhav Krishna
@@ -229,7 +226,7 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 		return new ImageObject(UIObjectType.radioButton, rbObject.getDisplayName(),
 				rbObject.getRadioButtonImage(appDriver.getAppConfig().getTestPlatformType(),
 						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()))
-								.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
+				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
 	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
@@ -297,21 +294,6 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 	public boolean isDisabled(int maxIterationsToLocateElements) {
 		Assert.fail("isDisabled() API is not supported by RadioButton component.");
 		return false;
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	@Deprecated
-	public TouchAction getNewMobileTouchAction() {
-		Assert.fail("getNewMobileTouchAction() API is not supported by RadioButton component.");
-		return null;
-	}
-
-	@Override
-	@Deprecated
-	public MultiTouchAction getNewMobileMultiTouchAction() {
-		Assert.fail("getNewMobileMultiTouchAction() API is not supported by RadioButton component.");
-		return null;
 	}
 
 	@Override

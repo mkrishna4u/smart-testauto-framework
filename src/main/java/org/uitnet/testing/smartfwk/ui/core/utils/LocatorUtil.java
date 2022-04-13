@@ -34,6 +34,7 @@ import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 
 /**
@@ -55,22 +56,24 @@ public class LocatorUtil {
 			WebBrowserType browserType, LocateBy locateBy, String locatorValue) {
 		platFormLocators.put(createWebAppKey(platform, browserType), new Locator(locateBy, locatorValue));
 	}
-	
+
 	public static void setPlatformImageForNativeApp(Map<String, String> platFormImages, PlatformType platform,
 			String image) {
 		int dotLastIdx = image.lastIndexOf(".");
 		String imgFileName = image.substring(0, dotLastIdx) + "-" + platform.getType();
 		String imgFileExtn = image.substring(dotLastIdx + 1, image.length());
-		String imgPath = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgFileName + "." + imgFileExtn;
+		String imgPath = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgFileName + "."
+				+ imgFileExtn;
 		platFormImages.put(createNativeAppKey(platform), imgPath);
 	}
-	
+
 	public static void setPlatformImageForWebApp(Map<String, String> platFormImages, PlatformType platform,
 			WebBrowserType browserType, String image) {
 		int dotLastIdx = image.lastIndexOf(".");
 		String imgFileName = image.substring(0, dotLastIdx) + "-" + platform.getType() + "-" + browserType.getType();
 		String imgFileExtn = image.substring(dotLastIdx + 1, image.length());
-		String imgPath = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgFileName + "." + imgFileExtn;
+		String imgPath = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgFileName + "."
+				+ imgFileExtn;
 		platFormImages.put(createWebAppKey(platform, browserType), imgPath);
 	}
 
@@ -99,9 +102,9 @@ public class LocatorUtil {
 
 		return locator;
 	}
-	
-	public static String findImage(Map<String, String> platFormImages, PlatformType platform,
-			ApplicationType appType, WebBrowserType browserType) {
+
+	public static String findImage(Map<String, String> platFormImages, PlatformType platform, ApplicationType appType,
+			WebBrowserType browserType) {
 		String image = null;
 		if (appType == ApplicationType.web_app) {
 			image = platFormImages.get(createWebAppKey(platform, browserType));
@@ -130,34 +133,34 @@ public class LocatorUtil {
 	public static WebElement findWebElement(WebDriver appDriver, Locator locator) {
 		WebElement webElem = null;
 		if (appDriver instanceof AppiumDriver) {
-			AppiumDriver<WebElement> driver = (AppiumDriver) appDriver;
+			AppiumDriver driver = (AppiumDriver) appDriver;
 			switch (locator.getLocateBy()) {
 			case Id:
-				webElem = driver.findElementById(locator.getValue());
+				webElem = driver.findElement(AppiumBy.id(locator.getValue()));
 				break;
 			case Name:
-				webElem = driver.findElementByName(locator.getValue());
+				webElem = driver.findElement(AppiumBy.name(locator.getValue()));
 				break;
 			case ClassName:
-				webElem = driver.findElementByClassName(locator.getValue());
+				webElem = driver.findElement(AppiumBy.className(locator.getValue()));
 				break;
 			case CssSelector:
-				webElem = driver.findElementByCssSelector(locator.getValue());
+				webElem = driver.findElement(AppiumBy.cssSelector(locator.getValue()));
 				break;
 			case AccessibilityId:
-				webElem = driver.findElementByAccessibilityId(locator.getValue());
+				webElem = driver.findElement(AppiumBy.accessibilityId(locator.getValue()));
 				break;
 			case TagName:
-				webElem = driver.findElementByTagName(locator.getValue());
+				webElem = driver.findElement(AppiumBy.tagName(locator.getValue()));
 				break;
 			case Xpath:
-				webElem = driver.findElementByXPath(locator.getValue());
+				webElem = driver.findElement(AppiumBy.xpath(locator.getValue()));
 				break;
 			case LinkText:
-				webElem = driver.findElementByLinkText(locator.getValue());
+				webElem = driver.findElement(AppiumBy.linkText(locator.getValue()));
 				break;
 			case PartialLinkText:
-				webElem = driver.findElementByPartialLinkText(locator.getValue());
+				webElem = driver.findElement(AppiumBy.partialLinkText(locator.getValue()));
 				break;
 			default:
 				Assert.fail("Locate by '" + locator.getLocateBy().name() + "' is not supported.");
@@ -204,34 +207,34 @@ public class LocatorUtil {
 	public static List<WebElement> findWebElements(WebDriver appDriver, Locator locator) {
 		List<WebElement> webElem = null;
 		if (appDriver instanceof AppiumDriver) {
-			AppiumDriver<WebElement> driver = (AppiumDriver) appDriver;
+			AppiumDriver driver = (AppiumDriver) appDriver;
 			switch (locator.getLocateBy()) {
 			case Id:
-				webElem = driver.findElementsById(locator.getValue());
+				webElem = driver.findElements(AppiumBy.id(locator.getValue()));
 				break;
 			case Name:
-				webElem = driver.findElementsByName(locator.getValue());
+				webElem = driver.findElements(AppiumBy.name(locator.getValue()));
 				break;
 			case ClassName:
-				webElem = driver.findElementsByClassName(locator.getValue());
+				webElem = driver.findElements(AppiumBy.className(locator.getValue()));
 				break;
 			case CssSelector:
-				webElem = driver.findElementsByCssSelector(locator.getValue());
+				webElem = driver.findElements(AppiumBy.cssSelector(locator.getValue()));
 				break;
 			case AccessibilityId:
-				webElem = driver.findElementsByAccessibilityId(locator.getValue());
+				webElem = driver.findElements(AppiumBy.accessibilityId(locator.getValue()));
 				break;
 			case TagName:
-				webElem = driver.findElementsByTagName(locator.getValue());
+				webElem = driver.findElements(AppiumBy.tagName(locator.getValue()));
 				break;
 			case Xpath:
-				webElem = driver.findElementsByXPath(locator.getValue());
+				webElem = driver.findElements(AppiumBy.xpath(locator.getValue()));
 				break;
 			case LinkText:
-				webElem = driver.findElementsByLinkText(locator.getValue());
+				webElem = driver.findElements(AppiumBy.linkText(locator.getValue()));
 				break;
 			case PartialLinkText:
-				webElem = driver.findElementsByPartialLinkText(locator.getValue());
+				webElem = driver.findElements(AppiumBy.partialLinkText(locator.getValue()));
 				break;
 			default:
 				Assert.fail("Locate by '" + locator.getLocateBy().name() + "' is not supported.");
@@ -273,11 +276,11 @@ public class LocatorUtil {
 
 		return webElem;
 	}
-	
+
 	public static String getCssValue(WebElement webElem, String cssKey) {
 		try {
 			return webElem.getCssValue(cssKey);
-		} catch(Exception | Error ex) {
+		} catch (Exception | Error ex) {
 			return "";
 		}
 	}
