@@ -244,6 +244,7 @@ public class AppConfig {
 				if ("".equals(keyStr)) {
 					continue;
 				}
+				
 				dbProfiles.put(keyStr, null);
 			}
 

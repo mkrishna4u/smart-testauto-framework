@@ -215,7 +215,13 @@ public abstract class AbstractAppConnector {
 	}
 
 	public OrmDatabaseQueryHandler getDatabaseQueryHandler(String appName, String dbProfileName) {
-		return testConfigManager.getDatabaseQueryHandler(appName, dbProfileName);
+		if(appConfig.getEnvironmentConfig().getName().equals("default") || 
+				(appConfig.getEnvironmentConfig().getProperties() != null && 
+					!appConfig.getEnvironmentConfig().getProperties().containsKey("DB_PROFILE_NAMES"))) {
+			return testConfigManager.getDatabaseQueryHandler(appName, dbProfileName);
+		} else {
+			return testConfigManager.getDatabaseQueryHandler(appName, dbProfileName + "-" + appConfig.getEnvironmentConfig().getName());
+		}
 	}
 
 	public void captureScreenshot(Scenario scenario) {
