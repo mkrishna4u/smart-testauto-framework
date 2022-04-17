@@ -17,7 +17,6 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +30,6 @@ import org.uitnet.testing.smartfwk.ui.core.commons.LocateBy;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locator;
 import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
-import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 
 import io.appium.java_client.AppiumBy;
@@ -109,11 +107,9 @@ public class LocatorUtil {
 
 			if (image == null) {
 				image = platFormImages.get(SmartConstants.DEFAULT_IMAGE_LOCATOR);
-			} 
+			}
 			Assert.assertNotNull(image, "No image found for platformType: " + platform.getType() + ", appType: "
 					+ appType.getType() + ", browserType: " + browserType.getType());
-			
-			image = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + image;
 		} else if (appType == ApplicationType.native_app) {
 			image = platFormImages.get(createNativeAppKey(platform));
 
@@ -122,7 +118,6 @@ public class LocatorUtil {
 			}
 			Assert.assertNotNull(image,
 					"No image found for platformType: " + platform.getType() + ", appType: " + appType.getType());
-			image = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + image;
 		} else {
 			Assert.fail("Application type '" + appType.getType() + "' is not supported.");
 		}

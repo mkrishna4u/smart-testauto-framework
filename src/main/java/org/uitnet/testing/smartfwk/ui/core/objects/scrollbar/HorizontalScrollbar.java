@@ -17,11 +17,14 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.objects.scrollbar;
 
+import java.io.File;
+
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 
 /**
  * 
@@ -59,7 +62,7 @@ public class HorizontalScrollbar {
 
 	public boolean isThumbGripLeftPartImageVisible(Region region) {
 		try {
-			Match thumbGripFound = region.find(thumbGripLeftPartImage);
+			Match thumbGripFound = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +thumbGripLeftPartImage);
 			if (thumbGripFound != null) {
 				return true;
 			}
@@ -67,7 +70,7 @@ public class HorizontalScrollbar {
 		}
 
 		try {
-			Match thumbGripFound = region.find(thumbGripLeftPartImageFocused);
+			Match thumbGripFound = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +thumbGripLeftPartImageFocused);
 			if (thumbGripFound != null) {
 				return true;
 			}
@@ -79,7 +82,7 @@ public class HorizontalScrollbar {
 
 	public boolean isThumbGripRightPartImageVisible(Region region) {
 		try {
-			Match thumbGripFound = region.find(thumbGripRightPartImage);
+			Match thumbGripFound = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +thumbGripRightPartImage);
 			if (thumbGripFound != null) {
 				return true;
 			}
@@ -87,7 +90,7 @@ public class HorizontalScrollbar {
 		}
 
 		try {
-			Match thumbGripFound = region.find(thumbGripRightPartImageFocused);
+			Match thumbGripFound = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +thumbGripRightPartImageFocused);
 			if (thumbGripFound != null) {
 				return true;
 			}
@@ -99,7 +102,7 @@ public class HorizontalScrollbar {
 
 	public boolean isLeftScrollImageVisible(Region region) {
 		try {
-			Match rightScrollFound = region.find(leftScrollImageEnabled);
+			Match rightScrollFound = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +leftScrollImageEnabled);
 
 			if (rightScrollFound != null) {
 				return true;
@@ -108,7 +111,7 @@ public class HorizontalScrollbar {
 		}
 
 		try {
-			Match rightScrollFound = region.find(leftScrollImageEnabledFocused);
+			Match rightScrollFound = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +leftScrollImageEnabledFocused);
 
 			if (rightScrollFound != null) {
 				return true;
@@ -120,7 +123,7 @@ public class HorizontalScrollbar {
 
 	public boolean isRightScrollImageVisible(Region region) {
 		try {
-			Match rightScrollFound = region.find(rightScrollImageEnabled);
+			Match rightScrollFound = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +rightScrollImageEnabled);
 
 			if (rightScrollFound != null) {
 				return true;
@@ -129,7 +132,7 @@ public class HorizontalScrollbar {
 		}
 
 		try {
-			Match rightScrollFound = region.find(rightScrollImageEnabledFocused);
+			Match rightScrollFound = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +rightScrollImageEnabledFocused);
 
 			if (rightScrollFound != null) {
 				return true;
@@ -141,7 +144,7 @@ public class HorizontalScrollbar {
 
 	public Match findThumbGripLeftPartImage(Region region) {
 		try {
-			Match match = region.find(thumbGripLeftPartImage);
+			Match match = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +thumbGripLeftPartImage);
 
 			if (match != null) {
 				return match;
@@ -150,7 +153,7 @@ public class HorizontalScrollbar {
 		}
 
 		try {
-			Match match = region.find(thumbGripLeftPartImageFocused);
+			Match match = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +thumbGripLeftPartImageFocused);
 
 			if (match != null) {
 				return match;
@@ -162,7 +165,7 @@ public class HorizontalScrollbar {
 
 	public Match findThumbGripRightPartImage(Region region) {
 		try {
-			Match match = region.find(thumbGripRightPartImage);
+			Match match = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +thumbGripRightPartImage);
 
 			if (match != null) {
 				return match;
@@ -171,7 +174,7 @@ public class HorizontalScrollbar {
 		}
 
 		try {
-			Match match = region.find(thumbGripRightPartImageFocused);
+			Match match = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +thumbGripRightPartImageFocused);
 
 			if (match != null) {
 				return match;
@@ -183,7 +186,7 @@ public class HorizontalScrollbar {
 
 	public Match findLeftScrollImage(Region region) {
 		try {
-			Match match = region.find(leftScrollImageEnabled);
+			Match match = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +leftScrollImageEnabled);
 
 			if (match != null) {
 				return match;
@@ -192,7 +195,7 @@ public class HorizontalScrollbar {
 		}
 
 		try {
-			Match match = region.find(leftScrollImageEnabledFocused);
+			Match match = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +leftScrollImageEnabledFocused);
 
 			if (match != null) {
 				return match;
@@ -204,7 +207,7 @@ public class HorizontalScrollbar {
 
 	public Match findRightScrollImage(Region region) {
 		try {
-			Match match = region.find(rightScrollImageEnabled);
+			Match match = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +rightScrollImageEnabled);
 
 			if (match != null) {
 				return match;
@@ -213,7 +216,7 @@ public class HorizontalScrollbar {
 		}
 
 		try {
-			Match match = region.find(rightScrollImageEnabledFocused);
+			Match match = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +rightScrollImageEnabledFocused);
 
 			if (match != null) {
 				return match;
@@ -241,7 +244,7 @@ public class HorizontalScrollbar {
 	public boolean isScrollbarDisabled(Region region) {
 		Match found;
 		try {
-			found = region.find(leftScrollImageDisabled);
+			found = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +leftScrollImageDisabled);
 			if (found != null) {
 				return true;
 			}
@@ -249,7 +252,7 @@ public class HorizontalScrollbar {
 		}
 
 		try {
-			found = region.find(rightScrollImageDisabled);
+			found = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator +rightScrollImageDisabled);
 			if (found != null) {
 				return true;
 			}

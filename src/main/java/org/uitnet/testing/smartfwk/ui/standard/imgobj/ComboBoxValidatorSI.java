@@ -17,6 +17,7 @@
  */
 package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
+import java.io.File;
 import java.util.List;
 
 import org.openqa.selenium.Keys;
@@ -33,6 +34,7 @@ import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.combobox.ComboBoxValidator;
@@ -535,7 +537,8 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		match.click();
 		for (String itemName : items.getItems()) {
 			try {
-				Match menuItemMatch = pullDownMenuRegion.find(itemName);
+				Match menuItemMatch = pullDownMenuRegion
+						.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + itemName);
 				Assert.assertNull(menuItemMatch, "Item '" + itemName + "' in pull down menu of ComboBox '"
 						+ comboBoxObj.getDisplayName() + "' is already present.");
 			} catch (FindFailed th) {
@@ -552,7 +555,8 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		match.click();
 		for (String imageItem : imageItems.getItems()) {
 			try {
-				Match menuItemMatch = pullDownMenuRegion.find(imageItem);
+				Match menuItemMatch = pullDownMenuRegion
+						.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imageItem);
 				Assert.assertNull(menuItemMatch, "Item '" + imageItem + "' in pull down menu of ComboBox '"
 						+ comboBoxObj.getDisplayName() + "' is already present.");
 			} catch (FindFailed th) {

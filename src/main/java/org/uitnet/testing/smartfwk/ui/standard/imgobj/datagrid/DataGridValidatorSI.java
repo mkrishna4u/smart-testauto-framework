@@ -40,6 +40,7 @@ import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.HorizontalScrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.VerticalScrollbar;
@@ -224,11 +225,11 @@ public class DataGridValidatorSI {
 									gridCell.getTextValueValidationMechanism());
 						} else if (gridCell.getValueType() == ValueType.imageAsStringPath) {
 							valueToValidate = (String) gridCell.getValue();
-							Match m = cellRegion.find(valueToValidate);
+							Match m = cellRegion.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + valueToValidate);
 							Assert.assertNotNull(m);
 						} else if (gridCell.getValueType() == ValueType.imageAsImageObject) {
 							imgObjToValidate = (ImageObject) gridCell.getValue();
-							Match m = cellRegion.find(imgObjToValidate.getImage(appDriver.getAppConfig().getTestPlatformType(),
+							Match m = cellRegion.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgObjToValidate.getImage(appDriver.getAppConfig().getTestPlatformType(),
 									appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 							Assert.assertNotNull(m);
 						} else {

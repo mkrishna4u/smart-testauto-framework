@@ -17,6 +17,7 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.objects;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +33,7 @@ import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
@@ -66,7 +68,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 		Match match = null;
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
-				match = region.find(imgLocator.getImage(appDriver.getAppConfig().getTestPlatformType(),
+				match = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgLocator.getImage(appDriver.getAppConfig().getTestPlatformType(),
 						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				Assert.assertNotNull(match, "Unable to find element '" + imgLocator.getDisplayName() + "'.");
 				break;
@@ -94,7 +96,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 		Match match = null;
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
-				match = region.find(imgLocator.getImage(appDriver.getAppConfig().getTestPlatformType(),
+				match = region.find(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgLocator.getImage(appDriver.getAppConfig().getTestPlatformType(),
 						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				if (match != null) {
 					break;
@@ -124,7 +126,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				Iterator<Match> matches = region
-						.findAll(imgLocator.getImage(appDriver.getAppConfig().getTestPlatformType(),
+						.findAll(TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgLocator.getImage(appDriver.getAppConfig().getTestPlatformType(),
 								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 
 				Assert.assertNotNull(matches, "Unable to find elements for '" + imgLocator.getDisplayName() + "'.");
