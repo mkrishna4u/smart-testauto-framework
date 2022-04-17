@@ -40,6 +40,7 @@
 		<appium-client.version>8.0.0</appium-client.version>
 		<cucumber.version>7.2.3</cucumber.version>
 		<sikulix.version>2.0.5</sikulix.version>
+		<netty.version>4.1.76.Final</netty.version>
 		<slf4j.version>1.7.36</slf4j.version>
 		<log4j.version>2.17.2</log4j.version>
 		<hibernate.version>5.6.7.Final</hibernate.version>
@@ -72,6 +73,11 @@
 	</distributionManagement>
 
 	<dependencies>
+		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-all</artifactId>
+		    <version>${netty.version}</version>
+		</dependency>
 	     <dependency>
 	      <groupId>com.google.guava</groupId>
 	      <artifactId>guava</artifactId>
@@ -232,7 +238,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>${maven-javadoc-plugin.version}</version>
@@ -263,7 +269,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin>
 		</plugins>
 
 	</build>
