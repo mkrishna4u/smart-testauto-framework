@@ -17,7 +17,6 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.objects;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +29,6 @@ import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
-import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 
@@ -44,8 +42,7 @@ public class ImageObject extends UIObject {
 
 	public ImageObject(UIObjectType elemType, String displayName, String image) {
 		super(LocatorType.IMAGE, elemType, displayName);
-		platformImages.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
-				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + image);
+		platformImages.put(SmartConstants.DEFAULT_IMAGE_LOCATOR, image);
 	}
 
 	public ImageObject(UIObjectType elemType, String displayName, Map<String, String> platformImages) {

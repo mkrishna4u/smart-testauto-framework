@@ -17,7 +17,6 @@
  */
 package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +28,6 @@ import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
-import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.PullDownMenuInfo;
@@ -53,10 +51,8 @@ public class ComboBoxSI extends ComboBox {
 	public ComboBoxSI(String displayName, String leftSideImg, String rightSideImg, ObjectLocation location,
 			PullDownMenuInfo pullDownMenuInfo) {
 		super(LocatorType.IMAGE, displayName);
-		this.leftSideImgs.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
-				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + leftSideImg);
-		this.rightSideImgs.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
-				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + rightSideImg);
+		this.leftSideImgs.put(SmartConstants.DEFAULT_IMAGE_LOCATOR, leftSideImg);
+		this.rightSideImgs.put(SmartConstants.DEFAULT_IMAGE_LOCATOR, rightSideImg);
 		
 		this.location = location;
 		this.pullDownMenuInfo = pullDownMenuInfo;

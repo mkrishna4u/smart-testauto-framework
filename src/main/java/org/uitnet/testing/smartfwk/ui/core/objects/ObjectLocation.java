@@ -194,10 +194,10 @@ public class ObjectLocation {
 
 		Assert.assertNotNull(refElemRect, "Failed to find reference element '" + refObject.getDisplayName() + "'.");
 
-		int refObjX1 = new Double(refElemRect.getX()).intValue();
-		int refObjY1 = new Double(refElemRect.getY()).intValue();
-		int refObjX2 = new Double(refElemRect.getX() + refElemRect.getWidth()).intValue();
-		int refObjY2 = new Double(refElemRect.getY() + refElemRect.getHeight()).intValue();
+		int refObjX1 = Double.valueOf(refElemRect.getX()).intValue();
+		int refObjY1 = Double.valueOf(refElemRect.getY()).intValue();
+		int refObjX2 = Double.valueOf(refElemRect.getX() + refElemRect.getWidth()).intValue();
+		int refObjY2 = Double.valueOf(refElemRect.getY() + refElemRect.getHeight()).intValue();
 
 		int refObjCenterY;
 		int refObjXDistanceFromM1;
@@ -320,7 +320,7 @@ public class ObjectLocation {
 					"Failed to find nearest leftSideImage '" + leftSideImageOfImageObject
 							+ "' relative to refernce object '" + refObject.getDisplayName() + "'.");
 
-			objectRangeFromRefObject = leftObjX2 + new Double(refElemRect.getWidth()).intValue();
+			objectRangeFromRefObject = leftObjX2 + Double.valueOf(refElemRect.getWidth()).intValue();
 			Assert.assertTrue(nearestLeftSideMatch.getX() <= objectRangeFromRefObject,
 					"Failed to find object within the horizontal range (" + leftObjX2 + ", " + objectRangeFromRefObject
 							+ "). Probably you can increase refObject size by taking the bigger horizontal snapshot.");
@@ -365,7 +365,7 @@ public class ObjectLocation {
 					"Failed to find nearest leftSideImage '" + leftSideImageOfImageObject
 							+ "' relative to refernce object '" + refObject.getDisplayName() + "'.");
 
-			objectRangeFromRefObject = leftObjX2 + new Double(refElemRect.getWidth()).intValue();
+			objectRangeFromRefObject = leftObjX2 + Double.valueOf(refElemRect.getWidth()).intValue();
 			Assert.assertTrue(nearestLeftSideMatch.getX() <= objectRangeFromRefObject,
 					"Failed to find object within the horizontal range (" + leftObjX2 + ", " + objectRangeFromRefObject
 							+ "). Probably you can increase refObject size by taking the bigger horizontal snapshot.");
@@ -411,10 +411,10 @@ public class ObjectLocation {
 
 		Assert.assertNotNull(refElemRect, "Failed to find reference element '" + refObject.getDisplayName() + "'.");
 
-		int refObjX1 = new Double(refElemRect.getX()).intValue();
-		int refObjY1 = new Double(refElemRect.getY()).intValue();
-		int refObjX2 = new Double(refElemRect.getX() + refElemRect.getWidth()).intValue();
-		int refObjY2 = new Double(refElemRect.getY() + refElemRect.getHeight()).intValue();
+		int refObjX1 = Double.valueOf(refElemRect.getX()).intValue();
+		int refObjY1 = Double.valueOf(refElemRect.getY()).intValue();
+		int refObjX2 = Double.valueOf(refElemRect.getX() + refElemRect.getWidth()).intValue();
+		int refObjY2 = Double.valueOf(refElemRect.getY() + refElemRect.getHeight()).intValue();
 
 		int elemX1, elemY1;
 
@@ -478,10 +478,10 @@ public class ObjectLocation {
 
 		Assert.assertNotNull(refElemRect, "Failed to find reference element '" + refObject.getDisplayName() + "'.");
 
-		int refObjX1 = new Double(refElemRect.getX()).intValue();
-		int refObjY1 = new Double(refElemRect.getY()).intValue();
-		int refObjX2 = new Double(refElemRect.getX() + refElemRect.getWidth()).intValue();
-		int refObjY2 = new Double(refElemRect.getY() + refElemRect.getHeight()).intValue();
+		int refObjX1 = Double.valueOf(refElemRect.getX()).intValue();
+		int refObjY1 = Double.valueOf(refElemRect.getY()).intValue();
+		int refObjX2 = Double.valueOf(refElemRect.getX() + refElemRect.getWidth()).intValue();
+		int refObjY2 = Double.valueOf(refElemRect.getY() + refElemRect.getHeight()).intValue();
 
 		int refObjCenterY;
 		int refObjXDistanceFromM1;
@@ -560,7 +560,7 @@ public class ObjectLocation {
 			Assert.assertNotNull(nearestImageMatch, "Failed to find nearest leftSideImage '" + imageObject
 					+ "' relative to refernce object '" + refObject.getDisplayName() + "'.");
 
-			objectRangeFromRefObject = leftObjX2 + new Double(refElemRect.getWidth()).intValue();
+			objectRangeFromRefObject = leftObjX2 + Double.valueOf(refElemRect.getWidth()).intValue();
 			Assert.assertTrue(nearestImageMatch.getX() <= objectRangeFromRefObject,
 					"Failed to find object within the horizontal range (" + leftObjX2 + ", " + objectRangeFromRefObject
 							+ "). Probably you can increase refObject size by taking the bigger horizontal snapshot.");
@@ -586,7 +586,7 @@ public class ObjectLocation {
 			Assert.assertNotNull(nearestImageMatch, "Failed to find nearest leftSideImage '" + imageObject
 					+ "' relative to refernce object '" + refObject.getDisplayName() + "'.");
 
-			objectRangeFromRefObject = leftObjX2 + new Double(refElemRect.getWidth()).intValue();
+			objectRangeFromRefObject = leftObjX2 + Double.valueOf(refElemRect.getWidth()).intValue();
 			Assert.assertTrue(nearestImageMatch.getX() <= objectRangeFromRefObject,
 					"Failed to find object within the horizontal range (" + leftObjX2 + ", " + objectRangeFromRefObject
 							+ "). Probably you can increase refObject size by taking the bigger horizontal snapshot.");

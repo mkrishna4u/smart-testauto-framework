@@ -17,7 +17,6 @@
  */
 package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +28,6 @@ import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
-import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.button.Button;
@@ -46,8 +44,7 @@ public class ButtonSI extends Button {
 
 	public ButtonSI(String displayName, String buttonImg, ObjectLocation buttonImgLocation) {
 		super(LocatorType.IMAGE, displayName);
-		platformImages.put(SmartConstants.DEFAULT_IMAGE_LOCATOR,
-				TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + buttonImg);
+		platformImages.put(SmartConstants.DEFAULT_IMAGE_LOCATOR, buttonImg);
 		this.buttonImgLocation = buttonImgLocation;
 	}
 

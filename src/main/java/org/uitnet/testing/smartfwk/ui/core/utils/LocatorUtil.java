@@ -62,8 +62,7 @@ public class LocatorUtil {
 		int dotLastIdx = image.lastIndexOf(".");
 		String imgFileName = image.substring(0, dotLastIdx) + "-" + platform.getType();
 		String imgFileExtn = image.substring(dotLastIdx + 1, image.length());
-		String imgPath = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgFileName + "."
-				+ imgFileExtn;
+		String imgPath = imgFileName + "." + imgFileExtn;
 		platFormImages.put(createNativeAppKey(platform), imgPath);
 	}
 
@@ -72,8 +71,7 @@ public class LocatorUtil {
 		int dotLastIdx = image.lastIndexOf(".");
 		String imgFileName = image.substring(0, dotLastIdx) + "-" + platform.getType() + "-" + browserType.getType();
 		String imgFileExtn = image.substring(dotLastIdx + 1, image.length());
-		String imgPath = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + imgFileName + "."
-				+ imgFileExtn;
+		String imgPath = imgFileName + "." + imgFileExtn;
 		platFormImages.put(createWebAppKey(platform, browserType), imgPath);
 	}
 
@@ -111,9 +109,11 @@ public class LocatorUtil {
 
 			if (image == null) {
 				image = platFormImages.get(SmartConstants.DEFAULT_IMAGE_LOCATOR);
-			}
+			} 
 			Assert.assertNotNull(image, "No image found for platformType: " + platform.getType() + ", appType: "
 					+ appType.getType() + ", browserType: " + browserType.getType());
+			
+			image = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + image;
 		} else if (appType == ApplicationType.native_app) {
 			image = platFormImages.get(createNativeAppKey(platform));
 
@@ -122,6 +122,7 @@ public class LocatorUtil {
 			}
 			Assert.assertNotNull(image,
 					"No image found for platformType: " + platform.getType() + ", appType: " + appType.getType());
+			image = TestConfigManager.getInstance().getSikuliResourcesDir() + File.separator + image;
 		} else {
 			Assert.fail("Application type '" + appType.getType() + "' is not supported.");
 		}
@@ -129,7 +130,6 @@ public class LocatorUtil {
 		return image;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static WebElement findWebElement(WebDriver appDriver, Locator locator) {
 		WebElement webElem = null;
 		if (appDriver instanceof AppiumDriver) {
@@ -203,7 +203,6 @@ public class LocatorUtil {
 		return webElem;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List<WebElement> findWebElements(WebDriver appDriver, Locator locator) {
 		List<WebElement> webElem = null;
 		if (appDriver instanceof AppiumDriver) {

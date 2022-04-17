@@ -69,8 +69,8 @@ public class DataGridValidatorSI {
 		if (appDriver != null) {
 			this.region = (region == null)
 					? Region.create(new Rectangle(0, 0,
-							new Double(appDriver.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
-							new Double(appDriver.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
+							Double.valueOf(appDriver.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
+							Double.valueOf(appDriver.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
 					: region;
 		}
 
@@ -201,7 +201,7 @@ public class DataGridValidatorSI {
 		Region cellRegion = null;
 		String valueToValidate = null;
 		ImageObject imgObjToValidate = null;
-		int lastProcessedRowEndY = new Double(colRect.getY()).intValue() + new Double(colRect.getHeight()).intValue();
+		int lastProcessedRowEndY = Double.valueOf(colRect.getY()).intValue() + Double.valueOf(colRect.getHeight()).intValue();
 
 		try {
 			Iterator<Integer> rowMarkersItr = rowMarkers.iterator();
@@ -210,8 +210,8 @@ public class DataGridValidatorSI {
 				try {
 					for (SearchCell gridCell : primaryKey.getItems()) {
 						colRect = headerColsLocations.get(gridCell.getColumn());
-						cellRegion = new Region(new Double(colRect.getX()).intValue(), lastProcessedRowEndY,
-								new Double(colRect.getWidth()).intValue(), rowMarker - lastProcessedRowEndY);
+						cellRegion = new Region(Double.valueOf(colRect.getX()).intValue(), lastProcessedRowEndY,
+								Double.valueOf(colRect.getWidth()).intValue(), rowMarker - lastProcessedRowEndY);
 						cellRegion.setAutoWaitTimeout(1);
 
 						if (gridCell.getValueType() == ValueType.text) {
@@ -350,7 +350,7 @@ public class DataGridValidatorSI {
 
 		// Get the textValue in record cell.
 		Region cellRegion = null;
-		int lastProcessedRowEndY = new Double(colRect.getY()).intValue() + new Double(colRect.getHeight()).intValue();
+		int lastProcessedRowEndY = Double.valueOf(colRect.getY()).intValue() + Double.valueOf(colRect.getHeight()).intValue();
 		Set<Integer> rowMarkers = findRowMarkerY1();
 		List<String> row;
 		String cellText;
@@ -362,8 +362,8 @@ public class DataGridValidatorSI {
 					row = new LinkedList<String>();
 					for (HeaderColumnSI gridCell : headerColumns.getItems()) {
 						colRect = headerColsLocations.get(gridCell);
-						cellRegion = new Region(new Double(colRect.getX()).intValue(), lastProcessedRowEndY,
-								new Double(colRect.getWidth()).intValue(), rowMarker - lastProcessedRowEndY);
+						cellRegion = new Region(Double.valueOf(colRect.getX()).intValue(), lastProcessedRowEndY,
+								Double.valueOf(colRect.getWidth()).intValue(), rowMarker - lastProcessedRowEndY);
 						cellRegion.setAutoWaitTimeout(1);
 						cellText = cellRegion.text();
 						if (cellText == null) {
@@ -439,8 +439,8 @@ public class DataGridValidatorSI {
 		Assert.assertNotNull(colRect, "Failed to find HeaderColumn '" + headerColumn.getDisplayName()
 				+ "' in DataGrid '" + dataGrid.getDisplayName() + "'.");
 
-		Region cellRegion = Region.create(new Double(colRect.getX()).intValue(), rowLocation.getY1(),
-				new Double(colRect.getWidth()).intValue(), rowLocation.getRowHeight());
+		Region cellRegion = Region.create(Double.valueOf(colRect.getX()).intValue(), rowLocation.getY1(),
+				Double.valueOf(colRect.getWidth()).intValue(), rowLocation.getRowHeight());
 		cellRegion.setAutoWaitTimeout(1);
 
 		return cellRegion;
@@ -476,8 +476,8 @@ public class DataGridValidatorSI {
 		Assert.assertNotNull(colRect, "Failed to find HeaderColumn '" + cellValue.getColumn().getDisplayName()
 				+ "' in DataGrid '" + dataGrid.getDisplayName() + "'.");
 
-		Region cellRegion = Region.create(new Double(colRect.getX()).intValue(), rowLocation.getY1(),
-				new Double(colRect.getWidth()).intValue(), rowLocation.getRowHeight());
+		Region cellRegion = Region.create(Double.valueOf(colRect.getX()).intValue(), rowLocation.getY1(),
+				Double.valueOf(colRect.getWidth()).intValue(), rowLocation.getRowHeight());
 		cellRegion.setAutoWaitTimeout(1);
 
 		String valueToValidate = null;
