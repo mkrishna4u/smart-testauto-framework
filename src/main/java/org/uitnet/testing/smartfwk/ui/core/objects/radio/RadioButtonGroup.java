@@ -18,6 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.radio;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -34,4 +35,7 @@ public abstract class RadioButtonGroup extends UIObject {
 	}
 
 	public abstract RadioButtonGroupValidator getValidator(SmartAppDriver appDriver, Region region);
+
+	public abstract RadioButtonGroupValidator getValidator(SmartCucumberUiScenarioContext scenarioContext,
+			Region region);
 }

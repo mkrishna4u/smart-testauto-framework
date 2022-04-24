@@ -21,6 +21,7 @@ import java.io.File;
 import java.net.URI;
 import java.time.Duration;
 import java.util.Map;
+import java.util.Set;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -77,6 +78,7 @@ public class SmartAppDriver {
 	private AppConfig appConfig;
 	private boolean opened = false;
 	private ScrollElementToViewportHandler scrollElemToViewportCallback;
+	private String originalWindowHandle;
 
 	public SmartAppDriver(String appName, ApplicationType appType, PlatformType testPlatformType) {
 		this.appId = AppIdGenerator.getInstance().nextValue();
@@ -140,6 +142,10 @@ public class SmartAppDriver {
 			} else if (appType == ApplicationType.web_app) {
 				prepareIosMobileAppDriver();
 			}
+		}
+		
+		if(webDriver != null) {
+			originalWindowHandle = webDriver.getWindowHandle();
 		}
 	}
 
@@ -535,6 +541,24 @@ public class SmartAppDriver {
 		}
 		opened = false;
 	}
+	
+	public void closeChildWindows() {
+		if (webDriver != null) {
+			Set<String> windowHandles = webDriver.getWindowHandles();
+			WebDriver wd;
+			for(String windowHandle : windowHandles) {
+				if(windowHandle.equals(originalWindowHandle)) {
+					return;
+				}
+				
+				wd = webDriver.switchTo().window(windowHandle);
+				if(wd != null) {
+					wd.close();
+				}
+			}
+			webDriver.switchTo().defaultContent();
+		}
+	}
 
 	public int getAppId() {
 		return appId;
@@ -570,6 +594,10 @@ public class SmartAppDriver {
 
 	public Screen getSikuliScreen() {
 		return sikuliDriver;
+	}
+	
+	public String getOriginalWindowHandle() {
+		return originalWindowHandle;
 	}
 
 	public void openURL(String url) {

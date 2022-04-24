@@ -15,41 +15,39 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.appdriver;
+package org.uitnet.testing.smartfwk.ui.core;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public class AppIdGenerator {
-	private static AppIdGenerator instance;
-	private int value = 0;
+public class SingletonAppConnectorMap {
+	private static SingletonAppConnectorMap instance;
+	private Map<String, AbstractAppConnector> map = new HashMap<>();
 
-	private AppIdGenerator() {
+	private SingletonAppConnectorMap() {
 		// do nothing
 	}
 
-	public static AppIdGenerator getInstance() {
-		if (instance == null) {
-			synchronized (AppIdGenerator.class) {
-				if (instance == null) {
-					instance = new AppIdGenerator();
-				}
+	public static SingletonAppConnectorMap getInstance() {
+		if (instance != null) {
+			return instance;
+		}
+
+		synchronized (SingletonAppConnectorMap.class) {
+			if (instance == null) {
+				instance = new SingletonAppConnectorMap();
 			}
 		}
+
 		return instance;
 	}
 
-	public synchronized int nextValue() {
-		value = value + 1;
-		if (value == 99999999) {
-			value = 1;
-		}
-		return value;
-	}
-
-	public int currentValue() {
-		return value;
+	public Map<String, AbstractAppConnector> getMap() {
+		return map;
 	}
 }

@@ -19,6 +19,7 @@ package org.uitnet.testing.smartfwk.ui.standard.imgobj;
 
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
@@ -79,6 +80,11 @@ public class ListBoxSI extends ListBox {
 	@Override
 	public ListBoxValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
 		return new ListBoxValidatorSI(appDriver, this, region);
+	}
+
+	@Override
+	public ListBoxValidatorSI getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region) {
+		return getValidator(scenarioContext.getActiveAppDriver(), region);
 	}
 
 	@Override

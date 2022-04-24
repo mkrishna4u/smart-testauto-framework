@@ -51,7 +51,7 @@ public class SmartAppDriverFactory {
 		return instance;
 	}
 
-	public SmartAppDriver getNewAppDriver(String appName) {
+	public synchronized SmartAppDriver getNewAppDriver(String appName) {
 		AppConfig appConfig = TestConfigManager.getInstance().getAppConfig(appName);
 		SmartAppDriver appDriver = new SmartAppDriver(appName, appConfig.getAppType(), appConfig.getTestPlatformType());
 		appDriverMap.put(appName + ":" + appDriver.getAppId(), appDriver);
@@ -66,10 +66,11 @@ public class SmartAppDriverFactory {
 	 * @param appName
 	 * @return
 	 */
-	public SmartAppDriver getLatestAppDriverOrCreateOne(String appName) {
+	public synchronized SmartAppDriver getLatestAppDriverOrCreateOne(String appName) {
 		SmartAppDriver driver = null;
+		String appKey = appName + ":";
 		for (Map.Entry<String, SmartAppDriver> entry : appDriverMap.entrySet()) {
-			if (entry.getKey().startsWith(appName)) {
+			if (entry.getKey().startsWith(appKey)) {
 				driver = entry.getValue();
 			}
 		}
@@ -82,15 +83,16 @@ public class SmartAppDriverFactory {
 
 	public List<SmartAppDriver> getAllAppDrivers(String appName) {
 		List<SmartAppDriver> drivers = new LinkedList<SmartAppDriver>();
+		String appKey = appName + ":";
 		for (Map.Entry<String, SmartAppDriver> entry : appDriverMap.entrySet()) {
-			if (entry.getKey().startsWith(appName)) {
+			if (entry.getKey().startsWith(appKey)) {
 				drivers.add(entry.getValue());
 			}
 		}
 		return drivers;
 	}
 
-	public void removeAppDriver(String appName, int appId) {
+	public synchronized void removeAppDriver(String appName, int appId) {
 		String key = appName + ":" + appId;
 		SmartAppDriver driver = appDriverMap.get(key);
 		if (driver != null) {
@@ -99,7 +101,7 @@ public class SmartAppDriverFactory {
 		}
 	}
 
-	public void removeAllAppDrivers(String appName) {
+	public synchronized void removeAllAppDrivers(String appName) {
 		List<SmartAppDriver> drivers = new LinkedList<SmartAppDriver>();
 		for (Map.Entry<String, SmartAppDriver> entry : appDriverMap.entrySet()) {
 			if (entry.getKey().startsWith(appName)) {
@@ -113,7 +115,7 @@ public class SmartAppDriverFactory {
 		}
 	}
 
-	public void removeAllAppDrivers() {
+	public synchronized void removeAllAppDrivers() {
 		List<SmartAppDriver> drivers = new LinkedList<SmartAppDriver>();
 		for (Map.Entry<String, SmartAppDriver> entry : appDriverMap.entrySet()) {
 			entry.getValue().closeApp();

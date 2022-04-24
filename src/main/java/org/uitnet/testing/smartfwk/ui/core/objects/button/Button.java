@@ -18,6 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.button;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -34,4 +35,6 @@ public abstract class Button extends UIObject {
 	}
 
 	public abstract ButtonValidator getValidator(SmartAppDriver appDriver, Region region);
+
+	public abstract ButtonValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region);
 }

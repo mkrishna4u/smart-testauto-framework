@@ -18,6 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.textbox;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -34,4 +35,6 @@ public abstract class TextBox extends UIObject {
 	}
 
 	public abstract TextBoxValidator getValidator(SmartAppDriver appDriver, Region region);
+
+	public abstract TextBoxValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region);
 }

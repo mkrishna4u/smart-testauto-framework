@@ -60,7 +60,7 @@ public abstract class AbstractAppConnector {
 	protected UserProfile activeUserProfile;
 
 	protected SmartAppDriver appDriver;
-
+	
 	protected AbstractAppConnector(String appName) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.logonTest = false;
@@ -71,7 +71,7 @@ public abstract class AbstractAppConnector {
 		this.appType = appConfig.getAppType();
 		this.testPlatformType = appConfig.getTestPlatformType();
 		this.hostPlatformType = testConfigManager.getHostPlatformType();
-		appDriver = SmartAppDriverFactory.getInstance().getLatestAppDriverOrCreateOne(appName);
+		appDriver = SmartAppDriverFactory.getInstance().getNewAppDriver(appName);
 	}
 
 	public void scenarioSetup() {
@@ -210,7 +210,14 @@ public abstract class AbstractAppConnector {
 			logoutAndNoQuit();
 		} finally {
 			SmartAppDriverFactory.getInstance().removeAppDriver(appName, appDriver.getAppId());
-			appDriver = SmartAppDriverFactory.getInstance().getLatestAppDriverOrCreateOne(appName);
+			appDriver = null;
+			// appDriver = SmartAppDriverFactory.getInstance().getLatestAppDriverOrCreateOne(appName);
+		}
+	}
+	
+	public void closeChildrenWindows() {
+		if(appDriver != null) {
+			appDriver.closeChildWindows();
 		}
 	}
 
@@ -238,7 +245,7 @@ public abstract class AbstractAppConnector {
 		}
 
 		String imageFile = ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null,
-				fileNameHint, screenArea);
+				fileNameHint, screenArea, appDriver);
 		scenario.log("Screenshot Path: " + imageFile);
 	}
 
@@ -260,7 +267,7 @@ public abstract class AbstractAppConnector {
 		}
 
 		String imageFile = ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null,
-				fileNameHint, screenArea);
+				fileNameHint, screenArea, appDriver);
 		scenario.log("Screenshot Path: " + imageFile);
 	}
 
@@ -275,7 +282,7 @@ public abstract class AbstractAppConnector {
 			screenArea = Screen.getPrimaryScreen().getRect();
 		}
 
-		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea);
+		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea, appDriver);
 	}
 	
 	private String prepareScreenshotFileName(Scenario scenario) {

@@ -18,6 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.datetime;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -35,4 +36,6 @@ public abstract class DateItem extends UIObject {
 	}
 
 	public abstract DateItemValidator getValidator(SmartAppDriver appDriver, Region region);
+
+	public abstract DateItemValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region);
 }

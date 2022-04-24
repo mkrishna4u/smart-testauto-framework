@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocateBy;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locator;
@@ -70,6 +71,11 @@ public class RadioButtonSD extends RadioButton {
 	@Override
 	public RadioButtonValidatorSD getValidator(SmartAppDriver appDriver, Region region) {
 		return new RadioButtonValidatorSD(appDriver, this, region);
+	}
+
+	@Override
+	public RadioButtonValidatorSD getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region) {
+		return getValidator(scenarioContext.getActiveAppDriver(), region);
 	}
 
 	public Locator getLocator(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {

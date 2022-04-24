@@ -18,6 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.choices;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -34,4 +35,6 @@ public abstract class Choices extends UIObject {
 	}
 
 	public abstract ChoicesValidator getValidator(SmartAppDriver appDriver, Region region);
+
+	public abstract ChoicesValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region);
 }

@@ -24,7 +24,7 @@ import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
 import org.uitnet.testing.smartfwk.api.core.support.PageObjectInfo;
-import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.commons.FieldValue;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 
@@ -86,12 +86,13 @@ public class PageObjectUtil {
 		return new FieldValue(f, value);
 	}
 
-	public static Object getPageObjectValidator(PageObjectInfo poInfo, SmartAppDriver appDriver) {
+	public static Object getPageObjectValidator(PageObjectInfo poInfo, SmartCucumberUiScenarioContext scenarioContext) {
 		FieldValue fv = getPageObject(poInfo);
 		Object validatorObj = null;
 		try {
-			Method method = fv.getField().getType().getMethod("getValidator", SmartAppDriver.class, Region.class);
-			validatorObj = method.invoke(fv.getValue(), appDriver, null);
+			Method method = fv.getField().getType().getMethod("getValidator", SmartCucumberUiScenarioContext.class,
+					Region.class);
+			validatorObj = method.invoke(fv.getValue(), scenarioContext, null);
 		} catch (Exception ex) {
 			Assert.fail("Failed to get validator for the page object '" + poInfo.getPoClassName() + "."
 					+ poInfo.getPoObjectName() + "'. Reason: " + ex.getCause().getLocalizedMessage(), ex);
@@ -100,14 +101,14 @@ public class PageObjectUtil {
 	}
 
 	public static Object invokeValidatorMethod(String methodName, Class<?>[] methodArgTypes, Object[] methodArgValues,
-			PageObjectInfo poInfo, SmartAppDriver appDriver) {
-		Object validatorObj = getPageObjectValidator(poInfo, appDriver);
+			PageObjectInfo poInfo, SmartCucumberUiScenarioContext scenarioContext) {
+		Object validatorObj = getPageObjectValidator(poInfo, scenarioContext);
 		Method method = ObjectUtil.findClassMethod(validatorObj.getClass(), methodName, methodArgTypes);
 		try {
 			return ObjectUtil.invokeMethod(validatorObj, method, methodArgValues);
 		} catch (Exception | Error ex) {
-			Assert.fail("'" + methodName + "' operation is failed for page object '" + poInfo.getPoClassName()
-					+ "." + poInfo.getPoObjectName() + "'. Reason: " + ex.getCause().getLocalizedMessage(), ex);
+			Assert.fail("'" + methodName + "' operation is failed for page object '" + poInfo.getPoClassName() + "."
+					+ poInfo.getPoObjectName() + "'. Reason: " + ex.getCause().getLocalizedMessage(), ex);
 		}
 		return null;
 	}

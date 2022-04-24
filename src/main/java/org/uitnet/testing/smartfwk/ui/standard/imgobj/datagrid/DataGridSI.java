@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -208,4 +209,9 @@ public class DataGridSI {
 	public DataGridValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
 		return new DataGridValidatorSI(appDriver, this, region);
 	}
+
+	public DataGridValidatorSI getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region) {
+		return getValidator(scenarioContext.getActiveAppDriver(), region);
+	}
+
 }

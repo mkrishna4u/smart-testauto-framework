@@ -41,6 +41,13 @@ public class StringUtil {
 		}
 		return str.trim();
 	}
+	
+	public static String trimNullAsEmpty(String str) {
+		if (str == null) {
+			return "";
+		}
+		return str.trim();
+	}
 
 	public static boolean isEmptyAfterTrim(String str) {
 		if (str == null || str.trim().length() == 0) {

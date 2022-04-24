@@ -31,6 +31,7 @@ import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.config.database.orm.OrmDatabaseQueryHandler;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 /**
  * 
@@ -49,6 +50,8 @@ public class TestConfigManager {
 	private String sikuliConfigDir;
 	private String sikuliResourcesDir;
 	private PlatformType hostPlatformType;
+	private boolean parallelMode;
+	private boolean preferDriverScreenshots;
 
 	// Key: App-Name, Value AppConfig
 	private Map<String, AppConfig> appConfigs;
@@ -116,6 +119,18 @@ public class TestConfigManager {
 				Assert.fail("FATAL: No application configured.");
 				System.exit(1);
 			}
+			
+			if(StringUtil.trimNullAsEmpty(properties.getProperty("PARALLEL_MODE")).equals("true")) {
+				parallelMode = true;
+			} else {
+				parallelMode = false;
+			}
+			
+			if(!StringUtil.trimNullAsEmpty(properties.getProperty("PREFER_DRIVER_SCREENSHOTS")).equals("true")) {
+				preferDriverScreenshots = false;
+			} else {
+				preferDriverScreenshots = true;
+			}
 
 			cucumberTestcasesDir = Locations.getProjectRootDir() + File.separator + "cucumber-testcases";
 
@@ -176,6 +191,14 @@ public class TestConfigManager {
 		props.setProperty("BROWSER_WINDOW_SIZE", Screen.getPrimaryScreen().w + " x " + Screen.getPrimaryScreen().h);
 		AppConfig appConfig = new AppConfig(DefaultInfo.DEFAULT_APP_NAME, props, appsConfigDir);
 		return appConfig;
+	}
+	
+	public boolean isParallelMode() {
+		return parallelMode;
+	}
+	
+	public boolean preferDriverScreenshots() {
+		return preferDriverScreenshots;
 	}
 
 	public AppConfig getAppConfig(String appName) {

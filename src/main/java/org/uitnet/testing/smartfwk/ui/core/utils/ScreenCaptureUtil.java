@@ -33,7 +33,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
-import org.uitnet.testing.smartfwk.ui.core.cache.DefaultSmartCache;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 
 /**
  * 
@@ -56,7 +56,8 @@ public class ScreenCaptureUtil {
 	 * @param screenArea
 	 * @return
 	 */
-	public static String capture(String dir, String testClassName, String testCaseName, Rectangle screenArea) {
+	public static String capture(String dir, String testClassName, String testCaseName, Rectangle screenArea,
+			SmartAppDriver appDriver) {
 		String imageFile = null;
 		try {
 			Rectangle screenRectangle = screenArea;
@@ -78,7 +79,7 @@ public class ScreenCaptureUtil {
 						+ ".png";
 			}
 
-			captureScreenshot(screenRectangle, imageFile);
+			captureScreenshot(screenRectangle, imageFile, appDriver);
 
 		} catch (Exception ex) {
 			Assert.fail("Failed to take screenshot.", ex);
@@ -90,11 +91,10 @@ public class ScreenCaptureUtil {
 		return ++screenshotId;
 	}
 
-	private static void captureScreenshot(Rectangle screenRectangle, String targetImageFileName)
-			throws AWTException, IOException {
-		SmartAppDriver appDriver = DefaultSmartCache.getInstance().getAppDriver();
-
-		if (appDriver != null) {
+	private static void captureScreenshot(Rectangle screenRectangle, String targetImageFileName,
+			SmartAppDriver appDriver) throws AWTException, IOException {
+		boolean preferDriverScreenshots = TestConfigManager.getInstance().preferDriverScreenshots();
+		if (preferDriverScreenshots && appDriver != null) {
 			TakesScreenshot takeScreenshot = (TakesScreenshot) appDriver.getWebDriver();
 			File imageFile = takeScreenshot.getScreenshotAs(OutputType.FILE);
 			File targetFile = new File(targetImageFileName);

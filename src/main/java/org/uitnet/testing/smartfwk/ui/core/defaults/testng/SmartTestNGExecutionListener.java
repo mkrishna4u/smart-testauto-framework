@@ -17,9 +17,13 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.defaults.testng;
 
+import java.util.Map;
+
 import org.testng.IExecutionListener;
 import org.testng.Reporter;
-import org.uitnet.testing.smartfwk.ui.core.SmartAppConnector;
+import org.uitnet.testing.smartfwk.ui.core.AbstractAppConnector;
+import org.uitnet.testing.smartfwk.ui.core.SingletonAppConnectorMap;
+import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 
 /**
  * 
@@ -35,6 +39,13 @@ public class SmartTestNGExecutionListener implements IExecutionListener {
 	@Override
 	public void onExecutionFinish() {
 		Reporter.log("Going to close all opened applications.", true);
-		SmartAppConnector.close();
+		if (!TestConfigManager.getInstance().isParallelMode()) {
+			Map<String, AbstractAppConnector> appConnectors = SingletonAppConnectorMap.getInstance().getMap();
+			if (appConnectors != null && !appConnectors.isEmpty()) {
+				for (AbstractAppConnector appConnector : appConnectors.values()) {
+					appConnector.logoutAndQuit();
+				}
+			}
+		}
 	}
 }

@@ -23,6 +23,7 @@ import java.util.Map;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -62,6 +63,10 @@ public class ImageObject extends UIObject {
 
 	public ImageObjectValidator getValidator(SmartAppDriver appDriver, Region region) {
 		return new ImageObjectValidator(appDriver, this, region);
+	}
+
+	public ImageObjectValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region) {
+		return getValidator(scenarioContext.getActiveAppDriver(), region);
 	}
 
 	public String getImage(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {

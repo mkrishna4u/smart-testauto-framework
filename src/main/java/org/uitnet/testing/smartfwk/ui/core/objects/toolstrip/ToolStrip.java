@@ -18,6 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.toolstrip;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -34,4 +35,6 @@ public abstract class ToolStrip extends UIObject {
 	}
 
 	public abstract ToolStripValidator getValidator(SmartAppDriver appDriver, Region region);
+	
+	public abstract ToolStripValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region);
 }

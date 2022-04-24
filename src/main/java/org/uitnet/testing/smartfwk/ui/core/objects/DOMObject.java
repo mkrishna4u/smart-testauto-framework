@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocateBy;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locator;
@@ -80,6 +81,11 @@ public class DOMObject extends UIObject {
 	@Override
 	public DOMObjectValidator getValidator(SmartAppDriver appDriver, Region region) {
 		return new DOMObjectValidator(appDriver, this, region);
+	}
+
+	@Override
+	public UIObjectValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region) {
+		return getValidator(scenarioContext.getActiveAppDriver(), region);
 	}
 
 	@SuppressWarnings("rawtypes")

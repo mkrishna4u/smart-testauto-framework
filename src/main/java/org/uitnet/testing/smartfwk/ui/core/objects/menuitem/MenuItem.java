@@ -18,6 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.menuitem;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -34,4 +35,6 @@ public abstract class MenuItem extends UIObject {
 	}
 
 	public abstract MenuItemValidator getValidator(SmartAppDriver appDriver, Region region);
+
+	public abstract MenuItemValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region);
 }

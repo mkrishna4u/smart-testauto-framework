@@ -23,6 +23,7 @@ import java.util.Map;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
@@ -42,7 +43,7 @@ import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 public class ComboBoxSI extends ComboBox {
 	protected Map<String, String> leftSideImgs = new HashMap<>();
 	protected Map<String, String> rightSideImgs = new HashMap<>();
-	
+
 	protected ObjectLocation location;
 	protected PullDownMenuInfo pullDownMenuInfo;
 	protected boolean readOnly;
@@ -53,20 +54,21 @@ public class ComboBoxSI extends ComboBox {
 		super(LocatorType.IMAGE, displayName);
 		this.leftSideImgs.put(SmartConstants.DEFAULT_IMAGE_LOCATOR, leftSideImg);
 		this.rightSideImgs.put(SmartConstants.DEFAULT_IMAGE_LOCATOR, rightSideImg);
-		
+
 		this.location = location;
 		this.pullDownMenuInfo = pullDownMenuInfo;
 		this.readOnly = true;
 		this.disabled = false;
 	}
-	
+
 	public ComboBoxSI addPlatformImageForNativeApp(PlatformType platform, String leftSideImg, String rightSideImg) {
 		LocatorUtil.setPlatformImageForNativeApp(leftSideImgs, platform, leftSideImg);
 		LocatorUtil.setPlatformImageForNativeApp(rightSideImgs, platform, rightSideImg);
 		return this;
 	}
 
-	public ComboBoxSI addPlatformImageForWebApp(PlatformType platform, WebBrowserType browserType, String leftSideImg, String rightSideImg) {
+	public ComboBoxSI addPlatformImageForWebApp(PlatformType platform, WebBrowserType browserType, String leftSideImg,
+			String rightSideImg) {
 		LocatorUtil.setPlatformImageForWebApp(leftSideImgs, platform, browserType, leftSideImg);
 		LocatorUtil.setPlatformImageForWebApp(rightSideImgs, platform, browserType, rightSideImg);
 		return this;
@@ -107,6 +109,11 @@ public class ComboBoxSI extends ComboBox {
 	@Override
 	public ComboBoxValidatorSI getValidator(SmartAppDriver appDriver, Region region) {
 		return new ComboBoxValidatorSI(appDriver, this, region);
+	}
+
+	@Override
+	public ComboBoxValidatorSI getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region) {
+		return getValidator(scenarioContext.getActiveAppDriver(), region);
 	}
 
 	@Override

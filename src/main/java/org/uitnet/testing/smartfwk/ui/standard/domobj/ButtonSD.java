@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
+import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocateBy;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locator;
@@ -70,6 +71,11 @@ public class ButtonSD extends Button {
 	@Override
 	public ButtonValidatorSD getValidator(SmartAppDriver appDriver, Region region) {
 		return new ButtonValidatorSD(appDriver, this, region);
+	}
+	
+	@Override
+	public ButtonValidatorSD getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region) {
+		return new ButtonValidatorSD(scenarioContext.getActiveAppDriver(), this, region);
 	}
 
 	public Locator getLocator(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {

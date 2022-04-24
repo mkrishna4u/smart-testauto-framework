@@ -32,6 +32,11 @@ public class SmartAppConnector {
 
 	}
 
+	/**
+	 * Connects with the configured app. If connector does not exist for the app then creates new.
+	 * @param appName
+	 * @return
+	 */
 	public static DefaultAppConnector connect(String appName) {
 		DefaultAppConnector appConnector = appConnectorMap.get(appName);
 		if (appConnector == null) {
@@ -40,7 +45,7 @@ public class SmartAppConnector {
 		}
 		return appConnector;
 	}
-
+	
 	public static void disconnect(String appName) {
 		DefaultAppConnector appConnector = appConnectorMap.get(appName);
 		if (appConnector != null) {
