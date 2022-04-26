@@ -84,6 +84,10 @@ public abstract class AbstractApiTestHelper {
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
 	}
+	
+	public String getActiveProfileName() {
+		return activeProfileName;
+	}
 
 	public HttpResponse httpGet(String relativeUrl, String responseContentType, Integer connectTimeoutInSeconds,
 			Integer readTimeoutInSeconds) {
@@ -368,6 +372,15 @@ public abstract class AbstractApiTestHelper {
 
 	public long getLastRequestAccessTimeInMs() {
 		return lastRequestAccessTimeInMs;
+	}
+	
+	public AbstractApiTestHelper clone() {
+		try {
+			return (AbstractApiTestHelper) this.getClass().getDeclaredConstructors()[0].newInstance();
+		} catch(Exception ex) {
+			Assert.fail("Failed to clone '" + this.getClass().getName()+ "' class object.", ex);
+		}
+		return null;
 	}
 
 	protected abstract HttpSession login(ApiConfig apiConfig, UserProfile userProfile);

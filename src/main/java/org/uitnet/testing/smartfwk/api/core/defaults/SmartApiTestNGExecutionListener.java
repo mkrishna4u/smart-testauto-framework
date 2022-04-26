@@ -15,14 +15,13 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.defaults.testng;
+package org.uitnet.testing.smartfwk.api.core.defaults;
 
 import java.util.Map;
 
 import org.testng.IExecutionListener;
 import org.testng.Reporter;
-import org.uitnet.testing.smartfwk.ui.core.AbstractAppConnector;
-import org.uitnet.testing.smartfwk.ui.core.SingletonAppConnectorMap;
+import org.uitnet.testing.smartfwk.api.core.AbstractApiTestHelper;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 
 /**
@@ -30,7 +29,7 @@ import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
  * @author Madhav Krishna
  *
  */
-public class SmartTestNGExecutionListener implements IExecutionListener {
+public class SmartApiTestNGExecutionListener implements IExecutionListener {
 	@Override
 	public void onExecutionStart() {
 
@@ -38,13 +37,10 @@ public class SmartTestNGExecutionListener implements IExecutionListener {
 
 	@Override
 	public void onExecutionFinish() {
-		Reporter.log("Going to close all opened applications.", true);
+		Reporter.log("Going to close all opened API connections.", true);
 		if (!TestConfigManager.getInstance().isParallelMode()) {
-			Map<String, AbstractAppConnector> appConnectors = SingletonAppConnectorMap.getInstance().getMap();
-			if (appConnectors != null && !appConnectors.isEmpty()) {
-				for (AbstractAppConnector appConnector : appConnectors.values()) {
-					appConnector.logoutAndQuit();
-				}
+			for(Map.Entry<String, AbstractApiTestHelper> entry : SingletonApiTestHelperMap.getInstance().getMap().entrySet()) {
+				entry.getValue().logout();
 			}
 		}
 	}

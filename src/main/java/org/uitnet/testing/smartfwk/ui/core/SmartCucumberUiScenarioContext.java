@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.openqa.selenium.WindowType;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
@@ -45,7 +46,7 @@ import io.cucumber.java.Scenario;
  * @author Madhav Krishna
  *
  */
-public class SmartCucumberUiScenarioContext {
+public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioContext {
 	private Map<String, Object> params = new HashMap<>(8);
 	private Scenario scenario = null;
 
@@ -62,10 +63,12 @@ public class SmartCucumberUiScenarioContext {
 		}
 	}
 
+	@Override
 	public Scenario getScenario() {
 		return this.scenario;
 	}
 
+	@Override
 	public void setScenario(Scenario scenario) {
 		this.scenario = scenario;
 	}
@@ -119,6 +122,7 @@ public class SmartCucumberUiScenarioContext {
 		}
 	}
 
+	@Override
 	public String getActiveAppName() {
 		return activeAppName;
 	}
@@ -181,18 +185,22 @@ public class SmartCucumberUiScenarioContext {
 		}
 	}
 
+	@Override
 	public TestConfigManager getTestConfigManager() {
 		return TestConfigManager.getInstance();
 	}
 
+	@Override
 	public AppConfig getActiveAppConfig() {
 		return getTestConfigManager().getAppConfig(activeAppName);
 	}
 
+	@Override
 	public AppConfig getAppConfig(String appName) {
 		return getTestConfigManager().getAppConfig(appName);
 	}
 
+	@Override
 	public void log(String message) {
 		scenario.log(message);
 	}
@@ -242,19 +250,27 @@ public class SmartCucumberUiScenarioContext {
 		}
 	}
 
-	public void closeAllApps() {
+	@Override
+	public void close() {
 		for (AbstractAppConnector connector : appConnectors.values()) {
 			connector.logoutAndQuit();
 		}
 		appConnectors.clear();
 	}
 
-	public void addParam(String paramName, Object value) {
+	@Override
+	public void addParamValue(String paramName, Object value) {
 		params.put(paramName, value);
 	}
 
+	@Override
 	public Object getParamValue(String paramName) {
 		return params.get(paramName);
+	}
+	
+	@Override
+	public void removeParam(String paramName) {
+		params.remove(paramName);
 	}
 
 }

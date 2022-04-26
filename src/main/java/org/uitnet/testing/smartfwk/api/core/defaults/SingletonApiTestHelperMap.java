@@ -15,43 +15,41 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.api.core.support;
+package org.uitnet.testing.smartfwk.api.core.defaults;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
+
+import org.uitnet.testing.smartfwk.api.core.AbstractApiTestHelper;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public class HttpSession {
-	private Map<String, String> params;
-	private Map<String, String> cookies;
+public class SingletonApiTestHelperMap {
+	private static SingletonApiTestHelperMap instance;
+	private Map<String, AbstractApiTestHelper> map = new HashMap<>();
 
-	public HttpSession() {
-		params = new LinkedHashMap<>();
-		cookies = new LinkedHashMap<>();
+	private SingletonApiTestHelperMap() {
+		// do nothing
 	}
 
-	public void addParam(String key, String value) {
-		this.params.put(key, value);
+	public static SingletonApiTestHelperMap getInstance() {
+		if (instance != null) {
+			return instance;
+		}
+
+		synchronized (SingletonApiTestHelperMap.class) {
+			if (instance == null) {
+				instance = new SingletonApiTestHelperMap();
+			}
+		}
+
+		return instance;
 	}
 
-	public Map<String, String> getParams() {
-		return this.params;
-	}
-
-	public void addCookie(String key, String value) {
-		this.cookies.put(key, value);
-	}
-
-	public Map<String, String> getCookies() {
-		return this.cookies;
-	}
-
-	@Override
-	public String toString() {
-		return "Params: " + params + "\nCookies: " + cookies;
+	public Map<String, AbstractApiTestHelper> getMap() {
+		return map;
 	}
 }
