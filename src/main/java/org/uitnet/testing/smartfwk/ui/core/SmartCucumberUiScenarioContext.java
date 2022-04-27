@@ -62,6 +62,7 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 			appConnectors = new HashMap<>();
 		} else {
 			appConnectors = SingletonAppConnectorMap.getInstance().getMap();
+			activeAppName = SingletonAppConnectorMap.getInstance().getActiveAppName();
 		}
 	}
 
@@ -84,10 +85,9 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 		AbstractAppConnector appConnector = appConnectors.get(appName);
 		if (appConnector == null) {
 			appConnector = new DefaultAppConnector(appName);
+			appConnector.setActiveUserProfileName(DefaultInfo.DEFAULT_USER_PROFILE_NAME);
+			appConnectors.put(appName, appConnector);
 		}
-
-		appConnector.setActiveUserProfileName(DefaultInfo.DEFAULT_USER_PROFILE_NAME);
-		appConnectors.put(appName, appConnector);
 
 		this.activeAppName = appName;
 

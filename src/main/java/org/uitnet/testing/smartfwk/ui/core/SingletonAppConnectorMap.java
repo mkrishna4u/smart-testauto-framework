@@ -28,6 +28,7 @@ import java.util.Map;
 public class SingletonAppConnectorMap {
 	private static SingletonAppConnectorMap instance;
 	private Map<String, AbstractAppConnector> map = new HashMap<>();
+	private String activeAppName = null;
 
 	private SingletonAppConnectorMap() {
 		// do nothing
@@ -49,5 +50,13 @@ public class SingletonAppConnectorMap {
 
 	public Map<String, AbstractAppConnector> getMap() {
 		return map;
+	}
+
+	public String getActiveAppName() {
+		return activeAppName;
+	}
+
+	public void setActiveAppName(String activeAppName) {
+		this.activeAppName = activeAppName;
 	}
 }
