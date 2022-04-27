@@ -23,11 +23,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.SubmissionPublisher;
 
-import org.uitnet.testing.smartfwk.ui.core.AbstractAppConnector;
-import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
-
-import io.cucumber.java.Scenario;
-
 /**
  * Abstract SmartCache class that can be used to store the data and can be
  * retrieved at any time. Also you can use events to inform subscriber for the
@@ -40,9 +35,6 @@ import io.cucumber.java.Scenario;
  */
 public abstract class SmartCache {
 	private Map<String, Object> cache;
-	private AbstractAppConnector appConnector;
-	private SmartAppDriver appDriver;
-	private Scenario runningScenario;
 	private SubmissionPublisher<SmartCache> publisher;
 
 	public SmartCache() {
@@ -98,29 +90,5 @@ public abstract class SmartCache {
 
 	public void publish(SmartCache cache) {
 		publisher.submit(cache);
-	}
-
-	public AbstractAppConnector getAppConnector() {
-		return appConnector;
-	}
-
-	public void setAppConnector(AbstractAppConnector appConnector) {
-		this.appConnector = appConnector;
-	}
-
-	public SmartAppDriver getAppDriver() {
-		return appDriver;
-	}
-
-	public void setAppDriver(SmartAppDriver appDriver) {
-		this.appDriver = appDriver;
-	}
-
-	public Scenario getRunningScenario() {
-		return runningScenario;
-	}
-
-	public void setRunningScenario(Scenario runningScenario) {
-		this.runningScenario = runningScenario;
 	}
 }

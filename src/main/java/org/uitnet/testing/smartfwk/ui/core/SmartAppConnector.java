@@ -21,10 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * This class is deprecated and will be removed in future releases.
+ * Use Constructor Dependency Injection (CDI) class SmartCucumberUiScenarioContext in cucumber step defs file.
  * 
  * @author Madhav Krishna
  *
  */
+@Deprecated
 public class SmartAppConnector {
 	private static Map<String, DefaultAppConnector> appConnectorMap = new HashMap<String, DefaultAppConnector>();
 

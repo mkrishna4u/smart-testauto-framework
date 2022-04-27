@@ -24,6 +24,12 @@ import io.cucumber.java.Scenario;
  * @author Madhav Krishna
  *
  */
+/**
+ * This class is deprecated and will be removed in future releases.
+ * @author Madhav Krishna
+ *
+ */
+@Deprecated
 public class DefaultAppConnector extends AbstractAppConnector {
 
 	public DefaultAppConnector(String appName) {
