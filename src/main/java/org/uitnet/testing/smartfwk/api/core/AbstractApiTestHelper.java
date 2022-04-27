@@ -67,7 +67,7 @@ public abstract class AbstractApiTestHelper {
 		baseURL = testConfigManager.getAppConfig(appName).getApiConfig().getPropertyValue(baseUrlKey);
 	}
 
-	public void setActiveProfileName(String profileName) {
+	public HttpSession setActiveProfileName(String profileName) {
 		if (activeProfileName == null || "".equals(activeProfileName)) {
 			session = login(testConfigManager.getAppConfig(appName).getApiConfig(),
 					testConfigManager.getUserProfile(appName, profileName));
@@ -83,6 +83,8 @@ public abstract class AbstractApiTestHelper {
 			activeUserProfile = testConfigManager.getUserProfile(appName, profileName);
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
+		
+		return session;
 	}
 	
 	public String getActiveProfileName() {
