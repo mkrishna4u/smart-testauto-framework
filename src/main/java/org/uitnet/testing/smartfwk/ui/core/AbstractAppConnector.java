@@ -142,11 +142,11 @@ public abstract class AbstractAppConnector {
 		LoginSuccessPageValidator loginSuccessPageValidator = createNewLoginSuccessPageValidator();
 
 		if (loginPageValidator.isLoginPageVisible(userProfileName)) {
-			appDriver.openAppIfNotOpened();
+			appDriver.openAppIfNotOpened(userProfileName);
 			loginPageValidator.login(userProfileName);
 			loginSuccessPageValidator.validate(userProfileName);
 		} else if (!loginSuccessPageValidator.isLoginSuccessPageVisible(userProfileName)) {
-			appDriver.openAppIfNotOpened();
+			appDriver.openAppIfNotOpened(userProfileName);
 			loginPageValidator.login(userProfileName);
 			loginSuccessPageValidator.validate(userProfileName);
 		}

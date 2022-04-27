@@ -55,8 +55,10 @@ import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.config.ProxyConfiguration;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.handler.DefaultScrollElementToViewportHandler;
 import org.uitnet.testing.smartfwk.ui.core.handler.ScrollElementToViewportHandler;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -79,6 +81,7 @@ public class SmartAppDriver {
 	private boolean opened = false;
 	private ScrollElementToViewportHandler scrollElemToViewportCallback;
 	private String originalWindowHandle;
+	private boolean shouldOpenURL = true;
 
 	public SmartAppDriver(String appName, ApplicationType appType, PlatformType testPlatformType) {
 		this.appId = AppIdGenerator.getInstance().nextValue();
@@ -97,7 +100,13 @@ public class SmartAppDriver {
 		return scrollElemToViewportCallback;
 	}
 
-	public WebDriver openAppIfNotOpened() {
+	public WebDriver openAppIfNotOpened(String userProfileName) {
+		if(StringUtil.isEmptyAfterTrim(userProfileName) || userProfileName.equals(DefaultInfo.DEFAULT_USER_PROFILE_NAME)) {
+			shouldOpenURL = false;
+		} else {
+			shouldOpenURL = true;
+		}
+		
 		if (!opened) {
 			prepareWebDriver();
 			opened = true;
@@ -285,7 +294,9 @@ public class SmartAppDriver {
 								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
-				wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				if(shouldOpenURL) {
+					wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				}
 				webDriver = wdriver;
 				break;
 			}
@@ -329,7 +340,9 @@ public class SmartAppDriver {
 								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
-				wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				if(shouldOpenURL) {
+					wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				}
 				webDriver = wdriver;
 				break;
 			}
@@ -364,7 +377,9 @@ public class SmartAppDriver {
 								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
-				wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				if(shouldOpenURL) {
+					wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				}
 				webDriver = wdriver;
 				break;
 			}
@@ -412,7 +427,9 @@ public class SmartAppDriver {
 								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
-				wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				if(shouldOpenURL) {
+					wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				}
 				webDriver = wdriver;
 				break;
 			}
@@ -456,7 +473,9 @@ public class SmartAppDriver {
 								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
-				wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				if(shouldOpenURL) {
+					wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				}
 				webDriver = wdriver;
 				break;
 			}
@@ -497,7 +516,9 @@ public class SmartAppDriver {
 								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 				wdriver.manage().window().setPosition(new Point(0, 0));
 
-				wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				if(shouldOpenURL) {
+					wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				}
 				webDriver = wdriver;
 				break;
 			}
@@ -508,7 +529,9 @@ public class SmartAppDriver {
 						.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
 								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 
-				wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				if(shouldOpenURL) {
+					wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				}
 				webDriver = wdriver;
 				break;
 			}
