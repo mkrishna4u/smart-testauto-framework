@@ -20,6 +20,7 @@ package org.uitnet.testing.smartfwk.ui.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
@@ -27,6 +28,7 @@ import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
+import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 import io.cucumber.java.Scenario;
@@ -234,6 +236,19 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 	public void switchToWindow(String appName, String nameOrHandle) {
 		appConnectors.get(appName).getAppDriver().getWebDriver().switchTo().window(nameOrHandle);
 	}
+	
+	public void switchToFrame(String nameOrId) {
+		appConnectors.get(activeAppName).getAppDriver().getWebDriver().switchTo().frame(nameOrId);
+	}
+	
+	public void switchToFrame(UIObject pageElement) {
+		appConnectors.get(activeAppName).getAppDriver().getWebDriver().switchTo()
+			.frame((WebElement) pageElement.getValidator(getActiveAppDriver(), null).findElement(2));
+	}
+	
+	public void switchToFrame(int index) {
+		appConnectors.get(activeAppName).getAppDriver().getWebDriver().switchTo().frame(index);
+	}
 
 	/**
 	 * It creates the new window and switches the focus on it for future commands.
@@ -247,6 +262,13 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 	public void closeAllChildWindows() {
 		for (AbstractAppConnector connector : appConnectors.values()) {
 			connector.getAppDriver().closeChildWindows();
+		}
+	}
+	
+	public void waitForSeconds(int seconds) {
+		SmartAppDriver driver = getActiveAppDriver();
+		if(driver != null) {
+			driver.waitForSeconds(seconds);
 		}
 	}
 
