@@ -51,6 +51,7 @@ public class TestConfigManager {
 	private String sikuliResourcesDir;
 	private PlatformType hostPlatformType;
 	private boolean parallelMode;
+	private int parallelThreads;
 	private boolean preferDriverScreenshots;
 
 	// Key: App-Name, Value AppConfig
@@ -120,7 +121,12 @@ public class TestConfigManager {
 				System.exit(1);
 			}
 			
-			if(StringUtil.trimNullAsEmpty(properties.getProperty("PARALLEL_MODE")).equals("true")) {
+			try {
+				parallelThreads = Integer.parseInt(System.getProperty("parallel.threads", "1"));
+			} catch(Exception e) {
+				parallelThreads = 1;
+			}
+			if(parallelThreads > 1) {
 				parallelMode = true;
 			} else {
 				parallelMode = false;
