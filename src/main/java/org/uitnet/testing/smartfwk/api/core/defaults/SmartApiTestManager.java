@@ -112,5 +112,7 @@ public class SmartApiTestManager implements ApiTestManager {
 		for(ApiAuthenticationProvider aap : appAuthProviders.values()) {
 			aap.logout();
 		}
+		
+		appAuthProviders.clear();
 	}
 }
