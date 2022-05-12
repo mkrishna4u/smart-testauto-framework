@@ -81,16 +81,21 @@ public class SmartApiTestManager implements ApiTestManager {
 		return newTestHelper;
 	}
 	
-	public synchronized ApiAuthenticationProvider getAuthenticationProvider(String appName, String targetServerName, String userProfileName) {
+	public ApiAuthenticationProvider getAuthenticationProvider(String appName, String targetServerName, String userProfileName) {
 		String mapKey = prepareAuthProviderMapKey(appName, targetServerName, userProfileName);
 		ApiAuthenticationProvider authProvider = appAuthProviders.get(mapKey);
 		
-		if(authProvider == null) {
+		if(authProvider != null) { return authProvider; }
+		
+		synchronized(SmartApiTestManager.class) {
+			authProvider = appAuthProviders.get(mapKey);
+			if(authProvider != null) { return authProvider; }
+			
 			authProvider = getRegisteredTestHelper(appName, targetServerName);
 			appAuthProviders.put(mapKey, authProvider);
+			
+			return authProvider;
 		}
-		
-		return authProvider;
 	}
 	
 	private String prepareAuthProviderMapKey(String appName, String targetServerName, String userProfileName) {
