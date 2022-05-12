@@ -23,12 +23,12 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.api.core.defaults.ApiTestManager;
 import org.uitnet.testing.smartfwk.api.core.support.HttpMultipartRequest;
 import org.uitnet.testing.smartfwk.api.core.support.HttpRequest;
 import org.uitnet.testing.smartfwk.api.core.support.HttpResponse;
 import org.uitnet.testing.smartfwk.api.core.support.HttpSession;
 import org.uitnet.testing.smartfwk.api.core.support.MultipartData;
-import org.uitnet.testing.smartfwk.ui.core.config.ApiConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.UserProfile;
 
@@ -45,7 +45,7 @@ import okhttp3.ResponseBody;
  * @author Madhav Krishna
  *
  */
-public abstract class AbstractApiTestHelper {
+public abstract class AbstractApiTestHelper implements ApiAuthenticationProvider {
 	protected String appName;
 	protected String baseURL;
 	protected HttpSession session;
@@ -55,12 +55,22 @@ public abstract class AbstractApiTestHelper {
 	protected int sessionExpiryDurationInSeconds;
 	protected long lastRequestAccessTimeInMs;
 	protected boolean logoutRequest = false;
+	protected ApiTestManager apiTestManager;
+	protected String targetServerName;
 
 	public AbstractApiTestHelper(String appName, int sessionExpiryDurationInSeconds) {
 		this.appName = appName;
 		this.sessionExpiryDurationInSeconds = sessionExpiryDurationInSeconds;
 		testConfigManager = TestConfigManager.getInstance();
 
+	}
+	
+	public void setApiTestManager(ApiTestManager apiTestManager) {
+		this.apiTestManager = apiTestManager;
+	}
+	
+	public void setTargetServerName(String targetServerName) {
+		this.targetServerName = targetServerName;
 	}
 
 	protected void setBaseURL(String baseUrlKey) {
@@ -69,22 +79,33 @@ public abstract class AbstractApiTestHelper {
 
 	public HttpSession setActiveProfileName(String profileName) {
 		if (activeProfileName == null || "".equals(activeProfileName)) {
-			session = login(testConfigManager.getAppConfig(appName).getApiConfig(),
-					testConfigManager.getUserProfile(appName, profileName));
+			authenticate(profileName);
 			activeProfileName = profileName;
 			activeUserProfile = testConfigManager.getUserProfile(appName, profileName);
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 
 		} else if (!activeProfileName.equals(profileName)) {
-			logout();
-			session = login(testConfigManager.getAppConfig(appName).getApiConfig(),
-					testConfigManager.getUserProfile(appName, profileName));
+			if(apiTestManager == null) {
+				logout();
+			}
+			authenticate(profileName);
 			activeProfileName = profileName;
 			activeUserProfile = testConfigManager.getUserProfile(appName, profileName);
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
 		
 		return session;
+	}
+	
+	protected void authenticate(String profileName) {
+		if(apiTestManager != null) {
+			ApiAuthenticationProvider authProvider = apiTestManager.getAuthenticationProvider(appName, targetServerName, profileName);
+			session = authProvider.login(testConfigManager.getAppConfig(appName).getApiConfig(),
+					testConfigManager.getUserProfile(appName, profileName));
+		} else {
+			session = login(testConfigManager.getAppConfig(appName).getApiConfig(),
+					testConfigManager.getUserProfile(appName, profileName));
+		}
 	}
 	
 	public String getActiveProfileName() {
@@ -384,8 +405,4 @@ public abstract class AbstractApiTestHelper {
 		}
 		return null;
 	}
-
-	protected abstract HttpSession login(ApiConfig apiConfig, UserProfile userProfile);
-
-	public abstract void logout();
 }

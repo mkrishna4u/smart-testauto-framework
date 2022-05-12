@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.AbstractApiTestHelper;
+import org.uitnet.testing.smartfwk.api.core.ApiAuthenticationProvider;
 
 /**
  * This class is used to register all Test Helpers on all the target servers.
@@ -29,14 +30,18 @@ import org.uitnet.testing.smartfwk.api.core.AbstractApiTestHelper;
  * @author Madhav Krishna
  *
  */
-public class SmartApiTestManager {
+public class SmartApiTestManager implements ApiTestManager {
 	private static SmartApiTestManager instance;
 
 	// Key: appName, Value: AbstractApiTestHelper
 	private Map<String, AbstractApiTestHelper> appTestHelpers;
+	
+	// Key: appName:targetServerName:userProfileName, Value: ApiAuthenticationProvider
+	private Map<String, ApiAuthenticationProvider> appAuthProviders;
 
 	private SmartApiTestManager() {
 		appTestHelpers = new HashMap<>();
+		appAuthProviders = new HashMap<>();
 	}
 
 	public static SmartApiTestManager getInstance() {
@@ -69,10 +74,38 @@ public class SmartApiTestManager {
 		Assert.assertNotNull(testHelper, "No test helper registered with SmartApiTestManager class for appName = " + appName
 				+ " and targetServerName = " + targetServerName + ". This must be registered in cucumber step definition method that is annotated with @BeforeAll.");
 
-		return testHelper.clone();
+		AbstractApiTestHelper newTestHelper = testHelper.clone();
+		newTestHelper.setApiTestManager(this);
+		newTestHelper.setTargetServerName(targetServerName);
+		
+		return newTestHelper;
+	}
+	
+	public synchronized ApiAuthenticationProvider getAuthenticationProvider(String appName, String targetServerName, String userProfileName) {
+		String mapKey = prepareAuthProviderMapKey(appName, targetServerName, userProfileName);
+		ApiAuthenticationProvider authProvider = appAuthProviders.get(mapKey);
+		
+		if(authProvider == null) {
+			authProvider = getRegisteredTestHelper(appName, targetServerName);
+			appAuthProviders.put(mapKey, authProvider);
+		}
+		
+		return authProvider;
+	}
+	
+	private String prepareAuthProviderMapKey(String appName, String targetServerName, String userProfileName) {
+		return appName + ":" + targetServerName + ":" + userProfileName;
 	}
 
 	private String prepareKey(String appName, String targetServerName) {
 		return appName + ":" + targetServerName;
+	}
+	
+	public void close() {
+		appTestHelpers.clear();
+		
+		for(ApiAuthenticationProvider aap : appAuthProviders.values()) {
+			aap.logout();
+		}
 	}
 }
