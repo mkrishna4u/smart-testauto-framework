@@ -39,13 +39,19 @@ public class SmartUiTestNGExecutionListener implements IExecutionListener {
 	@Override
 	public void onExecutionFinish() {
 		Reporter.log("Going to close all opened applications.", true);
-		if (!TestConfigManager.getInstance().isParallelMode()) {
-			Map<String, AbstractAppConnector> appConnectors = SingletonAppConnectorMap.getInstance().getMap();
-			if (appConnectors != null && !appConnectors.isEmpty()) {
-				for (AbstractAppConnector appConnector : appConnectors.values()) {
-					appConnector.logoutAndQuit();
+
+		try {
+			if (!TestConfigManager.getInstance().isParallelMode()) {
+				Map<String, AbstractAppConnector> appConnectors = SingletonAppConnectorMap.getInstance().getMap();
+				if (appConnectors != null && !appConnectors.isEmpty()) {
+					for (AbstractAppConnector appConnector : appConnectors.values()) {
+						appConnector.logoutAndQuit();
+					}
 				}
 			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
+
 }

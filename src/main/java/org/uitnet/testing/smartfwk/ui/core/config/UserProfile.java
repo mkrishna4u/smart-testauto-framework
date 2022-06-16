@@ -21,9 +21,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 /**
  * 
@@ -32,7 +32,8 @@ import org.testng.Assert;
  */
 public class UserProfile {
 	private String appName;
-	private String name;
+	private String envFileName;
+	private String profileName;
 	private String appLoginUserId;
 	private String appLoginUserPassword;
 	private String userAccountType;
@@ -40,111 +41,106 @@ public class UserProfile {
 	private List<String> userRoles;
 	private Map<String, String> additionalProps;
 
-	public UserProfile(String appName, String profileName, Properties properties) {
-		this.appName = appName;
+	public UserProfile() {
 		userRoles = new LinkedList<String>();
 		additionalProps = new HashMap<String, String>();
-		initUserProfile(appName, profileName, properties);
 	}
 
-	private void initUserProfile(String appName, String profileName, Properties properties) {
-		name = properties.getProperty("PROFILE_NAME");
-		if (name == null || !profileName.equals(name.trim())) {
-			Assert.fail("FATAL: User profile name '" + name
-					+ "' specified in file is not same as configured in AppConfig.properties file. AppName - '"
-					+ appName + "'. Exiting ...");
-			System.exit(1);
-		} else {
-			name = name.trim();
-		}
-
-		appLoginUserId = properties.getProperty("APP_LOGIN_USER_ID");
-		if (appLoginUserId == null || "".equals(appLoginUserId.trim())) {
-			Assert.fail("FATAL: Please specify APP_LOGIN_USER_ID in " + profileName + ".properties file. AppName: "
-					+ appName + ". Exiting ...");
-			System.exit(1);
-		} else {
-			appLoginUserId = appLoginUserId.trim();
-		}
-
-		appLoginUserPassword = properties.getProperty("APP_LOGIN_USER_PASSWORD");
-		if (appLoginUserPassword == null || "".equals(appLoginUserPassword.trim())) {
-			Assert.fail("FATAL: Please specify appLoginUserPassword in " + profileName + ".properties file. AppName: "
-					+ appName + ". Exiting ...");
-			System.exit(1);
-		} else {
-			appLoginUserPassword = appLoginUserPassword.trim();
-		}
-
-		userAccountType = properties.getProperty("USER_ACCOUNT_TYPE");
-		if (userAccountType == null || "".equals(userAccountType.trim())) {
-			Assert.fail("FATAL: Please specify USER_ACCOUNT_TYPE in " + profileName + ".properties file. AppName: "
-					+ appName + ". Exiting ...");
-			System.exit(1);
-		} else {
-			userAccountType = userAccountType.trim();
-		}
-
-		userAccountTypeCode = properties.getProperty("USER_ACCOUNT_TYPE_CODE");
-		if (userAccountTypeCode == null || "".equals(userAccountTypeCode.trim())) {
-			Assert.fail("FATAL: Please specify USER_ACCOUNT_TYPE_CODE in " + profileName + ".properties file. AppName: "
-					+ appName + ". Exiting ...");
-			System.exit(1);
-		} else {
-			userAccountTypeCode = userAccountTypeCode.trim();
-		}
-
-		String propValue = properties.getProperty("USER_ROLES");
-		if (propValue == null || "".equals(propValue.trim())) {
-			// do nothing
-		} else {
-			String[] arr = propValue.split(",");
-			String keyStr;
-			for (String item : arr) {
-				keyStr = item.trim();
-				if ("".equals(keyStr)) {
-					continue;
-				}
-				userRoles.add(keyStr);
-			}
-		}
-
-		String keyStr;
-		for (Object key : properties.keySet()) {
-			keyStr = String.valueOf(key);
-			if (keyStr.startsWith("_")) {
-				additionalProps.put(keyStr, properties.getProperty(keyStr));
-			}
-		}
+	public String getAppName() {
+		return appName;
 	}
 
-	public String getName() {
-		return name;
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public String getEnvFileName() {
+		return envFileName;
+	}
+
+	public void setEnvFileName(String envFileName) {
+		this.envFileName = envFileName;
+	}
+
+	public String getProfileName() {
+		return profileName;
+	}
+
+	public void setProfileName(String profileName) {
+		this.profileName = profileName;
 	}
 
 	public String getAppLoginUserId() {
 		return appLoginUserId;
 	}
 
+	public void setAppLoginUserId(String appLoginUserId) {
+		this.appLoginUserId = appLoginUserId;
+	}
+
 	public String getAppLoginUserPassword() {
 		return appLoginUserPassword;
+	}
+
+	public void setAppLoginUserPassword(String appLoginUserPassword) {
+		this.appLoginUserPassword = appLoginUserPassword;
 	}
 
 	public String getUserAccountType() {
 		return userAccountType;
 	}
 
+	public void setUserAccountType(String userAccountType) {
+		this.userAccountType = userAccountType;
+	}
+
 	public String getUserAccountTypeCode() {
 		return userAccountTypeCode;
+	}
+
+	public void setUserAccountTypeCode(String userAccountTypeCode) {
+		this.userAccountTypeCode = userAccountTypeCode;
 	}
 
 	public List<String> getUserRoles() {
 		return userRoles;
 	}
 
+	public void setUserRoles(List<String> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+	public Map<String, String> getAdditionalProps() {
+		return additionalProps;
+	}
+
+	public void setAdditionalProps(Map<String, String> additionalProps) {
+		this.additionalProps = additionalProps;
+	}
+
+	public void validateInfo() {
+		if(StringUtil.isEmptyAfterTrim(profileName)) {
+			Assert.fail("FATAL: 'profileName' property value cannot be empty. AppName - '"
+					+ appName + "'. Exiting ...");
+			System.exit(1);
+		}
+		
+		if(StringUtil.isEmptyAfterTrim(appLoginUserId)) {
+			Assert.fail("FATAL: 'appLoginUserId' property value cannot be empty. AppName - '"
+					+ appName + "', UserProfileName - '" + profileName + "'. Exiting ...");
+			System.exit(1);
+		}
+		
+		if(StringUtil.isEmptyAfterTrim(appLoginUserPassword)) {
+			Assert.fail("FATAL: 'appLoginUserPassword' property value cannot be empty. AppName - '"
+					+ appName + "', UserProfileName - '" + profileName + "'. Exiting ...");
+			System.exit(1);
+		}
+	}
+
 	public String getAdditionalPropertyValue(String propName) {
 		Assert.assertTrue(additionalProps.containsKey(propName), "Please specify the additional property '" + propName
-				+ "' in application '" + appName + "' user profile '" + name + ".properties' file.");
+				+ "' in application '" + appName + "' user profile '" + profileName + ".yaml' file.");
 		return additionalProps.get(propName);
 	}
 }

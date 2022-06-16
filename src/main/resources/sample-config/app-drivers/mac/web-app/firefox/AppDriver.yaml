@@ -1,0 +1,59 @@
+# Firefox browser driver configuration file
+browserType: firefox
+headless: false
+
+# System property name where to set browser driver executable
+driverSystemPropertyName: webdriver.gecko.driver
+
+# Configure web browser driver binary path, download it from https://github.com/mozilla/geckodriver/releases/
+driverFileName: geckodriver.exe
+
+# Driver Arguments: add space separated multiple arguments
+driverArguments: 
+
+# pageLoadStrategy: normal, eager, none
+pageLoadStrategy: normal
+
+# unexpectedAlertBehaviour: options: accept, dismiss, accept and notify, dismiss and notify, ignore
+unexpectedAlertBehaviour: dismiss and notify
+
+# logLevel options: OFF, ALL, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
+logLevel: "OFF"
+
+# DELETE_EXTENSIONS_CACHE_IF_IT_EXISTS options: true, false
+deleteExtensionsCacheIfItExists: true
+
+# ALWAYS_LOAD_NO_FOCUS_LIB options: true, false
+alwaysLoadNoFocusLib: false
+
+# acceptInsecureCertificates options: true, false
+acceptInsecureCertificates: false
+
+# acceptUntrustedCertificates options: true, false
+acceptUntrustedCertificates: false
+
+# assumeUntrustedCertificateIssuer options: true, false
+assumeUntrustedCertificateIssuer: false
+
+# Script timeout in seconds
+scriptTimeoutInSeconds: 60
+
+# Page load timeout in seconds
+pageLoadTimeoutInSeconds: 60
+
+# Configure WebDriver capabilities as child elements to driverCapabilities:
+driverCapabilities:
+
+# Configure WebDriver experimental options as child to experimentalOptions:
+experimentalOptions:
+
+# Configure Browser extensions(for debugging purpose). Files should be stored in <driver>/extensions path. 
+# Key starts with <Extn-Name>: <Extn-filename>
+browserExtensions:
+  firebug.filename: firebug-2.0.2.xpi
+  firepath.filename: firepath-0.9.7-fx.xpi
+  
+# Configure WebDriver preferences as child to browserPreferences:
+browserPreferences:
+  extensions.firebug.currentVersion: 2.0.2
+  extensions.firebug.allPagesActivation: on

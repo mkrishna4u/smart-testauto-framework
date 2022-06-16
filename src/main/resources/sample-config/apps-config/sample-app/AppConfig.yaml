@@ -1,0 +1,90 @@
+################################################################################
+ # SmartTestAutoFramework
+ # Copyright 2021 and beyond
+ # 
+ # Licensed under the Apache License, Version 2.0 (the "License");
+ # you may not use this file except in compliance with the License.
+ # You may obtain a copy of the License at
+ # 
+ #     http://www.apache.org/licenses/LICENSE-2.0
+ # 
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS,
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ # 
+ # Author - Madhav Krishna
+################################################################################
+
+# Application name
+applicationName: sample-app
+
+# Application type
+# Supported application types: native-app, web-app
+applicationType: web-app
+
+# Test Platform Type on which testing is going to be performed
+# Supported Test platforms: windows, linux, mac, android-mobile, ios-mobile
+testPlatformType: windows
+
+# Application Launch URL. For NativeApp it will contain the path of .app, .api, .apk, .exe etc. application file.
+# And for web-app it will contain the web URL that will be used to launch application on web browser.
+appLaunchURL: 
+
+# Login Validator
+appLoginPageValidatorClass: 
+
+# Login Success Page Validator
+appLoginSuccessPageValidatorClass: 
+
+# Remote Web Driver Provider class (Applicable only if appWebBrowser = remoteWebDriverProvider)
+remoteWebDriverProviderClass:
+
+# Application Web Browser where all the test cases need to be executed. Applicable only for 'applicationType = web-app'
+# Supported Web Browsers: firefox, chrome, edge, opera, safari, internet-explorer, remote-web-driver-provider, not-applicable
+appWebBrowser: chrome
+enableBrowserExtensions: false
+# Browser window size (width x height)
+browserWindowSize: 1024 x 768
+
+# APP Driver fonfig file name
+appDriverConfigFileName: AppDriver.yaml
+
+# API Config file name
+apiConfigFileName: ApiConfig.yaml
+
+# User profile configuration
+userProfileNames: [SampleUserProfile]
+
+# Application database connection setting (Using Hibernate)
+dbProfilesNames: [] 
+
+proxySettings:
+  # Proxy configuration
+  #PROXY Configuration Options:NO_PROXY, AUTO_DETECT, USE_SYSTEM_PROXY, MANUAL_PROXY
+  proxyConfigType: NO_PROXY
+  
+  # Parameters for MANUAL_PROXY
+  httpProxyHostname: <proxy-host>
+  httpProxyPort: <proxy-port>
+  
+  sslProxyHostname: <proxy-host>
+  sslProxyPort: <proxy-port>
+  
+  ftpProxyHostname: <proxy-host>
+  ftpProxyPort: <proxy-port>
+  
+  socksHostname: <proxy-host>
+  socksPort: <proxy-port>
+  
+  # SOCKS_VERSION options: V4, V5
+  socksVersion: V5
+  socksUsername: 
+  socksPassword: 
+  
+  noProxyFor: localhost,127.0.0.1
+
+# Additional properties (Define under additionalProps as child property)
+additionalProps:
+  

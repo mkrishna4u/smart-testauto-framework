@@ -74,7 +74,7 @@ public abstract class AbstractApiTestHelper implements ApiAuthenticationProvider
 	}
 
 	protected void setBaseURL(String baseUrlKey) {
-		baseURL = testConfigManager.getAppConfig(appName).getApiConfig().getPropertyValue(baseUrlKey);
+		baseURL = testConfigManager.getAppConfig(appName).getApiConfig().getAdditionalPropertyValue(baseUrlKey, String.class);
 	}
 
 	public HttpSession setActiveProfileName(String profileName) {

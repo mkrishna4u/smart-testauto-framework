@@ -17,7 +17,7 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.config;
 
-import java.util.Properties;
+import java.util.Map;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
@@ -48,17 +48,17 @@ public class ProxyConfiguration {
 
 	private String noProxyFor;
 
-	public ProxyConfiguration(String appName, Properties properties) {
+	public ProxyConfiguration(String appName, Map<String, String> properties) {
 		proxyConfigType = ProxyConfigurationType.NO_PROXY;
 		if(!DefaultInfo.DEFAULT_APP_NAME.equals(appName)) {
 			initProxyConfig(appName, properties);
 		}
 	}
 
-	private void initProxyConfig(String appName, Properties properties) {
-		String propValue = properties.getProperty("PROXY_CONFIGURATION");
+	private void initProxyConfig(String appName, Map<String, String> properties) {
+		String propValue = properties.get("proxyConfigType");
 		if (propValue == null || "".equals(propValue.trim())) {
-			Assert.fail("FATAL: Please specify PROXY_CONFIGURATION in AppConfig.properties. AppName: " + appName
+			Assert.fail("FATAL: Please specify 'proxyConfigType' in AppConfig.yaml. AppName: " + appName
 					+ ". Exiting ...");
 			System.exit(1);
 		} else {
@@ -66,73 +66,73 @@ public class ProxyConfiguration {
 			proxyConfigType = ProxyConfigurationType.valueOf(propValue);
 		}
 
-		httpProxyHostname = properties.getProperty("HTTP_PROXY_HOSTNAME");
+		httpProxyHostname = properties.get("httpProxyHostname");
 		if (httpProxyHostname == null || "".equals(httpProxyHostname.trim())) {
 		} else {
 			httpProxyHostname = httpProxyHostname.trim();
 		}
 
-		httpProxyPort = properties.getProperty("HTTP_PROXY_PORT");
+		httpProxyPort = properties.get("httpProxyPort");
 		if (httpProxyPort == null || "".equals(httpProxyPort.trim())) {
 		} else {
 			httpProxyPort = httpProxyPort.trim();
 		}
 
-		sslProxyHostname = properties.getProperty("SSL_PROXY_HOSTNAME");
+		sslProxyHostname = properties.get("sslProxyHostname");
 		if (sslProxyHostname == null || "".equals(sslProxyHostname.trim())) {
 		} else {
 			sslProxyHostname = sslProxyHostname.trim();
 		}
 
-		sslProxyPort = properties.getProperty("SSL_PROXY_PORT");
+		sslProxyPort = properties.get("sslProxyPort");
 		if (sslProxyPort == null || "".equals(sslProxyPort.trim())) {
 		} else {
 			sslProxyPort = sslProxyPort.trim();
 		}
 
-		ftpProxyHostname = properties.getProperty("FTP_PROXY_HOSTNAME");
+		ftpProxyHostname = properties.get("ftpProxyHostname");
 		if (ftpProxyHostname == null || "".equals(ftpProxyHostname.trim())) {
 		} else {
 			ftpProxyHostname = ftpProxyHostname.trim();
 		}
 
-		ftpProxyPort = properties.getProperty("FTP_PROXY_PORT");
+		ftpProxyPort = properties.get("ftpProxyPort");
 		if (ftpProxyPort == null || "".equals(ftpProxyPort.trim())) {
 		} else {
 			ftpProxyPort = ftpProxyPort.trim();
 		}
 
-		socksHostname = properties.getProperty("SOCKS_HOSTNAME");
+		socksHostname = properties.get("socksHostname");
 		if (socksHostname == null || "".equals(socksHostname.trim())) {
 		} else {
 			socksHostname = socksHostname.trim();
 		}
 
-		socksPort = properties.getProperty("SOCKS_PORT");
+		socksPort = properties.get("socksPort");
 		if (socksPort == null || "".equals(socksPort.trim())) {
 		} else {
 			socksPort = socksPort.trim();
 		}
 
-		socksVersion = properties.getProperty("SOCKS_VERSION");
+		socksVersion = properties.get("socksVersion");
 		if (socksVersion == null || "".equals(socksVersion.trim())) {
 		} else {
 			socksVersion = socksVersion.trim();
 		}
 
-		socksUsername = properties.getProperty("SOCKS_USERNAME");
+		socksUsername = properties.get("socksUsername");
 		if (socksUsername == null || "".equals(socksUsername.trim())) {
 		} else {
 			socksUsername = socksUsername.trim();
 		}
 
-		socksPassword = properties.getProperty("SOCKS_PASSWORD");
+		socksPassword = properties.get("socksPassword");
 		if (socksPassword == null || "".equals(socksPassword.trim())) {
 		} else {
 			socksPassword = socksPassword.trim();
 		}
 
-		noProxyFor = properties.getProperty("NO_PROXY_FOR");
+		noProxyFor = properties.get("noProxyFor");
 		if (noProxyFor == null || "".equals(noProxyFor.trim())) {
 		} else {
 			noProxyFor = noProxyFor.trim();

@@ -1,0 +1,17 @@
+# Android web-app driver configuration file for browser = firefox
+
+browserType: firefox
+
+# Appium server URL
+remoteDriverURL: http://127.0.0.1:4723/wd/hub
+
+# acceptInsecureCertificates options: true, false
+acceptInsecureCertificates: false
+
+# Configure WebDriver capabilities. 
+driverCapabilities:
+  deviceName: emulator-5554
+  platformName: android
+  platformVersion: "9.0"
+  browserName: firefox
+

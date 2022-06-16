@@ -25,13 +25,13 @@ package org.uitnet.testing.smartfwk.ui.core;
 public class SmartConstants {
 	public static final String DEFAULT_XPATH_LOCATOR = "default-xpath";
 	public static final String DEFAULT_IMAGE_LOCATOR = "default-image";
-	public static final String WEBATTRMAPKEY_CHECK_ELEMENT_ENABLED_ATTR = "CHECK_ELEMENT_ENABLED_ATTR";
-	public static final String WEBATTRMAPKEY_CHECK_ELEMENT_DISABLED_ATTR = "CHECK_ELEMENT_DISABLED_ATTR";
-	public static final String WEBATTRMAPKEY_CHECK_TEXTBOX_TYPE_AS_PASSWORD_ATTR = "CHECK_TEXTBOX_TYPE_AS_PASSWORD_ATTR";
-	public static final String WEBATTRMAPKEY_CHECK_TEXTBOX_STATE_AS_READONLY_ATTR = "CHECK_TEXTBOX_STATE_AS_READONLY_ATTR";
-	public static final String WEBATTRMAPKEY_GET_INPUT_VALUE_ATTR = "GET_INPUT_VALUE_ATTR";
-	public static final String WEBATTRMAPKEY_GET_ELEMENT_TEXT_ATTR = "GET_ELEMENT_TEXT_ATTR";
-	public static final String WEBATTRMAPKEY_CHECK_OPTION_SELECTED_ATTR = "CHECK_OPTION_SELECTED_ATTR";
+	public static final String WEBATTRMAPKEY_CHECK_ELEMENT_ENABLED_ATTR = "checkElementEnabledAttr";
+	public static final String WEBATTRMAPKEY_CHECK_ELEMENT_DISABLED_ATTR = "checkElementDisabledAttr";
+	public static final String WEBATTRMAPKEY_CHECK_TEXTBOX_TYPE_AS_PASSWORD_ATTR = "checkTextboxTypeAsPasswordAttr";
+	public static final String WEBATTRMAPKEY_CHECK_TEXTBOX_STATE_AS_READONLY_ATTR = "checkTextboxStateAsReadonlyAttr";
+	public static final String WEBATTRMAPKEY_GET_INPUT_VALUE_ATTR = "getInputValueAttr";
+	public static final String WEBATTRMAPKEY_GET_ELEMENT_TEXT_ATTR = "getElementTextAttr";
+	public static final String WEBATTRMAPKEY_CHECK_OPTION_SELECTED_ATTR = "checkOptionSelectedAttr";
 
 	private SmartConstants() {
 		// do nothing

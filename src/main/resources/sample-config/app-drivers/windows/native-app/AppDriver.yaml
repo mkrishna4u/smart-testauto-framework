@@ -1,0 +1,33 @@
+# Windows native-app driver configuration file
+
+browserType: not-applicable
+
+# Remote WinAppDriver URL
+remoteDriverURL: http://127.0.0.1:4723
+
+# acceptInsecureCertificates options: true, false
+acceptInsecureCertificates: false
+
+# Script timeout in seconds
+scriptTimeoutInSeconds: 60
+
+# Page load timeout in seconds
+pageLoadTimeoutInSeconds: 60
+
+# Configure WebDriver capabilities. Sets as   <Capability-Name>=<datatype>:<value>
+# Supported datatypes: boolean, string, integer, float, double
+driverCapabilities:
+  app: Microsoft.WindowsCalculator_8wekyb3d8bbwe!App
+  platformName: Windows
+  deviceName: WindowsPC
+  ms\:waitForAppLaunch: 5
+
+# Configure Attributes mapping from Web Element to Native Element. Used to perform different operations on native app.
+webAttrMap:
+  checkElementEnabledAttr: IsEnabled
+  checkElementDisabledAttr: 
+  checkTextboxTypeAsPasswordAttr: IsPassword
+  checkTextboxStateAsReadonlyAttr: Value.IsReadOnly
+  getInputValueAttr: Value.value
+  getElementTextAttr: Name
+  checkOptionSelectedAttr: SelectionItem.IsSelected

@@ -153,7 +153,7 @@ public class SmartAppDriver {
 			}
 		}
 		
-		if(webDriver != null) {
+		if(webDriver != null && appType == ApplicationType.web_app) {
 			originalWindowHandle = webDriver.getWindowHandle();
 		}
 	}
@@ -566,7 +566,7 @@ public class SmartAppDriver {
 	}
 	
 	public void closeChildWindows() {
-		if (webDriver != null) {
+		if (webDriver != null && appType == ApplicationType.web_app) {
 			Set<String> windowHandles = webDriver.getWindowHandles();
 			WebDriver wd;
 			for(String windowHandle : windowHandles) {
@@ -659,7 +659,9 @@ public class SmartAppDriver {
 	 */
 	public void setFocus() {
 		// TODO: This api doesnt work. check for the alternative to fix it.
-		webDriver.switchTo().window(webDriver.getWindowHandle());
+		if(webDriver != null && appType == ApplicationType.web_app) {
+			webDriver.switchTo().window(webDriver.getWindowHandle());
+		}
 	}
 
 	private Proxy getProxyInfo(AppConfig appConfig) {

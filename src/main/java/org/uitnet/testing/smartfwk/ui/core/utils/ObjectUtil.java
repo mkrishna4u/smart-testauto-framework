@@ -17,6 +17,7 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -30,6 +31,43 @@ import org.testng.Assert;
 public class ObjectUtil {
 	public ObjectUtil() {
 		// do nothing
+	}
+	
+	public static Constructor<?> findClassConstructor(Class<?> clazz, Class<?>[] argTypes) {
+		Constructor<?> foundConstructor = null;
+		try {
+			Constructor<?>[] constructors = clazz.getConstructors();
+			boolean found = false;
+			for (Constructor<?> m : constructors) {
+				foundConstructor = null;
+				if (m.getParameterCount() == argTypes.length) {
+					Class<?>[] paramTypes = m.getParameterTypes();
+					Class<?> paramType = null;
+					found = true;
+					for (int i = 0; i < paramTypes.length; i++) {
+						paramType = paramTypes[i];
+						if (!paramType.getTypeName().equals(argTypes[i].getTypeName())) {
+							found = false;
+							break;
+						}
+					}
+
+					if (found) {
+						foundConstructor = m;
+						break;
+					}
+				}
+			}
+
+		} catch (Exception ex) {
+			Assert.fail("Failed to find constructor in class '" + clazz.getName() + "'.", ex);
+		}
+
+		if (foundConstructor == null) {
+			Assert.fail("Failed to find constructor in class '" + clazz.getName() + "'.");
+		}
+
+		return foundConstructor;
 	}
 
 	public static Method findClassMethod(Class<?> clazz, String methodName, Class<?>[] argTypes) {

@@ -19,63 +19,48 @@ package org.uitnet.testing.smartfwk.ui.core.config;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.sikuli.basics.Settings;
 import org.sikuli.script.OCR;
 import org.sikuli.script.OCR.Options;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
+
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.TypeRef;
 
 public class SikuliSettings {
-	private String sikuliSettingsFilePath;
 	private String ocrDataPath;
-	private Properties props;
+	private Map<String, String> settings;
+	private Map<String, Object> additionalProps;
 
-	public SikuliSettings(String sikuliSettingsFilePath, Properties props) {
-		this.sikuliSettingsFilePath = sikuliSettingsFilePath;
-		this.props = props;
+	public SikuliSettings(String sikuliSettingsFilePath, DocumentContext yamlDoc) {
 		this.ocrDataPath = sikuliSettingsFilePath + File.separator + "tessdata";
-		initializeSikuli();
+		initializeSikuli(yamlDoc);
 	}
 
 	public String getOcrDataPath() {
 		return ocrDataPath;
 	}
 
-	public String getPropertyValue(String propName) {
-		if (!(propName.startsWith("_") || propName.startsWith("Settings."))) {
-			Assert.fail("Property name should start with prefix underscore ( _ ) or Settings.");
-		}
-
-		if (!this.props.containsKey(propName)) {
-			Assert.fail("Please specify the property '" + propName + "' in '" + sikuliSettingsFilePath + "' file.");
-		}
-		return this.props.getProperty(propName);
+	public String getSettings(String propName) {
+		return this.settings.get(propName);
 	}
 
-	public Map<String, String> getAllSettings() {
-		Map<String, String> keyValuePairs = new LinkedHashMap<String, String>();
-		for (Object key : props.keySet()) {
-			String strKey = (String) key;
-			if (strKey.startsWith("Settings.")) {
-				keyValuePairs.put(strKey.substring("Settings.".length()), props.getProperty(strKey));
-			}
-		}
-
-		return keyValuePairs;
+	public <T> T getAdditionalProperty(String propName, Class<T> clazz) {
+		return clazz.cast(this.additionalProps.get(propName));
 	}
 
-	protected void initializeSikuli() {
+	protected void initializeSikuli(DocumentContext yamlDoc) {
 		try {
-			Map<String, String> settings = getAllSettings();
+			settings = JsonYamlUtil.readNoException(yamlDoc, "$.settings", (new TypeRef<Map<String, String>>() {}));
 			String value;
 			for (String name : settings.keySet()) {
 				value = settings.get(name);
 
 				Field f = Settings.class.getDeclaredField(name);
-				if (f.isAccessible()) {
+				if (f.canAccess(null)) {
 					f.set(null, createObjectFromTypedValue(name, value));
 				} else {
 					f.setAccessible(true);
@@ -87,6 +72,9 @@ public class SikuliSettings {
 			System.out.println("Sikuli OCRDataPath set to: " + getOcrDataPath());
 			Options ocrOptions = OCR.globalOptions();
 			ocrOptions.dataPath(getOcrDataPath());
+
+			additionalProps = JsonYamlUtil.readNoException(yamlDoc, "$.additionalProps", (new TypeRef<Map<String, Object>>() {
+			}));
 		} catch (Throwable th) {
 			Assert.fail("Failed to initialize the sikuli driver.", th);
 		}

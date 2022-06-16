@@ -1,0 +1,44 @@
+# Chrome browser driver configuration file
+browserType: chrome
+headless: false
+
+# System property name where to set browser driver executable
+driverSystemPropertyName: webdriver.chrome.driver
+
+# Configure web browser driver binary path, download it from https://chromedriver.chromium.org/downloads
+driverFileName: chromedriver.exe
+
+# Driver Arguments: add space separated multiple arguments
+driverArguments: 
+
+# pageLoadStrategy: normal, eager, none
+pageLoadStrategy: normal
+
+# logLevel options: OFF, ALL, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
+logLevel: "OFF"
+
+# unexpectedAlertBehaviour: options: accept, dismiss, accept and notify, dismiss and notify, ignore
+unexpectedAlertBehaviour: dismiss and notify
+
+# acceptInsecureCertificates options: true, false
+acceptInsecureCertificates: false
+
+# Script timeout in seconds
+scriptTimeoutInSeconds: 60
+
+# Page load timeout in seconds
+pageLoadTimeoutInSeconds: 60
+
+# Configure WebDriver capabilities as child elements to driverCapabilities:
+driverCapabilities:
+
+# Configure WebDriver experimental options as child to experimentalOptions:
+experimentalOptions:
+
+# Configure Browser extensions(for debugging purpose). Files should be stored in <driver>/extensions path. 
+# Key starts with <Extn-Name>: <Extn-filename>
+browserExtensions:
+  
+# Configure WebDriver preferences as child to browserPreferences:
+browserPreferences:
+

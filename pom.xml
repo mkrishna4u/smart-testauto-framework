@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uitnet.testing</groupId>
 	<artifactId>smart-testauto-framework</artifactId>
-	<version>4.0.2</version>
+	<version>5.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Smart Software Testing Automation Framework</name>
 	<description>Smart Software Testing Automation Framework is a tool used to automate the testing of software application. It includes the functionality i.e. Web UI Application Automation, Thick Client Automation, API Testing, Data Driven Testing etc.</description>
@@ -36,9 +36,9 @@
 
 	<properties>
 		<testng.version>7.5</testng.version>
-		<selenium.version>4.1.3</selenium.version>
-		<appium-client.version>8.0.0</appium-client.version>
-		<cucumber.version>7.3.1</cucumber.version>
+		<selenium.version>4.2.2</selenium.version>
+		<appium-client.version>8.1.1</appium-client.version>
+		<cucumber.version>7.3.4</cucumber.version>
 		<sikulix.version>2.0.5</sikulix.version>
 		<slf4j.version>1.7.36</slf4j.version>
 		<log4j.version>2.17.2</log4j.version>
@@ -121,6 +121,11 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-yaml</artifactId>
+		    <version>${jackson.version}</version>
 		</dependency>
 
 		<dependency>

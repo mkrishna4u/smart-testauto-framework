@@ -1,0 +1,40 @@
+#########################################################################################################################
+# In latest Safari WebDriver support is turned off by default. To turn on WebDriver support, do the following:
+#
+#   Ensure that the Develop menu is available. It can be turned on by opening Safari preferences 
+#   (Safari > Preferences in the menu bar), going to the Advanced tab, and ensuring that the Show Develop menu 
+#   in menu bar checkbox is checked.
+#  
+#   Enable Remote Automation in the Develop menu. This is toggled via Develop > Allow Remote Automation in the menu bar.
+#
+#   Authorize safaridriver to launch the webdriverd service which hosts the local web server. To permit this, 
+#   once manually run safaridriver which is present at path /usr/bin/safaridriver and complete the authentication prompt.
+#   Use option --enable to enable the driver.
+#########################################################################################################################
+# Safari browser driver configuration file
+browserType: safari
+
+# Configure web browser driver binary path
+driverBinaryFilePath: /usr/bin/safaridriver
+
+# pageLoadStrategy: normal, eager, none
+pageLoadStrategy: normal
+
+# logLevel options: OFF, ALL, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
+logLevel: INFO
+
+# unexpectedAlertBehaviour: options: accept, dismiss, accept and notify, dismiss and notify, ignore
+unexpectedAlertBehaviour: dismiss and notify
+
+# acceptInsecureCertificates options: true, false
+acceptInsecureCertificates: false
+
+# Script timeout in seconds
+scriptTimeoutInSeconds: 60
+
+# Page load timeout in seconds
+pageLoadTimeoutInSeconds: 60
+
+# Configure WebDriver capabilities as child elements to driverCapabilities:
+driverCapabilities:
+

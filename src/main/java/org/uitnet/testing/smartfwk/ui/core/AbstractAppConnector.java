@@ -19,6 +19,8 @@ package org.uitnet.testing.smartfwk.ui.core;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.File;
+import java.nio.file.Files;
 
 import org.sikuli.script.Screen;
 import org.slf4j.Logger;
@@ -31,7 +33,6 @@ import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.UserProfile;
-import org.uitnet.testing.smartfwk.ui.core.config.database.orm.OrmDatabaseQueryHandler;
 import org.uitnet.testing.smartfwk.ui.core.handler.ScrollElementToViewportHandler;
 import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginPageValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginSuccessPageValidator;
@@ -60,7 +61,7 @@ public abstract class AbstractAppConnector {
 	protected UserProfile activeUserProfile;
 
 	protected SmartAppDriver appDriver;
-	
+
 	protected AbstractAppConnector(String appName) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.logonTest = false;
@@ -81,7 +82,7 @@ public abstract class AbstractAppConnector {
 	public void scenarioTearDown() {
 
 	}
-	
+
 	public void setScrollElementToViewportHandler(ScrollElementToViewportHandler handler) {
 		appDriver.setScrollElementToViewportHandler(handler);
 	}
@@ -211,23 +212,14 @@ public abstract class AbstractAppConnector {
 		} finally {
 			SmartAppDriverFactory.getInstance().removeAppDriver(appName, appDriver.getAppId());
 			appDriver = null;
-			// appDriver = SmartAppDriverFactory.getInstance().getLatestAppDriverOrCreateOne(appName);
-		}
-	}
-	
-	public void closeChildrenWindows() {
-		if(appDriver != null) {
-			appDriver.closeChildWindows();
+			// appDriver =
+			// SmartAppDriverFactory.getInstance().getLatestAppDriverOrCreateOne(appName);
 		}
 	}
 
-	public OrmDatabaseQueryHandler getDatabaseQueryHandler(String appName, String dbProfileName) {
-		if(appConfig.getEnvironmentConfig().getName().equals("default") || 
-				(appConfig.getEnvironmentConfig().getProperties() != null && 
-					!appConfig.getEnvironmentConfig().getProperties().containsKey("DB_PROFILE_NAMES"))) {
-			return testConfigManager.getDatabaseQueryHandler(appName, dbProfileName);
-		} else {
-			return testConfigManager.getDatabaseQueryHandler(appName, dbProfileName + "-" + appConfig.getEnvironmentConfig().getName());
+	public void closeChildrenWindows() {
+		if (appDriver != null) {
+			appDriver.closeChildWindows();
 		}
 	}
 
@@ -246,7 +238,7 @@ public abstract class AbstractAppConnector {
 
 		String imageFile = ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null,
 				fileNameHint, screenArea, appDriver);
-		scenario.log("Screenshot Path: " + imageFile);
+		logOrAttachScreenshot(scenario, imageFile, fileNameHint);
 	}
 
 	public void captureScreenshot(Scenario scenario, String status) {
@@ -268,7 +260,8 @@ public abstract class AbstractAppConnector {
 
 		String imageFile = ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null,
 				fileNameHint, screenArea, appDriver);
-		scenario.log("Screenshot Path: " + imageFile);
+		
+		logOrAttachScreenshot(scenario, imageFile, fileNameHint);
 	}
 
 	public void captureScreenshot(String fileNameHint) {
@@ -282,14 +275,29 @@ public abstract class AbstractAppConnector {
 			screenArea = Screen.getPrimaryScreen().getRect();
 		}
 
-		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea, appDriver);
+		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea,
+				appDriver);
 	}
-	
+
 	private String prepareScreenshotFileName(Scenario scenario) {
 		String scenName = scenario.getName().replaceAll(" ", "-").replaceAll("[^-a-zA-Z0-9-]", "");
 		scenName = scenName.substring(0, scenName.length() >= 100 ? 100 : scenName.length());
-		String fileName = scenName + "(Line-"+ scenario.getLine() + ")";
+		String fileName = scenName + "(Line-" + scenario.getLine() + ")";
 		return fileName;
+	}
+	
+	private void logOrAttachScreenshot(Scenario scenario, String imageFile, String fileNameHint) {
+		try {
+			if(testConfigManager.embedScreenshotsInTestReport()) {
+				File imgFile = new File(imageFile);
+				scenario.attach(Files.readAllBytes(imgFile.toPath()), "image/png", "Screenshot: " + fileNameHint);
+				imgFile.delete();
+			} else {
+				scenario.log("Screenshot Path: " + imageFile);
+			}
+		} catch (Exception ex) {
+			// do nothing
+		}
 	}
 
 }

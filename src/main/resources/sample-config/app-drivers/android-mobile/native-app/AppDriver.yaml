@@ -1,0 +1,30 @@
+# Android native-app driver configuration file
+
+browserType: not-applicable
+
+# Appium server URL
+remoteDriverURL: http://127.0.0.1:4723/wd/hub
+
+# acceptInsecureCertificates options: true, false
+acceptInsecureCertificates: false
+
+# Configure WebDriver capabilities
+#driverCapabilities.app: <app-file-name-with-extension>
+driverCapabilities:
+  automationName: UIAutomator2
+  appPackage: com.android.calculator2
+  appActivity: .Calculator
+  platformName: android
+  deviceName: emulator-5554
+  noReset: false
+
+# Configure Attributes mapping from Web Element to Native Element. Used to perform different operations on native app.
+webAttrMap:
+  checkElementEnabledAttr: enabled
+  checkElementDisabledAttr: 
+  checkTextboxTypeAsPasswordAttr: password
+  checkTextboxStateAsReadonlyAttr: readonly
+  getInputValueAttr: text
+  getElementTextAttr: text
+  checkOptionSelectedAttr: selected
+

@@ -20,18 +20,19 @@ package org.uitnet.testing.smartfwk.ui.core.config;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
-import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
+
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.TypeRef;
 
 /**
  * 
@@ -53,6 +54,7 @@ public class AppDriverConfig {
 	private Map<String, Object> driverCapabilities;
 	private Map<String, Object> experimentalOptions;
 
+	private Map<String, Object> browserExtensions;
 	private List<File> browserExtensionFiles;
 	private boolean deleteExtensionsCacheIfItExists = true;
 
@@ -63,7 +65,7 @@ public class AppDriverConfig {
 	private boolean acceptInsecureCertificates = false;
 	private boolean acceptUntrustedCertificates = false;
 	private boolean assumeUntrustedCertificateIssuer = false;
-	
+
 	private Map<String, String> webAttrMap;
 
 	private String profilePath;
@@ -80,7 +82,7 @@ public class AppDriverConfig {
 	 * @param properties
 	 */
 
-	public AppDriverConfig(AppConfig appConfig, Properties properties) {
+	public AppDriverConfig(AppConfig appConfig, DocumentContext yamlDoc) {
 		this.appConfig = appConfig;
 		arguments = new ArrayList<String>();
 		driverCapabilities = new HashMap<String, Object>();
@@ -88,35 +90,34 @@ public class AppDriverConfig {
 		browserExtensionFiles = new ArrayList<File>();
 		browserPreferences = new HashMap<String, Object>();
 		webAttrMap = new HashMap<String, String>();
-		init(properties);
+		init(yamlDoc);
 	}
 
-	@SuppressWarnings("unchecked")
-	private void init(Properties properties) {
-		browserType = WebBrowserType.valueOf2(getProperty(properties, "BROWSER_TYPE"));
-		driverSystemPropertyName = getProperty(properties, "DRIVER_SYSTEM_PROPERTY_NAME");
+	private void init(DocumentContext yamlDoc) {
+		browserType = WebBrowserType.valueOf2(JsonYamlUtil.readNoException(yamlDoc, "$.browserType", String.class));
+		driverSystemPropertyName = JsonYamlUtil.readNoException(yamlDoc, "$.driverSystemPropertyName", String.class);
 
-		driverBinaryFilePath = getProperty(properties, "DRIVER_BINARY_FILE_PATH");
+		driverBinaryFilePath = JsonYamlUtil.readNoException(yamlDoc, "$.driverBinaryFilePath", String.class);
 		if (driverBinaryFilePath == null) {
-			driverFileName = getProperty(properties, "DRIVER_FILENAME");
+			driverFileName = JsonYamlUtil.readNoException(yamlDoc, "$.driverFileName", String.class);
 			driverBinaryFilePath = Locations.getProjectRootDir() + File.separator + "test-config" + File.separator
 					+ "app-drivers" + File.separator + OSDetectorUtil.getHostPlatform().getType() + File.separator
 					+ appConfig.getAppType().getType() + File.separator + browserType.getType() + File.separator
 					+ driverFileName;
 		}
 
-		remoteDriverURL = getProperty(properties, "REMOTE_DRIVER_URL");
+		remoteDriverURL = JsonYamlUtil.readNoException(yamlDoc, "$.remoteDriverURL", String.class);
 
-		headless = Boolean.parseBoolean(getProperty(properties, "HEADLESS"));
-		pageLoadStrategy = PageLoadStrategy.fromString(getProperty(properties, "PAGE_LOAD_STRATEGY"));
+		headless = Boolean.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.headless", String.class));
+		pageLoadStrategy = PageLoadStrategy.fromString(JsonYamlUtil.readNoException(yamlDoc, "$.pageLoadStrategy", String.class));
 		unexpectedAlertBehaviour = UnexpectedAlertBehaviour
-				.fromString(getProperty(properties, "UNEXPECTED_ALERT_BEHAVIOUR"));
-		if (getProperty(properties, "LOG_LEVEL") != null) {
-			logLevel = Level.parse(getProperty(properties, "LOG_LEVEL"));
+				.fromString(JsonYamlUtil.readNoException(yamlDoc, "$.unexpectedAlertBehaviour", String.class));
+		if (JsonYamlUtil.readNoException(yamlDoc, "$.logLevel", String.class) != null) {
+			logLevel = Level.parse(JsonYamlUtil.readNoException(yamlDoc, "$.logLevel", String.class));
 		}
 
 		// initialize driver arguments
-		String args = getProperty(properties, "DRIVER_ARGUMENTS");
+		String args = JsonYamlUtil.readNoException(yamlDoc, "$.driverArguments", String.class);
 		if (!StringUtil.isEmptyAfterTrim(args)) {
 			String[] argArr = args.split(" ");
 			for (String a : argArr) {
@@ -127,148 +128,50 @@ public class AppDriverConfig {
 		}
 
 		// Initialize multi value properties
-		for (Object key : properties.keySet()) {
-			String strKey = (String) key;
-			String value = properties.getProperty(strKey);
+		driverCapabilities = JsonYamlUtil.readNoException(yamlDoc, "$.driverCapabilities", (new TypeRef<Map<String, Object>>() {}));
 
-			// initialize driver capabilities
-			if (strKey.startsWith("DriverCapability.")) {
-				String propName = getPropertyName(strKey, "DriverCapability");
-				if(strKey.endsWith("}")) {
-					Map<String, Object> keyValueMap = (Map<String, Object>) driverCapabilities.get(propName);
-					if(keyValueMap == null) {
-						keyValueMap = new HashMap<>();
-						driverCapabilities.put(propName, keyValueMap);
-					}
-					String subProbName = getSubPropertyName(strKey);
-					keyValueMap.put(subProbName, parseTypedValue(strKey, value));
-				} else if(strKey.endsWith("]")) {
-					List<Object> propValues = (List<Object>) driverCapabilities.get(propName);
-					if(propValues == null) {
-						propValues = new LinkedList<Object>();
-						driverCapabilities.put(propName, propValues);
-					}
-					propValues.add(parseTypedValue(strKey, value));
-				} else {
-					driverCapabilities.put(strKey.substring("DriverCapability.".length()), parseTypedValue(strKey, value));
-				}
-			}
-			
-			// initialize web attribute map			
-			if (strKey.startsWith("WebAttrMap.")) {
-				webAttrMap.put(strKey.substring("WebAttrMap.".length()), value.trim());
-			}
+		// initialize web attribute map
+		webAttrMap = JsonYamlUtil.readNoException(yamlDoc, "$.webAttrMap", (new TypeRef<Map<String, String>>() {}));
 
-			// initialize driver experimental options
-			if (strKey.startsWith("ExperimentalOption.")) {
-				String propName = getPropertyName(strKey, "ExperimentalOption");
-				if(strKey.endsWith("}")) {
-					Map<String, Object> keyValueMap = (Map<String, Object>) experimentalOptions.get(propName);
-					if(keyValueMap == null) {
-						keyValueMap = new HashMap<>();
-						experimentalOptions.put(propName, keyValueMap);
-					}
-					String subProbName = getSubPropertyName(strKey);
-					keyValueMap.put(subProbName, parseTypedValue(strKey, value));
-				} else if(strKey.endsWith("]")) {
-					List<Object> propValues = (List<Object>) experimentalOptions.get(propName);
-					if(propValues == null) {
-						propValues = new LinkedList<Object>();
-						experimentalOptions.put(propName, propValues);
-					}
-					propValues.add(parseTypedValue(strKey, value));
-				} else {
-					experimentalOptions.put(strKey.substring("ExperimentalOption.".length()),
-						parseTypedValue(strKey, value));
-				}
-			}
+		// initialize driver experimental options
+		experimentalOptions = JsonYamlUtil.readNoException(yamlDoc, "$.experimentalOptions", (new TypeRef<Map<String, Object>>() {}));
 
-			// load browser extensions
-			if (strKey.startsWith("BrowserExtension.")) {
-				browserExtensionFiles
-						.add(new File(driverBinaryFilePath + File.separator + OSDetectorUtil.getHostPlatform().getType()
-								+ File.separator + appConfig.getAppType().getType() + File.separator
-								+ browserType.name() + File.separator + "extensions" + File.separator + value));
+		// load browser extensions
+		browserExtensions = JsonYamlUtil.readNoException(yamlDoc, "$.browserExtensions", (new TypeRef<Map<String, Object>>() {}));
+		if(browserExtensions != null && browserExtensions.size() > 0) {
+			for(Map.Entry<String, Object> e : browserExtensions.entrySet()) {
+				browserExtensionFiles.add(new File(driverBinaryFilePath + File.separator
+						+ OSDetectorUtil.getHostPlatform().getType() + File.separator + appConfig.getAppType().getType()
+						+ File.separator + browserType.name() + File.separator + "extensions" + File.separator + e.getValue()));
 			}
-
-			// initialize driver experimental options
-			if (strKey.startsWith("BrowserPreference.")) {
-				experimentalOptions.put(strKey.substring("BrowserPreference.".length()),
-						parseTypedValue(strKey, value));
-			}
+				
 		}
-
+		
+		// initialize driver experimental options
+		browserPreferences = JsonYamlUtil.readNoException(yamlDoc, "$.browserPreferences", (new TypeRef<Map<String, Object>>() {}));
+		
 		deleteExtensionsCacheIfItExists = Boolean
-				.parseBoolean(getProperty(properties, "DELETE_EXTENSIONS_CACHE_IF_IT_EXISTS"));
-		alwaysLoadNoFocusLib = Boolean.parseBoolean(getProperty(properties, "ALWAYS_LOAD_NO_FOCUS_LIB"));
-		acceptInsecureCertificates = Boolean.parseBoolean(getProperty(properties, "ACCEPT_INSECURE_CERTIFICATES"));
-		acceptUntrustedCertificates = Boolean.parseBoolean(getProperty(properties, "ACCEPT_UNTRUSTED_CERTIFICATES"));
+				.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.deleteExtensionsCacheIfItExists", String.class));
+		alwaysLoadNoFocusLib = Boolean.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.alwaysLoadNoFocusLib", String.class));
+		acceptInsecureCertificates = Boolean.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.acceptInsecureCertificates", String.class));
+		acceptUntrustedCertificates = Boolean.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.acceptUntrustedCertificates", String.class));
 		assumeUntrustedCertificateIssuer = Boolean
-				.parseBoolean(getProperty(properties, "ASSUME_UNTRUSTED_CERTIFICATE_ISSUER"));
+				.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.assumeUntrustedCertificateIssuer", String.class));
 		profilePath = appConfig.getAppsConfigDir() + File.separator + appConfig.getAppName() + File.separator
 				+ "profile";
-		if(!new File(profilePath).exists()) {
+		if (!new File(profilePath).exists()) {
 			new File(profilePath).mkdirs();
 		}
-		scriptTimeoutInSecs = Integer.parseInt(getProperty(properties, "SCRIPT_TIMEOUT_IN_SECONDS"));
-		pageLoadTimeoutInSecs = Integer.parseInt(getProperty(properties, "PAGE_LOAD_TIMEOUT_IN_SECONDS"));
-	}
-	
-	private String getPropertyName(String strKey, String keyPrefix) {
-		String keyPart = null;
-		try {
-			keyPart = strKey.substring((keyPrefix + ".").length());
-			if(keyPart.endsWith("}")) {
-				String str1 = keyPart.substring(0, keyPart.lastIndexOf("{")).trim();
-				return str1;
-			} else if(keyPart.endsWith("]")) {
-				String str1 = keyPart.substring(0, keyPart.lastIndexOf("[")).trim();
-				return str1;
-			} 
-			Assert.fail("Failed to parse property '" + strKey + "'.");
-		}catch(Exception | Error e) {
-			Assert.fail("Failed to parse property '" + strKey + "'.");
+		
+		String value = JsonYamlUtil.readNoException(yamlDoc, "$.scriptTimeoutInSeconds", String.class);
+		if(value != null) {
+			scriptTimeoutInSecs = Integer.parseInt(value);
 		}
-		return null;
-	}
-	
-	private String getSubPropertyName(String strKey) {
-		String keyPart = null;
-		try {
-			keyPart = strKey.substring(strKey.lastIndexOf("{") + 1, strKey.lastIndexOf("}")).trim();
-		}catch(Exception | Error e) {
-			Assert.fail("Failed to parse property '" + strKey + "' to retrieve map key.");
+		
+		value = JsonYamlUtil.readNoException(yamlDoc, "$.pageLoadTimeoutInSeconds", String.class);
+		if(value != null) {
+			pageLoadTimeoutInSecs = Integer.parseInt(value);
 		}
-		return keyPart;
-	}
-
-	private Object parseTypedValue(String key, String typedValue) {
-		String[] typeAndValue = typedValue.split(":");
-		Assert.assertNotEquals(typeAndValue, 2,
-				"Value defined in '" + browserType.name() + "' browser DriverConfig.properties is incorrect for key '"
-						+ key + "'. Correct format is: <dataType>:<value>");
-
-		switch (typeAndValue[0]) {
-		case "boolean":
-			return Boolean.parseBoolean(typeAndValue[1]);
-		case "string":
-			return typeAndValue[1];
-		case "integer":
-			return Integer.parseInt(typeAndValue[1]);
-		case "float":
-			return Float.parseFloat(typeAndValue[1]);
-		case "double":
-			return Double.parseDouble(typeAndValue[1]);
-		}
-
-		Assert.fail("Value datatype defined in '" + browserType.name()
-				+ "' browser DriverConfig.properties is incorrect for key '" + key
-				+ "'. Supported data types are: boolean, string, integer, float, double");
-		return null;
-	}
-
-	private String getProperty(Properties properties, String propName) {
-		return StringUtil.trim(properties.getProperty(propName));
 	}
 
 	public WebBrowserType getBrowserType() {
@@ -386,7 +289,7 @@ public class AppDriverConfig {
 	public Map<String, Object> getBrowserPreferences() {
 		return browserPreferences;
 	}
-	
+
 	public Map<String, String> getWebAttrMap() {
 		return webAttrMap;
 	}

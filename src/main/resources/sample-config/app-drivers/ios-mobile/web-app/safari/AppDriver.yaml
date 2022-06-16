@@ -1,0 +1,17 @@
+# Android web-app driver configuration file for browser = safari
+
+browserType: safari
+
+# Appium server URL
+remoteDriverURL: http://127.0.0.1:4723/wd/hub
+
+# acceptInsecureCertificates options: true, false
+acceptInsecureCertificates: false
+
+# Configure WebDriver capabilities. 
+driverCapabilities:
+  deviceName: emulator-5554
+  platformName: iOS
+  platformVersion: "11.2"
+  browserName: safari
+

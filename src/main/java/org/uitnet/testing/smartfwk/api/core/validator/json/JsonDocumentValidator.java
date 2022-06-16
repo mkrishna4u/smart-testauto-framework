@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
+import org.uitnet.testing.smartfwk.ui.core.config.DatabaseProfile;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.TypeRef;
@@ -45,6 +46,10 @@ public class JsonDocumentValidator {
 	public JsonDocumentValidator(File jsonFilePath) {
 		jsonDocReader = new JsonDocumentReader(jsonFilePath);
 	}
+	
+	public DocumentContext prepareDocumentContext(Object obj) {
+		return jsonDocReader.prepareDocumentContext(obj);
+	}
 
 	public DocumentContext getDocumentContext() {
 		return jsonDocReader.getDocumentContext();
@@ -61,22 +66,15 @@ public class JsonDocumentValidator {
 	public <T> T readSingleValue(String jsonPath) {
 		return jsonDocReader.readSingleValue(jsonPath);
 	}
+	
+	public <T> T readValueAsObject(String yamlPath, Class<T> clazz) {
+		return jsonDocReader.readValueAsObject(yamlPath, clazz);
+	}
 
 	public void validatePathPresent(String elementName, String jsonPath) {
 		List<?> elems = jsonDocReader.getDocumentContext().read(jsonPath);
 		Assert.assertTrue(elems != null && elems.size() > 0,
 				"Element '" + elementName + "' does not exist on JSON Path '" + jsonPath + "'.");
-	}
-
-	/**
-	 * Use validatePathPresent(..) instead.
-	 * 
-	 * @param elementName
-	 * @param jsonPath
-	 */
-	@Deprecated
-	public void validatePathValuesPresent(String elementName, String jsonPath) {
-		validatePathPresent(elementName, jsonPath);
 	}
 
 	public void validateExpectedNRecordsPresent(String elementName, String jsonPath, int expectedN) {
@@ -153,6 +151,8 @@ public class JsonDocumentValidator {
 		validator.validateSingleValueMatch("First Book Price", "$.book[0].price", Double.class, 49.99);
 		Double price = validator.readSingleValue("$.book[0].price");
 		System.out.println("Double price: " + price);
+		DatabaseProfile objectInfo = validator.readSingleValue("$.book[0]");
+		System.out.println("Map value: " + objectInfo);
 	}
 
 	private static String sampleJson() {

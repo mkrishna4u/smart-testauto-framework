@@ -89,7 +89,7 @@ public class WebElementUtil {
 						Assert.fail("Please specify the value for property '"
 								+ SmartConstants.WEBATTRMAPKEY_CHECK_ELEMENT_DISABLED_ATTR + "' or property '"
 								+ SmartConstants.WEBATTRMAPKEY_CHECK_ELEMENT_ENABLED_ATTR
-								+ "' in AppDriver.properties file for Application '" + appDriver.getAppName() + "'.");
+								+ "' in AppDriver.yaml file for Application '" + appDriver.getAppName() + "'.");
 					}
 				}
 			}
@@ -121,7 +121,7 @@ public class WebElementUtil {
 			} else {
 				Assert.fail("Please specify the value for property '"
 						+ SmartConstants.WEBATTRMAPKEY_CHECK_TEXTBOX_STATE_AS_READONLY_ATTR
-						+ "' in AppDriver.properties file for Application '" + appDriver.getAppName() + "'.");
+						+ "' in AppDriver.yaml file for Application '" + appDriver.getAppName() + "'.");
 			}
 		} else {
 
@@ -180,7 +180,7 @@ public class WebElementUtil {
 				} else {
 					Assert.fail("Please specify the value for property '"
 							+ SmartConstants.WEBATTRMAPKEY_CHECK_OPTION_SELECTED_ATTR
-							+ "' in AppDriver.properties file for Application '" + appDriver.getAppName() + "'.");
+							+ "' in AppDriver.yaml file for Application '" + appDriver.getAppName() + "'.");
 				}
 			}
 		} else {
@@ -210,7 +210,7 @@ public class WebElementUtil {
 					} else {
 						Assert.fail("Please specify the value for property '"
 								+ SmartConstants.WEBATTRMAPKEY_GET_ELEMENT_TEXT_ATTR
-								+ "' in AppDriver.properties file for Application '" + appDriver.getAppName() + "'.");
+								+ "' in AppDriver.yaml file for Application '" + appDriver.getAppName() + "'.");
 					}
 				} else {
 					if (webElem != null) {
@@ -246,7 +246,7 @@ public class WebElementUtil {
 					} else {
 						Assert.fail("Please specify the value for property '"
 								+ SmartConstants.WEBATTRMAPKEY_GET_INPUT_VALUE_ATTR
-								+ "' in AppDriver.properties file for Application '" + appDriver.getAppName() + "'.");
+								+ "' in AppDriver.yaml file for Application '" + appDriver.getAppName() + "'.");
 					}
 				} else {
 					if (webElem != null) {

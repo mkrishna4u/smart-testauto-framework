@@ -17,7 +17,10 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.config;
 
-import org.uitnet.testing.smartfwk.ui.core.config.database.orm.OrmDatabaseQueryHandler;
+import java.util.Map;
+
+import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 /**
  * 
@@ -26,24 +29,72 @@ import org.uitnet.testing.smartfwk.ui.core.config.database.orm.OrmDatabaseQueryH
  */
 public class DatabaseProfile {
 	private String appName;
-	private String name;
-	private OrmDatabaseQueryHandler queryHandler;
+	private String profileName;
+	private String envFileName;
+	private String databaseHandlerClass;
+	private Map<String, Object> additionalProps;
+
+	public DatabaseProfile() {
+
+	}
 
 	public DatabaseProfile(String appName, String profileName) {
 		this.appName = appName;
-		this.name = profileName;
-		queryHandler = new OrmDatabaseQueryHandler(appName, profileName);
+		this.profileName = profileName;
 	}
 
 	public String getAppName() {
 		return appName;
 	}
 
-	public String getName() {
-		return name;
+	public void setAppName(String appName) {
+		this.appName = appName;
 	}
 
-	public OrmDatabaseQueryHandler getQueryHandler() {
-		return queryHandler;
+	public String getProfileName() {
+		return profileName;
 	}
+
+	public void setProfileName(String profileName) {
+		this.profileName = profileName;
+	}
+
+	public String getEnvFileName() {
+		return envFileName;
+	}
+
+	public void setEnvFileName(String envFileName) {
+		this.envFileName = envFileName;
+	}
+
+	public Map<String, Object> getAdditionalProps() {
+		return additionalProps;
+	}
+
+	public void setAdditionalProps(Map<String, Object> additionalProps) {
+		this.additionalProps = additionalProps;
+	}
+	
+	public String getDatabaseHandlerClass() {
+		return databaseHandlerClass;
+	}
+
+	public void setDatabaseHandlerClass(String databaseHandlerClass) {
+		this.databaseHandlerClass = databaseHandlerClass;
+	}
+	
+	public void validateInfo() {
+		if(StringUtil.isEmptyAfterTrim(profileName)) {
+			Assert.fail("FATAL: 'profileName' property value cannot be empty in database profile file '" + envFileName + "'. AppName - '"
+					+ appName + "'. Exiting ...");
+			System.exit(1);
+		}
+	}
+	
+	public <T> T getAdditionalPropertyValue(String propName, Class<T> clazz) {
+		Assert.assertTrue(additionalProps.containsKey(propName), "Please specify the additional property '" + propName
+				+ "' in application '" + appName + "' database profile '" + profileName + ".yaml' file.");
+		return clazz.cast(additionalProps.get(propName));
+	}
+
 }

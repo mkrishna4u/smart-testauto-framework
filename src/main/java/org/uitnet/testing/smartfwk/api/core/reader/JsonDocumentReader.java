@@ -63,10 +63,24 @@ public class JsonDocumentReader {
 			init();
 			Assert.assertNotNull(jsonAsString, "JSON document cannot be null.");
 			Assert.assertNotEquals(jsonAsString.trim(), "", "JSON document cannot be empty.");
-			jsonDocCtx = JsonPath.parse(jsonAsString);
+			ObjectMapper objectMapper = new ObjectMapper();
+			JacksonJsonProvider provider = new JacksonJsonProvider(objectMapper);
+			jsonDocCtx = JsonPath.using(Configuration.builder().jsonProvider(provider).build()).parse(jsonAsString);
 		} catch (Exception ex) {
 			Assert.fail("Failed to parse JSON document.", ex);
 		}
+	}
+	
+	public DocumentContext prepareDocumentContext(Object obj) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			JacksonJsonProvider provider = new JacksonJsonProvider(objectMapper);
+			return JsonPath.using(Configuration.builder().jsonProvider(provider).build())
+					.parse(new ObjectMapper().writeValueAsString(obj));
+		} catch (Exception ex) {
+			Assert.fail("Failed to covert object into DocumentContext.", ex);
+		}
+		return null;
 	}
 
 	public DocumentContext getDocumentContext() {
@@ -89,6 +103,22 @@ public class JsonDocumentReader {
 		TypeRef<T> typeRef = new TypeRef<T>() {
 		};
 		return jsonDocCtx.read(jsonPath, typeRef);
+	}
+	
+	public <T> T readValueAsObject(String yamlPath, Class<T> clazz) {
+		try {
+			Object obj = jsonDocCtx.read(yamlPath, Object.class);
+			
+			ObjectMapper omapper = new ObjectMapper();
+			String jsonStr = omapper.writeValueAsString(obj);
+			
+			omapper = new ObjectMapper();
+			return omapper.readValue(jsonStr, clazz);
+		} catch (Exception ex) {
+			Assert.fail("Failed to read yaml path " + yamlPath + " as class object.", ex);
+		}
+		return null;
+		
 	}
 
 	protected void init() {

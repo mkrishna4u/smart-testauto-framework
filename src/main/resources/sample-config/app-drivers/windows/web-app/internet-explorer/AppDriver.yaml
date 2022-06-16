@@ -1,0 +1,47 @@
+# InternetExplorer browser driver configuration file
+browserType: internet-explorer
+
+# System property name where to set browser driver executable
+driverSystemPropertyName: webdriver.ie.driver
+
+# Configure web browser driver binary path, download it from https://chromedriver.chromium.org/downloads
+driverFileName: IEDriverServer.exe
+
+# pageLoadStrategy: normal, eager, none
+pageLoadStrategy: normal
+
+# logLevel options: OFF, ALL, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
+# Log level mapping with IE driver log level: OFF-> FATAL, INFO -> INFO, else DEBUG   
+logLevel: "OFF"
+
+# unexpectedAlertBehaviour: options: accept, dismiss, accept and notify, dismiss and notify, ignore
+unexpectedAlertBehaviour: dismiss and notify
+
+# acceptInsecureCertificates options: true, false
+acceptInsecureCertificates: false
+
+# Script timeout in seconds
+scriptTimeoutInSeconds: 60
+
+# Page load timeout in seconds
+pageLoadTimeoutInSeconds: 60
+
+# Configure WebDriver capabilities as child elements to driverCapabilities:
+driverCapabilities:
+  enablePersistentHover: false
+  ie.ensureCleanSession: true
+  ignoreProtectedModeSettings: false
+  ignoreZoomSetting: false
+  enablePersistentHover: false
+  requireWindowFocus: true
+
+# Configure WebDriver experimental options as child to experimentalOptions:
+experimentalOptions:
+
+# Configure Browser extensions(for debugging purpose). Files should be stored in <driver>/extensions path. 
+# Key starts with <Extn-Name>: <Extn-filename>
+browserExtensions:
+  
+# Configure WebDriver preferences as child to browserPreferences:
+browserPreferences:
+

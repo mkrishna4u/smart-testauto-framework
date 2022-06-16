@@ -18,20 +18,21 @@
 package org.uitnet.testing.smartfwk.ui.core.config;
 
 import java.io.File;
-import java.io.FileReader;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.sikuli.script.Screen;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.api.core.reader.YamlDocumentReader;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
-import org.uitnet.testing.smartfwk.ui.core.config.database.orm.OrmDatabaseQueryHandler;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
+import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
-import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
+
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.TypeRef;
 
 /**
  * 
@@ -41,25 +42,26 @@ import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 public class TestConfigManager {
 	private static TestConfigManager instance;
 	private static final String TEST_CONFIG_FILE_PATH = Locations.getConfigDirPath() + File.separator
-			+ "TestConfig.properties";
+			+ "TestConfig.yaml";
 
 	private String appsConfigDir;
 	private List<String> appNames;
 	private String cucumberTestcasesDir;
 	private String appScreenCaptureDir;
+	private String htmlReportsDir;
 	private String sikuliConfigDir;
 	private String sikuliResourcesDir;
 	private PlatformType hostPlatformType;
 	private boolean parallelMode;
 	private int parallelThreads;
 	private boolean preferDriverScreenshots;
+	private boolean embedScreenshotsInTestReport;
 
 	// Key: App-Name, Value AppConfig
 	private Map<String, AppConfig> appConfigs;
 
-	private Map<String, String> additionalProps;
+	private Map<String, Object> additionalProps;
 
-	private Map<String, AppDriverConfig> seleniumDriverConfigs;
 	private SikuliSettings sikuliSettings;
 
 	private TestConfigManager() {
@@ -82,13 +84,12 @@ public class TestConfigManager {
 		hostPlatformType = OSDetectorUtil.getHostPlatform();
 		appNames = new LinkedList<String>();
 		appConfigs = new LinkedHashMap<String, AppConfig>();
-		additionalProps = new LinkedHashMap<String, String>();
+		additionalProps = new LinkedHashMap<String, Object>();
 
-		try (FileReader fileReader = new FileReader(TEST_CONFIG_FILE_PATH)) {
-			Properties properties = new Properties();
-			properties.load(fileReader);
+		try {
+			YamlDocumentReader reader = new YamlDocumentReader(new File(TEST_CONFIG_FILE_PATH));
 
-			initTestConfig(properties);
+			initTestConfig(reader.getDocumentContext());
 			initAppConfigs();
 		} catch (Exception ex) {
 			Assert.fail("Failed to read property file - " + TEST_CONFIG_FILE_PATH + ". Going to exit...", ex);
@@ -96,14 +97,15 @@ public class TestConfigManager {
 		}
 	}
 
-	private void initTestConfig(Properties properties) {
+	private void initTestConfig(DocumentContext yamlDoc) {
 		try {
 			// Apply config file properties to TestConfiguration
-			appsConfigDir = Locations.getProjectRootDir() + File.separator + "test-config" + File.separator + "apps-config";
+			appsConfigDir = Locations.getProjectRootDir() + File.separator + "test-config" + File.separator
+					+ "apps-config";
 
-			String appNamesAsStr = System.getProperty("APP_NAMES");
+			String appNamesAsStr = System.getProperty("appNames");
 			if (appNamesAsStr == null || "".equals(appNamesAsStr.trim())) {
-				appNamesAsStr = properties.getProperty("APP_NAMES");
+				appNamesAsStr = JsonYamlUtil.readNoException(yamlDoc, "$.appNames", String.class);
 				if (appNamesAsStr == null || "".equals(appNamesAsStr.trim())) {
 					Assert.fail("FATAL: No application configured.");
 					System.exit(1);
@@ -120,39 +122,48 @@ public class TestConfigManager {
 				Assert.fail("FATAL: No application configured.");
 				System.exit(1);
 			}
-			
+
 			try {
 				parallelThreads = Integer.parseInt(System.getProperty("parallel.threads", "1"));
-			} catch(Exception e) {
+			} catch (Exception e) {
 				parallelThreads = 1;
 			}
-			if(parallelThreads > 1) {
+			if (parallelThreads > 1) {
 				parallelMode = true;
 			} else {
 				parallelMode = false;
 			}
 			
-			if(!StringUtil.trimNullAsEmpty(properties.getProperty("PREFER_DRIVER_SCREENSHOTS")).equals("true")) {
-				preferDriverScreenshots = false;
-			} else {
+			Boolean boolValue = JsonYamlUtil.readNoException(yamlDoc, "$.preferDriverScreenshots", Boolean.class);
+			if (boolValue == null || boolValue.booleanValue() == true) {
 				preferDriverScreenshots = true;
+			} else {
+				preferDriverScreenshots = false;
+			}
+			
+			boolValue = JsonYamlUtil.readNoException(yamlDoc, "$.embedScreenshotsInTestReport", Boolean.class);
+			if (boolValue == null || boolValue.booleanValue() == true) {
+				embedScreenshotsInTestReport = true;
+			} else {
+				embedScreenshotsInTestReport = false;
 			}
 
 			cucumberTestcasesDir = Locations.getProjectRootDir() + File.separator + "cucumber-testcases";
 
-			appScreenCaptureDir = Locations.getProjectRootDir() + File.separator + "test-results" + File.separator + "screen-captures";
+			appScreenCaptureDir = Locations.getProjectRootDir() + File.separator + "test-results" + File.separator
+					+ "screen-captures";
+			
+			htmlReportsDir = Locations.getProjectRootDir() + File.separator + "test-results" + File.separator
+					+ "cucumber-html-reports";
 
-			sikuliConfigDir = Locations.getProjectRootDir() + File.separator + "test-config" + File.separator + "sikuli-config";
+			sikuliConfigDir = Locations.getProjectRootDir() + File.separator + "test-config" + File.separator
+					+ "sikuli-config";
 
 			sikuliResourcesDir = Locations.getProjectRootDir() + File.separator + "sikuli-resources";
 
-			String keyStr;
-			for (Object key : properties.keySet()) {
-				keyStr = String.valueOf(key);
-				if (keyStr.startsWith("_")) {
-					additionalProps.put(keyStr, properties.getProperty(keyStr));
-				}
-			}
+			additionalProps = JsonYamlUtil.readNoException(yamlDoc, "$.additionalProps", new TypeRef<Map<String, Object>>() {
+			});
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			Assert.fail("Error in loading configured testcase config class. Going to exit...", ex);
@@ -162,49 +173,50 @@ public class TestConfigManager {
 
 	private void initAppConfigs() {
 		String appConfigFile;
-		FileReader fileReader;
 		String currAppName = null;
-		
+
 		try {
 			appConfigs.put(DefaultInfo.DEFAULT_APP_NAME, createDefaultAppConfig(appsConfigDir));
 			AppConfig appConfig;
 			for (String appName : appNames) {
 				currAppName = appName;
-				appConfigFile = appsConfigDir + File.separator + appName + File.separator + "AppConfig.properties";
-				fileReader = new FileReader(appConfigFile);
-				Properties properties = new Properties();
-				properties.load(fileReader);
-				fileReader.close();
-				
-				appConfig = new AppConfig(currAppName, properties, appsConfigDir);
+				appConfigFile = appsConfigDir + File.separator + appName + File.separator + "AppConfig.yaml";
+				YamlDocumentReader reader = new YamlDocumentReader(new File(appConfigFile));
+
+				appConfig = new AppConfig(currAppName, reader.getDocumentContext(), appsConfigDir);
 				appConfigs.put(appName, appConfig);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			Assert.fail("Error in loading AppConfig.properties file for application name '" + currAppName
-					+ "'. Going to exit...", ex);
+			Assert.fail(
+					"Error in loading AppConfig.yaml file for application name '" + currAppName + "'. Going to exit...",
+					ex);
 			System.exit(1);
 		}
 	}
-	
+
 	private AppConfig createDefaultAppConfig(String appsConfigDir) {
-		Properties props = new Properties();
-		props.setProperty("APPLICATION_NAME", DefaultInfo.DEFAULT_APP_NAME);
-		props.setProperty("APPLICATION_TYPE", ApplicationType.not_applicable.getType());
-		props.setProperty("TEST_PLATFORM_TYPE", PlatformType.unknown.getType());
-		props.setProperty("APP_WEB_BROWSER", WebBrowserType.notApplicable.getType());
-		props.setProperty("ENABLE_BROWSER_EXTENSIONS", "false");
-		props.setProperty("BROWSER_WINDOW_SIZE", Screen.getPrimaryScreen().w + " x " + Screen.getPrimaryScreen().h);
-		AppConfig appConfig = new AppConfig(DefaultInfo.DEFAULT_APP_NAME, props, appsConfigDir);
+		String defaultConfig = "applicationName: " + DefaultInfo.DEFAULT_APP_NAME + "\n" + "applicationType: "
+				+ ApplicationType.not_applicable.getType() + "\n" + "testPlatformType: "
+				+ PlatformType.unknown.getType() + "\n" + "appWebBrowser: " + WebBrowserType.notApplicable.getType()
+				+ "\n" + "enableBrowserExtensions: false\n" + "browserWindowSize: " + Screen.getPrimaryScreen().w
+				+ " x " + Screen.getPrimaryScreen().h + "\n";
+
+		YamlDocumentReader reader = new YamlDocumentReader(defaultConfig);
+		AppConfig appConfig = new AppConfig(DefaultInfo.DEFAULT_APP_NAME, reader.getDocumentContext(), appsConfigDir);
 		return appConfig;
 	}
-	
+
 	public boolean isParallelMode() {
 		return parallelMode;
 	}
-	
+
 	public boolean preferDriverScreenshots() {
 		return preferDriverScreenshots;
+	}
+
+	public boolean embedScreenshotsInTestReport() {
+		return embedScreenshotsInTestReport;
 	}
 
 	public AppConfig getAppConfig(String appName) {
@@ -227,22 +239,22 @@ public class TestConfigManager {
 		return appConfig.getDatabaseProfile(profileName);
 	}
 
-	public OrmDatabaseQueryHandler getDatabaseQueryHandler(String appName, String profileName) {
-		return getDatabaseProfile(appName, profileName).getQueryHandler();
-	}
-
-	public String getAdditionalPropertyValue(String propName) {
+	public <T> T getAdditionalPropertyValue(String propName, Class<T> clazz) {
 		Assert.assertTrue(additionalProps.containsKey(propName),
-				"Please specify the additional property '" + propName + "' in TestConfig.properties file.");
-		return additionalProps.get(propName);
+				"Please specify the additional property '" + propName + "' in TestConfig.yaml file.");
+		return clazz.cast(additionalProps.get(propName));
 	}
 
-	public String getAdditionalPropertyValue(String appName, String propName) {
-		return getAppConfig(appName).getAdditionalPropertyValue(propName);
+	public <T> T getAdditionalPropertyValue(String appName, String propName, Class<T> clazz) {
+		return getAppConfig(appName).getAdditionalPropertyValue(propName, clazz);
 	}
 
 	public String getAppScreenCaptureDirectory() {
 		return appScreenCaptureDir;
+	}
+
+	public String getHtmlReportsDir() {
+		return htmlReportsDir;
 	}
 
 	public String getUserProfileAdditionalPropertyValue(String appName, String profileName, String propName) {
@@ -250,24 +262,15 @@ public class TestConfigManager {
 	}
 
 	private void initSikuliSettings() {
-		String sikuliSettingsFile = sikuliConfigDir + File.separator + "SikuliSettings.properties";
-		try (FileReader fileReader = new FileReader(sikuliSettingsFile)) {
-			Properties properties = new Properties();
-			properties.load(fileReader);
+		String sikuliSettingsFile = sikuliConfigDir + File.separator + "SikuliSettings.yaml";
+		try {
+			YamlDocumentReader reader = new YamlDocumentReader(new File(sikuliSettingsFile));
 
-			sikuliSettings = new SikuliSettings(sikuliConfigDir, properties);
+			sikuliSettings = new SikuliSettings(sikuliConfigDir, reader.getDocumentContext());
 		} catch (Exception ex) {
 			Assert.fail("Failed to read property file - " + sikuliSettingsFile + ". Going to exit...", ex);
 			System.exit(1);
 		}
-	}
-
-	public Map<String, AppDriverConfig> getSeleniumDriverConfings() {
-		return seleniumDriverConfigs;
-	}
-
-	public AppDriverConfig getSeleniumDriverConfig(WebBrowserType browserType) {
-		return seleniumDriverConfigs.get(browserType.name());
 	}
 
 	public SikuliSettings getSikuliSettings() {

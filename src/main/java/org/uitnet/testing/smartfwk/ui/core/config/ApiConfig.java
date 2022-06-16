@@ -17,9 +17,13 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.config;
 
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.testng.Assert;
+
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.TypeRef;
 
 /**
  * 
@@ -27,23 +31,19 @@ import org.testng.Assert;
  *
  */
 public class ApiConfig {
+	private String appName;
 	private String apiConfigFilePath;
-	private Properties props;
+	private Map<String, Object> additionalProps;
 
-	public ApiConfig(String apiConfigFilePath, Properties props) {
+	public ApiConfig(String appName, String apiConfigFilePath, DocumentContext yamlDoc) {
+		this.appName = appName;
 		this.apiConfigFilePath = apiConfigFilePath;
-		this.props = props;
+		this.additionalProps = yamlDoc.read("$.additionalProps", new TypeRef<HashMap<String, Object>>() {});
 	}
 
-	public String getPropertyValue(String propName) {
-		if (!propName.startsWith("_")) {
-			Assert.fail("Property name should start with prefix underscore ( _ ).");
-		}
-
-		if (!this.props.containsKey(propName)) {
-			Assert.fail("Please specify the property '" + propName + "' in '" + apiConfigFilePath + "' file.");
-		}
-		return this.props.getProperty(propName);
+	public <T> T getAdditionalPropertyValue(String propName, Class<T> clazz) {
+		Assert.assertTrue(additionalProps.containsKey(propName), "Please specify the additional property '" + propName
+				+ "' in application '" + appName + "' '" + apiConfigFilePath + "' file.");
+		return clazz.cast(additionalProps.get(propName));
 	}
-
 }

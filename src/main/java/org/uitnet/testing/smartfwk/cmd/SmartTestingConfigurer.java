@@ -24,8 +24,6 @@ package org.uitnet.testing.smartfwk.cmd;
  * 3. Create new test environment.
  * 4. Add user profile in application.
  * 5. Remove user profile from application.
- * 6. Set parallel mode to run testcases in parallel mode.
- * 7. Unset parallel mode to run testcases in sequential mode.
  * 8. Add step definition file for UI Test Cases.
  * 9. Add step definition file for Api Test Cases.
  * 10. Add page object file to define page objects for UI operations.

@@ -106,7 +106,7 @@ public class SmartApiTestManager implements ApiTestManager {
 		return appName + ":" + targetServerName;
 	}
 	
-	public void close() {
+	public void deregisterAll() {
 		appTestHelpers.clear();
 		
 		for(ApiAuthenticationProvider aap : appAuthProviders.values()) {
