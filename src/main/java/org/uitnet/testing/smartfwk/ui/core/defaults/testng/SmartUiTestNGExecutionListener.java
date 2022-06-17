@@ -24,6 +24,7 @@ import org.testng.Reporter;
 import org.uitnet.testing.smartfwk.ui.core.AbstractAppConnector;
 import org.uitnet.testing.smartfwk.ui.core.SingletonAppConnectorMap;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.database.SmartDatabaseManager;
 
 /**
  * 
@@ -52,6 +53,8 @@ public class SmartUiTestNGExecutionListener implements IExecutionListener {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		
+		SmartDatabaseManager.getInstance().deregisterAll();
 	}
 
 }

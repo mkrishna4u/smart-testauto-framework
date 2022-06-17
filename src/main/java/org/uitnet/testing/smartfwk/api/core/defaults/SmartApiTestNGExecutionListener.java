@@ -23,6 +23,7 @@ import org.testng.IExecutionListener;
 import org.testng.Reporter;
 import org.uitnet.testing.smartfwk.api.core.AbstractApiTestHelper;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.database.SmartDatabaseManager;
 
 /**
  * 
@@ -43,5 +44,7 @@ public class SmartApiTestNGExecutionListener implements IExecutionListener {
 				entry.getValue().logout();
 			}
 		}
+		
+		SmartDatabaseManager.getInstance().deregisterAll();
 	}
 }
