@@ -126,4 +126,13 @@ public class SmartDatabaseManager implements DatabaseManager {
 	private String prepareKey(String appName, String targetServerName) {
 		return appName + ":" + targetServerName;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public AbstractDatabaseActionHandler<?> getDatabaseActionHandlerForProfile(String appName,
+			String targetServerName, String profileName) {
+		AbstractDatabaseActionHandler<?> actionHandler = getRegisteredDatabaseActionHandler(appName, targetServerName);
+		actionHandler.setActiveDatabaseProfileName(profileName);
+		return actionHandler;
+	}
 }

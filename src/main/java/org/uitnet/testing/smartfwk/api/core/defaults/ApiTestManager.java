@@ -30,5 +30,6 @@ public interface ApiTestManager {
 	void registerTestHelper(String appName, String targetServerName, AbstractApiTestHelper testHelper);
 	AbstractApiTestHelper getRegisteredTestHelper(String appName, String targetServerName);
 	ApiAuthenticationProvider getAuthenticationProvider(String appName, String targetServerName, String userProfileName);
+	AbstractApiTestHelper getTestHelperForProfile(String appName, String targetServerName, String userProfileName);
 
 }

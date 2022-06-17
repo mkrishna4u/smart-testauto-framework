@@ -29,5 +29,6 @@ public interface DatabaseManager {
 	<T> AbstractDatabaseActionHandler<T> getRegisteredDatabaseActionHandler(String appName, String targetServerName);
 	<T> DatabaseConnectionProvider<T> getDatabaseConnectionProvider(String appName, String targetServerName, String databseProfileName);
 	DatabaseProfile getDatabaseProfile(String appName, String profileName);
+	<T> AbstractDatabaseActionHandler<T> getDatabaseActionHandlerForProfile(String appName, String targetServerName, String profileName);
 	void deregisterAll();
 }

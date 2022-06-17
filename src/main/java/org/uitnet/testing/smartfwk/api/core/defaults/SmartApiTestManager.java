@@ -68,6 +68,14 @@ public class SmartApiTestManager implements ApiTestManager {
 	public void registerTestHelper(String appName, String targetServerName, AbstractApiTestHelper testHelper) {
 		appTestHelpers.put(prepareKey(appName, targetServerName), testHelper);
 	}
+	
+	@Override
+	public AbstractApiTestHelper getTestHelperForProfile(String appName, String targetServerName,
+			String userProfileName) {
+		AbstractApiTestHelper helper = getRegisteredTestHelper(appName, targetServerName);
+		helper.setActiveProfileName(userProfileName);
+		return helper;
+	}
 
 	public AbstractApiTestHelper getRegisteredTestHelper(String appName, String targetServerName) {
 		AbstractApiTestHelper testHelper = appTestHelpers.get(prepareKey(appName, targetServerName));
