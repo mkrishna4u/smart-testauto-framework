@@ -32,11 +32,11 @@ import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 public class SmartDatabaseManager implements DatabaseManager {
 	private static SmartDatabaseManager instance;
 
-	// Key: appName:targetServerName, Value: AbstractDatabaseActionHandler
-	private Map<String, AbstractDatabaseActionHandler<?>> dbActionHandlers;
+	// Key: appName:targetServerName, Value: AbstractDatabaseActionHandlerr
+	private Map<String, AbstractDatabaseActionHandler> dbActionHandlers;
 
-	// Key: appName:targetServerName:dbProfileName, Value: DatabaseConnectionProvider
-	private Map<String, DatabaseConnectionProvider<?>> dbConnectionProviders;
+	// Key: appName:targetServerName:dbProfileName, Value: DatabaseConnectionProviderr
+	private Map<String, DatabaseConnectionProvider> dbConnectionProviders;
 
 	private SmartDatabaseManager() {
 		dbActionHandlers = new HashMap<>();
@@ -59,20 +59,19 @@ public class SmartDatabaseManager implements DatabaseManager {
 
 	@Override
 	public void registerDatabaseActionHandler(String appName, String targetServerName,
-			AbstractDatabaseActionHandler<?> actionHandler) {
+			AbstractDatabaseActionHandler actionHandler) {
 		dbActionHandlers.put(prepareKey(appName, targetServerName), actionHandler);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public AbstractDatabaseActionHandler<?> getRegisteredDatabaseActionHandler(String appName, String targetServerName) {
-		AbstractDatabaseActionHandler<?> actionHandler = dbActionHandlers.get(prepareKey(appName, targetServerName));
+	public AbstractDatabaseActionHandler getRegisteredDatabaseActionHandler(String appName, String targetServerName) {
+		AbstractDatabaseActionHandler actionHandler = dbActionHandlers.get(prepareKey(appName, targetServerName));
 		Assert.assertNotNull(actionHandler,
 				"No database action handler registered with SmartDatabaseManager class for appName = " + appName
 						+ " and targetServerName = " + targetServerName
 						+ ". This must be registered in cucumber step definition method that is annotated with @BeforeAll.");
 
-		AbstractDatabaseActionHandler<?> newTestHelper = actionHandler.clone();
+		AbstractDatabaseActionHandler newTestHelper = actionHandler.clone();
 		newTestHelper.setDatabaseManager(this);
 		newTestHelper.setTargetServerName(targetServerName);
 
@@ -80,11 +79,10 @@ public class SmartDatabaseManager implements DatabaseManager {
 	}
 
 	@Override
-	@SuppressWarnings({ "unchecked" })
-	public DatabaseConnectionProvider<?> getDatabaseConnectionProvider(String appName, String targetServerName,
+	public DatabaseConnectionProvider getDatabaseConnectionProvider(String appName, String targetServerName,
 			String databaseProfileName) {
 		String mapKey = prepareConnectionProviderMapKey(appName, targetServerName, databaseProfileName);
-		DatabaseConnectionProvider<?> connectionProvider = dbConnectionProviders.get(mapKey);
+		DatabaseConnectionProvider connectionProvider = dbConnectionProviders.get(mapKey);
 
 		if (connectionProvider != null) {
 			return connectionProvider;
@@ -107,7 +105,7 @@ public class SmartDatabaseManager implements DatabaseManager {
 	public void deregisterAll() {
 		dbActionHandlers.clear();
 
-		for (DatabaseConnectionProvider<?> aap : dbConnectionProviders.values()) {
+		for (DatabaseConnectionProvider aap : dbConnectionProviders.values()) {
 			aap.disconnect();
 		}
 
@@ -127,11 +125,10 @@ public class SmartDatabaseManager implements DatabaseManager {
 		return appName + ":" + targetServerName;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public AbstractDatabaseActionHandler<?> getDatabaseActionHandlerForProfile(String appName,
+	public AbstractDatabaseActionHandler getDatabaseActionHandlerForProfile(String appName,
 			String targetServerName, String profileName) {
-		AbstractDatabaseActionHandler<?> actionHandler = getRegisteredDatabaseActionHandler(appName, targetServerName);
+		AbstractDatabaseActionHandler actionHandler = getRegisteredDatabaseActionHandler(appName, targetServerName);
 		actionHandler.setActiveDatabaseProfileName(profileName);
 		return actionHandler;
 	}

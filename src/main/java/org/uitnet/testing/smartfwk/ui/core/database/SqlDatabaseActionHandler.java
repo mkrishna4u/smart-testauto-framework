@@ -39,14 +39,14 @@ import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
  * @author Madhav Krishna
  *
  */
-public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler<SessionFactory> {
+public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 
 	public SqlDatabaseActionHandler(String appName, int sessionExpiryDurationInSeconds) {
 		super(appName, sessionExpiryDurationInSeconds);
 	}
 
 	@Override
-	public DatabaseConnection<SessionFactory> connect(DatabaseProfile dbProfile) {
+	public DatabaseConnection connect(DatabaseProfile dbProfile) {
 		Map<String, Object> dbAdditionalProps = dbProfile.getAdditionalProps();
 		Properties dbProps = new Properties();
 		dbProps.putAll(dbAdditionalProps);
@@ -54,28 +54,27 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler<Sess
 
 		SessionFactory hibernateSessionFactory = hibernateCfg.buildSessionFactory();
 
-		DatabaseConnection<SessionFactory> connection = new DatabaseConnection<>(hibernateSessionFactory);
+		DatabaseConnection connection = new DatabaseConnection(hibernateSessionFactory);
 		return connection;
 	}
 
 	@Override
-	public void disconnect(DatabaseConnection<SessionFactory> connection) {
+	public void disconnect(DatabaseConnection connection) {
 		if (connection != null && connection.getConnection() != null) {
 			try {
-				connection.getConnection().close();
+				((SessionFactory)connection.getConnection()).close();
 			} catch (Exception ex) {
 			}
 		}
 	}
 
 	@Override
-	protected String getDataAsJsonString(DatabaseConnection<SessionFactory> connection, String entityName,
+	protected String getDataAsJsonString(DatabaseConnection connection, String entityName,
 			String searchStatement) {
 		Session hibSession = null;
 		try {
 			Thread.sleep(5000);
-
-			hibSession = connection.getConnection().openSession();
+			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 
 			NativeQuery<?> sqlQuery = hibSession.createSQLQuery(searchStatement);
 			List<?> foundRecords = sqlQuery.list();
@@ -93,12 +92,12 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler<Sess
 	}
 
 	@Override
-	protected void updateData(DatabaseConnection<SessionFactory> connection, String entityName,
+	protected void updateData(DatabaseConnection connection, String entityName,
 			String updateStatement) {
 		Session hibSession = null;
 		Transaction txn = null;
 		try {
-			hibSession = connection.getConnection().openSession();
+			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 			txn = hibSession.beginTransaction();
 
 			NativeQuery<?> sqlQuery = hibSession.createSQLQuery(updateStatement);
@@ -121,12 +120,12 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler<Sess
 	}
 
 	@Override
-	protected void deleteData(DatabaseConnection<SessionFactory> connection, String entityName,
+	protected void deleteData(DatabaseConnection connection, String entityName,
 			String deleteStatement) {
 		Session hibSession = null;
 		Transaction txn = null;
 		try {
-			hibSession = connection.getConnection().openSession();
+			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 			txn = hibSession.beginTransaction();
 
 			NativeQuery<?> sqlQuery = hibSession.createSQLQuery(deleteStatement);
@@ -149,12 +148,12 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler<Sess
 	}
 
 	@Override
-	protected void insertData(DatabaseConnection<SessionFactory> connection, String entityName,
+	protected void insertData(DatabaseConnection connection, String entityName,
 			String insertStatement) {
 		Session hibSession = null;
 		Transaction txn = null;
 		try {
-			hibSession = connection.getConnection().openSession();
+			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 			txn = hibSession.beginTransaction();
 
 			NativeQuery<?> sqlQuery = hibSession.createSQLQuery(insertStatement);
@@ -177,12 +176,12 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler<Sess
 	}
 
 	@Override
-	protected void insertDataInBatch(DatabaseConnection<SessionFactory> connection, String entityName,
+	protected void insertDataInBatch(DatabaseConnection connection, String entityName,
 			List<String> insertStatements) {
 		Session hibSession = null;
 		Transaction txn = null;
 		try {
-			hibSession = connection.getConnection().openSession();
+			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 			txn = hibSession.beginTransaction();
 			hibSession.setJdbcBatchSize(100);
 
@@ -208,11 +207,11 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler<Sess
 	}
 
 	@Override
-	protected void create(DatabaseConnection<SessionFactory> connection, String entityName, String createStatement) {
+	protected void create(DatabaseConnection connection, String entityName, String createStatement) {
 		Session hibSession = null;
 		Transaction txn = null;
 		try {
-			hibSession = connection.getConnection().openSession();
+			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 			txn = hibSession.beginTransaction();
 			hibSession.setJdbcBatchSize(100);
 
@@ -237,11 +236,11 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler<Sess
 	}
 
 	@Override
-	protected void drop(DatabaseConnection<SessionFactory> connection, String entityName, String dropStatement) {
+	protected void drop(DatabaseConnection connection, String entityName, String dropStatement) {
 		Session hibSession = null;
 		Transaction txn = null;
 		try {
-			hibSession = connection.getConnection().openSession();
+			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 			txn = hibSession.beginTransaction();
 			hibSession.setJdbcBatchSize(100);
 
@@ -263,5 +262,5 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler<Sess
 			}
 		}
 	}
-
+	
 }

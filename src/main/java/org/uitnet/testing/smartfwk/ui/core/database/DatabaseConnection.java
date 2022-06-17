@@ -22,14 +22,14 @@ package org.uitnet.testing.smartfwk.ui.core.database;
  * @author Madhav Krishna
  *
  */
-public class DatabaseConnection<T> {
-	private T connection;
+public class DatabaseConnection {
+	private Object connection;
 	
-	public DatabaseConnection(T connection) {
+	public DatabaseConnection(Object connection) {
 		this.connection = connection;
 	}
 
-	public T getConnection() {
+	public Object getConnection() {
 		return connection;
 	}
 }

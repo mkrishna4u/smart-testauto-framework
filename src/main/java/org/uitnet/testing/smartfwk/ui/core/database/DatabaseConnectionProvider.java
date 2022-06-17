@@ -24,7 +24,7 @@ import org.uitnet.testing.smartfwk.ui.core.config.DatabaseProfile;
  * @author Madhav Krishna
  *
  */
-public interface DatabaseConnectionProvider<T> {
-	DatabaseConnection<T> connect(DatabaseProfile dbProfile);
+public interface DatabaseConnectionProvider {
+	DatabaseConnection connect(DatabaseProfile dbProfile);
 	void disconnect();
 }

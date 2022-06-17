@@ -31,7 +31,7 @@ import com.jayway.jsonpath.DocumentContext;
  * @author Madhav Krishna
  *
  */
-public abstract class AbstractDatabaseActionHandler<T> implements DatabaseConnectionProvider<T> {
+public abstract class AbstractDatabaseActionHandler implements DatabaseConnectionProvider {
 	protected String appName;
 	protected DatabaseManager databaseManager;
 	protected String targetServerName;
@@ -40,7 +40,7 @@ public abstract class AbstractDatabaseActionHandler<T> implements DatabaseConnec
 	protected int sessionExpiryDurationInSeconds;
 	protected long lastRequestAccessTimeInMs;
 
-	protected DatabaseConnection<T> connection;
+	protected DatabaseConnection connection;
 
 	public AbstractDatabaseActionHandler(String appName, int sessionExpiryDurationInSeconds) {
 		this.appName = appName;
@@ -56,7 +56,7 @@ public abstract class AbstractDatabaseActionHandler<T> implements DatabaseConnec
 		this.targetServerName = targetServerName;
 	}
 
-	public DatabaseConnection<T> setActiveDatabaseProfileName(String profileName) {
+	public DatabaseConnection setActiveDatabaseProfileName(String profileName) {
 		if (activeDatabaseProfileName == null || "".equals(activeDatabaseProfileName)) {
 			authenticate(profileName);
 			activeDatabaseProfileName = profileName;
@@ -78,7 +78,7 @@ public abstract class AbstractDatabaseActionHandler<T> implements DatabaseConnec
 
 	protected void authenticate(String profileName) {
 		if (databaseManager != null) {
-			DatabaseConnectionProvider<T> connProvider = databaseManager.getDatabaseConnectionProvider(appName,
+			DatabaseConnectionProvider connProvider = databaseManager.getDatabaseConnectionProvider(appName,
 					targetServerName, profileName);
 			connection = connProvider.connect(databaseManager.getDatabaseProfile(appName, profileName));
 		} else {
@@ -99,8 +99,7 @@ public abstract class AbstractDatabaseActionHandler<T> implements DatabaseConnec
 		return false;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public AbstractDatabaseActionHandler<Object> clone() {
+	public AbstractDatabaseActionHandler clone() {
 		try {
 			return (AbstractDatabaseActionHandler) this.getClass().getDeclaredConstructors()[0].newInstance();
 		} catch (Exception ex) {
@@ -198,21 +197,21 @@ public abstract class AbstractDatabaseActionHandler<T> implements DatabaseConnec
 		disconnect(connection);
 	}
 
-	protected abstract void disconnect(DatabaseConnection<T> connection);
+	protected abstract void disconnect(DatabaseConnection connection);
 	
-	protected abstract String getDataAsJsonString(DatabaseConnection<T> connection, String entityName,
+	protected abstract String getDataAsJsonString(DatabaseConnection connection, String entityName,
 			String searchStatement);
 
-	protected abstract void updateData(DatabaseConnection<T> connection, String entityName, String updateStatement);
+	protected abstract void updateData(DatabaseConnection connection, String entityName, String updateStatement);
 
-	protected abstract void deleteData(DatabaseConnection<T> connection, String entityName, String deleteStatement);
+	protected abstract void deleteData(DatabaseConnection connection, String entityName, String deleteStatement);
 
-	protected abstract void insertData(DatabaseConnection<T> connection, String entityName, String insertStatement);
+	protected abstract void insertData(DatabaseConnection connection, String entityName, String insertStatement);
 
-	protected abstract void insertDataInBatch(DatabaseConnection<T> connection, String entityName,
+	protected abstract void insertDataInBatch(DatabaseConnection connection, String entityName,
 			List<String> insertStatements);
 
-	protected abstract void create(DatabaseConnection<T> connection, String entityName, String createStatement);
+	protected abstract void create(DatabaseConnection connection, String entityName, String createStatement);
 
-	protected abstract void drop(DatabaseConnection<T> connection, String entityName, String dropStatement);
+	protected abstract void drop(DatabaseConnection connection, String entityName, String dropStatement);
 }

@@ -25,10 +25,18 @@ import org.uitnet.testing.smartfwk.ui.core.config.DatabaseProfile;
  *
  */
 public interface DatabaseManager {
-	void registerDatabaseActionHandler(String appName, String targetServerName, AbstractDatabaseActionHandler<?> actionHandler);
-	<T> AbstractDatabaseActionHandler<T> getRegisteredDatabaseActionHandler(String appName, String targetServerName);
-	<T> DatabaseConnectionProvider<T> getDatabaseConnectionProvider(String appName, String targetServerName, String databseProfileName);
+	void registerDatabaseActionHandler(String appName, String targetServerName,
+			AbstractDatabaseActionHandler actionHandler);
+
+	AbstractDatabaseActionHandler getRegisteredDatabaseActionHandler(String appName, String targetServerName);
+
+	DatabaseConnectionProvider getDatabaseConnectionProvider(String appName, String targetServerName,
+			String databseProfileName);
+
 	DatabaseProfile getDatabaseProfile(String appName, String profileName);
-	<T> AbstractDatabaseActionHandler<T> getDatabaseActionHandlerForProfile(String appName, String targetServerName, String profileName);
+
+	AbstractDatabaseActionHandler getDatabaseActionHandlerForProfile(String appName, String targetServerName,
+			String profileName);
+
 	void deregisterAll();
 }
