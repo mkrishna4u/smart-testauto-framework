@@ -34,7 +34,6 @@ import com.jayway.jsonpath.DocumentContext;
 public abstract class AbstractDatabaseActionHandler implements DatabaseConnectionProvider {
 	protected String appName;
 	protected DatabaseManager databaseManager;
-	protected String targetServerName;
 	protected String activeDatabaseProfileName;
 	protected DatabaseProfile activeDatabaseProfile;
 	protected int sessionExpiryDurationInSeconds;
@@ -50,10 +49,6 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 
 	public void setDatabaseManager(DatabaseManager databaseManager) {
 		this.databaseManager = databaseManager;
-	}
-
-	public void setTargetServerName(String targetServerName) {
-		this.targetServerName = targetServerName;
 	}
 
 	public DatabaseConnection setActiveDatabaseProfileName(String profileName) {
@@ -79,7 +74,7 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 	protected void authenticate(String profileName) {
 		if (databaseManager != null) {
 			DatabaseConnectionProvider connProvider = databaseManager.getDatabaseConnectionProvider(appName,
-					targetServerName, profileName);
+					profileName);
 			connection = connProvider.connect(databaseManager.getDatabaseProfile(appName, profileName));
 		} else {
 			connection = connect(databaseManager.getDatabaseProfile(appName, profileName));
@@ -118,11 +113,11 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 
 		return getDataAsJsonString(connection, entityName, searchStatement);
 	}
-	
+
 	public DocumentContext getDataAsJsonDocument(String entityName, String searchStatement) {
 		String jsonData = getDataAsJsonString(entityName, searchStatement);
 		JsonDocumentReader reader = new JsonDocumentReader(jsonData);
-		
+
 		return reader.getDocumentContext();
 	}
 
@@ -191,14 +186,14 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 
 		drop(connection, entityName, dropStatement);
 	}
-	
+
 	@Override
 	public void disconnect() {
 		disconnect(connection);
 	}
 
 	protected abstract void disconnect(DatabaseConnection connection);
-	
+
 	protected abstract String getDataAsJsonString(DatabaseConnection connection, String entityName,
 			String searchStatement);
 

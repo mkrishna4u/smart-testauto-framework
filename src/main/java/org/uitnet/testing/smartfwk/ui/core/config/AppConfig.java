@@ -477,6 +477,14 @@ public class AppConfig {
 		return environmentConfig;
 	}
 	
+	public Collection<UserProfile> getUserProfiles() {
+		return userProfiles.values();
+	}
+	
+	public Collection<DatabaseProfile> getDatabaseProfiles() {
+		return dbProfiles.values();
+	}
+	
 	private <T> T readEnvValue(String yamlPath, Class<T> clazz, DocumentContext appConfigDocContext, DocumentContext envAppConfigDocContext) {
 		if(envAppConfigDocContext == null) {
 			return JsonYamlUtil.readNoException(appConfigDocContext, yamlPath, clazz);

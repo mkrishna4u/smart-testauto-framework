@@ -37,6 +37,11 @@ public class ObjectUtil {
 		Constructor<?> foundConstructor = null;
 		try {
 			Constructor<?>[] constructors = clazz.getConstructors();
+			
+			if(argTypes == null) {
+				argTypes = new Class<?>[] {};
+			}
+			
 			boolean found = false;
 			for (Constructor<?> m : constructors) {
 				foundConstructor = null;

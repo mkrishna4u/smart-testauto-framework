@@ -18,6 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.config;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -223,6 +224,10 @@ public class TestConfigManager {
 		AppConfig appConfig = appConfigs.get(appName);
 		Assert.assertNotNull(appConfig, "Please configure application config for application '" + appName + "'.");
 		return appConfig;
+	}
+	
+	public Collection<AppConfig> getAppConfigs() {
+		return appConfigs.values();
 	}
 
 	public String getCucumberTestcasesDir() {

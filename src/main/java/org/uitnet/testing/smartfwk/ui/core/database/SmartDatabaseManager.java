@@ -17,12 +17,15 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.database;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.DatabaseProfile;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
 
 /**
  * 
@@ -32,15 +35,16 @@ import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 public class SmartDatabaseManager implements DatabaseManager {
 	private static SmartDatabaseManager instance;
 
-	// Key: appName:targetServerName, Value: AbstractDatabaseActionHandlerr
+	// Key: appName:profileName, Value: AbstractDatabaseActionHandler
 	private Map<String, AbstractDatabaseActionHandler> dbActionHandlers;
 
-	// Key: appName:targetServerName:dbProfileName, Value: DatabaseConnectionProviderr
+	// Key: appName:dbProfileName, Value: DatabaseConnectionProvider
 	private Map<String, DatabaseConnectionProvider> dbConnectionProviders;
 
 	private SmartDatabaseManager() {
 		dbActionHandlers = new HashMap<>();
 		dbConnectionProviders = new HashMap<>();
+		initDatabaseProfiles();
 	}
 
 	public static SmartDatabaseManager getInstance() {
@@ -57,10 +61,32 @@ public class SmartDatabaseManager implements DatabaseManager {
 		return instance;
 	}
 
+	private void initDatabaseProfiles() {
+		Collection<AppConfig> appConfigs = TestConfigManager.getInstance().getAppConfigs();
+		if (appConfigs != null) {
+			Collection<DatabaseProfile> dbProfiles = null;
+			for (AppConfig appConfig : appConfigs) {
+				dbProfiles = appConfig.getDatabaseProfiles();
+				if (dbProfiles != null) {
+					for (DatabaseProfile profile : dbProfiles) {
+						try {
+							Class<?> clazz = Class.forName(profile.getDatabaseHandlerClass());
+							AbstractDatabaseActionHandler obj = (AbstractDatabaseActionHandler) ObjectUtil
+									.findClassConstructor(clazz, null).newInstance();
+							registerDatabaseActionHandler(appConfig.getAppName(), profile.getProfileName(), obj);
+						} catch (Exception ex) {
+							throw new RuntimeException(ex);
+						}
+					}
+				}
+			}
+		}
+	}
+
 	@Override
-	public void registerDatabaseActionHandler(String appName, String targetServerName,
+	public void registerDatabaseActionHandler(String appName, String profileName,
 			AbstractDatabaseActionHandler actionHandler) {
-		dbActionHandlers.put(prepareKey(appName, targetServerName), actionHandler);
+		dbActionHandlers.put(prepareKey(appName, profileName), actionHandler);
 	}
 
 	@Override
@@ -73,15 +99,13 @@ public class SmartDatabaseManager implements DatabaseManager {
 
 		AbstractDatabaseActionHandler newTestHelper = actionHandler.clone();
 		newTestHelper.setDatabaseManager(this);
-		newTestHelper.setTargetServerName(targetServerName);
 
 		return newTestHelper;
 	}
 
 	@Override
-	public DatabaseConnectionProvider getDatabaseConnectionProvider(String appName, String targetServerName,
-			String databaseProfileName) {
-		String mapKey = prepareConnectionProviderMapKey(appName, targetServerName, databaseProfileName);
+	public DatabaseConnectionProvider getDatabaseConnectionProvider(String appName, String profileName) {
+		String mapKey = prepareConnectionProviderMapKey(appName, profileName);
 		DatabaseConnectionProvider connectionProvider = dbConnectionProviders.get(mapKey);
 
 		if (connectionProvider != null) {
@@ -94,7 +118,7 @@ public class SmartDatabaseManager implements DatabaseManager {
 				return connectionProvider;
 			}
 
-			connectionProvider = getRegisteredDatabaseActionHandler(appName, targetServerName);
+			connectionProvider = getRegisteredDatabaseActionHandler(appName, profileName);
 			dbConnectionProviders.put(mapKey, connectionProvider);
 
 			return connectionProvider;
@@ -111,24 +135,23 @@ public class SmartDatabaseManager implements DatabaseManager {
 
 		dbConnectionProviders.clear();
 	}
-	
+
 	@Override
 	public DatabaseProfile getDatabaseProfile(String appName, String profileName) {
 		return TestConfigManager.getInstance().getDatabaseProfile(appName, profileName);
 	}
 
-	private String prepareConnectionProviderMapKey(String appName, String targetServerName, String databseProfileName) {
-		return appName + ":" + targetServerName + ":" + databseProfileName;
+	private String prepareConnectionProviderMapKey(String appName, String profileName) {
+		return appName + ":" + profileName;
 	}
 
-	private String prepareKey(String appName, String targetServerName) {
-		return appName + ":" + targetServerName;
+	private String prepareKey(String appName, String profileName) {
+		return appName + ":" + profileName;
 	}
 
 	@Override
-	public AbstractDatabaseActionHandler getDatabaseActionHandlerForProfile(String appName,
-			String targetServerName, String profileName) {
-		AbstractDatabaseActionHandler actionHandler = getRegisteredDatabaseActionHandler(appName, targetServerName);
+	public AbstractDatabaseActionHandler getDatabaseActionHandler(String appName, String profileName) {
+		AbstractDatabaseActionHandler actionHandler = getRegisteredDatabaseActionHandler(appName, profileName);
 		actionHandler.setActiveDatabaseProfileName(profileName);
 		return actionHandler;
 	}
