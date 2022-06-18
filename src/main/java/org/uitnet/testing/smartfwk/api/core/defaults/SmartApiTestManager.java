@@ -103,10 +103,8 @@ public class SmartApiTestManager implements ApiTestManager {
 	}
 	
 	@Override
-	public AbstractApiActionHandler getActionHandler(String appName, String targetServerName,
-			String userProfileName) {
+	public AbstractApiActionHandler getActionHandler(String appName, String targetServerName) {
 		AbstractApiActionHandler helper = getRegisteredActionHandler(appName, targetServerName);
-		helper.setActiveProfileName(userProfileName);
 		return helper;
 	}
 

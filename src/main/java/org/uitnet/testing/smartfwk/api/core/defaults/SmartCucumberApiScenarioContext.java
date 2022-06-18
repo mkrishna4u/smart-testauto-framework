@@ -82,9 +82,10 @@ public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioCo
 	public AbstractApiActionHandler login(String appName, String targetServerName, String userProfileName) {
 		AbstractApiActionHandler actionHandler = getActionHandler(appName, targetServerName);
 		if (actionHandler == null) {
-			actionHandler = SmartApiTestManager.getInstance().getActionHandler(appName, targetServerName, userProfileName);
+			actionHandler = SmartApiTestManager.getInstance().getActionHandler(appName, targetServerName);
 		}
 
+		actionHandler.setActiveProfileName(userProfileName);
 		this.activeAppName = appName;
 		this.activeTargetServerName = targetServerName;
 
