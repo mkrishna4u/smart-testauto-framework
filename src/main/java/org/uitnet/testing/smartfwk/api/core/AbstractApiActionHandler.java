@@ -31,6 +31,7 @@ import org.uitnet.testing.smartfwk.api.core.support.HttpSession;
 import org.uitnet.testing.smartfwk.api.core.support.MultipartData;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.UserProfile;
+import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -395,7 +396,10 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 	public AbstractApiActionHandler clone() {
 		try {
-			return (AbstractApiActionHandler) this.getClass().getDeclaredConstructors()[0].newInstance();
+			AbstractApiActionHandler obj = (AbstractApiActionHandler) ObjectUtil
+					.findClassConstructor(this.getClass(), new Class[] {String.class, int.class, String.class})
+					.newInstance(this.appName,this.sessionExpiryDurationInSeconds, this.targetServerName);
+			return obj;
 		} catch (Exception ex) {
 			Assert.fail("Failed to clone '" + this.getClass().getName() + "' class object.", ex);
 		}
