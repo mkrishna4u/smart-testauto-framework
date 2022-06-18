@@ -63,6 +63,7 @@ public class SmartRegistry {
 						appConnector.logoutAndQuit();
 					}
 				}
+				appConnectors.clear();
 				// }
 			} catch (Exception ex) {
 				ex.printStackTrace();
