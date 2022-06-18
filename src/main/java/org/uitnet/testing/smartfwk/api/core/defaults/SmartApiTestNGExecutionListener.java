@@ -17,13 +17,9 @@
  */
 package org.uitnet.testing.smartfwk.api.core.defaults;
 
-import java.util.Map;
-
 import org.testng.IExecutionListener;
 import org.testng.Reporter;
-import org.uitnet.testing.smartfwk.api.core.AbstractApiActionHandler;
-import org.uitnet.testing.smartfwk.database.SmartDatabaseManager;
-import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.SmartRegistry;
 
 /**
  * 
@@ -39,12 +35,6 @@ public class SmartApiTestNGExecutionListener implements IExecutionListener {
 	@Override
 	public void onExecutionFinish() {
 		Reporter.log("Going to close all opened API connections.", true);
-		if (!TestConfigManager.getInstance().isParallelMode()) {
-			for(Map.Entry<String, AbstractApiActionHandler> entry : SingletonApiActionHandlerMap.getInstance().getMap().entrySet()) {
-				entry.getValue().logout();
-			}
-		}
-		
-		SmartDatabaseManager.getInstance().deregisterAll();
+		SmartRegistry.deregisterAll();
 	}
 }

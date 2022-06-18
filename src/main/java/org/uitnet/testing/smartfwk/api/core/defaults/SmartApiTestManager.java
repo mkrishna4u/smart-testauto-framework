@@ -146,7 +146,7 @@ public class SmartApiTestManager implements ApiTestManager {
 	}
 	
 	@Override
-	public void deregisterAll() {
+	public synchronized void deregisterAll() {
 		appActionHandlers.clear();
 		
 		for(ApiAuthenticationProvider aap : appAuthProviders.values()) {

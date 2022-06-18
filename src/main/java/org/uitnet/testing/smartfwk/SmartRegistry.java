@@ -17,10 +17,14 @@
  */
 package org.uitnet.testing.smartfwk;
 
+import java.util.Map;
+
 import org.uitnet.testing.smartfwk.api.core.defaults.ApiTestManager;
 import org.uitnet.testing.smartfwk.api.core.defaults.SmartApiTestManager;
 import org.uitnet.testing.smartfwk.database.DatabaseManager;
 import org.uitnet.testing.smartfwk.database.SmartDatabaseManager;
+import org.uitnet.testing.smartfwk.ui.core.AbstractAppConnector;
+import org.uitnet.testing.smartfwk.ui.core.SingletonAppConnectorMap;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 
 /**
@@ -49,5 +53,18 @@ public class SmartRegistry {
 	public static void deregisterAll() {
 		getDatabaseManager().deregisterAll();
 		getApiTestManager().deregisterAll();
+		// deregister UI connectors
+		try {
+			//if (!TestConfigManager.getInstance().isParallelMode()) {
+				Map<String, AbstractAppConnector> appConnectors = SingletonAppConnectorMap.getInstance().getMap();
+				if (appConnectors != null && !appConnectors.isEmpty()) {
+					for (AbstractAppConnector appConnector : appConnectors.values()) {
+						appConnector.logoutAndQuit();
+					}
+				}
+			//}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

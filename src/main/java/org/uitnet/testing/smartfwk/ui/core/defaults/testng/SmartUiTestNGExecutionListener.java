@@ -17,14 +17,9 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.defaults.testng;
 
-import java.util.Map;
-
 import org.testng.IExecutionListener;
 import org.testng.Reporter;
-import org.uitnet.testing.smartfwk.database.SmartDatabaseManager;
-import org.uitnet.testing.smartfwk.ui.core.AbstractAppConnector;
-import org.uitnet.testing.smartfwk.ui.core.SingletonAppConnectorMap;
-import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.SmartRegistry;
 
 /**
  * 
@@ -40,21 +35,21 @@ public class SmartUiTestNGExecutionListener implements IExecutionListener {
 	@Override
 	public void onExecutionFinish() {
 		Reporter.log("Going to close all opened applications.", true);
-
-		try {
-			if (!TestConfigManager.getInstance().isParallelMode()) {
-				Map<String, AbstractAppConnector> appConnectors = SingletonAppConnectorMap.getInstance().getMap();
-				if (appConnectors != null && !appConnectors.isEmpty()) {
-					for (AbstractAppConnector appConnector : appConnectors.values()) {
-						appConnector.logoutAndQuit();
-					}
-				}
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		SmartDatabaseManager.getInstance().deregisterAll();
+		SmartRegistry.deregisterAll();
+//		try {
+//			if (!TestConfigManager.getInstance().isParallelMode()) {
+//				Map<String, AbstractAppConnector> appConnectors = SingletonAppConnectorMap.getInstance().getMap();
+//				if (appConnectors != null && !appConnectors.isEmpty()) {
+//					for (AbstractAppConnector appConnector : appConnectors.values()) {
+//						appConnector.logoutAndQuit();
+//					}
+//				}
+//			}
+//		} catch (Exception ex) {
+//			ex.printStackTrace();
+//		}
+//		
+//		SmartDatabaseManager.getInstance().deregisterAll();
 	}
 
 }

@@ -85,7 +85,7 @@ public class SmartDatabaseManager implements DatabaseManager {
 	}
 
 	@Override
-	public void deregisterAll() {
+	public synchronized void deregisterAll() {
 		for (DatabaseConnectionProvider aap : dbActionHandlers.values()) {
 			aap.disconnect();
 		}
