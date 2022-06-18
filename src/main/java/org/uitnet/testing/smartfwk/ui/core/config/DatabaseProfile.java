@@ -32,6 +32,7 @@ public class DatabaseProfile {
 	private String profileName;
 	private String envFileName;
 	private String databaseHandlerClass;
+	private Integer sessionExpiryDurationInSeconds;
 	private Map<String, Object> additionalProps;
 
 	public DatabaseProfile() {
@@ -83,6 +84,14 @@ public class DatabaseProfile {
 		this.databaseHandlerClass = databaseHandlerClass;
 	}
 	
+	public Integer getSessionExpiryDurationInSeconds() {
+		return sessionExpiryDurationInSeconds;
+	}
+
+	public void setSessionExpiryDurationInSeconds(Integer sessionExpiryDurationInSeconds) {
+		this.sessionExpiryDurationInSeconds = sessionExpiryDurationInSeconds;
+	}
+
 	public void validateInfo() {
 		if(StringUtil.isEmptyAfterTrim(profileName)) {
 			Assert.fail("FATAL: 'profileName' property value cannot be empty in database profile file '" + envFileName + "'. AppName - '"

@@ -1,5 +1,6 @@
 profileName: sample-db
 databaseHandlerClass: org.uitnet.testing.smartfwk.ui.core.database.SqlDatabaseActionHandler
+sessionExpiryDurationInSeconds: 1800
 
 # Define additional properties here under additionalProps element as child element.
 additionalProps: 

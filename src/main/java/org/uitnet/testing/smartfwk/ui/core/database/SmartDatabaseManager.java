@@ -72,7 +72,8 @@ public class SmartDatabaseManager implements DatabaseManager {
 						try {
 							Class<?> clazz = Class.forName(profile.getDatabaseHandlerClass());
 							AbstractDatabaseActionHandler obj = (AbstractDatabaseActionHandler) ObjectUtil
-									.findClassConstructor(clazz, null).newInstance();
+									.findClassConstructor(clazz, new Class[] {String.class, Integer.class})
+									.newInstance(profile.getAppName(), profile.getSessionExpiryDurationInSeconds());
 							registerDatabaseActionHandler(appConfig.getAppName(), profile.getProfileName(), obj);
 						} catch (Exception ex) {
 							throw new RuntimeException(ex);

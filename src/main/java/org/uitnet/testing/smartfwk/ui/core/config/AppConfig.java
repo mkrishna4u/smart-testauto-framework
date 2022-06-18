@@ -346,7 +346,7 @@ public class AppConfig {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			Assert.fail("Error in loading database profile '" + currProfileName + ".xml' for application name '"
+			Assert.fail("Error in loading database profile '" + currProfileName + ".yaml' for application name '"
 					+ appName + "'. Going to exit...", ex);
 			System.exit(1);
 		}
