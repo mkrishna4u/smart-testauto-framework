@@ -50,7 +50,7 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 		Map<String, Object> dbAdditionalProps = dbProfile.getAdditionalProps();
 		Properties dbProps = new Properties();
 		dbProps.putAll(dbAdditionalProps);
-		Configuration hibernateCfg = new Configuration().addProperties(dbProps).configure();
+		Configuration hibernateCfg = new Configuration().addProperties(dbProps);
 
 		SessionFactory hibernateSessionFactory = hibernateCfg.buildSessionFactory();
 
