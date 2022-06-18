@@ -28,10 +28,6 @@ public interface DatabaseManager {
 	void registerDatabaseActionHandler(String appName, String profileName,
 			AbstractDatabaseActionHandler actionHandler);
 
-	AbstractDatabaseActionHandler getRegisteredDatabaseActionHandler(String appName, String profileName);
-
-	DatabaseConnectionProvider getDatabaseConnectionProvider(String appName, String profileName);
-
 	DatabaseProfile getDatabaseProfile(String appName, String profileName);
 
 	AbstractDatabaseActionHandler getDatabaseActionHandler(String appName, String profileName);

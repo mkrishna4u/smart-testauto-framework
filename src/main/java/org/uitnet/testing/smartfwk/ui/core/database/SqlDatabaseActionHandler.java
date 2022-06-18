@@ -33,7 +33,7 @@ import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
 
 /**
  * Relational database action handler also called the SQLDatabaseActionHandler.
- * Used to perform operations on relational databases like oracle, maiadb,
+ * Used to perform operations on relational databases like oracle, mariadb,
  * postgres, mysql etc.
  * 
  * @author Madhav Krishna
@@ -41,8 +41,8 @@ import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
  */
 public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 
-	public SqlDatabaseActionHandler(String appName, int sessionExpiryDurationInSeconds) {
-		super(appName, sessionExpiryDurationInSeconds);
+	public SqlDatabaseActionHandler(String appName, int sessionExpiryDurationInSeconds, DatabaseProfile databaseProfile) {
+		super(appName, sessionExpiryDurationInSeconds, databaseProfile);
 	}
 
 	@Override

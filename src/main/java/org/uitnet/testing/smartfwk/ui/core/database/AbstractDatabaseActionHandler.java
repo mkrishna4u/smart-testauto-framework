@@ -20,7 +20,6 @@ package org.uitnet.testing.smartfwk.ui.core.database;
 import java.util.Calendar;
 import java.util.List;
 
-import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
 import org.uitnet.testing.smartfwk.ui.core.config.DatabaseProfile;
 
@@ -33,57 +32,23 @@ import com.jayway.jsonpath.DocumentContext;
  */
 public abstract class AbstractDatabaseActionHandler implements DatabaseConnectionProvider {
 	protected String appName;
-	protected DatabaseManager databaseManager;
-	protected String activeDatabaseProfileName;
 	protected DatabaseProfile activeDatabaseProfile;
 	protected int sessionExpiryDurationInSeconds;
 	protected long lastRequestAccessTimeInMs;
 
 	protected DatabaseConnection connection;
 
-	public AbstractDatabaseActionHandler(String appName, int sessionExpiryDurationInSeconds) {
+	public AbstractDatabaseActionHandler(String appName, int sessionExpiryDurationInSeconds, DatabaseProfile databaseProfile) {
 		this.appName = appName;
 		this.sessionExpiryDurationInSeconds = sessionExpiryDurationInSeconds;
-		databaseManager = SmartDatabaseManager.getInstance();
+		this.activeDatabaseProfile = databaseProfile;
 	}
 
-	public void setDatabaseManager(DatabaseManager databaseManager) {
-		this.databaseManager = databaseManager;
-	}
-
-	public DatabaseConnection setActiveDatabaseProfileName(String profileName) {
-		if (activeDatabaseProfileName == null || "".equals(activeDatabaseProfileName)) {
-			authenticate(profileName);
-			activeDatabaseProfileName = profileName;
-			activeDatabaseProfile = databaseManager.getDatabaseProfile(appName, profileName);
-			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
-
-		} else if (!activeDatabaseProfileName.equals(profileName)) {
-			if (databaseManager == null) {
-				disconnect();
-			}
-			authenticate(profileName);
-			activeDatabaseProfileName = profileName;
-			activeDatabaseProfile = databaseManager.getDatabaseProfile(appName, profileName);
-			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
-		}
-
-		return connection;
-	}
-
-	protected void authenticate(String profileName) {
-		if (databaseManager != null) {
-			DatabaseConnectionProvider connProvider = databaseManager.getDatabaseConnectionProvider(appName,
-					profileName);
-			connection = connProvider.connect(databaseManager.getDatabaseProfile(appName, profileName));
-		} else {
-			connection = connect(databaseManager.getDatabaseProfile(appName, profileName));
-		}
-	}
-
-	public String getActiveProfileName() {
-		return activeDatabaseProfileName;
-	}
+//	protected void connect(String profileName) {
+//		DatabaseConnectionProvider connProvider = SmartDatabaseManager.getInstance().getDatabaseConnectionProvider(appName,
+//				profileName);
+//		connection = connProvider.connect(SmartDatabaseManager.getInstance().getDatabaseProfile(appName, profileName));
+//	} 
 
 	protected boolean isSessionExpired() {
 		long currTimeInMs = Calendar.getInstance().getTimeInMillis();
@@ -94,19 +59,10 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 		return false;
 	}
 
-	public AbstractDatabaseActionHandler clone() {
-		try {
-			return (AbstractDatabaseActionHandler) this.getClass().getDeclaredConstructors()[0].newInstance();
-		} catch (Exception ex) {
-			Assert.fail("Failed to clone '" + this.getClass().getName() + "' class object.", ex);
-		}
-		return null;
-	}
-
 	public String getDataAsJsonString(String entityName, String searchStatement) {
 		if (isSessionExpired()) {
 			disconnect();
-			setActiveDatabaseProfileName(activeDatabaseProfileName);
+			connect(activeDatabaseProfile);
 		} else {
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
@@ -124,7 +80,7 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 	public void updateData(String entityName, String updateStatement) {
 		if (isSessionExpired()) {
 			disconnect();
-			setActiveDatabaseProfileName(activeDatabaseProfileName);
+			connect(activeDatabaseProfile);
 		} else {
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
@@ -135,7 +91,7 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 	public void deleteData(String entityName, String deleteStatement) {
 		if (isSessionExpired()) {
 			disconnect();
-			setActiveDatabaseProfileName(activeDatabaseProfileName);
+			connect(activeDatabaseProfile);
 		} else {
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
@@ -146,7 +102,7 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 	public void insertData(String entityName, String insertStatement) {
 		if (isSessionExpired()) {
 			disconnect();
-			setActiveDatabaseProfileName(activeDatabaseProfileName);
+			connect(activeDatabaseProfile);
 		} else {
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
@@ -157,7 +113,7 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 	public void insertDataInBatch(String entityName, List<String> insertStatements) {
 		if (isSessionExpired()) {
 			disconnect();
-			setActiveDatabaseProfileName(activeDatabaseProfileName);
+			connect(activeDatabaseProfile);
 		} else {
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
@@ -168,7 +124,7 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 	public void create(String entityName, String createStatement) {
 		if (isSessionExpired()) {
 			disconnect();
-			setActiveDatabaseProfileName(activeDatabaseProfileName);
+			connect(activeDatabaseProfile);
 		} else {
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
@@ -179,7 +135,7 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 	public void drop(String entityName, String dropStatement) {
 		if (isSessionExpired()) {
 			disconnect();
-			setActiveDatabaseProfileName(activeDatabaseProfileName);
+			connect(activeDatabaseProfile);
 		} else {
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
