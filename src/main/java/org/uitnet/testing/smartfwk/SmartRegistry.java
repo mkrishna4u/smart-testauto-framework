@@ -37,34 +37,36 @@ public class SmartRegistry {
 	private SmartRegistry() {
 		// do nothing
 	}
-	
+
 	public static DatabaseManager getDatabaseManager() {
 		return SmartDatabaseManager.getInstance();
 	}
-	
+
 	public static ApiTestManager getApiTestManager() {
 		return SmartApiTestManager.getInstance();
 	}
-	
+
 	public static TestConfigManager getTestConfigManager() {
 		return TestConfigManager.getInstance();
 	}
-	
+
 	public static void deregisterAll() {
 		getDatabaseManager().deregisterAll();
 		getApiTestManager().deregisterAll();
 		// deregister UI connectors
-		try {
-			//if (!TestConfigManager.getInstance().isParallelMode()) {
+		synchronized (SmartRegistry.class) {
+			try {
+				// if (!TestConfigManager.getInstance().isParallelMode()) {
 				Map<String, AbstractAppConnector> appConnectors = SingletonAppConnectorMap.getInstance().getMap();
 				if (appConnectors != null && !appConnectors.isEmpty()) {
 					for (AbstractAppConnector appConnector : appConnectors.values()) {
 						appConnector.logoutAndQuit();
 					}
 				}
-			//}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+				// }
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 }
