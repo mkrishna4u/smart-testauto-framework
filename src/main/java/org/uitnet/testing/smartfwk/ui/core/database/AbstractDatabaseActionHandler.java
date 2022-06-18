@@ -44,11 +44,14 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 		this.activeDatabaseProfile = databaseProfile;
 	}
 
-//	protected void connect(String profileName) {
-//		DatabaseConnectionProvider connProvider = SmartDatabaseManager.getInstance().getDatabaseConnectionProvider(appName,
-//				profileName);
-//		connection = connProvider.connect(SmartDatabaseManager.getInstance().getDatabaseProfile(appName, profileName));
-//	} 
+	private synchronized void verifyDatabaseConnection() {
+		if (connection == null || isSessionExpired()) {
+			disconnect();
+			connection = connect(activeDatabaseProfile);
+		} else {
+			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
+		}
+	}
 
 	protected boolean isSessionExpired() {
 		long currTimeInMs = Calendar.getInstance().getTimeInMillis();
@@ -60,12 +63,7 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 	}
 
 	public String getDataAsJsonString(String entityName, String searchStatement) {
-		if (isSessionExpired()) {
-			disconnect();
-			connect(activeDatabaseProfile);
-		} else {
-			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
-		}
+		verifyDatabaseConnection();
 
 		return getDataAsJsonString(connection, entityName, searchStatement);
 	}
@@ -78,74 +76,47 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 	}
 
 	public void updateData(String entityName, String updateStatement) {
-		if (isSessionExpired()) {
-			disconnect();
-			connect(activeDatabaseProfile);
-		} else {
-			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
-		}
+		verifyDatabaseConnection();
 
 		updateData(connection, entityName, updateStatement);
 	}
 
 	public void deleteData(String entityName, String deleteStatement) {
-		if (isSessionExpired()) {
-			disconnect();
-			connect(activeDatabaseProfile);
-		} else {
-			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
-		}
+		verifyDatabaseConnection();
 
 		deleteData(connection, entityName, deleteStatement);
 	}
 
 	public void insertData(String entityName, String insertStatement) {
-		if (isSessionExpired()) {
-			disconnect();
-			connect(activeDatabaseProfile);
-		} else {
-			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
-		}
+		verifyDatabaseConnection();
 
 		insertData(connection, entityName, insertStatement);
 	}
 
 	public void insertDataInBatch(String entityName, List<String> insertStatements) {
-		if (isSessionExpired()) {
-			disconnect();
-			connect(activeDatabaseProfile);
-		} else {
-			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
-		}
+		verifyDatabaseConnection();
 
 		insertDataInBatch(connection, entityName, insertStatements);
 	}
 
 	public void create(String entityName, String createStatement) {
-		if (isSessionExpired()) {
-			disconnect();
-			connect(activeDatabaseProfile);
-		} else {
-			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
-		}
+		verifyDatabaseConnection();
 
 		create(connection, entityName, createStatement);
 	}
 
 	public void drop(String entityName, String dropStatement) {
-		if (isSessionExpired()) {
-			disconnect();
-			connect(activeDatabaseProfile);
-		} else {
-			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
-		}
+		verifyDatabaseConnection();
 
 		drop(connection, entityName, dropStatement);
 	}
 
 	@Override
-	public void disconnect() {
-		disconnect(connection);
+	public synchronized void disconnect() {
+		if(connection != null) {
+			disconnect(connection);
+			connection = null;
+		}
 	}
 
 	protected abstract void disconnect(DatabaseConnection connection);
