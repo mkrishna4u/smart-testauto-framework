@@ -62,16 +62,20 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		this.appName = appName;
 		this.sessionExpiryDurationInSeconds = sessionExpiryDurationInSeconds;
 		this.targetServerName = targetServerName;
+		this.baseURL = TestConfigManager.getInstance().getAppConfig(appName).getApiConfig().getTargetServer(targetServerName)
+				.getBaseURL();
 	}
 
 	public void setApiTestManager(ApiTestManager apiTestManager) {
 		this.apiTestManager = apiTestManager;
 	}
 
-	protected void getBaseURL() {
-		baseURL = TestConfigManager.getInstance().getAppConfig(appName).getApiConfig().getTargetServer(targetServerName)
-				.getBaseURL();
-	}
+//	protected void setBaseURL() {	
+//		if(baseURL != null) {
+//			baseURL = TestConfigManager.getInstance().getAppConfig(appName).getApiConfig().getTargetServer(targetServerName)
+//					.getBaseURL();
+//		}
+//	}
 
 	public HttpSession setActiveProfileName(String profileName) {
 		if (activeProfileName == null || "".equals(activeProfileName)) {
