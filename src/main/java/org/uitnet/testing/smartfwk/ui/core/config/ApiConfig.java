@@ -18,6 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.config;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
@@ -33,12 +34,45 @@ import com.jayway.jsonpath.TypeRef;
 public class ApiConfig {
 	private String appName;
 	private String apiConfigFilePath;
+	private List<ApiTargetServer> targetServers;
 	private Map<String, Object> additionalProps;
 
 	public ApiConfig(String appName, String apiConfigFilePath, DocumentContext yamlDoc) {
 		this.appName = appName;
 		this.apiConfigFilePath = apiConfigFilePath;
-		this.additionalProps = yamlDoc.read("$.additionalProps", new TypeRef<HashMap<String, Object>>() {});
+		this.additionalProps = yamlDoc.read("$.additionalProps", new TypeRef<HashMap<String, Object>>() {
+		});
+		this.targetServers = yamlDoc.read("$.targetServers", new TypeRef<List<ApiTargetServer>>() {
+		});
+	}
+
+	public String getAppName() {
+		return appName;
+	}
+
+	public String getApiConfigFilePath() {
+		return apiConfigFilePath;
+	}
+
+	public List<ApiTargetServer> getTargetServers() {
+		return targetServers;
+	}
+
+	public ApiTargetServer getTargetServer(String name) {
+		if (targetServers == null) {
+			Assert.fail("API target server '" + name + "' is not configured with application '" + appName
+					+ "'. You can configure in '" + apiConfigFilePath + "' file.");
+		}
+
+		for (ApiTargetServer targetServer : targetServers) {
+			if (targetServer.getName().equals(name)) {
+				return targetServer;
+			}
+		}
+
+		Assert.fail("API target server '" + name + "' is not configured with application '" + appName
+				+ "'. You can configure in '" + apiConfigFilePath + "' file.");
+		return null;
 	}
 
 	public <T> T getAdditionalPropertyValue(String propName, Class<T> clazz) {

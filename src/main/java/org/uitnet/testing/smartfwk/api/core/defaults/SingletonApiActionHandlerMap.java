@@ -20,36 +20,36 @@ package org.uitnet.testing.smartfwk.api.core.defaults;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.uitnet.testing.smartfwk.api.core.AbstractApiTestHelper;
+import org.uitnet.testing.smartfwk.api.core.AbstractApiActionHandler;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public class SingletonApiTestHelperMap {
-	private static SingletonApiTestHelperMap instance;
-	private Map<String, AbstractApiTestHelper> map = new HashMap<>();
+public class SingletonApiActionHandlerMap {
+	private static SingletonApiActionHandlerMap instance;
+	private Map<String, AbstractApiActionHandler> map = new HashMap<>();
 
-	private SingletonApiTestHelperMap() {
+	private SingletonApiActionHandlerMap() {
 		// do nothing
 	}
 
-	public static SingletonApiTestHelperMap getInstance() {
+	public static SingletonApiActionHandlerMap getInstance() {
 		if (instance != null) {
 			return instance;
 		}
 
-		synchronized (SingletonApiTestHelperMap.class) {
+		synchronized (SingletonApiActionHandlerMap.class) {
 			if (instance == null) {
-				instance = new SingletonApiTestHelperMap();
+				instance = new SingletonApiActionHandlerMap();
 			}
 		}
 
 		return instance;
 	}
 
-	public Map<String, AbstractApiTestHelper> getMap() {
+	public Map<String, AbstractApiActionHandler> getMap() {
 		return map;
 	}
 }

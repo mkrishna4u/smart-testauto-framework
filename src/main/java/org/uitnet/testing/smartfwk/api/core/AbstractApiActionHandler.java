@@ -45,11 +45,10 @@ import okhttp3.ResponseBody;
  * @author Madhav Krishna
  *
  */
-public abstract class AbstractApiTestHelper implements ApiAuthenticationProvider {
+public abstract class AbstractApiActionHandler implements ApiAuthenticationProvider {
 	protected String appName;
 	protected String baseURL;
 	protected HttpSession session;
-	protected TestConfigManager testConfigManager;
 	protected String activeProfileName;
 	protected UserProfile activeUserProfile;
 	protected int sessionExpiryDurationInSeconds;
@@ -58,56 +57,53 @@ public abstract class AbstractApiTestHelper implements ApiAuthenticationProvider
 	protected ApiTestManager apiTestManager;
 	protected String targetServerName;
 
-	public AbstractApiTestHelper(String appName, int sessionExpiryDurationInSeconds) {
+	public AbstractApiActionHandler(String appName, int sessionExpiryDurationInSeconds, String targetServerName) {
 		this.appName = appName;
 		this.sessionExpiryDurationInSeconds = sessionExpiryDurationInSeconds;
-		testConfigManager = TestConfigManager.getInstance();
-
-	}
-	
-	public void setApiTestManager(ApiTestManager apiTestManager) {
-		this.apiTestManager = apiTestManager;
-	}
-	
-	public void setTargetServerName(String targetServerName) {
 		this.targetServerName = targetServerName;
 	}
 
-	protected void setBaseURL(String baseUrlKey) {
-		baseURL = testConfigManager.getAppConfig(appName).getApiConfig().getAdditionalPropertyValue(baseUrlKey, String.class);
+	public void setApiTestManager(ApiTestManager apiTestManager) {
+		this.apiTestManager = apiTestManager;
+	}
+
+	protected void getBaseURL() {
+		baseURL = TestConfigManager.getInstance().getAppConfig(appName).getApiConfig().getTargetServer(targetServerName)
+				.getBaseURL();
 	}
 
 	public HttpSession setActiveProfileName(String profileName) {
 		if (activeProfileName == null || "".equals(activeProfileName)) {
 			authenticate(profileName);
 			activeProfileName = profileName;
-			activeUserProfile = testConfigManager.getUserProfile(appName, profileName);
+			activeUserProfile = TestConfigManager.getInstance().getUserProfile(appName, profileName);
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 
 		} else if (!activeProfileName.equals(profileName)) {
-			if(apiTestManager == null) {
+			if (apiTestManager == null) {
 				logout();
 			}
 			authenticate(profileName);
 			activeProfileName = profileName;
-			activeUserProfile = testConfigManager.getUserProfile(appName, profileName);
+			activeUserProfile = TestConfigManager.getInstance().getUserProfile(appName, profileName);
 			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 		}
-		
+
 		return session;
 	}
-	
+
 	protected void authenticate(String profileName) {
-		if(apiTestManager != null) {
-			ApiAuthenticationProvider authProvider = apiTestManager.getAuthenticationProvider(appName, targetServerName, profileName);
-			session = authProvider.login(testConfigManager.getAppConfig(appName).getApiConfig(),
-					testConfigManager.getUserProfile(appName, profileName));
+		if (apiTestManager != null) {
+			ApiAuthenticationProvider authProvider = apiTestManager.getAuthenticationProvider(appName, targetServerName,
+					profileName);
+			session = authProvider.login(TestConfigManager.getInstance().getAppConfig(appName).getApiConfig(),
+					TestConfigManager.getInstance().getUserProfile(appName, profileName));
 		} else {
-			session = login(testConfigManager.getAppConfig(appName).getApiConfig(),
-					testConfigManager.getUserProfile(appName, profileName));
+			session = login(TestConfigManager.getInstance().getAppConfig(appName).getApiConfig(),
+					TestConfigManager.getInstance().getUserProfile(appName, profileName));
 		}
 	}
-	
+
 	public String getActiveProfileName() {
 		return activeProfileName;
 	}
@@ -344,15 +340,15 @@ public abstract class AbstractApiTestHelper implements ApiAuthenticationProvider
 
 	protected HttpResponse prepareResponse(OkHttpClient client, okhttp3.Request.Builder requestBuilder,
 			boolean expectResponseBody, String targetURL) {
-		if(session != null && !logoutRequest) {
-			if(isSessionExpired()) {
+		if (session != null && !logoutRequest) {
+			if (isSessionExpired()) {
 				logout();
 				setActiveProfileName(activeProfileName);
 			} else {
 				lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 			}
 		}
-		
+
 		HttpResponse httpResponse = new HttpResponse();
 		try (Response response = client.newCall(requestBuilder.build()).execute()) {
 			httpResponse.setCode(response.code());
@@ -367,7 +363,7 @@ public abstract class AbstractApiTestHelper implements ApiAuthenticationProvider
 			httpResponse.setMessage("Bad Request");
 			Assert.fail("Failed to make API call on target URL: " + targetURL, ex);
 		} finally {
-			if(logoutRequest) {
+			if (logoutRequest) {
 				logoutRequest = false;
 				session = null;
 			}
@@ -375,11 +371,11 @@ public abstract class AbstractApiTestHelper implements ApiAuthenticationProvider
 
 		return httpResponse;
 	}
-	
+
 	protected boolean isSessionExpired() {
 		long currTimeInMs = Calendar.getInstance().getTimeInMillis();
 		long durationInSeconds = (currTimeInMs - lastRequestAccessTimeInMs) / 1000;
-		if(durationInSeconds >=  sessionExpiryDurationInSeconds) {
+		if (durationInSeconds >= sessionExpiryDurationInSeconds) {
 			return true;
 		}
 		return false;
@@ -396,12 +392,12 @@ public abstract class AbstractApiTestHelper implements ApiAuthenticationProvider
 	public long getLastRequestAccessTimeInMs() {
 		return lastRequestAccessTimeInMs;
 	}
-	
-	public AbstractApiTestHelper clone() {
+
+	public AbstractApiActionHandler clone() {
 		try {
-			return (AbstractApiTestHelper) this.getClass().getDeclaredConstructors()[0].newInstance();
-		} catch(Exception ex) {
-			Assert.fail("Failed to clone '" + this.getClass().getName()+ "' class object.", ex);
+			return (AbstractApiActionHandler) this.getClass().getDeclaredConstructors()[0].newInstance();
+		} catch (Exception ex) {
+			Assert.fail("Failed to clone '" + this.getClass().getName() + "' class object.", ex);
 		}
 		return null;
 	}

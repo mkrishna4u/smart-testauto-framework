@@ -21,10 +21,10 @@ import java.util.Map;
 
 import org.testng.IExecutionListener;
 import org.testng.Reporter;
+import org.uitnet.testing.smartfwk.database.SmartDatabaseManager;
 import org.uitnet.testing.smartfwk.ui.core.AbstractAppConnector;
 import org.uitnet.testing.smartfwk.ui.core.SingletonAppConnectorMap;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
-import org.uitnet.testing.smartfwk.ui.core.database.SmartDatabaseManager;
 
 /**
  * 

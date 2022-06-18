@@ -17,7 +17,7 @@
  */
 package org.uitnet.testing.smartfwk.api.core.defaults;
 
-import org.uitnet.testing.smartfwk.api.core.AbstractApiTestHelper;
+import org.uitnet.testing.smartfwk.api.core.AbstractApiActionHandler;
 import org.uitnet.testing.smartfwk.api.core.ApiAuthenticationProvider;
 
 /**
@@ -26,10 +26,7 @@ import org.uitnet.testing.smartfwk.api.core.ApiAuthenticationProvider;
  *
  */
 public interface ApiTestManager {
-	
-	void registerTestHelper(String appName, String targetServerName, AbstractApiTestHelper testHelper);
-	AbstractApiTestHelper getRegisteredTestHelper(String appName, String targetServerName);
 	ApiAuthenticationProvider getAuthenticationProvider(String appName, String targetServerName, String userProfileName);
-	AbstractApiTestHelper getTestHelperForProfile(String appName, String targetServerName, String userProfileName);
-
+	AbstractApiActionHandler getActionHandler(String appName, String targetServerName, String userProfileName);
+	public void deregisterAll();
 }

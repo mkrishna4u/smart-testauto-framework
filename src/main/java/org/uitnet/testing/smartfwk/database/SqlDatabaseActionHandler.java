@@ -15,7 +15,7 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.database;
+package org.uitnet.testing.smartfwk.database;
 
 import java.util.List;
 import java.util.Map;

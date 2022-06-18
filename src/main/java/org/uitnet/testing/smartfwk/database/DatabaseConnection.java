@@ -15,16 +15,21 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.database;
-
-import org.uitnet.testing.smartfwk.ui.core.config.DatabaseProfile;
+package org.uitnet.testing.smartfwk.database;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public interface DatabaseConnectionProvider {
-	DatabaseConnection connect(DatabaseProfile dbProfile);
-	void disconnect();
+public class DatabaseConnection {
+	private Object connection;
+	
+	public DatabaseConnection(Object connection) {
+		this.connection = connection;
+	}
+
+	public Object getConnection() {
+		return connection;
+	}
 }

@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
-import org.uitnet.testing.smartfwk.api.core.AbstractApiTestHelper;
+import org.uitnet.testing.smartfwk.api.core.AbstractApiActionHandler;
 import org.uitnet.testing.smartfwk.ui.core.config.ApiConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
@@ -47,17 +47,17 @@ public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioCo
 	private Map<String, Object> params = new HashMap<>(8);
 	private Scenario scenario = null;
 
-	// Key: <appName>:<targetServerName>, Value: AbstractApiTestHelper
-	private Map<String, AbstractApiTestHelper> appTestHelpers;
+	// Key: <appName>:<targetServerName>, Value: AbstractApiActionHandler
+	private Map<String, AbstractApiActionHandler> appActionHandlers;
 
 	private String activeAppName = null;
 	private String activeTargetServerName = null;
 
 	public SmartCucumberApiScenarioContext() {
 		if (getTestConfigManager().isParallelMode()) {
-			appTestHelpers = new HashMap<>();
+			appActionHandlers = new HashMap<>();
 		} else {
-			appTestHelpers = SingletonApiTestHelperMap.getInstance().getMap();
+			appActionHandlers = SingletonApiActionHandlerMap.getInstance().getMap();
 		}
 	}
 
@@ -71,27 +71,26 @@ public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioCo
 		this.scenario = scenario;
 	}
 
-	public AbstractApiTestHelper getTestHelper(String appName, String targetServerName) {
-		return appTestHelpers.get(prepareKey(appName, targetServerName));
+	public AbstractApiActionHandler getActionHandler(String appName, String targetServerName) {
+		return appActionHandlers.get(prepareKey(appName, targetServerName));
 	}
 
-	public AbstractApiTestHelper switchTargetServer(String appName, String targetServerName, String userProfileName) {
+	public AbstractApiActionHandler switchTargetServer(String appName, String targetServerName, String userProfileName) {
 		return login(appName, targetServerName, userProfileName);
 	}
 
-	public AbstractApiTestHelper login(String appName, String targetServerName, String userProfileName) {
-		AbstractApiTestHelper testHelper = getTestHelper(appName, targetServerName);
-		if (testHelper == null) {
-			testHelper = SmartApiTestManager.getInstance().getRegisteredTestHelper(appName, targetServerName);
+	public AbstractApiActionHandler login(String appName, String targetServerName, String userProfileName) {
+		AbstractApiActionHandler actionHandler = getActionHandler(appName, targetServerName);
+		if (actionHandler == null) {
+			actionHandler = SmartApiTestManager.getInstance().getActionHandler(appName, targetServerName, userProfileName);
 		}
 
-		testHelper.setActiveProfileName(userProfileName);
 		this.activeAppName = appName;
 		this.activeTargetServerName = targetServerName;
 
-		appTestHelpers.put(prepareKey(appName, targetServerName), testHelper);
+		appActionHandlers.put(prepareKey(appName, targetServerName), actionHandler);
 
-		return testHelper;
+		return actionHandler;
 	}
 
 	@Override
@@ -99,20 +98,20 @@ public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioCo
 		return activeAppName;
 	}
 
-	public AbstractApiTestHelper setActiveUserProfile(String appName, String targetServerName, String userProfileName) {
+	public AbstractApiActionHandler setActiveUserProfile(String appName, String targetServerName, String userProfileName) {
 		return login(appName, targetServerName, userProfileName);
 	}
 
-	public AbstractApiTestHelper setActiveUserProfileOnActiveAppAndTargetServer(String userProfileName) {
+	public AbstractApiActionHandler setActiveUserProfileOnActiveAppAndTargetServer(String userProfileName) {
 		return login(activeAppName, activeTargetServerName, userProfileName);
 	}
 
-	public AbstractApiTestHelper getActiveTestHelper() {
-		return appTestHelpers.get(prepareKey(activeAppName, activeTargetServerName));
+	public AbstractApiActionHandler getActiveActionHandler() {
+		return appActionHandlers.get(prepareKey(activeAppName, activeTargetServerName));
 	}
 
-	public String getActiveUserProfileNameOfActiveTestHelper() {
-		return getActiveTestHelper().getActiveProfileName();
+	public String getActiveUserProfileNameOfActiveActionHandler() {
+		return getActiveActionHandler().getActiveProfileName();
 	}
 
 	@Override
@@ -143,10 +142,10 @@ public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioCo
 
 	@Override
 	public void close() {
-		for (AbstractApiTestHelper testHelpers : appTestHelpers.values()) {
-			testHelpers.logout();
+		for (AbstractApiActionHandler actionHandlers : appActionHandlers.values()) {
+			actionHandlers.logout();
 		}
-		appTestHelpers.clear();
+		appActionHandlers.clear();
 	}
 
 	@Override

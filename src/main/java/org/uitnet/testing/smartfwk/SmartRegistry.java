@@ -17,9 +17,11 @@
  */
 package org.uitnet.testing.smartfwk;
 
+import org.uitnet.testing.smartfwk.api.core.defaults.ApiTestManager;
 import org.uitnet.testing.smartfwk.api.core.defaults.SmartApiTestManager;
+import org.uitnet.testing.smartfwk.database.DatabaseManager;
+import org.uitnet.testing.smartfwk.database.SmartDatabaseManager;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
-import org.uitnet.testing.smartfwk.ui.core.database.SmartDatabaseManager;
 
 /**
  * 
@@ -32,11 +34,11 @@ public class SmartRegistry {
 		// do nothing
 	}
 	
-	public static SmartDatabaseManager getDatabaseManager() {
+	public static DatabaseManager getDatabaseManager() {
 		return SmartDatabaseManager.getInstance();
 	}
 	
-	public static SmartApiTestManager getApiTestManager() {
+	public static ApiTestManager getApiTestManager() {
 		return SmartApiTestManager.getInstance();
 	}
 	

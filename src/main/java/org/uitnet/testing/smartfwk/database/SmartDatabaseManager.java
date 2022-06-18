@@ -15,7 +15,7 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.database;
+package org.uitnet.testing.smartfwk.database;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class SmartDatabaseManager implements DatabaseManager {
 		initDatabaseProfiles();
 	}
 
-	public static SmartDatabaseManager getInstance() {
+	public static DatabaseManager getInstance() {
 		if (instance != null) {
 			return instance;
 		}
@@ -69,7 +69,7 @@ public class SmartDatabaseManager implements DatabaseManager {
 							AbstractDatabaseActionHandler obj = (AbstractDatabaseActionHandler) ObjectUtil
 									.findClassConstructor(clazz, new Class[] {String.class, int.class, DatabaseProfile.class})
 									.newInstance(profile.getAppName(), profile.getSessionExpiryDurationInSeconds(), profile);
-							registerDatabaseActionHandler(appConfig.getAppName(), profile.getProfileName(), obj);
+							registerActionHandler(appConfig.getAppName(), profile.getProfileName(), obj);
 						} catch (Exception ex) {
 							throw new RuntimeException(ex);
 						}
@@ -79,8 +79,7 @@ public class SmartDatabaseManager implements DatabaseManager {
 		}
 	}
 
-	@Override
-	public void registerDatabaseActionHandler(String appName, String profileName,
+	private void registerActionHandler(String appName, String profileName,
 			AbstractDatabaseActionHandler actionHandler) {
 		dbActionHandlers.put(prepareKey(appName, profileName), actionHandler);
 	}

@@ -15,7 +15,7 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.database;
+package org.uitnet.testing.smartfwk.database;
 
 import org.uitnet.testing.smartfwk.ui.core.config.DatabaseProfile;
 
@@ -25,9 +25,6 @@ import org.uitnet.testing.smartfwk.ui.core.config.DatabaseProfile;
  *
  */
 public interface DatabaseManager {
-	void registerDatabaseActionHandler(String appName, String profileName,
-			AbstractDatabaseActionHandler actionHandler);
-
 	DatabaseProfile getDatabaseProfile(String appName, String profileName);
 
 	AbstractDatabaseActionHandler getDatabaseActionHandler(String appName, String profileName);

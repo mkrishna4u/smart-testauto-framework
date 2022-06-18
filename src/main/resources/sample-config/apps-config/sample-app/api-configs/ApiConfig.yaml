@@ -17,6 +17,16 @@
  # Author - Madhav Krishna
 ################################################################################
 
+# configure target servers. these servers will get registered using its unique name.
+targetServers: 
+  - name: 
+    baseURL: 
+    # Class name that extends AbstractApiActionHandler class
+    actionHandlerClass: 
+    sessionExpiryDurationInSeconds: 1800
+    # Additional properties for target server (Define under additionalProps as child property)
+    additionalProps:
+
 # Additional properties (Define under additionalProps as child property)
 additionalProps:
   
