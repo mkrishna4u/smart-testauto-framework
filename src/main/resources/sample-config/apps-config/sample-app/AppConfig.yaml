@@ -58,7 +58,7 @@ apiConfigFileName: ApiConfig.yaml
 userProfileNames: [SampleUserProfile]
 
 # Application database connection setting (Using Hibernate)
-dbProfilesNames: [] 
+dbProfileNames: [] 
 
 proxySettings:
   # Proxy configuration
