@@ -274,10 +274,12 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 
 	@Override
 	public void close() {
-		for (AbstractAppConnector connector : appConnectors.values()) {
-			connector.logoutAndQuit();
+		if(getTestConfigManager().isParallelMode()) {
+			for (AbstractAppConnector connector : appConnectors.values()) {
+				connector.logoutAndQuit();
+			}
+			appConnectors.clear();
 		}
-		appConnectors.clear();
 	}
 
 	@Override

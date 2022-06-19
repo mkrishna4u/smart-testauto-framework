@@ -143,10 +143,12 @@ public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioCo
 
 	@Override
 	public void close() {
-		for (AbstractApiActionHandler actionHandlers : appActionHandlers.values()) {
-			actionHandlers.logout();
+		if(getTestConfigManager().isParallelMode()) {
+			for (AbstractApiActionHandler actionHandlers : appActionHandlers.values()) {
+				actionHandlers.logout();
+			}
+			appActionHandlers.clear();
 		}
-		appActionHandlers.clear();
 	}
 
 	@Override
