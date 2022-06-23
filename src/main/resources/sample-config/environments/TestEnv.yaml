@@ -11,4 +11,4 @@
 # Environment name
 environmentName: TestEnv
 
-# Overwrite any property from AppConfig.property file.
+# Overwrite any property from AppConfig.yaml file.
