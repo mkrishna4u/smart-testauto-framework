@@ -50,7 +50,7 @@ public class JsonDocumentReader {
 		try {
 			init();
 			Assert.assertNotNull(jsonFilePath, "JSON file path cannot be null.");
-			ObjectMapper objectMapper = new ObjectMapper();
+			ObjectMapper objectMapper = createObjectMapper();
 			JacksonJsonProvider provider = new JacksonJsonProvider(objectMapper);
 			jsonDocCtx = JsonPath.using(Configuration.builder().jsonProvider(provider).build()).parse(jsonFilePath);
 		} catch (Exception ex) {
@@ -63,7 +63,7 @@ public class JsonDocumentReader {
 			init();
 			Assert.assertNotNull(jsonAsString, "JSON document cannot be null.");
 			Assert.assertNotEquals(jsonAsString.trim(), "", "JSON document cannot be empty.");
-			ObjectMapper objectMapper = new ObjectMapper();
+			ObjectMapper objectMapper = createObjectMapper();
 			JacksonJsonProvider provider = new JacksonJsonProvider(objectMapper);
 			jsonDocCtx = JsonPath.using(Configuration.builder().jsonProvider(provider).build()).parse(jsonAsString);
 		} catch (Exception ex) {
@@ -73,10 +73,10 @@ public class JsonDocumentReader {
 	
 	public DocumentContext prepareDocumentContext(Object obj) {
 		try {
-			ObjectMapper objectMapper = new ObjectMapper();
+			ObjectMapper objectMapper = createObjectMapper();
 			JacksonJsonProvider provider = new JacksonJsonProvider(objectMapper);
 			return JsonPath.using(Configuration.builder().jsonProvider(provider).build())
-					.parse(new ObjectMapper().writeValueAsString(obj));
+					.parse(createObjectMapper().writeValueAsString(obj));
 		} catch (Exception ex) {
 			Assert.fail("Failed to covert object into DocumentContext.", ex);
 		}
@@ -109,10 +109,10 @@ public class JsonDocumentReader {
 		try {
 			Object obj = jsonDocCtx.read(yamlPath, Object.class);
 			
-			ObjectMapper omapper = new ObjectMapper();
+			ObjectMapper omapper = createObjectMapper();
 			String jsonStr = omapper.writeValueAsString(obj);
 			
-			omapper = new ObjectMapper();
+			omapper = createObjectMapper();
 			return omapper.readValue(jsonStr, clazz);
 		} catch (Exception ex) {
 			Assert.fail("Failed to read yaml path " + yamlPath + " as class object.", ex);
@@ -120,12 +120,17 @@ public class JsonDocumentReader {
 		return null;
 		
 	}
+	
+	protected ObjectMapper createObjectMapper() {
+		ObjectMapper objectMapper = JsonMapper.builder().enable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
+				.enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES)
+				.disable(JsonWriteFeature.QUOTE_FIELD_NAMES).build();
+		return objectMapper;
+	}
 
 	protected void init() {
 		Configuration.setDefaults(new Configuration.Defaults() {
-			private ObjectMapper objectMapper = JsonMapper.builder().enable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
-					.enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES)
-					.disable(JsonWriteFeature.QUOTE_FIELD_NAMES).build();
+			private ObjectMapper objectMapper = createObjectMapper();
 					
 			@Override
 			public JsonProvider jsonProvider() {
