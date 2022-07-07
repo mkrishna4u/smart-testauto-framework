@@ -20,6 +20,9 @@ package org.uitnet.testing.smartfwk.ui.core.utils;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.testng.Assert;
 
@@ -32,16 +35,155 @@ public class ObjectUtil {
 	public ObjectUtil() {
 		// do nothing
 	}
-	
+
+	/**
+	 * Convert object (List, Set and java types String, Integer, Double etc.) to
+	 * string value. List and set are converted into comma separated value.
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public static String valueAsString(Object obj) {
+		if (obj == null) {
+			return null;
+		}
+
+		String strv = "";
+		if (obj.getClass().isArray()) {
+			Object[] objArr = (Object[]) obj;
+			for (Object o : objArr) {
+				if (strv.equals("")) {
+					strv = "" + o;
+				} else {
+					strv = strv + ", " + o;
+				}
+			}
+		} else if (obj instanceof List) {
+			List list = (List) obj;
+			for (Object o : list) {
+				if (strv.equals("")) {
+					strv = "" + o;
+				} else {
+					strv = strv + ", " + o;
+				}
+			}
+		} else if (obj instanceof Set) {
+			Set list = (Set) obj;
+			for (Object o : list) {
+				if (strv.equals("")) {
+					strv = "" + o;
+				} else {
+					strv = strv + ", " + o;
+				}
+			}
+		} else if (obj instanceof Map) {
+			Assert.fail("Map to string conversion is not supported.");
+		} else {
+			strv = String.valueOf(obj);
+		}
+
+		return strv;
+	}
+
+	public static Integer valueAsInteger(Object obj) {
+		if (obj == null) {
+			return null;
+		}
+
+		return Integer.parseInt("" + obj);
+	}
+
+	public static Long valueAsLong(Object obj) {
+		if (obj == null) {
+			return null;
+		}
+
+		return Long.parseLong("" + obj);
+	}
+
+	public static Double valueAsDouble(Object obj) {
+		if (obj == null) {
+			return null;
+		}
+
+		return Double.parseDouble("" + obj);
+	}
+
+	public static Boolean valueAsBoolean(Object obj) {
+		if (obj == null) {
+			return null;
+		}
+
+		return Boolean.parseBoolean("" + obj);
+	}
+
+	/**
+	 * This method converts the Array, List and Set type of objects into delimitter
+	 * separated value. Each value will be enclosed using "valueEnclosingChars". It
+	 * will not enclose null values.
+	 * 
+	 * @param obj                 - could be List, Set or Array type
+	 * @param delimitter          - could be , or any string, if null then it will
+	 *                            use default as ,
+	 * @param valueEnclosingChars like ' or " or empty/null (denotes no enclosing)
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public static String listSetArrayValueAsString(Object obj, String delimitter, String valueEnclosingChars) {
+		if (obj == null) {
+			return null;
+		}
+
+		valueEnclosingChars = (valueEnclosingChars == null) ? "" : valueEnclosingChars;
+		delimitter = delimitter == null ? "," : delimitter;
+
+		String strv = "";
+		if (obj.getClass().isArray()) {
+			Object[] objArr = (Object[]) obj;
+			for (Object o : objArr) {
+				if (strv.equals("")) {
+					strv = ((o == null) ? "null" : (valueEnclosingChars + o + valueEnclosingChars));
+				} else {
+					strv = strv + ", " + ((o == null) ? "null" : (valueEnclosingChars + o + valueEnclosingChars));
+				}
+			}
+		} else if (obj instanceof List) {
+			List list = (List) obj;
+			for (Object o : list) {
+				if (strv.equals("")) {
+					strv = (o == null) ? "null" : (valueEnclosingChars + o + valueEnclosingChars);
+				} else {
+					strv = strv + ", " + ((o == null) ? "null" : (valueEnclosingChars + o + valueEnclosingChars));
+				}
+			}
+		} else if (obj instanceof Set) {
+			Set list = (Set) obj;
+			for (Object o : list) {
+				if (strv.equals("")) {
+					strv = (o == null) ? "null" : (valueEnclosingChars + o + valueEnclosingChars);
+				} else {
+					strv = strv + ", " + ((o == null) ? "null" : (valueEnclosingChars + o + valueEnclosingChars));
+				}
+			}
+		} else if (obj instanceof Map) {
+			Assert.fail("Map to string conversion is not supported.");
+		} else {
+			strv = String.valueOf(obj);
+		}
+
+		return strv;
+	}
+
 	public static Constructor<?> findClassConstructor(Class<?> clazz, Class<?>[] argTypes) {
 		Constructor<?> foundConstructor = null;
 		try {
 			Constructor<?>[] constructors = clazz.getConstructors();
-			
-			if(argTypes == null) {
+
+			if (argTypes == null) {
 				argTypes = new Class<?>[] {};
 			}
-			
+
 			boolean found = false;
 			for (Constructor<?> m : constructors) {
 				foundConstructor = null;
@@ -112,9 +254,14 @@ public class ObjectUtil {
 		return foundMethod;
 	}
 
-	public static Object invokeMethod(Object clazzObj, Method m, Object[] argValues) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static Object invokeMethod(Object clazzObj, Method m, Object[] argValues)
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object out = null;
 		out = m.invoke(clazzObj, argValues);
 		return out;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(listSetArrayValueAsString(new Integer[] { null, 55, 78 }, null, "\""));
 	}
 }
