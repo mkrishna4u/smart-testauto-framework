@@ -42,18 +42,42 @@ public abstract class SmartCache {
 		publisher = new SubmissionPublisher<>();
 	}
 
-	public <V> void add(String key, V value) {
+	public void add(String key, Object value) {
 		cache.put(key, value);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <V> V get(String key) {
-		return (V) cache.get(key);
+	/**
+	 * This returns the key value.If key does not present then return null.
+	 * @param key
+	 * @return
+	 */
+	public Object get(String key) {
+		return cache.get(key);
+	}
+	
+	/**
+	 * This returns the key value. If key does not present or key value is null then it will return key as value.
+	 * @param key
+	 * @return
+	 */
+	public Object getNullAsKey(String key) {
+		Object v = cache.get(key);
+		if(v == null) {
+			return key;
+		}
+		return v;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <V> V removeAndget(String key) {
-		return (V) cache.remove(key);
+	public Object removeAndGet(String key) {
+		return cache.remove(key);
+	}
+	
+	public Object removeAndGetNullAsKey(String key) {
+		Object v = cache.remove(key);
+		if(v == null) {
+			return key;
+		}
+		return v;
 	}
 
 	public void clear() {

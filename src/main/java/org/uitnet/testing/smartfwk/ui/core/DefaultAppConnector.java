@@ -17,6 +17,8 @@
  */
 package org.uitnet.testing.smartfwk.ui.core;
 
+import com.jayway.jsonpath.DocumentContext;
+
 import io.cucumber.java.Scenario;
 
 /**
@@ -24,15 +26,10 @@ import io.cucumber.java.Scenario;
  * @author Madhav Krishna
  *
  */
-/**
- * 
- * @author Madhav Krishna
- *
- */
 public class DefaultAppConnector extends AbstractAppConnector {
 
-	public DefaultAppConnector(String appName) {
-		super(appName);
+	public DefaultAppConnector(String appName, DocumentContext overrideDriverProps) {
+		super(appName, overrideDriverProps);
 	}
 
 	public void beforeScenario(Scenario scenario) {

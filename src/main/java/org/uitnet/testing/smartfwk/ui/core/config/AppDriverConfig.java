@@ -73,6 +73,7 @@ public class AppDriverConfig {
 	private Integer scriptTimeoutInSecs = 60;
 	private Integer pageLoadTimeoutInSecs = 60;
 	private AppConfig appConfig;
+	private DocumentContext defaultYamlProps;
 
 	/**
 	 * String appDriverPath = Locations.getProjectRootDir() +
@@ -84,40 +85,53 @@ public class AppDriverConfig {
 
 	public AppDriverConfig(AppConfig appConfig, DocumentContext yamlDoc) {
 		this.appConfig = appConfig;
+		this.defaultYamlProps = yamlDoc;
 		arguments = new ArrayList<String>();
 		driverCapabilities = new HashMap<String, Object>();
 		experimentalOptions = new HashMap<String, Object>();
 		browserExtensionFiles = new ArrayList<File>();
 		browserPreferences = new HashMap<String, Object>();
 		webAttrMap = new HashMap<String, String>();
-		init(yamlDoc);
+		init(yamlDoc, null);
+	}
+	
+	private AppDriverConfig(AppConfig appConfig, DocumentContext yamlDoc, DocumentContext overriddenYamlDoc) {
+		this.appConfig = appConfig;
+		this.defaultYamlProps = yamlDoc;
+		arguments = new ArrayList<String>();
+		driverCapabilities = new HashMap<String, Object>();
+		experimentalOptions = new HashMap<String, Object>();
+		browserExtensionFiles = new ArrayList<File>();
+		browserPreferences = new HashMap<String, Object>();
+		webAttrMap = new HashMap<String, String>();
+		init(yamlDoc, overriddenYamlDoc);
 	}
 
-	private void init(DocumentContext yamlDoc) {
-		browserType = WebBrowserType.valueOf2(JsonYamlUtil.readNoException(yamlDoc, "$.browserType", String.class));
-		driverSystemPropertyName = JsonYamlUtil.readNoException(yamlDoc, "$.driverSystemPropertyName", String.class);
+	private void init(DocumentContext yamlDoc, DocumentContext overriddenYamlDoc) {
+		browserType = WebBrowserType.valueOf2(JsonYamlUtil.readNoException("$.browserType", String.class, yamlDoc, overriddenYamlDoc));
+		driverSystemPropertyName = JsonYamlUtil.readNoException("$.driverSystemPropertyName", String.class, yamlDoc, overriddenYamlDoc);
 
-		driverBinaryFilePath = JsonYamlUtil.readNoException(yamlDoc, "$.driverBinaryFilePath", String.class);
+		driverBinaryFilePath = JsonYamlUtil.readNoException("$.driverBinaryFilePath", String.class, yamlDoc, overriddenYamlDoc);
 		if (driverBinaryFilePath == null) {
-			driverFileName = JsonYamlUtil.readNoException(yamlDoc, "$.driverFileName", String.class);
+			driverFileName = JsonYamlUtil.readNoException("$.driverFileName", String.class, yamlDoc, overriddenYamlDoc);
 			driverBinaryFilePath = Locations.getProjectRootDir() + File.separator + "test-config" + File.separator
 					+ "app-drivers" + File.separator + OSDetectorUtil.getHostPlatform().getType() + File.separator
 					+ appConfig.getAppType().getType() + File.separator + browserType.getType() + File.separator
 					+ driverFileName;
 		}
 
-		remoteDriverURL = JsonYamlUtil.readNoException(yamlDoc, "$.remoteDriverURL", String.class);
+		remoteDriverURL = JsonYamlUtil.readNoException("$.remoteDriverURL", String.class, yamlDoc, overriddenYamlDoc);
 
-		headless = Boolean.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.headless", String.class));
-		pageLoadStrategy = PageLoadStrategy.fromString(JsonYamlUtil.readNoException(yamlDoc, "$.pageLoadStrategy", String.class));
+		headless = Boolean.parseBoolean(JsonYamlUtil.readNoException("$.headless", String.class, yamlDoc, overriddenYamlDoc));
+		pageLoadStrategy = PageLoadStrategy.fromString(JsonYamlUtil.readNoException("$.pageLoadStrategy", String.class, yamlDoc, overriddenYamlDoc));
 		unexpectedAlertBehaviour = UnexpectedAlertBehaviour
-				.fromString(JsonYamlUtil.readNoException(yamlDoc, "$.unexpectedAlertBehaviour", String.class));
-		if (JsonYamlUtil.readNoException(yamlDoc, "$.logLevel", String.class) != null) {
-			logLevel = Level.parse(JsonYamlUtil.readNoException(yamlDoc, "$.logLevel", String.class));
+				.fromString(JsonYamlUtil.readNoException("$.unexpectedAlertBehaviour", String.class, yamlDoc, overriddenYamlDoc));
+		if (JsonYamlUtil.readNoException("$.logLevel", String.class, yamlDoc, overriddenYamlDoc) != null) {
+			logLevel = Level.parse(JsonYamlUtil.readNoException("$.logLevel", String.class, yamlDoc, overriddenYamlDoc));
 		}
 
 		// initialize driver arguments
-		String args = JsonYamlUtil.readNoException(yamlDoc, "$.driverArguments", String.class);
+		String args = JsonYamlUtil.readNoException("$.driverArguments", String.class, yamlDoc, overriddenYamlDoc);
 		if (!StringUtil.isEmptyAfterTrim(args)) {
 			String[] argArr = args.split(" ");
 			for (String a : argArr) {
@@ -128,16 +142,16 @@ public class AppDriverConfig {
 		}
 
 		// Initialize multi value properties
-		driverCapabilities = JsonYamlUtil.readNoException(yamlDoc, "$.driverCapabilities", (new TypeRef<Map<String, Object>>() {}));
+		driverCapabilities = JsonYamlUtil.readNoException("$.driverCapabilities", (new TypeRef<Map<String, Object>>() {}), yamlDoc, overriddenYamlDoc);
 
 		// initialize web attribute map
-		webAttrMap = JsonYamlUtil.readNoException(yamlDoc, "$.webAttrMap", (new TypeRef<Map<String, String>>() {}));
+		webAttrMap = JsonYamlUtil.readNoException("$.webAttrMap", (new TypeRef<Map<String, String>>() {}), yamlDoc, overriddenYamlDoc);
 
 		// initialize driver experimental options
-		experimentalOptions = JsonYamlUtil.readNoException(yamlDoc, "$.experimentalOptions", (new TypeRef<Map<String, Object>>() {}));
+		experimentalOptions = JsonYamlUtil.readNoException("$.experimentalOptions", (new TypeRef<Map<String, Object>>() {}), yamlDoc, overriddenYamlDoc);
 
 		// load browser extensions
-		browserExtensions = JsonYamlUtil.readNoException(yamlDoc, "$.browserExtensions", (new TypeRef<Map<String, Object>>() {}));
+		browserExtensions = JsonYamlUtil.readNoException("$.browserExtensions", (new TypeRef<Map<String, Object>>() {}), yamlDoc, overriddenYamlDoc);
 		if(browserExtensions != null && browserExtensions.size() > 0) {
 			for(Map.Entry<String, Object> e : browserExtensions.entrySet()) {
 				browserExtensionFiles.add(new File(driverBinaryFilePath + File.separator
@@ -148,30 +162,45 @@ public class AppDriverConfig {
 		}
 		
 		// initialize driver experimental options
-		browserPreferences = JsonYamlUtil.readNoException(yamlDoc, "$.browserPreferences", (new TypeRef<Map<String, Object>>() {}));
+		browserPreferences = JsonYamlUtil.readNoException("$.browserPreferences", (new TypeRef<Map<String, Object>>() {}), yamlDoc, overriddenYamlDoc);
 		
 		deleteExtensionsCacheIfItExists = Boolean
-				.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.deleteExtensionsCacheIfItExists", String.class));
-		alwaysLoadNoFocusLib = Boolean.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.alwaysLoadNoFocusLib", String.class));
-		acceptInsecureCertificates = Boolean.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.acceptInsecureCertificates", String.class));
-		acceptUntrustedCertificates = Boolean.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.acceptUntrustedCertificates", String.class));
+				.parseBoolean(JsonYamlUtil.readNoException("$.deleteExtensionsCacheIfItExists", String.class, yamlDoc, overriddenYamlDoc));
+		alwaysLoadNoFocusLib = Boolean.parseBoolean(JsonYamlUtil.readNoException("$.alwaysLoadNoFocusLib", String.class, yamlDoc, overriddenYamlDoc));
+		acceptInsecureCertificates = Boolean.parseBoolean(JsonYamlUtil.readNoException("$.acceptInsecureCertificates", String.class, yamlDoc, overriddenYamlDoc));
+		acceptUntrustedCertificates = Boolean.parseBoolean(JsonYamlUtil.readNoException("$.acceptUntrustedCertificates", String.class, yamlDoc, overriddenYamlDoc));
 		assumeUntrustedCertificateIssuer = Boolean
-				.parseBoolean(JsonYamlUtil.readNoException(yamlDoc, "$.assumeUntrustedCertificateIssuer", String.class));
+				.parseBoolean(JsonYamlUtil.readNoException("$.assumeUntrustedCertificateIssuer", String.class, yamlDoc, overriddenYamlDoc));
 		profilePath = appConfig.getAppsConfigDir() + File.separator + appConfig.getAppName() + File.separator
 				+ "profile";
 		if (!new File(profilePath).exists()) {
 			new File(profilePath).mkdirs();
 		}
 		
-		String value = JsonYamlUtil.readNoException(yamlDoc, "$.scriptTimeoutInSeconds", String.class);
+		String value = JsonYamlUtil.readNoException("$.scriptTimeoutInSeconds", String.class, yamlDoc, overriddenYamlDoc);
 		if(value != null) {
 			scriptTimeoutInSecs = Integer.parseInt(value);
 		}
 		
-		value = JsonYamlUtil.readNoException(yamlDoc, "$.pageLoadTimeoutInSeconds", String.class);
+		value = JsonYamlUtil.readNoException("$.pageLoadTimeoutInSeconds", String.class, yamlDoc, overriddenYamlDoc);
 		if(value != null) {
 			pageLoadTimeoutInSecs = Integer.parseInt(value);
 		}
+	}
+	
+	/**
+	 * Returns the dafault properties that are overridden by updatedJsonProps.
+	 * 
+	 * @param updatedJsonProps
+	 * @return
+	 */
+	public AppDriverConfig getUpdatedProperties(DocumentContext updatedJsonProps) {
+		if(updatedJsonProps == null) {
+			return this;
+		}
+				
+		AppDriverConfig updatedConfig = new AppDriverConfig(this.appConfig, this.defaultYamlProps, updatedJsonProps);
+		return updatedConfig;
 	}
 
 	public WebBrowserType getBrowserType() {

@@ -19,6 +19,7 @@ package org.uitnet.testing.smartfwk.ui.core.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.sikuli.script.Region;
 import org.testng.Assert;
@@ -44,7 +45,7 @@ public class PageObjectUtil {
 	/**
 	 * Page object should be specified using the format. When POs are in
 	 * ./src/main/page_objects/ directory:
-	 * "<PO-classname>.<field-name>{maxTimeToWaitInSeconds: 10}" When POs are in sub
+	 * "<PO-classname>.<field-name>{maxTimeToWaitInSeconds: 10, params: {p1: 'v1', p2: '${variable1}'} }" When POs are in sub
 	 * directory of ./src/main/page_objects/ directory:
 	 * "<doted-relative-package-path-to-page_objects>.<PO-classname>.<field-name>{maxTimeToWaitInSeconds:
 	 * 10}"
@@ -90,6 +91,7 @@ public class PageObjectUtil {
 		FieldValue fv = getPageObject(poInfo);
 		Object validatorObj = null;
 		try {
+			applyParamsToLocator(fv, poInfo.getLocatorParams(), scenarioContext);
 			Method method = fv.getField().getType().getMethod("getValidator", SmartCucumberUiScenarioContext.class,
 					Region.class);
 			validatorObj = method.invoke(fv.getValue(), scenarioContext, null);
@@ -112,5 +114,43 @@ public class PageObjectUtil {
 		}
 		return null;
 	}
-
+	
+	protected static void applyParamsToLocator(FieldValue fv, Map<String, String> locatorParams, SmartCucumberUiScenarioContext scenarioContext) {
+		if(!locatorParams.isEmpty()) {
+			try {
+				for(Map.Entry<String, String> param: locatorParams.entrySet()) {
+					Method method = fv.getField().getType().getMethod("updateLocatorParameterWithValue", String.class,
+							String.class);
+					Object newObj = method.invoke(fv.getValue(), param.getKey(), prepareParamValue(param.getValue(), scenarioContext));
+					fv.setValue(newObj);
+				}
+			} catch(Exception | Error ex) {
+				Assert.fail("Failed to update locator input parameters.", ex);
+			}			
+		}
+		
+	}
+	
+	/**
+	 * paramValue may contain the variable like ${variableName} and this variable value should be extracted from scenarioContext.
+	 * 
+	 * @param paramValue
+	 * @param scenarioContext
+	 * @return
+	 */
+	public static String prepareParamValue(String paramValue, SmartCucumberUiScenarioContext scenarioContext) {
+		if(paramValue != null) {
+			if(StringUtil.startsWithText(paramValue.trim(), "${") && StringUtil.endsWithText(paramValue.trim(), "}")) {
+				paramValue = paramValue.trim();
+				paramValue = paramValue.substring(2, paramValue.length() - 1).trim();
+				return String.valueOf(scenarioContext.getParamValue(paramValue));
+			} else if(StringUtil.startsWithText(paramValue.trim(), "\\${") && StringUtil.endsWithText(paramValue.trim(), "}")) {
+				return paramValue.replaceFirst("\\", "");
+			}			
+		}
+		
+		return paramValue;
+	}
+	
+	
 }

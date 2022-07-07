@@ -17,7 +17,12 @@
  */
 package org.uitnet.testing.smartfwk.api.core.support;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.TypeRef;
 
 /**
  * 
@@ -76,5 +81,17 @@ public class PageObjectInfo {
 		}
 		
 		return Double.valueOf(Math.floor(maxTimeToWaitInSeconds / 2)).intValue();
+	}
+	
+	public Map<String, String> getLocatorParams() {
+		if(jsonParams != null) {
+			try {
+				Map<String, String> params = jsonParams.read("$.locatorParams", new TypeRef<Map<String, String>>(){});
+				if(params != null) {
+					return params;
+				}
+			}catch(Exception ex) {}			
+		}
+		return new HashMap<>();
 	}
 }

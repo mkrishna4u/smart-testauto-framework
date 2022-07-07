@@ -17,9 +17,18 @@
  */
 package org.uitnet.testing.smartfwk.database;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.sql.Clob;
+import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,6 +37,9 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.NativeQuery;
 import org.testng.Assert;
 import org.testng.Reporter;
+import org.uitnet.testing.smartfwk.common.MethodArg;
+import org.uitnet.testing.smartfwk.common.MethodArgMode;
+import org.uitnet.testing.smartfwk.common.ReturnType;
 import org.uitnet.testing.smartfwk.ui.core.config.DatabaseProfile;
 import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
 
@@ -261,6 +273,144 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 				hibSession.close();
 			}
 		}
+	}
+
+	@Override
+	protected String executeFunctionReturnAsJson(String functionName, ReturnType returnType, Object... args) {
+		Session hibSession = null;
+		try {
+			Thread.sleep(5000);
+			hibSession = ((SessionFactory)connection.getConnection()).openSession();
+			String driverClazz = activeDatabaseProfile.getAdditionalPropertyValue("hibernate.connection.driver_class", String.class);
+			NativeQuery<?> query = null;
+			if(driverClazz.contains("Oracle")) {
+				query = hibSession.createNativeQuery("select " + functionName + "(" + prepareArgsForFunction(args) + ") from dual");
+			} else {
+				query = hibSession.createNativeQuery("select " + functionName + "(" + prepareArgsForFunction(args) + ")");
+			}
+			
+			for(int i = 1; i < args.length; i++) {
+				query.setParameter(i, args[i-1]);
+			}
+			
+			if(returnType == null || returnType == ReturnType.SingleRecord) {
+				Object foundRecords = query.getSingleResult();
+				return JsonYamlUtil.convertObjectToJsonString(foundRecords);
+			} else {
+				List<?> foundRecords = query.getResultList();
+				return JsonYamlUtil.convertObjectToJsonString(foundRecords);
+			}
+		} catch (Exception ex) {
+			Reporter.log("Error in executing function '" + functionName + "'.");
+			Assert.fail("Error in executing function '" + functionName + "'.", ex);
+		} finally {
+			if (hibSession != null) {
+				hibSession.close();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	protected String executeProcedureReturnAsJson(String procedureName, MethodArg<?>... args) {
+		Session hibSession = null;
+		try {
+			Thread.sleep(5000);
+			hibSession = ((SessionFactory)connection.getConnection()).openSession();
+			StoredProcedureQuery query = null;
+			query = hibSession.createStoredProcedureQuery(procedureName);
+			
+			List<String> outParamNames = new LinkedList<>();
+			List<String> refCursorParamNames = new LinkedList<>();
+			
+			for(int i = 1; i < args.length; i++) {
+				if(args[i].getMode() == MethodArgMode.IN) {
+					query.registerStoredProcedureParameter(args[i].getName(), args[i].getDataType(), ParameterMode.valueOf(args[i].getMode().name()));
+					query.setParameter(args[i].getName(), args[i].getValue());
+				} else if(args[i].getMode() == MethodArgMode.INOUT) {
+					query.registerStoredProcedureParameter(args[i].getName(), args[i].getDataType(), ParameterMode.valueOf(args[i].getMode().name()));
+					query.setParameter(args[i].getName(), args[i].getValue());
+					outParamNames.add(args[i].getName());
+				} else if(args[i].getMode() == MethodArgMode.OUT) {
+					query.registerStoredProcedureParameter(args[i].getName(), args[i].getDataType(), ParameterMode.valueOf(args[i].getMode().name()));
+					outParamNames.add(args[i].getName());
+				} else {
+					query.registerStoredProcedureParameter(args[i].getName(), void.class, ParameterMode.valueOf(args[i].getMode().name()));
+					refCursorParamNames.add(args[i].getName());
+				}
+			}
+			
+			if(refCursorParamNames.size() > 1) {
+				Assert.fail("Procedure can have only one parameter as REF_CURSOR.");
+				return null;
+			}
+			
+			Map<String, Object> outputMap = new LinkedHashMap<>();
+			
+			if(refCursorParamNames.size() == 1) {
+				Object result = query.getSingleResult();
+				outputMap.put(refCursorParamNames.get(0), result);
+			} else {
+				query.execute();
+			}
+			
+			for(String outParamName : outParamNames) {
+				Object result = query.getOutputParameterValue(outParamName);
+				if(result instanceof Clob) {
+					result = readClobData((Clob)result);
+				}
+				outputMap.put(outParamName, result);
+			}
+			
+			if(outputMap.size() > 0) {
+				return JsonYamlUtil.convertObjectToJsonString(outputMap);
+			}
+		} catch (Exception ex) {
+			Reporter.log("Error in executing procedure '" + procedureName + "'.");
+			Assert.fail("Error in executing procedure '" + procedureName + "'.", ex);
+		} finally {
+			if (hibSession != null) {
+				hibSession.close();
+			}
+		}
+		return null;
+	}
+	
+	private String prepareArgsForFunction(Object[] args) {
+		StringBuilder sb = new StringBuilder("");
+		
+		if(args == null) {
+			return "";
+		}
+		
+		for(int i = 0; i < args.length; i++) {
+			if(i == 0) {
+				sb.append("?");
+			} else {
+				sb.append(", ?");
+			}
+		}
+		
+		return sb.toString();
+	}
+	
+	private String readClobData(Clob clob) throws SQLException, IOException {
+		Reader reader = null;
+		char charBuffer[];
+		String outBuffer;
+		
+		try {
+			charBuffer = new char[(int) clob.length()];
+			reader = clob.getCharacterStream();
+			reader.read(charBuffer);
+			outBuffer = new String(charBuffer);
+		} finally {
+			if(reader != null) {
+				reader.close();
+			}
+		}
+		
+		return outBuffer;
 	}
 	
 }

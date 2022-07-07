@@ -22,7 +22,6 @@ import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
-import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.button.Button;
 
@@ -65,7 +64,7 @@ public class HeaderColumnSI extends Button {
 	}
 
 	@Override
-	public HeaderColumnSI updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
+	public HeaderColumnSI updateLocatorParameterWithValue(String paramName, String paramValue) {
 		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
 		return this;
 	}

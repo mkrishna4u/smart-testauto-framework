@@ -21,6 +21,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
+import org.uitnet.testing.smartfwk.common.MethodArg;
+import org.uitnet.testing.smartfwk.common.ReturnType;
 import org.uitnet.testing.smartfwk.ui.core.config.DatabaseProfile;
 
 import com.jayway.jsonpath.DocumentContext;
@@ -38,7 +40,8 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 
 	protected DatabaseConnection connection;
 
-	public AbstractDatabaseActionHandler(String appName, int sessionExpiryDurationInSeconds, DatabaseProfile databaseProfile) {
+	public AbstractDatabaseActionHandler(String appName, int sessionExpiryDurationInSeconds,
+			DatabaseProfile databaseProfile) {
 		this.appName = appName;
 		this.sessionExpiryDurationInSeconds = sessionExpiryDurationInSeconds;
 		this.activeDatabaseProfile = databaseProfile;
@@ -111,9 +114,29 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 		drop(connection, entityName, dropStatement);
 	}
 
+	public DocumentContext executeFunction(String functionName, ReturnType returnType, Object... args) {
+		verifyDatabaseConnection();
+		
+		String jsonData = executeFunctionReturnAsJson(functionName, returnType, args);
+		
+		JsonDocumentReader reader = new JsonDocumentReader(jsonData);
+
+		return reader.getDocumentContext();
+	}
+
+	public DocumentContext executeProcedure(String procedureName, MethodArg<?>... args) {
+		verifyDatabaseConnection();
+		
+		String jsonData = executeProcedureReturnAsJson(procedureName, args);
+		
+		JsonDocumentReader reader = new JsonDocumentReader(jsonData);
+
+		return reader.getDocumentContext();
+	}
+
 	@Override
 	public synchronized void disconnect() {
-		if(connection != null) {
+		if (connection != null) {
 			disconnect(connection);
 			connection = null;
 		}
@@ -132,6 +155,10 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 
 	protected abstract void insertDataInBatch(DatabaseConnection connection, String entityName,
 			List<String> insertStatements);
+
+	protected abstract String executeFunctionReturnAsJson(String functionName, ReturnType returnType, Object... args);
+
+	protected abstract String executeProcedureReturnAsJson(String procedureName, MethodArg<?>... args);
 
 	protected abstract void create(DatabaseConnection connection, String entityName, String createStatement);
 

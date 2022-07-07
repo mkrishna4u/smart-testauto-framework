@@ -27,7 +27,6 @@ import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocateBy;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locator;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
-import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
@@ -94,7 +93,7 @@ public class WebPageTitleSD extends Label {
 	}
 
 	@Override
-	public WebPageTitleSD updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
+	public WebPageTitleSD updateLocatorParameterWithValue(String paramName, String paramValue) {
 		String newDisplayName = displayName.replaceAll(":" + paramName, paramValue);
 
 		Map<String, Locator> newPlatFormLocators = new HashMap<>();

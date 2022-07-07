@@ -24,12 +24,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
+import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
+
+import com.jayway.jsonpath.DocumentContext;
 
 import io.cucumber.java.Scenario;
 
@@ -52,12 +55,19 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 	private Map<String, Object> params = new HashMap<>(8);
 	private Scenario scenario = null;
 
+	// Key: <application-name>-<browser-type>, Value: driver properties as 
+	// json document (similar to mentioned in AppDriver.yaml file), this will
+	// overwrite properties specified in AppDriver.yaml file.
+	private Map<String, DocumentContext> driverConfigs;
+	
 	// Key: appName, Value: AbstractAppConnector
 	private Map<String, AbstractAppConnector> appConnectors;
 
 	private String activeAppName = null;
 
 	public SmartCucumberUiScenarioContext() {
+		driverConfigs = new HashMap<>(); 
+		
 		if (getTestConfigManager().isParallelMode()) {
 			appConnectors = new HashMap<>();
 		} else {
@@ -84,7 +94,7 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 	public synchronized AbstractAppConnector connectOrSwitch(String appName) {
 		AbstractAppConnector appConnector = appConnectors.get(appName);
 		if (appConnector == null) {
-			appConnector = new DefaultAppConnector(appName);
+			appConnector = new DefaultAppConnector(appName, getOverriddenDriverProps(appName, getAppConfig(appName).getAppWebBrowser().getType()));
 			appConnector.setActiveUserProfileName(DefaultInfo.DEFAULT_USER_PROFILE_NAME);
 			appConnectors.put(appName, appConnector);
 		}
@@ -155,6 +165,15 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 
 	public AbstractAppConnector getAppConnector(String appName) {
 		return appConnectors.get(appName);
+	}
+	
+	public void overrideDriverProps(String applicationName, String browserType, String propsAsJson) {
+		driverConfigs.put(applicationName + "-" + browserType, new JsonDocumentReader(propsAsJson).getDocumentContext());
+		appConnectors = new HashMap<>();
+	}
+	
+	public DocumentContext getOverriddenDriverProps(String applicationName, String browserType) {
+		return driverConfigs.get(applicationName + "-" + applicationName);
 	}
 
 	public void captureScreenshot() {
@@ -274,7 +293,7 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 
 	@Override
 	public void close() {
-		if(getTestConfigManager().isParallelMode()) {
+		if(getTestConfigManager().isParallelMode() || !driverConfigs.isEmpty()) {
 			for (AbstractAppConnector connector : appConnectors.values()) {
 				connector.logoutAndQuit();
 			}
@@ -287,14 +306,47 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 		params.put(paramName, value);
 	}
 
+	/**
+	 * This method returns param value. If does not exist then returns as null.
+	 * @param paramName
+	 * @return
+	 */
 	@Override
 	public Object getParamValue(String paramName) {
 		return params.get(paramName);
 	}
 	
+	/**
+	 * This method returns param value. If does not exist then returns paramName as value.
+	 * @param paramName
+	 * @return
+	 */
+	@Override
+	public Object getParamValueNullAsParamName(String paramName) {
+		Object val = params.get(paramName);
+		if(val == null) {
+			return paramName;
+		}
+		return val;
+	}
+	
 	@Override
 	public void removeParam(String paramName) {
 		params.remove(paramName);
+	}
+	
+	/**
+	 * It will apply all params value to the text. It will convert param value to string then apply.
+	 * @param text
+	 * @return
+	 */
+	@Override
+	public String applyParamsValueOnText(String text) {
+		for(Map.Entry<String, Object> e : params.entrySet()) {
+			text = text.replace(e.getKey(), "" + e.getValue());
+		};
+		
+		return text;
 	}
 
 }

@@ -38,6 +38,26 @@ public interface SmartCucumberScenarioContext {
 	public void log(String message);
 	public void close();
 	public void addParamValue(String paramName, Object value);
+	
+	/**
+	 * This method returns param value. If does not exist then returns as null.
+	 * @param paramName
+	 * @return
+	 */
 	public Object getParamValue(String paramName);
+	
+	/**
+	 * This method returns param value. If does not exist then returns paramName as value.
+	 * @param paramName
+	 * @return
+	 */
+	public Object getParamValueNullAsParamName(String paramName);
 	public void removeParam(String paramName);
+	
+	/**
+	 * It will apply all params value to the text. It will convert param value to string then apply.
+	 * @param text
+	 * @return
+	 */
+	public String applyParamsValueOnText(String text);
 }

@@ -22,7 +22,6 @@ import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 
 /**
  * 
@@ -54,7 +53,7 @@ public abstract class UIObject {
 
 	public abstract UIObject clone();
 
-	public abstract UIObject updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String value);
+	public abstract UIObject updateLocatorParameterWithValue(String paramName, String value);
 
 	public abstract UIObjectValidator getValidator(SmartAppDriver appDriver, Region region);
 

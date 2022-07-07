@@ -165,8 +165,8 @@ public class YamlDocumentValidator {
 		HashMap<String, Object> additionalProps = docCtx.read("$.additionalProps", tRef);
 		//String value = additionalProps.get("prop2");
 		System.out.println("additionalProps: " + additionalProps);
-		System.out.println("TTT:" + JsonYamlUtil.readNoException(docCtx, "$.text", String.class));
-		System.out.println("TTT:" + JsonYamlUtil.readNoException(docCtx, "$.additionalPropsNone", (new TypeRef<Map<String, Object>>() {})));
+		System.out.println("TTT:" + JsonYamlUtil.readNoException("$.text", String.class, docCtx));
+		System.out.println("TTT:" + JsonYamlUtil.readNoException("$.additionalPropsNone", (new TypeRef<Map<String, Object>>() {}), docCtx));
 		
 //		System.out.println("readAllProps: " + docCtx.read("$"));
 //		System.out.println("readAllProps: " + docCtx.read("$.gg"));

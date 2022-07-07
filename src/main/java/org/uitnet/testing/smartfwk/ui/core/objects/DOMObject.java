@@ -29,7 +29,6 @@ import org.uitnet.testing.smartfwk.ui.core.commons.LocateBy;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locator;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
@@ -67,7 +66,7 @@ public class DOMObject extends UIObject {
 	}
 
 	@Override
-	public DOMObject updateLocatorParameterWithValue(AppConfig appConfig, String paramName, String paramValue) {
+	public DOMObject updateLocatorParameterWithValue(String paramName, String paramValue) {
 		String newDisplayName = displayName.replaceAll(":" + paramName, paramValue);
 
 		Map<String, Locator> newPlatFormLocators = new HashMap<>();

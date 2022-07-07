@@ -54,7 +54,7 @@ public class SikuliSettings {
 
 	protected void initializeSikuli(DocumentContext yamlDoc) {
 		try {
-			settings = JsonYamlUtil.readNoException(yamlDoc, "$.settings", (new TypeRef<Map<String, String>>() {}));
+			settings = JsonYamlUtil.readNoException("$.settings", (new TypeRef<Map<String, String>>() {}), yamlDoc);
 			String value;
 			for (String name : settings.keySet()) {
 				value = settings.get(name);
@@ -73,8 +73,8 @@ public class SikuliSettings {
 			Options ocrOptions = OCR.globalOptions();
 			ocrOptions.dataPath(getOcrDataPath());
 
-			additionalProps = JsonYamlUtil.readNoException(yamlDoc, "$.additionalProps", (new TypeRef<Map<String, Object>>() {
-			}));
+			additionalProps = JsonYamlUtil.readNoException("$.additionalProps", (new TypeRef<Map<String, Object>>() {
+			}), yamlDoc);
 		} catch (Throwable th) {
 			Assert.fail("Failed to initialize the sikuli driver.", th);
 		}

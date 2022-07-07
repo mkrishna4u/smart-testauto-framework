@@ -156,14 +156,47 @@ public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioCo
 		params.put(paramName, value);
 	}
 
+	/**
+	 * This method returns param value. If does not exist then returns as null.
+	 * @param paramName
+	 * @return
+	 */
 	@Override
 	public Object getParamValue(String paramName) {
 		return params.get(paramName);
 	}
 	
+	/**
+	 * This method returns param value. If does not exist then returns paramName as value.
+	 * @param paramName
+	 * @return
+	 */
+	@Override
+	public Object getParamValueNullAsParamName(String paramName) {
+		Object val = params.get(paramName);
+		if(val == null) {
+			return paramName;
+		}
+		return val;
+	}
+	
 	@Override
 	public void removeParam(String paramName) {
 		params.remove(paramName);
+	}
+	
+	/**
+	 * It will apply all params value to the text. It will convert param value to string then apply.
+	 * @param text
+	 * @return
+	 */
+	@Override
+	public String applyParamsValueOnText(String text) {
+		for(Map.Entry<String, Object> e : params.entrySet()) {
+			text = text.replace(e.getKey(), "" + e.getValue());
+		};
+		
+		return text;
 	}
 
 	private String prepareKey(String appName, String targetServerName) {

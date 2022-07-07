@@ -106,7 +106,7 @@ public class TestConfigManager {
 
 			String appNamesAsStr = System.getProperty("appNames");
 			if (appNamesAsStr == null || "".equals(appNamesAsStr.trim())) {
-				appNamesAsStr = JsonYamlUtil.readNoException(yamlDoc, "$.appNames", String.class);
+				appNamesAsStr = JsonYamlUtil.readNoException("$.appNames", String.class, yamlDoc);
 				if (appNamesAsStr == null || "".equals(appNamesAsStr.trim())) {
 					Assert.fail("FATAL: No application configured.");
 					System.exit(1);
@@ -135,14 +135,14 @@ public class TestConfigManager {
 				parallelMode = false;
 			}
 			
-			Boolean boolValue = JsonYamlUtil.readNoException(yamlDoc, "$.preferDriverScreenshots", Boolean.class);
+			Boolean boolValue = JsonYamlUtil.readNoException("$.preferDriverScreenshots", Boolean.class, yamlDoc);
 			if (boolValue == null || boolValue.booleanValue() == true) {
 				preferDriverScreenshots = true;
 			} else {
 				preferDriverScreenshots = false;
 			}
 			
-			boolValue = JsonYamlUtil.readNoException(yamlDoc, "$.embedScreenshotsInTestReport", Boolean.class);
+			boolValue = JsonYamlUtil.readNoException("$.embedScreenshotsInTestReport", Boolean.class, yamlDoc);
 			if (boolValue == null || boolValue.booleanValue() == true) {
 				embedScreenshotsInTestReport = true;
 			} else {
@@ -162,8 +162,8 @@ public class TestConfigManager {
 
 			sikuliResourcesDir = Locations.getProjectRootDir() + File.separator + "sikuli-resources";
 
-			additionalProps = JsonYamlUtil.readNoException(yamlDoc, "$.additionalProps", new TypeRef<Map<String, Object>>() {
-			});
+			additionalProps = JsonYamlUtil.readNoException("$.additionalProps", new TypeRef<Map<String, Object>>() {
+			}, yamlDoc);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

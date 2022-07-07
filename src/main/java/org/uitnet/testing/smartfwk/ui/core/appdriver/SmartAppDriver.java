@@ -60,6 +60,8 @@ import org.uitnet.testing.smartfwk.ui.core.handler.DefaultScrollElementToViewpor
 import org.uitnet.testing.smartfwk.ui.core.handler.ScrollElementToViewportHandler;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
+import com.jayway.jsonpath.DocumentContext;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.mac.Mac2Driver;
@@ -82,7 +84,8 @@ public class SmartAppDriver {
 	private ScrollElementToViewportHandler scrollElemToViewportCallback;
 	private String originalWindowHandle;
 	private boolean shouldOpenURL = true;
-
+	private DocumentContext overriddenDriverProps = null;
+	
 	public SmartAppDriver(String appName, ApplicationType appType, PlatformType testPlatformType) {
 		this.appId = AppIdGenerator.getInstance().nextValue();
 		this.appName = appName;
@@ -98,6 +101,14 @@ public class SmartAppDriver {
 
 	public ScrollElementToViewportHandler getScrollElementToViewportHandler() {
 		return scrollElemToViewportCallback;
+	}
+	
+	/**
+	 * Must be called before calling the set active user profile else these properties will not get overridden.
+	 * @param jsonProps
+	 */
+	public void overrideDriverProps(DocumentContext jsonProps) {
+		overriddenDriverProps = jsonProps;
 	}
 
 	public WebDriver openAppIfNotOpened(String userProfileName) {
@@ -159,17 +170,17 @@ public class SmartAppDriver {
 	}
 
 	private void prepareWindowsNativeAppDriver() {
-		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig();
+		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
 
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
 
-		for (Map.Entry<String, Object> entry : appConfig.getAppDriverConfig().getDriverCapabilities().entrySet()) {
+		for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
 			capabilities.setCapability(entry.getKey(), entry.getValue());
 		}
 
 		try {
-			webDriver = new WindowsDriver(new URI(appConfig.getAppDriverConfig().getRemoteDriverURL()).toURL(),
+			webDriver = new WindowsDriver(new URI(webDriverCfg.getRemoteDriverURL()).toURL(),
 					capabilities);
 
 		} catch (Exception ex) {
@@ -178,12 +189,12 @@ public class SmartAppDriver {
 	}
 
 	private void prepareAndroidMobileAppDriver() {
-		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig();
+		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
 
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
 
-		for (Map.Entry<String, Object> entry : appConfig.getAppDriverConfig().getDriverCapabilities().entrySet()) {
+		for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
 			if ("app".equals(entry.getKey())
 					&& !(("" + entry.getValue()).startsWith("http:") || ("" + entry.getValue()).startsWith("https:"))) {
 				capabilities.setCapability(entry.getKey(), appConfig.getAppsConfigDir() + File.separator
@@ -195,7 +206,7 @@ public class SmartAppDriver {
 
 		try {
 
-			webDriver = new AndroidDriver(new URI(appConfig.getAppDriverConfig().getRemoteDriverURL()).toURL(),
+			webDriver = new AndroidDriver(new URI(webDriverCfg.getRemoteDriverURL()).toURL(),
 					capabilities);
 
 		} catch (Exception ex) {
@@ -204,12 +215,12 @@ public class SmartAppDriver {
 	}
 
 	private void prepareIosMobileAppDriver() {
-		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig();
+		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
 
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
 
-		for (Map.Entry<String, Object> entry : appConfig.getAppDriverConfig().getDriverCapabilities().entrySet()) {
+		for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
 			capabilities.setCapability(entry.getKey(), entry.getValue());
 		}
 
@@ -217,12 +228,12 @@ public class SmartAppDriver {
 	}
 
 	private void prepareMacNativeAppDriver() {
-		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig();
+		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
 
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
 
-		for (Map.Entry<String, Object> entry : appConfig.getAppDriverConfig().getDriverCapabilities().entrySet()) {
+		for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
 			capabilities.setCapability(entry.getKey(), entry.getValue());
 		}
 
@@ -230,7 +241,7 @@ public class SmartAppDriver {
 	}
 
 	private void prepareWebAppDriverForNonMobileApp() {
-		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig();
+		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
 		Proxy proxy;
 		try {
 			switch (appConfig.getAppWebBrowser()) {

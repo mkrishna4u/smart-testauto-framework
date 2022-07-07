@@ -38,6 +38,8 @@ import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginPageValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginSuccessPageValidator;
 import org.uitnet.testing.smartfwk.ui.core.utils.ScreenCaptureUtil;
 
+import com.jayway.jsonpath.DocumentContext;
+
 import io.cucumber.java.Scenario;
 
 /**
@@ -62,7 +64,12 @@ public abstract class AbstractAppConnector {
 
 	protected SmartAppDriver appDriver;
 
-	protected AbstractAppConnector(String appName) {
+	/**
+	 * 
+	 * @param appName
+	 * @param overrideDriverProps - can be set null if we do not want to override the existing driver properties for this session only.
+	 */
+	protected AbstractAppConnector(String appName, DocumentContext overrideDriverProps) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.logonTest = false;
 		this.testConfigManager = TestConfigManager.getInstance();
@@ -74,7 +81,7 @@ public abstract class AbstractAppConnector {
 		this.hostPlatformType = testConfigManager.getHostPlatformType();
 		appDriver = SmartAppDriverFactory.getInstance().getNewAppDriver(appName);
 	}
-
+	
 	public void scenarioSetup() {
 
 	}

@@ -24,15 +24,14 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.reader.YamlDocumentReader;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.RemoteWebDriverProvider;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
-import org.uitnet.testing.smartfwk.ui.core.utils.ScreenCaptureUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.ScreenCaptureUtil;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.TypeRef;
@@ -101,7 +100,7 @@ public class AppConfig {
 	}
 	
 	private void initAppConfig(String appName, DocumentContext appConfigDocContext, DocumentContext envAppConfigDocContext) {
-		String propValue = readEnvValue("$.applicationName", String.class, appConfigDocContext, envAppConfigDocContext);
+		String propValue = JsonYamlUtil.readNoException("$.applicationName", String.class, appConfigDocContext, envAppConfigDocContext);
 		if (propValue == null || !appName.equals(propValue.trim())) {
 			Assert.fail("FATAL: Application name '" + propValue
 					+ "' specified in file is not same as configured in TestConfig.yaml file '" + appName
@@ -109,7 +108,7 @@ public class AppConfig {
 			System.exit(1);
 		}
 
-		propValue = readEnvValue("$.applicationType", String.class, appConfigDocContext, envAppConfigDocContext);
+		propValue = JsonYamlUtil.readNoException("$.applicationType", String.class, appConfigDocContext, envAppConfigDocContext);
 		if (propValue == null || "".equals(propValue.trim())) {
 			Assert.fail("FATAL: Please specify 'applicationType' in AppConfig.yaml. AppName: " + appName
 					+ ", environmentName: . Exiting ...");
@@ -118,7 +117,7 @@ public class AppConfig {
 			this.appType = ApplicationType.valueOf2(propValue);
 		}
 
-		propValue = readEnvValue("$.testPlatformType", String.class, appConfigDocContext, envAppConfigDocContext);
+		propValue = JsonYamlUtil.readNoException("$.testPlatformType", String.class, appConfigDocContext, envAppConfigDocContext);
 		if (propValue == null || "".equals(propValue.trim())) {
 			Assert.fail("FATAL: Please specify 'testPlatformType' in AppConfig.yaml. AppName: " + appName
 					+ ". Exiting ...");
@@ -127,7 +126,7 @@ public class AppConfig {
 			this.testPlatformType = PlatformType.valueOf2(propValue);
 		}
 
-		appLaunchUrl = readEnvValue("$.appLaunchURL", String.class, appConfigDocContext, envAppConfigDocContext);
+		appLaunchUrl = JsonYamlUtil.readNoException("$.appLaunchURL", String.class, appConfigDocContext, envAppConfigDocContext);
 		if (appLaunchUrl == null || "".equals(appLaunchUrl.trim())) {
 			if(!DefaultInfo.DEFAULT_APP_NAME.equals(this.appName)) {
 				Assert.fail("FATAL: Please specify 'appLaunchURL' in AppConfig.yaml. AppName: " + appName
@@ -140,7 +139,7 @@ public class AppConfig {
 			appLaunchUrl = appLaunchUrl.trim();
 		}
 
-		propValue = readEnvValue("$.appWebBrowser", String.class, appConfigDocContext, envAppConfigDocContext);
+		propValue = JsonYamlUtil.readNoException("$.appWebBrowser", String.class, appConfigDocContext, envAppConfigDocContext);
 		if (propValue == null || "".equals(propValue.trim())) {
 			Assert.fail("FATAL: Please specify 'appWebBrowser' in AppConfig.yaml. AppName: " + appName
 					+ ". Exiting ...");
@@ -149,25 +148,25 @@ public class AppConfig {
 			appWebBrowser = WebBrowserType.valueOf2(propValue.trim());
 		}
 
-		Map<String, String> propValuesAsMap = readEnvValue("$.proxySettings", (new TypeRef<Map<String, String>>() {}), appConfigDocContext, envAppConfigDocContext);
+		Map<String, String> propValuesAsMap = JsonYamlUtil.readNoException("$.proxySettings", (new TypeRef<Map<String, String>>() {}), appConfigDocContext, envAppConfigDocContext);
 		proxyConfig = new ProxyConfiguration(appName, propValuesAsMap);
-		remoteWebDriverProviderClass = readEnvValue("$.remoteWebDriverProviderClass", String.class, appConfigDocContext, envAppConfigDocContext);
+		remoteWebDriverProviderClass = JsonYamlUtil.readNoException("$.remoteWebDriverProviderClass", String.class, appConfigDocContext, envAppConfigDocContext);
 
-		appLoginPageValidatorClass = readEnvValue("$.appLoginPageValidatorClass", String.class, appConfigDocContext, envAppConfigDocContext);
+		appLoginPageValidatorClass = JsonYamlUtil.readNoException("$.appLoginPageValidatorClass", String.class, appConfigDocContext, envAppConfigDocContext);
 		if (appLoginPageValidatorClass == null || "".equals(appLoginPageValidatorClass.trim())) {
 			appLoginPageValidatorClass = DefaultInfo.DEFAULT_APP_LOGIN_PAGE_VALIDATOR;
 		} else {
 			appLoginPageValidatorClass = appLoginPageValidatorClass.trim();
 		}
 
-		appLoginSuccessPageValidatorClass = readEnvValue("$.appLoginSuccessPageValidatorClass", String.class, appConfigDocContext, envAppConfigDocContext);
+		appLoginSuccessPageValidatorClass = JsonYamlUtil.readNoException("$.appLoginSuccessPageValidatorClass", String.class, appConfigDocContext, envAppConfigDocContext);
 		if (appLoginSuccessPageValidatorClass == null || "".equals(appLoginSuccessPageValidatorClass.trim())) {
 			appLoginSuccessPageValidatorClass = DefaultInfo.DEFAULT_APP_LOGIN_SUCCESS_PAGE_VALIDATOR;
 		} else {
 			appLoginSuccessPageValidatorClass = appLoginSuccessPageValidatorClass.trim();
 		}
 
-		propValue = readEnvValue("$.enableBrowserExtensions", String.class, appConfigDocContext, envAppConfigDocContext);
+		propValue = JsonYamlUtil.readNoException("$.enableBrowserExtensions", String.class, appConfigDocContext, envAppConfigDocContext);
 		if (propValue == null || "".equals(propValue.trim())) {
 			Assert.fail("FATAL: Please specify 'enableBrowserExtensions' in AppConfig.yaml. AppName: " + appName
 					+ ". Exiting ...");
@@ -176,7 +175,7 @@ public class AppConfig {
 			enableWebBrowserExtension = Boolean.valueOf(propValue.trim());
 		}
 
-		propValue = readEnvValue("$.browserWindowSize", String.class, appConfigDocContext, envAppConfigDocContext);
+		propValue = JsonYamlUtil.readNoException("$.browserWindowSize", String.class, appConfigDocContext, envAppConfigDocContext);
 		if (propValue == null || "".equals(propValue.trim()) || !propValue.contains("x")) {
 			Assert.fail("FATAL: Please specify correct 'browserWindowSize' in AppConfig.yaml. AppName: " + appName
 					+ ". Exiting ...");
@@ -208,7 +207,7 @@ public class AppConfig {
 
 		userProfileConfigDir = appsConfigDir + File.separator + appName + File.separator + userProfileConfigDir.trim();
 
-		List<String> propValues = readEnvValue("$.userProfileNames", (new TypeRef<List<String>>() {}), appConfigDocContext, envAppConfigDocContext);
+		List<String> propValues = JsonYamlUtil.readNoException("$.userProfileNames", (new TypeRef<List<String>>() {}), appConfigDocContext, envAppConfigDocContext);
 		if (propValues == null || propValues.isEmpty()) {
 			userProfiles.put(DefaultInfo.DEFAULT_USER_PROFILE_NAME, null);
 		} else {
@@ -226,7 +225,7 @@ public class AppConfig {
 
 		dbProfileConfigDir = appsConfigDir + File.separator + appName + File.separator + dbProfileConfigDir.trim();
 
-		propValues = readEnvValue("$.dbProfileNames", (new TypeRef<List<String>>() {}), appConfigDocContext, envAppConfigDocContext);
+		propValues = JsonYamlUtil.readNoException("$.dbProfileNames", (new TypeRef<List<String>>() {}), appConfigDocContext, envAppConfigDocContext);
 		if (propValues == null || propValues.isEmpty()) {
 			// Do nothing
 		} else {
@@ -243,7 +242,7 @@ public class AppConfig {
 			initDatabaseProfiles();
 		}
 
-		additionalProps = readEnvValue("$.additionalProps", new TypeRef<HashMap<String, Object>>() {}, appConfigDocContext, envAppConfigDocContext);
+		additionalProps = JsonYamlUtil.readNoException("$.additionalProps", new TypeRef<HashMap<String, Object>>() {}, appConfigDocContext, envAppConfigDocContext);
 		
 		if (remoteWebDriverProviderClass == null || "".equals(remoteWebDriverProviderClass.trim())) {
 			remoteWebDriverProviderClass = null;
@@ -259,7 +258,7 @@ public class AppConfig {
 			}
 		}
 
-		propValue = readEnvValue("$.apiConfigFileName", String.class, appConfigDocContext, envAppConfigDocContext);
+		propValue = JsonYamlUtil.readNoException("$.apiConfigFileName", String.class, appConfigDocContext, envAppConfigDocContext);
 		if (propValue == null || "".equals(propValue.trim())) {
 			if(!DefaultInfo.DEFAULT_APP_NAME.equals(this.appName)) {
 				Assert.fail("FATAL: Please specify 'apiConfigFileName' in AppConfig.yaml. AppName: " + appName
@@ -277,7 +276,7 @@ public class AppConfig {
 			}
 		}
 
-		propValue = readEnvValue("$.appDriverConfigFileName", String.class, appConfigDocContext, envAppConfigDocContext);
+		propValue = JsonYamlUtil.readNoException("$.appDriverConfigFileName", String.class, appConfigDocContext, envAppConfigDocContext);
 		initAppDriverConfig(propValue);
 	}
 
@@ -485,57 +484,5 @@ public class AppConfig {
 		return dbProfiles.values();
 	}
 	
-	private <T> T readEnvValue(String yamlPath, Class<T> clazz, DocumentContext appConfigDocContext, DocumentContext envAppConfigDocContext) {
-		if(envAppConfigDocContext == null) {
-			return JsonYamlUtil.readNoException(appConfigDocContext, yamlPath, clazz);
-		}
-		
-		T value = null;
-		
-		try {
-			value = envAppConfigDocContext.read(yamlPath, clazz);
-		} catch(Exception e) {
-			value = JsonYamlUtil.readNoException(appConfigDocContext, yamlPath, clazz);
-		}
-		
-		return value;
-	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private <T> T readEnvValue(String yamlPath, TypeRef<T> typeRef, DocumentContext appConfigDocContext, DocumentContext envAppConfigDocContext) {
-		if(envAppConfigDocContext == null) {
-			return JsonYamlUtil.readNoException(appConfigDocContext, yamlPath, typeRef);
-		}
-		
-		T value = null;
-		
-		try {
-			value = JsonYamlUtil.readNoException(envAppConfigDocContext, yamlPath, typeRef);
-			Map map = null;
-			if(value instanceof Map) {
-				map = (Map) value;
-			}
-			
-			T defValue = JsonYamlUtil.readNoException(appConfigDocContext, yamlPath, typeRef);
-			if(defValue instanceof Map) {
-				Map map2 = (Map) defValue;
-				if(map != null) {
-					map2.putAll(map);
-				}
-				value = (T) map2;
-			} else {
-				if(value == null) {
-					value = (T) defValue;
-				} else if(value instanceof List || value instanceof Set) {
-					if(((Collection) value).isEmpty()) {
-						value = (T) defValue;
-					}
-				}
-			}
-		} catch(Exception e) {
-			value = JsonYamlUtil.readNoException(appConfigDocContext, yamlPath, typeRef);
-		}
-		
-		return value;
-	}
 }

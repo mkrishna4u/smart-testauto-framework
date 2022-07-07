@@ -62,6 +62,13 @@ public class StringUtil {
 		}
 		return false;
 	}
+	
+	public static String trimNullObjAsEmptyStr(Object obj) {
+		if (obj == null) {
+			return "";
+		}
+		return String.valueOf(obj).trim();
+	}
 
 	/**
 	 * Checks whether the text exist in string or not.
@@ -98,7 +105,7 @@ public class StringUtil {
 	 * @param text
 	 * @return
 	 */
-	public static boolean endWithText(String str, String text) {
+	public static boolean endsWithText(String str, String text) {
 		if (str == null) {
 			return false;
 		}
