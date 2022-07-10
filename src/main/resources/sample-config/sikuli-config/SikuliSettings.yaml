@@ -18,6 +18,7 @@
 ################################################################################
 
 #OCR Settings
+ocr-tessdata-location: .
 settings:
   OcrLanguage: "string:eng"
   OcrTextSearch: "boolean:true"

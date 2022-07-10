@@ -54,6 +54,11 @@ public class SikuliSettings {
 
 	protected void initializeSikuli(DocumentContext yamlDoc) {
 		try {
+			String ocrTessdataLoc = JsonYamlUtil.readNoException("$.ocr-tessdata-location", String.class, yamlDoc);
+			if(ocrTessdataLoc != null && !ocrTessdataLoc.equals(".")) {
+				ocrDataPath = ocrTessdataLoc;
+			}
+			
 			settings = JsonYamlUtil.readNoException("$.settings", (new TypeRef<Map<String, String>>() {}), yamlDoc);
 			String value;
 			for (String name : settings.keySet()) {
