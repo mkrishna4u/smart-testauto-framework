@@ -22,18 +22,33 @@ package org.uitnet.testing.smartfwk.api.core.support;
  * @author Madhav Krishna
  *
  */
-public interface MediaType {
-	String APPLICATION_JSON = "application/json";
-	String APPLICATION_XML = "application/xml";
-	String APPLICATION_OCTET_STREAM = "application/octet-stream";
-	String APPLICATION_PDF = "application/pdf";
-	String IMAGE_GIF = "image/gif";
-	String IMAGE_PNG = "image/png";
-	String IMAGE_JPEG = "image/jpeg";
-	String TEXT_HTML = "text/html";
-	String TEXT_XML = "text/xml";
-	String TEXT_PLAIN = "text/plain";
-	String MULTIPART_MIXED = "multipart/mixed";
-	String MULTIPART_FORM_DATA = "multipart/form-data";
-	String ALL = "*/*";	
+public class FileSequenceNumberGenerator {
+	private static FileSequenceNumberGenerator instance;
+	private int currentNum;
+
+	private FileSequenceNumberGenerator() {
+		currentNum = 0;
+	}
+
+	public static FileSequenceNumberGenerator getInstance() {
+		if (instance != null) {
+			return instance;
+		}
+
+		synchronized (FileSequenceNumberGenerator.class) {
+			if (instance == null) {
+				instance = new FileSequenceNumberGenerator();
+			}
+		}
+
+		return instance;
+	}
+
+	public synchronized int next() {
+		if (currentNum == 999999) {
+			currentNum = 0;
+		}
+
+		return ++currentNum;
+	}
 }

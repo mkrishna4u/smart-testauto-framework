@@ -18,21 +18,28 @@
 package org.uitnet.testing.smartfwk.api.core;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.defaults.ApiTestManager;
+import org.uitnet.testing.smartfwk.api.core.support.FileSequenceNumberGenerator;
 import org.uitnet.testing.smartfwk.api.core.support.HttpMultipartRequest;
 import org.uitnet.testing.smartfwk.api.core.support.HttpRequest;
 import org.uitnet.testing.smartfwk.api.core.support.HttpResponse;
 import org.uitnet.testing.smartfwk.api.core.support.HttpSession;
 import org.uitnet.testing.smartfwk.api.core.support.MultipartData;
+import org.uitnet.testing.smartfwk.api.core.support.PayloadType;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.UserProfile;
+import org.uitnet.testing.smartfwk.ui.core.utils.MimeTypeUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
 
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -62,8 +69,8 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		this.appName = appName;
 		this.sessionExpiryDurationInSeconds = sessionExpiryDurationInSeconds;
 		this.targetServerName = targetServerName;
-		this.baseURL = TestConfigManager.getInstance().getAppConfig(appName).getApiConfig().getTargetServer(targetServerName)
-				.getBaseURL();
+		this.baseURL = TestConfigManager.getInstance().getAppConfig(appName).getApiConfig()
+				.getTargetServer(targetServerName).getBaseURL();
 	}
 
 	public void setApiTestManager(ApiTestManager apiTestManager) {
@@ -358,9 +365,34 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		try (Response response = client.newCall(requestBuilder.build()).execute()) {
 			httpResponse.setCode(response.code());
 			httpResponse.setMessage(response.message());
-			if (expectResponseBody) {
-				ResponseBody body = response.body();
-				httpResponse.setPayload(body.string());
+
+			Headers headers = response.headers();
+			for (String key : headers.names()) {
+				httpResponse.addHeader(key, headers.get(key));
+			}
+
+			String contentType = httpResponse.getHeader("Content-Type");
+			String contentDisposition = httpResponse.getHeader("Content-Disposition");
+
+			String binFileExtn = MimeTypeUtil.getBinaryFileExtension(contentType);
+
+			if (contentDisposition != null && contentDisposition.toLowerCase().contains("attachment")
+					|| contentDisposition.toLowerCase().contains("inline")) {
+				handleContentDisposition(httpResponse, response);
+			} else if (binFileExtn != null) {
+				// handle binary data
+				httpResponse.setPayLoadType(PayloadType.FILE);
+				int nextSeq = FileSequenceNumberGenerator.getInstance().next();
+				String filePath = TestConfigManager.getInstance().getDownloadLocation() + File.separator + "noname"
+						+ nextSeq + binFileExtn;
+				httpResponse.setPayload("noname" + binFileExtn);
+				httpResponse.setFilePath(filePath);
+				downloadFile(response.body(), filePath);
+			} else {
+				if (expectResponseBody) {
+					ResponseBody body = response.body();
+					httpResponse.setPayload(body.string());
+				}
 			}
 
 		} catch (Exception ex) {
@@ -398,11 +430,58 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		return lastRequestAccessTimeInMs;
 	}
 
+	protected void handleContentDisposition(HttpResponse httpResponse, Response rawResponse) throws IOException {
+		String contentDisposition = httpResponse.getHeader("Content-Disposition");
+		if (contentDisposition != null) {
+			if (contentDisposition.toLowerCase().contains("attachment")
+					|| contentDisposition.toLowerCase().contains("inline")) {
+				httpResponse.setPayLoadType(PayloadType.FILE);
+				String[] parts = contentDisposition.split(";");
+				String fileToCreate = "noname";
+				for (String part : parts) {
+					if (part.trim().contains("filename")) {
+						String[] fileParts = part.trim().split("=");
+						if (fileParts.length == 2) {
+							String fileName = fileParts[1].trim();
+							fileToCreate = fileName.replace("\"", "").replace("'", "");
+							break;
+						}
+					}
+				}
+
+				httpResponse.setPayload(fileToCreate);
+
+				String filePath = TestConfigManager.getInstance().getDownloadLocation() + File.separator;
+
+				int lastIndex = fileToCreate.lastIndexOf(".");
+				int nextSeq = FileSequenceNumberGenerator.getInstance().next();
+				if (lastIndex == 0) {
+					filePath = filePath + nextSeq + fileToCreate;
+				} else if (lastIndex > 0) {
+					filePath = fileToCreate.substring(0, lastIndex) + "-" + nextSeq
+							+ fileToCreate.substring(lastIndex, fileToCreate.length());
+				} else {
+					filePath = filePath + fileToCreate + nextSeq;
+				}
+
+				httpResponse.setFilePath(filePath);
+
+				downloadFile(rawResponse.body(), filePath);
+			}
+		}
+	}
+
+	protected void downloadFile(ResponseBody body, String filePath) throws IOException {
+		if (body != null) {
+			Files.copy(body.byteStream(), new File(filePath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+		}
+	}
+
 	public AbstractApiActionHandler clone() {
 		try {
 			AbstractApiActionHandler obj = (AbstractApiActionHandler) ObjectUtil
-					.findClassConstructor(this.getClass(), new Class[] {String.class, int.class, String.class})
-					.newInstance(this.appName,this.sessionExpiryDurationInSeconds, this.targetServerName);
+					.findClassConstructor(this.getClass(), new Class[] { String.class, int.class, String.class })
+					.newInstance(this.appName, this.sessionExpiryDurationInSeconds, this.targetServerName);
 			return obj;
 		} catch (Exception ex) {
 			Assert.fail("Failed to clone '" + this.getClass().getName() + "' class object.", ex);

@@ -22,18 +22,6 @@ package org.uitnet.testing.smartfwk.api.core.support;
  * @author Madhav Krishna
  *
  */
-public interface MediaType {
-	String APPLICATION_JSON = "application/json";
-	String APPLICATION_XML = "application/xml";
-	String APPLICATION_OCTET_STREAM = "application/octet-stream";
-	String APPLICATION_PDF = "application/pdf";
-	String IMAGE_GIF = "image/gif";
-	String IMAGE_PNG = "image/png";
-	String IMAGE_JPEG = "image/jpeg";
-	String TEXT_HTML = "text/html";
-	String TEXT_XML = "text/xml";
-	String TEXT_PLAIN = "text/plain";
-	String MULTIPART_MIXED = "multipart/mixed";
-	String MULTIPART_FORM_DATA = "multipart/form-data";
-	String ALL = "*/*";	
+public enum PayloadType {
+	TEXT, FILE
 }

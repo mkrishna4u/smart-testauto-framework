@@ -17,6 +17,9 @@
  */
 package org.uitnet.testing.smartfwk.api.core.support;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * 
  * @author Madhav Krishna
@@ -25,10 +28,14 @@ package org.uitnet.testing.smartfwk.api.core.support;
 public class HttpResponse {
 	private int code;
 	private String message;
+	private Map<String, String> headers;
+	private PayloadType payLoadType;
 	private String payload;
+	private String filePath;
 
 	public HttpResponse() {
-
+		payLoadType = PayloadType.TEXT;
+		headers = new LinkedHashMap<>();
 	}
 
 	public int getCode() {
@@ -47,11 +54,43 @@ public class HttpResponse {
 		this.message = message;
 	}
 
+	public Map<String, String> getHeaders() {
+		return headers;
+	}
+	
+	public String getHeader(String name) {
+		return headers.get(name.toUpperCase());
+	}
+
+	public void setHeaders(Map<String, String> headers) {
+		this.headers = headers;
+	}
+	
+	public void addHeader(String key, String value) {
+		this.headers.put(key.toUpperCase(), value);
+	}
+
+	public PayloadType getPayLoadType() {
+		return payLoadType;
+	}
+
+	public void setPayLoadType(PayloadType payLoadType) {
+		this.payLoadType = payLoadType;
+	}
+
 	public String getPayload() {
 		return payload;
 	}
 
 	public void setPayload(String payload) {
 		this.payload = payload;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 }

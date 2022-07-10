@@ -298,6 +298,8 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 				connector.logoutAndQuit();
 			}
 			appConnectors.clear();
+		} else {
+			closeAllChildWindows();
 		}
 	}
 

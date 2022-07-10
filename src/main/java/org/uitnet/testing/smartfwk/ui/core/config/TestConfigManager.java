@@ -64,6 +64,8 @@ public class TestConfigManager {
 	private Map<String, Object> additionalProps;
 
 	private SikuliSettings sikuliSettings;
+	
+	private String downloadLocation;
 
 	private TestConfigManager() {
 		init();
@@ -88,6 +90,13 @@ public class TestConfigManager {
 		additionalProps = new LinkedHashMap<String, Object>();
 
 		try {
+			downloadLocation = Locations.getProjectRootDir() + File.separator + "test-results" + File.separator
+					+ "downloads";
+			File f = new File(downloadLocation);
+			if(!f.exists()) {
+				f.mkdirs();
+			}
+			
 			YamlDocumentReader reader = new YamlDocumentReader(new File(TEST_CONFIG_FILE_PATH));
 
 			initTestConfig(reader.getDocumentContext());
@@ -232,6 +241,10 @@ public class TestConfigManager {
 
 	public String getCucumberTestcasesDir() {
 		return cucumberTestcasesDir;
+	}
+	
+	public String getDownloadLocation() {
+		return downloadLocation;
 	}
 
 	public UserProfile getUserProfile(String appName, String profileName) {
