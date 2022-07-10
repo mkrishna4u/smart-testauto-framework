@@ -54,9 +54,9 @@ public class FileContentsValidator {
 	private String ocrLanguage;
 
 	public FileContentsValidator(String filePath, boolean shouldPrintFileContentsOnConsole) {
-		this.filePath = filePath;
-		fileContents = extractFileContents();
+		this.filePath = filePath;		
 		ocrLanguage = "eng";
+		fileContents = extractFileContents();
 		if(shouldPrintFileContentsOnConsole) {
 			System.out.println(fileContents);
 		}
@@ -134,8 +134,11 @@ public class FileContentsValidator {
 
 			PDFParserConfig pdfConfig = new PDFParserConfig();
 			pdfConfig.setExtractInlineImages(true);
-			pdfConfig.setDetectAngles(true);
-			pdfConfig.setOcrDPI(100);
+			pdfConfig.setExtractActions(false);
+			pdfConfig.setExtractBookmarksText(false);
+			pdfConfig.setExtractMarkedContent(true);
+			//pdfConfig.setDetectAngles(true);
+			//pdfConfig.setOcrDPI(100);
 
 			TesseractOCRConfig tesserConfig = new TesseractOCRConfig();
 			tesserConfig.setLanguage(ocrLanguage);
@@ -145,7 +148,7 @@ public class FileContentsValidator {
 			parseContext.set(TesseractOCRConfig.class, tesserConfig);
 			
 			parser.parse(fileIs, handler, meta, parseContext);
-
+			
 			String s = new String(out.toByteArray(), Charset.defaultCharset());
 			return s;
 		} catch (Exception e) {
@@ -160,9 +163,10 @@ public class FileContentsValidator {
 //					"C:\\Program Files\\Microsoft Office\\root\\Office16\\sdxs\\FA000000070\\assets\\src\\assets\\images\\excel-dictate.png", true);
 //			fcv.validateAllKeywordsPresentInOrder("that", "type");
 			
-			FileContentsValidator fcv = new FileContentsValidator(
-					"C:\\Users\\madha\\Downloads\\sample-3s.mp3", true);
-			fcv.validateAllKeywordsPresentInOrder("that", "type");
+//			FileContentsValidator fcv = new FileContentsValidator(
+//					"C:\\projects\\github\\smart-testauto-framework\\src\\test\\resources\\toung-twisters.pdf", true);
+//					
+//			fcv.validateAllKeywordsPresentInOrder("Contact", "Support");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
