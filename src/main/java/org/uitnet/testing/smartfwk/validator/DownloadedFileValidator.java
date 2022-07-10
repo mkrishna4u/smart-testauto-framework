@@ -17,12 +17,16 @@
  */
 package org.uitnet.testing.smartfwk.validator;
 
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.util.TreeMap;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.support.HttpResponse;
+import org.uitnet.testing.smartfwk.api.core.support.PayloadType;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
@@ -66,6 +70,11 @@ public class DownloadedFileValidator {
 
 	public static void validateFileDownloaded(String expectedFileName, HttpResponse httpResponse,
 			TextMatchMechanism fileNameMatchMechanism, boolean deleteAfterValidation) {
+		assertNotNull(httpResponse, "HTTP response should not be null.");
+		if(httpResponse.getPayLoadType() == null || httpResponse.getPayLoadType() != PayloadType.FILE) {
+			fail("HTTP response payload type must be of FILE type.");
+		}
+		
 		validateFileDownloaded(expectedFileName, httpResponse.getPayload(), httpResponse.getFilePath(),
 				fileNameMatchMechanism, deleteAfterValidation);
 	}
