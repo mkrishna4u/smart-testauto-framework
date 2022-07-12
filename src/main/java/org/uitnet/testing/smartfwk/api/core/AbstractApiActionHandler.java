@@ -216,7 +216,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		String targetURL = baseURL + "/" + relativeUrl;
 		okhttp3.Request.Builder requestBuilder = new Request.Builder()
-				.post(RequestBody.create(request.getPayload().getBytes()))
+				.post(RequestBody.create(request.getPayload(), MediaType.parse(request.getPayloadType())))
 				.url(targetURL);
 
 		// Add headers
