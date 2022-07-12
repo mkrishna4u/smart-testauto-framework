@@ -59,7 +59,12 @@ public class HttpResponse {
 	}
 	
 	public String getHeader(String name) {
-		return headers.get(name.toUpperCase());
+		for(Map.Entry<String, String> e : headers.entrySet()) {
+			if(e.getKey().toUpperCase().equals(name.toUpperCase())) {
+				return e.getValue();
+			}
+		};
+		return null;
 	}
 
 	public void setHeaders(Map<String, String> headers) {
@@ -67,7 +72,7 @@ public class HttpResponse {
 	}
 	
 	public void addHeader(String key, String value) {
-		this.headers.put(key.toUpperCase(), value);
+		this.headers.put(key, value);
 	}
 
 	public PayloadType getPayLoadType() {
