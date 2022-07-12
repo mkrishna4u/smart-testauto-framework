@@ -25,7 +25,6 @@ import java.util.Set;
 import org.testng.Assert;
 
 import com.fasterxml.jackson.core.json.JsonReadFeature;
-import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -132,7 +131,8 @@ public class YamlDocumentReader {
 	protected void init() {
 		Configuration.setDefaults(new Configuration.Defaults() {
 			private ObjectMapper objectMapper = JsonMapper.builder().enable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
-					.enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES).disable(JsonWriteFeature.QUOTE_FIELD_NAMES)
+					.enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES)
+					//.enable(JsonWriteFeature.QUOTE_FIELD_NAMES)
 					.build();
 
 			@Override
