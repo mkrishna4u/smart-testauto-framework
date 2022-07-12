@@ -388,7 +388,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 				handleContentDisposition(httpResponse, response);
 			} else if (binFileExtn != null) {
 				// handle binary data
-				httpResponse.setPayLoadType(PayloadType.FILE);
+				httpResponse.setPayloadType(PayloadType.FILE);
 				int nextSeq = FileSequenceNumberGenerator.getInstance().next();
 				String filePath = TestConfigManager.getInstance().getDownloadLocation() + File.separator + "noname"
 						+ nextSeq + binFileExtn;
@@ -442,7 +442,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		if (contentDisposition != null) {
 			if (contentDisposition.toLowerCase().contains("attachment")
 					|| contentDisposition.toLowerCase().contains("inline")) {
-				httpResponse.setPayLoadType(PayloadType.FILE);
+				httpResponse.setPayloadType(PayloadType.FILE);
 				String[] parts = contentDisposition.split(";");
 				String fileToCreate = "noname";
 				for (String part : parts) {

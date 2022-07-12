@@ -20,6 +20,8 @@ package org.uitnet.testing.smartfwk.api.core.support;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.uitnet.testing.smartfwk.validator.HttpResponseValidator;
+
 /**
  * 
  * @author Madhav Krishna
@@ -29,13 +31,19 @@ public class HttpResponse {
 	private int code;
 	private String message;
 	private Map<String, String> headers;
-	private PayloadType payLoadType;
+	private PayloadType payloadType;
 	private String payload;
 	private String filePath;
+	private HttpResponseValidator validator;
 
 	public HttpResponse() {
-		payLoadType = PayloadType.TEXT;
+		payloadType = PayloadType.TEXT;
 		headers = new LinkedHashMap<>();
+		validator = new HttpResponseValidator(this);
+	}
+	
+	public HttpResponseValidator getValidator() {
+		return validator;
 	}
 
 	public int getCode() {
@@ -75,12 +83,12 @@ public class HttpResponse {
 		this.headers.put(key, value);
 	}
 
-	public PayloadType getPayLoadType() {
-		return payLoadType;
+	public PayloadType getPayloadType() {
+		return payloadType;
 	}
 
-	public void setPayLoadType(PayloadType payLoadType) {
-		this.payLoadType = payLoadType;
+	public void setPayloadType(PayloadType payloadType) {
+		this.payloadType = payloadType;
 	}
 
 	public String getPayload() {

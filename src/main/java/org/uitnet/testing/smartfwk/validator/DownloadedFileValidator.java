@@ -71,7 +71,7 @@ public class DownloadedFileValidator {
 	public static void validateFileDownloaded(String expectedFileName, HttpResponse httpResponse,
 			TextMatchMechanism fileNameMatchMechanism, boolean deleteAfterValidation) {
 		assertNotNull(httpResponse, "HTTP response should not be null.");
-		if(httpResponse.getPayLoadType() == null || httpResponse.getPayLoadType() != PayloadType.FILE) {
+		if(httpResponse.getPayloadType() == null || httpResponse.getPayloadType() != PayloadType.FILE) {
 			fail("HTTP response payload type must be of FILE type.");
 		}
 		
