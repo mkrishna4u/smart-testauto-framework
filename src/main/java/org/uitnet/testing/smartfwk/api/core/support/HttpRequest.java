@@ -53,12 +53,21 @@ public class HttpRequest {
 	}
 
 	public String getPayloadType() {
-		return headers.get("Content-Type");
+		return getHeader("Content-Type");
 	}
 
 	public HttpRequest setPayloadType(String payloadType) {
 		headers.put("Content-Type", payloadType);
 		return this;
+	}
+	
+	public String getHeader(String name) {
+		for(Map.Entry<String, String> e : headers.entrySet()) {
+			if(e.getKey().toUpperCase().equals(name.toUpperCase())) {
+				return e.getValue();
+			}
+		};
+		return null;
 	}
 
 	public Map<String, String> getHeaders() {
