@@ -376,8 +376,8 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 			String binFileExtn = MimeTypeUtil.getBinaryFileExtension(contentType);
 
-			if (contentDisposition != null && contentDisposition.toLowerCase().contains("attachment")
-					|| contentDisposition.toLowerCase().contains("inline")) {
+			if (contentDisposition != null && (contentDisposition.toLowerCase().contains("attachment")
+					|| contentDisposition.toLowerCase().contains("inline"))) {
 				handleContentDisposition(httpResponse, response);
 			} else if (binFileExtn != null) {
 				// handle binary data
