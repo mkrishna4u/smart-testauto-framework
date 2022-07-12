@@ -38,6 +38,7 @@ import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.UserProfile;
 import org.uitnet.testing.smartfwk.ui.core.utils.MimeTypeUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 import okhttp3.Headers;
 import okhttp3.MediaType;
@@ -215,10 +216,13 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		String targetURL = baseURL + "/" + relativeUrl;
 		okhttp3.Request.Builder requestBuilder = new Request.Builder()
-				.post(RequestBody.create(request.getPayload(), MediaType.parse(request.getPayloadType())))
+				.post(RequestBody.create(request.getPayload().getBytes()))
 				.url(targetURL);
 
 		// Add headers
+		if(StringUtil.isEmptyAfterTrim(request.getPayloadType())) {
+			requestBuilder.addHeader("Content-Type", request.getPayloadType());
+		}
 		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
 			for (Map.Entry<String, String> kv : session.getParams().entrySet()) {
 				requestBuilder.addHeader(kv.getKey(), kv.getValue());
@@ -259,10 +263,13 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		String targetURL = baseURL + "/" + relativeUrl;
 		okhttp3.Request.Builder requestBuilder = new Request.Builder()
-				.put(RequestBody.create(request.getPayload(), MediaType.parse(request.getPayloadType())))
+				.put(RequestBody.create(request.getPayload().getBytes()))
 				.url(targetURL);
 
 		// Add headers
+		if(StringUtil.isEmptyAfterTrim(request.getPayloadType())) {
+			requestBuilder.addHeader("Content-Type", request.getPayloadType());
+		}
 		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
 			for (Map.Entry<String, String> kv : session.getParams().entrySet()) {
 				requestBuilder.addHeader(kv.getKey(), kv.getValue());
