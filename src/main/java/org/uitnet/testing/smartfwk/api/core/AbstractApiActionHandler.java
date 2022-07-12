@@ -220,7 +220,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 				.url(targetURL);
 
 		// Add headers
-		if(StringUtil.isEmptyAfterTrim(request.getPayloadType())) {
+		if(!StringUtil.isEmptyAfterTrim(request.getPayloadType())) {
 			requestBuilder.addHeader("Content-Type", request.getPayloadType());
 		}
 		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
@@ -267,7 +267,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 				.url(targetURL);
 
 		// Add headers
-		if(StringUtil.isEmptyAfterTrim(request.getPayloadType())) {
+		if(!StringUtil.isEmptyAfterTrim(request.getPayloadType())) {
 			requestBuilder.addHeader("Content-Type", request.getPayloadType());
 		}
 		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
