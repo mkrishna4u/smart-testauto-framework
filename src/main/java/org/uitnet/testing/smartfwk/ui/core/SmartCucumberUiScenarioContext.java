@@ -26,15 +26,11 @@ import org.testng.Assert;
 import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
-import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
-import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 import com.jayway.jsonpath.DocumentContext;
-
-import io.cucumber.java.Scenario;
 
 /**
  * This class is used as cucumber scenario context to keep the information for
@@ -51,39 +47,25 @@ import io.cucumber.java.Scenario;
  * @author Madhav Krishna
  *
  */
-public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioContext {
-	private Map<String, Object> params = new HashMap<>(8);
-	private Scenario scenario = null;
-
-	// Key: <application-name>-<browser-type>, Value: driver properties as 
+public class SmartCucumberUiScenarioContext extends SmartCucumberScenarioContext {
+	// Key: <application-name>-<browser-type>, Value: driver properties as
 	// json document (similar to mentioned in AppDriver.yaml file), this will
 	// overwrite properties specified in AppDriver.yaml file.
 	private Map<String, DocumentContext> driverConfigs;
-	
+
 	// Key: appName, Value: AbstractAppConnector
 	private Map<String, AbstractAppConnector> appConnectors;
 
-	private String activeAppName = null;
-
 	public SmartCucumberUiScenarioContext() {
-		driverConfigs = new HashMap<>(); 
-		
+		super();
+		driverConfigs = new HashMap<>();
+
 		if (getTestConfigManager().isParallelMode()) {
 			appConnectors = new HashMap<>();
 		} else {
 			appConnectors = SingletonAppConnectorMap.getInstance().getMap();
 			activeAppName = SingletonAppConnectorMap.getInstance().getActiveAppName();
 		}
-	}
-
-	@Override
-	public Scenario getScenario() {
-		return this.scenario;
-	}
-
-	@Override
-	public void setScenario(Scenario scenario) {
-		this.scenario = scenario;
 	}
 
 	/**
@@ -94,7 +76,8 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 	public synchronized AbstractAppConnector connectOrSwitch(String appName) {
 		AbstractAppConnector appConnector = appConnectors.get(appName);
 		if (appConnector == null) {
-			appConnector = new DefaultAppConnector(appName, getOverriddenDriverProps(appName, getAppConfig(appName).getAppWebBrowser().getType()));
+			appConnector = new DefaultAppConnector(appName,
+					getOverriddenDriverProps(appName, getAppConfig(appName).getAppWebBrowser().getType()));
 			appConnector.setActiveUserProfileName(DefaultInfo.DEFAULT_USER_PROFILE_NAME);
 			appConnectors.put(appName, appConnector);
 		}
@@ -134,11 +117,6 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 		}
 	}
 
-	@Override
-	public String getActiveAppName() {
-		return activeAppName;
-	}
-
 	public SmartAppDriver setActiveUserProfileOnActiveApp(String userProfileName) {
 		return setActiveUserProfile(activeAppName, userProfileName);
 	}
@@ -166,12 +144,13 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 	public AbstractAppConnector getAppConnector(String appName) {
 		return appConnectors.get(appName);
 	}
-	
+
 	public void overrideDriverProps(String applicationName, String browserType, String propsAsJson) {
-		driverConfigs.put(applicationName + "-" + browserType, new JsonDocumentReader(propsAsJson).getDocumentContext());
+		driverConfigs.put(applicationName + "-" + browserType,
+				new JsonDocumentReader(propsAsJson).getDocumentContext());
 		appConnectors = new HashMap<>();
 	}
-	
+
 	public DocumentContext getOverriddenDriverProps(String applicationName, String browserType) {
 		return driverConfigs.get(applicationName + "-" + applicationName);
 	}
@@ -206,26 +185,6 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 		}
 	}
 
-	@Override
-	public TestConfigManager getTestConfigManager() {
-		return TestConfigManager.getInstance();
-	}
-
-	@Override
-	public AppConfig getActiveAppConfig() {
-		return getTestConfigManager().getAppConfig(activeAppName);
-	}
-
-	@Override
-	public AppConfig getAppConfig(String appName) {
-		return getTestConfigManager().getAppConfig(appName);
-	}
-
-	@Override
-	public void log(String message) {
-		scenario.log(message);
-	}
-
 	/**
 	 * Switches all apps to default contents.
 	 */
@@ -255,16 +214,16 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 	public void switchToWindow(String appName, String nameOrHandle) {
 		appConnectors.get(appName).getAppDriver().getWebDriver().switchTo().window(nameOrHandle);
 	}
-	
+
 	public void switchToFrame(String nameOrId) {
 		appConnectors.get(activeAppName).getAppDriver().getWebDriver().switchTo().frame(nameOrId);
 	}
-	
+
 	public void switchToFrame(UIObject pageElement) {
 		appConnectors.get(activeAppName).getAppDriver().getWebDriver().switchTo()
-			.frame((WebElement) pageElement.getValidator(getActiveAppDriver(), null).findElement(2));
+				.frame((WebElement) pageElement.getValidator(getActiveAppDriver(), null).findElement(2));
 	}
-	
+
 	public void switchToFrame(int index) {
 		appConnectors.get(activeAppName).getAppDriver().getWebDriver().switchTo().frame(index);
 	}
@@ -277,23 +236,23 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 	public void switchToNewWindow(WindowType typeHint) {
 		appConnectors.get(activeAppName).getAppDriver().getWebDriver().switchTo().newWindow(typeHint);
 	}
-	
+
 	public void closeAllChildWindows() {
 		for (AbstractAppConnector connector : appConnectors.values()) {
 			connector.getAppDriver().closeChildWindows();
 		}
 	}
-	
+
 	public void waitForSeconds(int seconds) {
 		SmartAppDriver driver = getActiveAppDriver();
-		if(driver != null) {
+		if (driver != null) {
 			driver.waitForSeconds(seconds);
 		}
 	}
 
 	@Override
 	public void close() {
-		if(getTestConfigManager().isParallelMode() || !driverConfigs.isEmpty()) {
+		if (getTestConfigManager().isParallelMode() || !driverConfigs.isEmpty()) {
 			for (AbstractAppConnector connector : appConnectors.values()) {
 				connector.logoutAndQuit();
 			}
@@ -302,53 +261,4 @@ public class SmartCucumberUiScenarioContext implements SmartCucumberScenarioCont
 			closeAllChildWindows();
 		}
 	}
-
-	@Override
-	public void addParamValue(String paramName, Object value) {
-		params.put(paramName, value);
-	}
-
-	/**
-	 * This method returns param value. If does not exist then returns as null.
-	 * @param paramName
-	 * @return
-	 */
-	@Override
-	public Object getParamValue(String paramName) {
-		return params.get(paramName);
-	}
-	
-	/**
-	 * This method returns param value. If does not exist then returns paramName as value.
-	 * @param paramName
-	 * @return
-	 */
-	@Override
-	public Object getParamValueNullAsParamName(String paramName) {
-		Object val = params.get(paramName);
-		if(val == null) {
-			return paramName;
-		}
-		return val;
-	}
-	
-	@Override
-	public void removeParam(String paramName) {
-		params.remove(paramName);
-	}
-	
-	/**
-	 * It will apply all params value to the text. It will convert param value to string then apply.
-	 * @param text
-	 * @return
-	 */
-	@Override
-	public String applyParamsValueOnText(String text) {
-		for(Map.Entry<String, Object> e : params.entrySet()) {
-			text = text.replace(e.getKey(), "" + e.getValue());
-		};
-		
-		return text;
-	}
-
 }

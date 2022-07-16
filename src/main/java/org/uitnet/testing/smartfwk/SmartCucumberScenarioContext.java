@@ -17,6 +17,9 @@
  */
 package org.uitnet.testing.smartfwk;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 
@@ -28,36 +31,97 @@ import io.cucumber.java.Scenario;
  * @author Madhav Krishna
  *
  */
-public interface SmartCucumberScenarioContext {
-	public Scenario getScenario();
-	public void setScenario(Scenario scenario);
-	public String getActiveAppName();
-	public TestConfigManager getTestConfigManager();
-	public AppConfig getActiveAppConfig();
-	public AppConfig getAppConfig(String appName);
-	public void log(String message);
-	public void close();
-	public void addParamValue(String paramName, Object value);
-	
+public class SmartCucumberScenarioContext {
+	protected Map<String, Object> params;
+	protected Scenario scenario = null;
+
+	protected String activeAppName = null;
+
+	public SmartCucumberScenarioContext() {
+		params = new HashMap<>(8);
+	}
+
+	public Scenario getScenario() {
+		return this.scenario;
+	}
+
+	public void setScenario(Scenario scenario) {
+		this.scenario = scenario;
+	}
+
+	public String getActiveAppName() {
+		return activeAppName;
+	}
+
+	public TestConfigManager getTestConfigManager() {
+		return TestConfigManager.getInstance();
+	}
+
+	public AppConfig getActiveAppConfig() {
+		return getTestConfigManager().getAppConfig(activeAppName);
+	}
+
+	public AppConfig getAppConfig(String appName) {
+		return getTestConfigManager().getAppConfig(appName);
+	}
+
+	public void log(String message) {
+		scenario.log(message);
+	}
+
+	public void close() {
+		// must be overridden by child class for cleanup
+	}
+
+	public void addParamValue(String paramName, Object value) {
+		params.put(paramName, value);
+	}
+
 	/**
 	 * This method returns param value. If does not exist then returns as null.
+	 * 
 	 * @param paramName
 	 * @return
 	 */
-	public Object getParamValue(String paramName);
-	
+	public Object getParamValue(String paramName) {
+		return params.get(paramName);
+	}
+
+	public Map<String, Object> getAllParams() {
+		return params;
+	}
+
 	/**
-	 * This method returns param value. If does not exist then returns paramName as value.
+	 * This method returns param value. If does not exist then returns paramName as
+	 * value.
+	 * 
 	 * @param paramName
 	 * @return
 	 */
-	public Object getParamValueNullAsParamName(String paramName);
-	public void removeParam(String paramName);
-	
+	public Object getParamValueNullAsParamName(String paramName) {
+		Object val = params.get(paramName);
+		if (val == null) {
+			return paramName;
+		}
+		return val;
+	}
+
+	public void removeParam(String paramName) {
+		params.remove(paramName);
+	}
+
 	/**
-	 * It will apply all params value to the text. It will convert param value to string then apply.
+	 * It will apply all params value to the text. It will convert param value to
+	 * string then apply.
+	 * 
 	 * @param text
-	 * @return
+	 * @return the updated text
 	 */
-	public String applyParamsValueOnText(String text);
+	public String applyParamsValueOnText(String text) {
+		for (Map.Entry<String, Object> e : params.entrySet()) {
+			text = text.replace(e.getKey(), "" + e.getValue());
+		}
+
+		return text;
+	}
 }

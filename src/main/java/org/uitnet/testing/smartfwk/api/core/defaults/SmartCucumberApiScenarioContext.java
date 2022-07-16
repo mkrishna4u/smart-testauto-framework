@@ -23,10 +23,6 @@ import java.util.Map;
 import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.api.core.AbstractApiActionHandler;
 import org.uitnet.testing.smartfwk.ui.core.config.ApiConfig;
-import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
-import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
-
-import io.cucumber.java.Scenario;
 
 /**
  * This class is used as cucumber scenario context to keep the information for
@@ -43,17 +39,14 @@ import io.cucumber.java.Scenario;
  * @author Madhav Krishna
  *
  */
-public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioContext {
-	private Map<String, Object> params = new HashMap<>(8);
-	private Scenario scenario = null;
-
+public class SmartCucumberApiScenarioContext extends SmartCucumberScenarioContext {
 	// Key: <appName>:<targetServerName>, Value: AbstractApiActionHandler
 	private Map<String, AbstractApiActionHandler> appActionHandlers;
 
-	private String activeAppName = null;
 	private String activeTargetServerName = null;
 
 	public SmartCucumberApiScenarioContext() {
+		super();
 		if (getTestConfigManager().isParallelMode()) {
 			appActionHandlers = new HashMap<>();
 		} else {
@@ -61,21 +54,12 @@ public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioCo
 		}
 	}
 
-	@Override
-	public Scenario getScenario() {
-		return this.scenario;
-	}
-
-	@Override
-	public void setScenario(Scenario scenario) {
-		this.scenario = scenario;
-	}
-
 	public AbstractApiActionHandler getActionHandler(String appName, String targetServerName) {
 		return appActionHandlers.get(prepareKey(appName, targetServerName));
 	}
 
-	public AbstractApiActionHandler switchTargetServer(String appName, String targetServerName, String userProfileName) {
+	public AbstractApiActionHandler switchTargetServer(String appName, String targetServerName,
+			String userProfileName) {
 		return login(appName, targetServerName, userProfileName);
 	}
 
@@ -94,12 +78,8 @@ public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioCo
 		return actionHandler;
 	}
 
-	@Override
-	public String getActiveAppName() {
-		return activeAppName;
-	}
-
-	public AbstractApiActionHandler setActiveUserProfile(String appName, String targetServerName, String userProfileName) {
+	public AbstractApiActionHandler setActiveUserProfile(String appName, String targetServerName,
+			String userProfileName) {
 		return login(appName, targetServerName, userProfileName);
 	}
 
@@ -115,35 +95,14 @@ public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioCo
 		return getActiveActionHandler().getActiveProfileName();
 	}
 
-	@Override
-	public TestConfigManager getTestConfigManager() {
-		return TestConfigManager.getInstance();
-	}
-
-	@Override
-	public AppConfig getActiveAppConfig() {
-		return getTestConfigManager().getAppConfig(activeAppName);
-	}
-
 	public ApiConfig getActiveAppApiConfig() {
 		return getTestConfigManager().getAppConfig(activeAppName).getApiConfig();
 	}
 
 	@Override
-	public AppConfig getAppConfig(String appName) {
-		return getTestConfigManager().getAppConfig(appName);
-	}
-
-	@Override
-	public void log(String message) {
-		if (scenario != null) {
-			scenario.log(message);
-		}
-	}
-
-	@Override
 	public void close() {
-		if(getTestConfigManager().isParallelMode()) {
+		super.close();
+		if (getTestConfigManager().isParallelMode()) {
 			for (AbstractApiActionHandler actionHandlers : appActionHandlers.values()) {
 				actionHandlers.logout();
 			}
@@ -151,51 +110,19 @@ public class SmartCucumberApiScenarioContext  implements SmartCucumberScenarioCo
 		}
 	}
 
-	@Override
-	public void addParamValue(String paramName, Object value) {
-		params.put(paramName, value);
-	}
-
 	/**
-	 * This method returns param value. If does not exist then returns as null.
-	 * @param paramName
-	 * @return
-	 */
-	@Override
-	public Object getParamValue(String paramName) {
-		return params.get(paramName);
-	}
-	
-	/**
-	 * This method returns param value. If does not exist then returns paramName as value.
-	 * @param paramName
-	 * @return
-	 */
-	@Override
-	public Object getParamValueNullAsParamName(String paramName) {
-		Object val = params.get(paramName);
-		if(val == null) {
-			return paramName;
-		}
-		return val;
-	}
-	
-	@Override
-	public void removeParam(String paramName) {
-		params.remove(paramName);
-	}
-	
-	/**
-	 * It will apply all params value to the text. It will convert param value to string then apply.
+	 * It will apply all params value to the text. It will convert param value to
+	 * string then apply.
+	 * 
 	 * @param text
 	 * @return
 	 */
 	@Override
 	public String applyParamsValueOnText(String text) {
-		for(Map.Entry<String, Object> e : params.entrySet()) {
+		for (Map.Entry<String, Object> e : params.entrySet()) {
 			text = text.replace(e.getKey(), "" + e.getValue());
-		};
-		
+		}
+
 		return text;
 	}
 
