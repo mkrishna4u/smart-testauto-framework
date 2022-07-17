@@ -184,13 +184,14 @@ public class ImageObjectValidator extends UIObjectValidator {
 		return isPresent(maxIterationsToLocateElements);
 	}
 
-	public void click(int maxIterationsToLocateElements) {
+	public ImageObjectValidator click(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {
@@ -209,72 +210,79 @@ public class ImageObjectValidator extends UIObjectValidator {
 		return null;
 	}
 
-	public void click(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public ImageObjectValidator click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public ImageObjectValidator doubleClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public ImageObjectValidator doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void rightClick(int maxIterationsToLocateElements) {
+	public ImageObjectValidator rightClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public ImageObjectValidator rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public ImageObjectValidator clickAndHold(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public ImageObjectValidator release(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseUp(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse release on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
+	public ImageObjectValidator dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
 		try {
 			Match sourceElem = findElement(maxIterationsToLocateElements);
 			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(maxIterationsToLocateElements);
@@ -287,10 +295,11 @@ public class ImageObjectValidator extends UIObjectValidator {
 			Assert.fail("Failed to perform dragAndDrop from source '" + imgLocator.getDisplayName() + "' to target '"
 					+ target.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public ImageObjectValidator performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -299,10 +308,11 @@ public class ImageObjectValidator extends UIObjectValidator {
 			Assert.fail("Failed to perform keyDown('" + seleniumToSikuliKeyConverter(keys) + "') on element '"
 					+ imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public ImageObjectValidator performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -311,10 +321,11 @@ public class ImageObjectValidator extends UIObjectValidator {
 			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on element '"
 					+ imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public ImageObjectValidator performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -324,10 +335,11 @@ public class ImageObjectValidator extends UIObjectValidator {
 			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on element '"
 					+ imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
+	public ImageObjectValidator typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -348,12 +360,14 @@ public class ImageObjectValidator extends UIObjectValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyPressed on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism,
+	public ImageObjectValidator validateValue(String expectedValue, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		validateTextValue(match.text(), expectedValue, validationMechanism);
+		return this;
 	}
 
 	public String getText(int maxIterationsToLocateElements) {

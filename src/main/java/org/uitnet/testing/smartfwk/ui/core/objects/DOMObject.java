@@ -57,6 +57,17 @@ public class DOMObject extends UIObject {
 		this.platFormLocators = platFormLocators;
 	}
 
+	public DOMObject addPlatformLocatorForNativeApp(PlatformType platform, LocateBy locateBy, String locatorValue) {
+		LocatorUtil.setPlatformLocatorForNativeApp(platFormLocators, platform, locateBy, locatorValue);
+		return this;
+	}
+
+	public DOMObject addPlatformLocatorForWebApp(PlatformType platform, WebBrowserType browserType, LocateBy locateBy,
+			String locatorValue) {
+		LocatorUtil.setPlatformLocatorForWebApp(platFormLocators, platform, browserType, locateBy, locatorValue);
+		return this;
+	}
+
 	public Locator getLocator(PlatformType platform, ApplicationType appType, WebBrowserType browserType) {
 		return LocatorUtil.findLocator(platFormLocators, platform, appType, browserType);
 	}

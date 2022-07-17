@@ -54,14 +54,16 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 
 	@Override
 	@Deprecated
-	public void validateDisabled(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI validateDisabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabled() API is not supported by ListBoxSI.");
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void validateEnabled(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI validateEnabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabled() API is not supported by ListBoxSI.");
+		return this;
 	}
 
 	@Override
@@ -76,84 +78,92 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI click(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void click(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI doubleClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI rightClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI clickAndHold(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI release(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -161,11 +171,11 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyDown on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
-
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -174,10 +184,11 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on Choices '"
 					+ listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -186,10 +197,11 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on Choices '"
 					+ listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		try {
 			match.click();
@@ -209,6 +221,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Fail to type text '" + text + "' in Choices '" + listBoxObj.getDisplayName() + "'.");
 		}
+		return this;
 	}
 
 	@Override
@@ -256,7 +269,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 		return null;
 	}
 
-	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
 		try {
 			Match sourceElem = findElement(maxIterationsToLocateElements);
 			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(maxIterationsToLocateElements);
@@ -270,6 +283,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Assert.fail("Failed to perform dragAndDrop from source '" + listBoxObj.getDisplayName() + "' to target '"
 					+ target.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {
@@ -289,7 +303,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism,
+	public ListBoxValidatorSI validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements) {
 		if (listBoxObj.isDisabled()) {
 			Match match = findElement(maxIterationsToLocateElements);
@@ -297,6 +311,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 		} else {
 			validateTextValue(getSelectedItem(maxIterationsToLocateElements), expectedValue, validationMechanism);
 		}
+		return this;
 	}
 
 	/**
@@ -328,13 +343,15 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	}
 
 	@Override
-	public void selectFirstItem(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI selectFirstItem(int maxIterationsToLocateElements) {
 		Assert.fail("selectFirstItem() API is not implemented.");
+		return this;
 	}
 
 	@Override
-	public void selectLastItem(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI selectLastItem(int maxIterationsToLocateElements) {
 		Assert.fail("selectLastItem() API is not implemented.");
+		return this;
 	}
 
 	/**
@@ -342,7 +359,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	 * on it to select that.
 	 */
 	@Override
-	public void selectItem(String itemName, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI selectItem(String itemName, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 
 		try {
@@ -353,13 +370,14 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to find item '" + itemName + "' in Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	/**
 	 * It just search the image item in pull down menu visible area if present then
 	 * click on it to select that.
 	 */
-	public void selectItemByImage(String imageItem, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI selectItemByImage(String imageItem, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 
 		try {
@@ -371,13 +389,14 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Assert.fail("Failed to find item '" + imageItem + "' in pull down menu of Choices '"
 					+ listBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	/**
 	 * It selects only the visible item in the pull down menu.
 	 */
 	@Override
-	public void selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 
 		String currentItemName = "";
@@ -396,12 +415,13 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Assert.fail(
 					"Failed to find item '" + currentItemName + "' in Choices '" + listBoxObj.getDisplayName() + "'.");
 		}
+		return this;
 	}
 
 	/**
 	 * It selects only the visible image items in the pull down menu.
 	 */
-	public void selectItemsByImage(ItemList<String> imageItemsToBeSelected, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI selectItemsByImage(ItemList<String> imageItemsToBeSelected, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 
 		String currentImageItem = "";
@@ -420,13 +440,14 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			Assert.fail(
 					"Failed to find item '" + currentImageItem + "' in Choices '" + listBoxObj.getDisplayName() + "'.");
 		}
+		return this;
 	}
 
 	/**
 	 * It only checks the item in visible area of pull down menu.
 	 */
 	@Override
-	public void validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		String currentItemName = "";
 		try {
@@ -442,12 +463,13 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 					"Failed to find item '" + currentItemName + "' in Choices '" + listBoxObj.getDisplayName() + "'.",
 					th);
 		}
+		return this;
 	}
 
 	/**
 	 * It only checks the image items in visible area of pull down menu.
 	 */
-	public void validateItemsPresentByImage(ItemList<String> imageItems, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI validateItemsPresentByImage(ItemList<String> imageItems, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 
 		String currentImageItem = "";
@@ -464,10 +486,11 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 					"Failed to find item '" + currentImageItem + "' in Choices '" + listBoxObj.getDisplayName() + "'.",
 					th);
 		}
+		return this;
 	}
 
 	@Override
-	public void validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		for (String itemName : items.getItems()) {
 			try {
@@ -478,10 +501,10 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 				// do not do anything here
 			}
 		}
-
+		return this;
 	}
 
-	public void validateItemsNotPresentByImage(ItemList<String> imageItems, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI validateItemsNotPresentByImage(ItemList<String> imageItems, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		for (String imageItem : imageItems.getItems()) {
 			try {
@@ -492,7 +515,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 				// do not do anything here
 			}
 		}
-
+		return this;
 	}
 
 	@Override
@@ -516,12 +539,14 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	}
 
 	@Override
-	public void validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabledButNotReadonly() API is not supported by ListBox component.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSI validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabledButNotReadonly() API is not supported by ListBox component.");
+		return this;
 	}
 }

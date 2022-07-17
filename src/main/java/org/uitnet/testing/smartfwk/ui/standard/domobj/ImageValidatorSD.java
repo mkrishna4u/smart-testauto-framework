@@ -49,8 +49,9 @@ public class ImageValidatorSD extends ImageValidator {
 	}
 
 	@Override
-	public void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
+	public ImageValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
 		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -64,43 +65,51 @@ public class ImageValidatorSD extends ImageValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public ImageValidatorSD click(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public ImageValidatorSD doubleClick(int maxIterationsToLocateElements) {
 		domObjValidator.doubleClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public ImageValidatorSD rightClick(int maxIterationsToLocateElements) {
 		domObjValidator.rightClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public ImageValidatorSD clickAndHold(int maxIterationsToLocateElements) {
 		domObjValidator.clickAndHold(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public ImageValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public ImageValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public ImageValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyUp(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public ImageValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyPressed(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override

@@ -60,15 +60,17 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	}
 
 	@Override
-	public void validateDisabled(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD validateDisabled(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabled(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD validateEnabled(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
 	}
 
 	@Override
@@ -77,20 +79,23 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	}
 
 	@Override
-	public void validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
 	}
 
 	@Override
-	public void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
 		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -104,43 +109,51 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD click(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD doubleClick(int maxIterationsToLocateElements) {
 		domObjValidator.doubleClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD rightClick(int maxIterationsToLocateElements) {
 		domObjValidator.rightClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD clickAndHold(int maxIterationsToLocateElements) {
 		domObjValidator.clickAndHold(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyUp(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyPressed(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -150,7 +163,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
+	public ListBoxValidatorSD validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
@@ -178,7 +191,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 						Assert.fail("Failed to find selected item '" + expectedSelectedValue + "' in Choices '"
 								+ uiObject.getDisplayName() + "'.");
 					}
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -190,6 +203,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 			Assert.fail("Failed to validate selected item '" + expectedSelectedValue + "' for element '"
 					+ uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
@@ -232,7 +246,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	}
 
 	@Override
-	public void selectFirstItem(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD selectFirstItem(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -245,7 +259,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
 					PageScrollUtil.mouseClick(appDriver, options.get(0));
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -256,10 +270,11 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to select first item for element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void selectLastItem(int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD selectLastItem(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -272,7 +287,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
 					PageScrollUtil.mouseClick(appDriver, options.get(options.size() - 1));
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -283,10 +298,11 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to select last item for element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void selectItem(String itemName, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD selectItem(String itemName, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -318,7 +334,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 						Assert.fail("Failed to find item '" + itemName + "' in Choices '" + uiObject.getDisplayName()
 								+ "'.");
 					}
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -330,10 +346,11 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 			Assert.fail("Failed to select item '" + itemName + "' for element '" + uiObject.getDisplayName() + "'.",
 					th);
 		}
+		return this;
 	}
 
 	@Override
-	public void selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -376,7 +393,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 						Assert.fail("Failed to find item(s) '" + itemsToBeSelected + "' in Choices '"
 								+ uiObject.getDisplayName() + "'.");
 					}
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -387,10 +404,11 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to select item for element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -419,7 +437,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 									+ "'.");
 						}
 					}
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -430,10 +448,11 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to validate item presence for element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements) {
+	public ListBoxValidatorSD validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -462,7 +481,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 									"Item '" + item + "' is present in Choices '" + uiObject.getDisplayName() + "'.");
 						}
 					}
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -473,6 +492,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to validate eitem absence for element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override

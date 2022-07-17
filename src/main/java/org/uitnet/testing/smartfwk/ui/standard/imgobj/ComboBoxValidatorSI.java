@@ -57,14 +57,16 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 
 	@Override
 	@Deprecated
-	public void validateDisabled(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI validateDisabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabled() API is not supported by ComboBoxSI.");
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void validateEnabled(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI validateEnabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabled() API is not supported by ComboBoxSI.");
+		return this;
 	}
 
 	@Override
@@ -79,84 +81,92 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI click(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on ComboBox '" + comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void click(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on ComboBox '" + comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI doubleClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on ComboBox '" + comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on ComboBox '" + comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI rightClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on ComboBox '" + comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on ComboBox '" + comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI clickAndHold(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on ComboBox '" + comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI release(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on ComboBox '" + comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -164,11 +174,11 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyDown on ComboBox '" + comboBoxObj.getDisplayName() + "'.", th);
 		}
-
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -177,10 +187,11 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on ComboBox '"
 					+ comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -189,10 +200,11 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on ComboBox '"
 					+ comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		try {
 			match.click();
@@ -212,6 +224,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Fail to type text '" + text + "' in ComboBox '" + comboBoxObj.getDisplayName() + "'.");
 		}
+		return this;
 	}
 
 	@Override
@@ -262,7 +275,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		return null;
 	}
 
-	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
 		try {
 			Match sourceElem = findElement(maxIterationsToLocateElements);
 			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(maxIterationsToLocateElements);
@@ -276,6 +289,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			Assert.fail("Failed to perform dragAndDrop from source '" + comboBoxObj.getDisplayName() + "' to target '"
 					+ target.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {
@@ -295,7 +309,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism,
+	public ComboBoxValidatorSI validateSelectedItem(String expectedValue, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements) {
 		if (comboBoxObj.isDisabled() || comboBoxObj.isReadOnly()) {
 			Match match = findElement(maxIterationsToLocateElements);
@@ -303,6 +317,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		} else {
 			validateTextValue(getSelectedItem(maxIterationsToLocateElements), expectedValue, validationMechanism);
 		}
+		return this;
 	}
 
 	/**
@@ -334,13 +349,15 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	}
 
 	@Override
-	public void selectFirstItem(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI selectFirstItem(int maxIterationsToLocateElements) {
 		Assert.fail("selectFirstItem() API is not implemented.");
+		return this;
 	}
 
 	@Override
-	public void selectLastItem(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI selectLastItem(int maxIterationsToLocateElements) {
 		Assert.fail("selectLastItem() API is not implemented.");
+		return this;
 	}
 
 	/**
@@ -348,7 +365,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	 * on it to select that.
 	 */
 	@Override
-	public void selectItem(String itemName, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI selectItem(String itemName, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		Region pullDownMenuRegion = calculatePullDownMenuRegion(match);
 
@@ -366,13 +383,14 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			Assert.fail("Failed to find item '" + itemName + "' in pull down menu of ComboBox '"
 					+ comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	/**
 	 * It just search the image item in pull down menu visible area if present then
 	 * click on it to select that.
 	 */
-	public void selectItemByImage(String imageItem, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI selectItemByImage(String imageItem, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		Region pullDownMenuRegion = calculatePullDownMenuRegion(match);
 
@@ -389,6 +407,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			Assert.fail("Failed to find item '" + imageItem + "' in pull down menu of ComboBox '"
 					+ comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	protected Region calculatePullDownMenuRegion(Match match) {
@@ -424,7 +443,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	 * It selects only the visible item in the pull down menu.
 	 */
 	@Override
-	public void selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		Region pullDownMenuRegion = calculatePullDownMenuRegion(match);
 
@@ -446,12 +465,13 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			Assert.fail("Failed to find item '" + currentItemName + "' in pull down menu of ComboBox '"
 					+ comboBoxObj.getDisplayName() + "'.");
 		}
+		return this;
 	}
 
 	/**
 	 * It selects only the visible image items in the pull down menu.
 	 */
-	public void selectItemsByImage(ItemList<String> imageItemsToBeSelected, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI selectItemsByImage(ItemList<String> imageItemsToBeSelected, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		Region pullDownMenuRegion = calculatePullDownMenuRegion(match);
 
@@ -472,13 +492,14 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			Assert.fail("Failed to find item '" + currentImageItem + "' in pull down menu of ComboBox '"
 					+ comboBoxObj.getDisplayName() + "'.");
 		}
+		return this;
 	}
 
 	/**
 	 * It only checks the item in visible area of pull down menu.
 	 */
 	@Override
-	public void validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		Region pullDownMenuRegion = calculatePullDownMenuRegion(match);
 
@@ -500,12 +521,13 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			Assert.fail("Failed to find item '" + currentItemName + "' in pull down menu of ComboBox '"
 					+ comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	/**
 	 * It only checks the image items in visible area of pull down menu.
 	 */
-	public void validateItemsPresentByImage(ItemList<String> imageItems, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI validateItemsPresentByImage(ItemList<String> imageItems, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		Region pullDownMenuRegion = calculatePullDownMenuRegion(match);
 
@@ -527,10 +549,11 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			Assert.fail("Failed to find item '" + currentImageItem + "' in pull down menu of ComboBox '"
 					+ comboBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		Region pullDownMenuRegion = calculatePullDownMenuRegion(match);
 
@@ -545,10 +568,10 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 				// do not do anything here
 			}
 		}
-
+		return this;
 	}
 
-	public void validateItemsNotPresentByImage(ItemList<String> imageItems, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI validateItemsNotPresentByImage(ItemList<String> imageItems, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		Region pullDownMenuRegion = calculatePullDownMenuRegion(match);
 
@@ -563,7 +586,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 				// do not do anything here
 			}
 		}
-
+		return this;
 	}
 
 	@Override
@@ -587,12 +610,14 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	}
 
 	@Override
-	public void validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabledButNotReadonly() API is not supported by ComboBox component.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSI validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabledButNotReadonly() API is not supported by ComboBox component.");
+		return this;
 	}
 }

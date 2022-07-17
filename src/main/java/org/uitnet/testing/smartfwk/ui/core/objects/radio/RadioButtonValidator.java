@@ -41,19 +41,19 @@ public abstract class RadioButtonValidator extends UIObjectValidator {
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabled(int maxIterationsToLocateElements);
+	public abstract RadioButtonValidator validateDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabled(int maxIterationsToLocateElements);
+	public abstract RadioButtonValidator validateEnabled(int maxIterationsToLocateElements);
 	
 	public abstract boolean isDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract RadioButtonValidator validateDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract RadioButtonValidator validateEnabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void select(int maxIterationsToLocateElements);
+	public abstract RadioButtonValidator select(int maxIterationsToLocateElements);
 
-	public abstract void validateSelected(int maxIterationsToLocateElements);
+	public abstract RadioButtonValidator validateSelected(int maxIterationsToLocateElements);
 
-	public abstract void validateNotSelected(int maxIterationsToLocateElements);
+	public abstract RadioButtonValidator validateNotSelected(int maxIterationsToLocateElements);
 }

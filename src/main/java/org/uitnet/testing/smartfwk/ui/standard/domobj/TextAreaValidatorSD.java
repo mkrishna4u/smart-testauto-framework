@@ -57,15 +57,17 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 	}
 
 	@Override
-	public void validateDisabled(int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD validateDisabled(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabled(int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD validateEnabled(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
 	}
 
 	@Override
@@ -74,15 +76,17 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 	}
 
 	@Override
-	public void validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
 	}
 
 	public boolean isReadonly(int maxIterationsToLocateElements) {
@@ -90,31 +94,34 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 	}
 
 	@Override
-	public void validateReadonly(int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD validateReadonly(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not readonly.");
+		return this;
 	}
 
 	@Override
-	public void validateNotReadonly(int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD validateNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is readonly.");
+		return this;
 	}
 
 	@Override
-	public void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
 		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void validateTextValue(String expectedValue, TextMatchMechanism validationMechanism,
+	public TextAreaValidatorSD validateTextValue(String expectedValue, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					String actualValue = WebElementUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), 0);
 					validateTextValue(actualValue, expectedValue, validationMechanism);
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -126,6 +133,7 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 			Assert.fail("Failed to validate expected value '" + expectedValue + "' for element '"
 					+ uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
@@ -139,43 +147,51 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD click(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD doubleClick(int maxIterationsToLocateElements) {
 		domObjValidator.doubleClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD rightClick(int maxIterationsToLocateElements) {
 		domObjValidator.rightClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD clickAndHold(int maxIterationsToLocateElements) {
 		domObjValidator.clickAndHold(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyUp(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public TextAreaValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyPressed(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override

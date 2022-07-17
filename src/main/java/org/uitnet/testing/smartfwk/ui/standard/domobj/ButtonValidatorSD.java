@@ -57,20 +57,23 @@ public class ButtonValidatorSD extends ButtonValidator {
 	}
 
 	@Override
-	public void validateDisabled(int maxIterationsToLocateElements) {
+	public ButtonValidatorSD validateDisabled(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabled(int maxIterationsToLocateElements) {
+	public ButtonValidatorSD validateEnabled(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
 	}
 
 	@Override
-	public void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
+	public ButtonValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
 		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -84,43 +87,51 @@ public class ButtonValidatorSD extends ButtonValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public ButtonValidatorSD click(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public ButtonValidatorSD doubleClick(int maxIterationsToLocateElements) {
 		domObjValidator.doubleClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public ButtonValidatorSD rightClick(int maxIterationsToLocateElements) {
 		domObjValidator.rightClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public ButtonValidatorSD clickAndHold(int maxIterationsToLocateElements) {
 		domObjValidator.clickAndHold(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public ButtonValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public ButtonValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public ButtonValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyUp(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public ButtonValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyPressed(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -130,13 +141,13 @@ public class ButtonValidatorSD extends ButtonValidator {
 	}
 
 	@Override
-	public void validateName(String expectedName, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+	public ButtonValidatorSD validateName(String expectedName, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					String actualValue = WebElementUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), 0);
 					validateTextValue(actualValue, expectedName, validationMechanism);
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -148,6 +159,7 @@ public class ButtonValidatorSD extends ButtonValidator {
 			Assert.fail("Failed to validate expected name '" + expectedName + "' for element '"
 					+ uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override

@@ -43,25 +43,25 @@ public abstract class TextBoxValidator extends UIObjectValidator {
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabled(int maxIterationsToLocateElements);
+	public abstract TextBoxValidator validateDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabled(int maxIterationsToLocateElements);
+	public abstract TextBoxValidator validateEnabled(int maxIterationsToLocateElements);
 	
 	public abstract boolean isDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract TextBoxValidator validateDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract TextBoxValidator validateEnabledButNotReadonly(int maxIterationsToLocateElements);
 
 	public abstract boolean isReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateReadonly(int maxIterationsToLocateElements);
+	public abstract TextBoxValidator validateReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateNotReadonly(int maxIterationsToLocateElements);
+	public abstract TextBoxValidator validateNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements);
+	public abstract TextBoxValidator typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements);
 
-	public abstract void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
+	public abstract TextBoxValidator validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
 
 	public abstract String getValue(int maxIterationsToLocateElements);
 }

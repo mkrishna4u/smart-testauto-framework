@@ -52,8 +52,9 @@ public class LabelValidatorSD extends LabelValidator {
 	}
 
 	@Override
-	public void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
+	public LabelValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
 		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -67,43 +68,51 @@ public class LabelValidatorSD extends LabelValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public LabelValidatorSD click(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public LabelValidatorSD doubleClick(int maxIterationsToLocateElements) {
 		domObjValidator.doubleClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public LabelValidatorSD rightClick(int maxIterationsToLocateElements) {
 		domObjValidator.rightClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public LabelValidatorSD clickAndHold(int maxIterationsToLocateElements) {
 		domObjValidator.clickAndHold(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public LabelValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public LabelValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public LabelValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyUp(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public LabelValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyPressed(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -113,13 +122,13 @@ public class LabelValidatorSD extends LabelValidator {
 	}
 
 	@Override
-	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
+	public LabelValidatorSD validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					String actualValue = WebElementUtil.getElementText(appDriver, domObjValidator.getUIObject(), 0);
 					validateTextValue(actualValue, expectedValue, validationMechanism);
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -131,6 +140,7 @@ public class LabelValidatorSD extends LabelValidator {
 			Assert.fail("Failed to validate expected value '" + expectedValue + "' for element '"
 					+ uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override

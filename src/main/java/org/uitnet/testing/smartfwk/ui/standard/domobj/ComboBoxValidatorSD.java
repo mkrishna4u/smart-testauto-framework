@@ -60,15 +60,17 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	}
 
 	@Override
-	public void validateDisabled(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD validateDisabled(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabled(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD validateEnabled(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
 	}
 	
 	@Override
@@ -77,20 +79,23 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	}
 
 	@Override
-	public void validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
 	}
 
 	@Override
-	public void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
 		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -104,43 +109,51 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD click(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD doubleClick(int maxIterationsToLocateElements) {
 		domObjValidator.doubleClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD rightClick(int maxIterationsToLocateElements) {
 		domObjValidator.rightClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD clickAndHold(int maxIterationsToLocateElements) {
 		domObjValidator.clickAndHold(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyUp(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyPressed(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -150,7 +163,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	}
 
 	@Override
-	public void validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
+	public ComboBoxValidatorSD validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
@@ -178,7 +191,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 						Assert.fail("Failed to find selected item '" + expectedSelectedValue + "' in ComboBox '"
 								+ uiObject.getDisplayName() + "'.");
 					}
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -190,6 +203,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 			Assert.fail("Failed to validate selected value '" + expectedSelectedValue + "' for element '"
 					+ uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
@@ -232,7 +246,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	}
 
 	@Override
-	public void selectFirstItem(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD selectFirstItem(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -246,7 +260,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 							"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
 					PageScrollUtil.mouseClick(appDriver, options.get(0));
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -257,10 +271,11 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to select first item on element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void selectLastItem(int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD selectLastItem(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -274,7 +289,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 							"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
 					PageScrollUtil.mouseClick(appDriver, options.get(options.size() - 1));
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -285,10 +300,11 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to select last item on element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void selectItem(String itemName, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD selectItem(String itemName, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -314,7 +330,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 						Assert.fail("Failed to find item '" + itemName + "' in ComboBox '" + uiObject.getDisplayName()
 								+ "'.");
 					}
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -325,17 +341,19 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to select item '" + itemName + "' on element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements) {
 		for (String item : itemsToBeSelected.getItems()) {
 			selectItem(item, maxIterationsToLocateElements);
 		}
+		return this;
 	}
 
 	@Override
-	public void validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -364,7 +382,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 									+ "'.");
 						}
 					}
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -375,10 +393,11 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to validate item presence for element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements) {
+	public ComboBoxValidatorSD validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -407,7 +426,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 									"Item '" + item + "' is present in ComboBox '" + uiObject.getDisplayName() + "'.");
 						}
 					}
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -418,6 +437,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to validate item absence for element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override

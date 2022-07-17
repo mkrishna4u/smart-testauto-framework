@@ -50,8 +50,9 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	}
 
 	@Override
-	public void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
 		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -65,43 +66,51 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD click(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD doubleClick(int maxIterationsToLocateElements) {
 		domObjValidator.doubleClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD rightClick(int maxIterationsToLocateElements) {
 		domObjValidator.rightClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD clickAndHold(int maxIterationsToLocateElements) {
 		domObjValidator.clickAndHold(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyUp(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyPressed(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -116,13 +125,13 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	}
 
 	@Override
-	public void validateCheckBoxChecked(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD validateCheckBoxChecked(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					Assert.assertTrue(isCheckBoxChecked(0),
 							"Checkbox '" + uiObject.getDisplayName() + "' is not checked.");
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -133,16 +142,17 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to validate checkbox checked for element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void validateCheckBoxUnchecked(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD validateCheckBoxUnchecked(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					Assert.assertFalse(isCheckBoxChecked(0),
 							"Checkbox '" + uiObject.getDisplayName() + "' is checked.");
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -153,10 +163,11 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to validate checkbox unchecked for element '" + uiObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void checkAndValidateChecked(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD checkAndValidateChecked(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
 
 		try {
@@ -164,10 +175,11 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to check the Checkbox '" + uiObject.getDisplayName() + "'.");
 		}
+		return this;
 	}
 
 	@Override
-	public void uncheckAndValidateUnchecked(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD uncheckAndValidateUnchecked(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
 
 		try {
@@ -175,6 +187,7 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to uncheck the Checkbox '" + uiObject.getDisplayName() + "'.");
 		}
+		return this;
 	}
 
 	@Override
@@ -198,15 +211,17 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	}
 
 	@Override
-	public void validateDisabled(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD validateDisabled(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabled(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD validateEnabled(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
 	}
 	
 	@Override
@@ -215,15 +230,17 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	}
 
 	@Override
-	public void validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSD validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
 	}
 
 	@Override

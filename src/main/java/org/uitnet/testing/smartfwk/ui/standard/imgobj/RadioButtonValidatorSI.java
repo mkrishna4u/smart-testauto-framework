@@ -59,84 +59,92 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI click(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on RadioButton '" + rbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void click(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on RadioButton '" + rbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI doubleClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on RadioButton '" + rbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on RadioButton '" + rbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI rightClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on RadioButton '" + rbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on RadioButton '" + rbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI clickAndHold(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on RadioButton '" + rbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI release(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on RadioButton '" + rbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -144,11 +152,11 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyDown on RadioButton '" + rbObject.getDisplayName() + "'.", th);
 		}
-
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -157,10 +165,11 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on RadioButton '"
 					+ rbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -170,13 +179,14 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on RadioButton '"
 					+ rbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
 		Assert.fail("typeText() API is not supported for RadioButton element.");
-
+		return this;
 	}
 
 	@Override
@@ -229,7 +239,7 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
-	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
 		try {
 			Match sourceElem = findElement(maxIterationsToLocateElements);
 			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(maxIterationsToLocateElements);
@@ -243,6 +253,7 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 			Assert.fail("Failed to perform dragAndDrop from source '" + rbObject.getDisplayName() + "' to target '"
 					+ target.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {
@@ -263,31 +274,36 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 
 	@Override
 	@Deprecated
-	public void validateDisabled(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI validateDisabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabled() is not supported for RadioButton component.");
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void validateEnabled(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI validateEnabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabled() is not supported for RadioButton component.");
+		return this;
 	}
 
 	@Override
-	public void select(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI select(int maxIterationsToLocateElements) {
 		click(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void validateSelected(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI validateSelected(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabled() is not supported for RadioButton component.");
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void validateNotSelected(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI validateNotSelected(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabled() is not supported for RadioButton component.");
+		return this;
 	}
 
 	@Override
@@ -310,12 +326,14 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 	}
 
 	@Override
-	public void validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabledButNotReadonly() API is not supported by RadioButton component.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSI validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabledButNotReadonly() API is not supported by RadioButton component.");
+		return this;
 	}
 }

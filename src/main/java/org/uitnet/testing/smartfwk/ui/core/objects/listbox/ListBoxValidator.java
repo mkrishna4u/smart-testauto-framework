@@ -45,32 +45,32 @@ public abstract class ListBoxValidator extends UIObjectValidator {
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabled(int maxIterationsToLocateElements);
+	public abstract ListBoxValidator validateDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabled(int maxIterationsToLocateElements);
+	public abstract ListBoxValidator validateEnabled(int maxIterationsToLocateElements);
 	
 	public abstract boolean isDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract ListBoxValidator validateDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract ListBoxValidator validateEnabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
+	public abstract ListBoxValidator validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements);
 
 	public abstract String getSelectedItem(int maxIterationsToLocateElements);
 
 	public abstract List<String> getSelectedItems(int maxIterationsToLocateElements);
 
-	public abstract void selectFirstItem(int maxIterationsToLocateElements);
+	public abstract ListBoxValidator selectFirstItem(int maxIterationsToLocateElements);
 
-	public abstract void selectLastItem(int maxIterationsToLocateElements);
+	public abstract ListBoxValidator selectLastItem(int maxIterationsToLocateElements);
 
-	public abstract void selectItem(String itemName, int maxIterationsToLocateElements);
+	public abstract ListBoxValidator selectItem(String itemName, int maxIterationsToLocateElements);
 
-	public abstract void selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements);
+	public abstract ListBoxValidator selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements);
 
-	public abstract void validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements);
+	public abstract ListBoxValidator validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements);
 
-	public abstract void validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements);
+	public abstract ListBoxValidator validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements);
 }

@@ -40,7 +40,7 @@ public abstract class LabelValidator extends UIObjectValidator {
 		return this.label;
 	}
 
-	public abstract void validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
+	public abstract LabelValidator validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
 
 	public abstract String getValue(int maxIterationsToLocateElements);
 }

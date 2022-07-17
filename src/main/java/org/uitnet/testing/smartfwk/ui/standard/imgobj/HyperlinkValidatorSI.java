@@ -49,10 +49,11 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 	}
 
 	@Override
-	public void validateName(String expectedName, TextMatchMechanism validationMechanism,
+	public HyperlinkValidatorSI validateName(String expectedName, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		validateTextValue(match.text(), expectedName, validationMechanism);
+		return this;
 	}
 
 	@Override
@@ -72,26 +73,28 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI click(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on Hyperlink '" + hyperlinkObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void click(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on Hyperlink '" + hyperlinkObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI doubleClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.doubleClick();
@@ -99,9 +102,10 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 			Assert.fail("Failed to perform mouse double click on Hyperlink '" + hyperlinkObj.getDisplayName() + "'.",
 					th);
 		}
+		return this;
 	}
 
-	public void doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).doubleClick();
@@ -109,10 +113,11 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 			Assert.fail("Failed to perform mouse double click on Hyperlink '" + hyperlinkObj.getDisplayName() + "'.",
 					th);
 		}
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI rightClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.rightClick();
@@ -120,9 +125,10 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 			Assert.fail("Failed to perform mouse right click on Hyperlink '" + hyperlinkObj.getDisplayName() + "'.",
 					th);
 		}
+		return this;
 	}
 
-	public void rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).rightClick();
@@ -130,10 +136,11 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 			Assert.fail("Failed to perform mouse right click on Hyperlink '" + hyperlinkObj.getDisplayName() + "'.",
 					th);
 		}
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI clickAndHold(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
@@ -141,10 +148,11 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 			Assert.fail("Failed to perform mouse clickAndHold on Hyperlink '" + hyperlinkObj.getDisplayName() + "'.",
 					th);
 		}
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI release(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
@@ -152,10 +160,11 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 			Assert.fail("Failed to perform mouse clickAndHold on Hyperlink '" + hyperlinkObj.getDisplayName() + "'.",
 					th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -163,11 +172,11 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyDown on Hyperlink '" + hyperlinkObj.getDisplayName() + "'.", th);
 		}
-
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -176,10 +185,11 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on Hyperlink '"
 					+ hyperlinkObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -189,13 +199,14 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on Hyperlink '"
 					+ hyperlinkObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
 		Assert.fail("typeText() API is not supported for Hyperlink element.");
-
+		return this;
 	}
 
 	@Override
@@ -248,7 +259,7 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
-	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
+	public HyperlinkValidatorSI dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
 		try {
 			Match sourceElem = findElement(maxIterationsToLocateElements);
 			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(maxIterationsToLocateElements);
@@ -262,6 +273,7 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 			Assert.fail("Failed to perform dragAndDrop from source '" + hyperlinkObj.getDisplayName() + "' to target '"
 					+ target.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {

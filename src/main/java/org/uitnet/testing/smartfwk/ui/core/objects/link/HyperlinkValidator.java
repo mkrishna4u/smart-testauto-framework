@@ -40,7 +40,7 @@ public abstract class HyperlinkValidator extends UIObjectValidator {
 		return hyperlink;
 	}
 
-	public abstract void validateName(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
+	public abstract HyperlinkValidator validateName(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
 
 	public abstract String getName(int maxIterationsToLocateElements);
 }

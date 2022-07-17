@@ -50,8 +50,9 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 	}
 
 	@Override
-	public void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
 		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -65,43 +66,51 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD click(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD doubleClick(int maxIterationsToLocateElements) {
 		domObjValidator.doubleClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD rightClick(int maxIterationsToLocateElements) {
 		domObjValidator.rightClick(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD clickAndHold(int maxIterationsToLocateElements) {
 		domObjValidator.clickAndHold(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyUp(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyPressed(keys, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override
@@ -131,15 +140,17 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 	}
 
 	@Override
-	public void validateDisabled(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD validateDisabled(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabled(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD validateEnabled(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
 	}
 
 	@Override
@@ -148,19 +159,21 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 	}
 
 	@Override
-	public void validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.assertFalse(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
 	}
 
 	@Override
-	public void select(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD select(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
@@ -171,7 +184,7 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 					} catch (Throwable th) {
 						Assert.fail("Failed to select radio button '" + uiObject.getDisplayName() + "'.");
 					}
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -182,18 +195,18 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to select element '" + uiObject.getDisplayName() + "'.", th);
 		}
-
+		return this;
 	}
 
 	@Override
-	public void validateSelected(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD validateSelected(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					WebElement webElem = findElement(0);
 					Assert.assertTrue(webElem.isSelected(),
 							"Radio button '" + uiObject.getDisplayName() + "' is not selected.");
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -204,17 +217,18 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to validate element '" + uiObject.getDisplayName() + "' as selected.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void validateNotSelected(int maxIterationsToLocateElements) {
+	public RadioButtonValidatorSD validateNotSelected(int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					WebElement webElem = findElement(0);
 					Assert.assertFalse(webElem.isSelected(),
 							"Radio button '" + uiObject.getDisplayName() + "' is selected.");
-					return;
+					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
 						throw th;
@@ -225,7 +239,7 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to validate element '" + uiObject.getDisplayName() + "' as not selected.", th);
 		}
-
+		return this;
 	}
 
 	@Override

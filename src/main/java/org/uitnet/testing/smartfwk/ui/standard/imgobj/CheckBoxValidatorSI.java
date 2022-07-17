@@ -59,84 +59,92 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI click(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void click(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI doubleClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI rightClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI clickAndHold(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI release(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -144,11 +152,11 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyDown on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
-
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -157,10 +165,11 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on CheckBox '"
 					+ cbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -170,13 +179,14 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on CheckBox '"
 					+ cbObject.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
 		Assert.fail("typeText() API is not supported for CheckBox element.");
-
+		return this;
 	}
 
 	@Override
@@ -229,7 +239,7 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
-	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
 		try {
 			Match sourceElem = findElement(maxIterationsToLocateElements);
 			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(maxIterationsToLocateElements);
@@ -243,6 +253,7 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 			Assert.fail("Failed to perform dragAndDrop from source '" + cbObject.getDisplayName() + "' to target '"
 					+ target.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {
@@ -270,26 +281,30 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 
 	@Override
 	@Deprecated
-	public void validateCheckBoxChecked(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI validateCheckBoxChecked(int maxIterationsToLocateElements) {
 		Assert.fail("validateCheckBoxChecked() is not supported for CheckBox component.");
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void validateCheckBoxUnchecked(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI validateCheckBoxUnchecked(int maxIterationsToLocateElements) {
 		Assert.fail("validateCheckBoxUnchecked() is not supported for CheckBox component.");
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void checkAndValidateChecked(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI checkAndValidateChecked(int maxIterationsToLocateElements) {
 		Assert.fail("checkAndValidateChecked() is not supported for CheckBox component.");
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void uncheckAndValidateUnchecked(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI uncheckAndValidateUnchecked(int maxIterationsToLocateElements) {
 		Assert.fail("uncheckAndValidateUnchecked() is not supported for CheckBox component.");
+		return this;
 	}
 
 	@Override
@@ -301,14 +316,16 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 
 	@Override
 	@Deprecated
-	public void validateDisabled(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI validateDisabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabled() is not supported for CheckBox component.");
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void validateEnabled(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI validateEnabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabled() is not supported for CheckBox component.");
+		return this;
 	}
 
 	@Override
@@ -325,13 +342,15 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 	}
 
 	@Override
-	public void validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabledButNotReadonly() API is not supported by Button component.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
+	public CheckBoxValidatorSI validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabledButNotReadonly() API is not supported by Button component.");
+		return this;
 	}
 
 }

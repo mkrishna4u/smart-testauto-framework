@@ -43,25 +43,25 @@ public abstract class TextAreaValidator extends UIObjectValidator {
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabled(int maxIterationsToLocateElements);
+	public abstract TextAreaValidator validateDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabled(int maxIterationsToLocateElements);
+	public abstract TextAreaValidator validateEnabled(int maxIterationsToLocateElements);
 	
 	public abstract boolean isDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract TextAreaValidator validateDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract TextAreaValidator validateEnabledButNotReadonly(int maxIterationsToLocateElements);
 
 	public abstract boolean isReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateReadonly(int maxIterationsToLocateElements);
+	public abstract TextAreaValidator validateReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateNotReadonly(int maxIterationsToLocateElements);
+	public abstract TextAreaValidator validateNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements);
+	public abstract TextAreaValidator typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements);
 
-	public abstract void validateTextValue(String expectedValue, TextMatchMechanism validationMechanism,
+	public abstract TextAreaValidator validateTextValue(String expectedValue, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements);
 
 	public abstract String getTextValue(int maxIterationsToLocateElements);

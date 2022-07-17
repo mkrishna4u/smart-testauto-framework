@@ -40,13 +40,13 @@ public abstract class RadioButtonGroupValidator extends UIObjectValidator {
 		return optionGroup;
 	}
 
-	public abstract void validateDisabled(int maxIterationsToLocateElements);
+	public abstract RadioButtonGroupValidator validateDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabled(int maxIterationsToLocateElements);
+	public abstract RadioButtonGroupValidator validateEnabled(int maxIterationsToLocateElements);
 
-	public abstract void selectOption(String value, String displayValue, int maxIterationsToLocateElements);
+	public abstract RadioButtonGroupValidator selectOption(String value, String displayValue, int maxIterationsToLocateElements);
 
-	public abstract void validateSelectedOption(String value, String displayValue, int maxIterationsToLocateElements);
+	public abstract RadioButtonGroupValidator validateSelectedOption(String value, String displayValue, int maxIterationsToLocateElements);
 
 	/**
 	 * 
@@ -54,5 +54,5 @@ public abstract class RadioButtonGroupValidator extends UIObjectValidator {
 	 *                   optionDisplayValue
 	 * @param maxIterationsToLocateElements
 	 */
-	public abstract void validateNotSelectedOptions(ItemMap<String, String> options, int maxIterationsToLocateElements);
+	public abstract RadioButtonGroupValidator validateNotSelectedOptions(ItemMap<String, String> options, int maxIterationsToLocateElements);
 }

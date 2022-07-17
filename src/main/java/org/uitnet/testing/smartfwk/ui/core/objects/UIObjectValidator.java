@@ -69,17 +69,19 @@ public abstract class UIObjectValidator {
 		return region;
 	}
 
-	public void validatePresent(int maxIterationsToLocateElements) {
+	public UIObjectValidator validatePresent(int maxIterationsToLocateElements) {
 		Assert.assertTrue(isPresent(maxIterationsToLocateElements),
 				"Failed to find element '" + uiObject.getDisplayName() + "'");
+		return this;
 	}
 
-	public void validateNotPresent(int maxIterationsToLocateElements) {
+	public UIObjectValidator validateNotPresent(int maxIterationsToLocateElements) {
 		Assert.assertTrue(!isPresent(maxIterationsToLocateElements),
 				"Element '" + uiObject.getDisplayName() + "' is already present.");
+		return this;
 	}
 
-	public <EVENTNAME> void performAction(InputEvent<EVENTNAME> event, int maxIterationsToLocateElements) {
+	public <EVENTNAME> UIObjectValidator performAction(InputEvent<EVENTNAME> event, int maxIterationsToLocateElements) {
 		if (event.getType() == InputEventType.mouse) {
 			MouseEvent mouseEvent = (MouseEvent) event;
 			switch (mouseEvent.getName()) {
@@ -122,15 +124,16 @@ public abstract class UIObjectValidator {
 				break;
 			}
 		}
-
+		return this;
 	}
 
 	protected boolean matchTextValue(String actualValue, String expectedValue, TextMatchMechanism validationMechanism) {
 		return DataMatchUtil.matchTextValue(actualValue, expectedValue, validationMechanism);
 	}
 
-	protected void validateTextValue(String actualValue, String expectedValue, TextMatchMechanism validationMechanism) {
+	protected UIObjectValidator validateTextValue(String actualValue, String expectedValue, TextMatchMechanism validationMechanism) {
 		DataMatchUtil.validateTextValue(actualValue, expectedValue, validationMechanism);
+		return this;
 	}
 
 	public String seleniumToSikuliKeyConverter(Keys key) {
@@ -211,42 +214,45 @@ public abstract class UIObjectValidator {
 		return null;
 	}
 
-	public void validateVisible(int maxIterationsToLocateElements) {
+	public UIObjectValidator validateVisible(int maxIterationsToLocateElements) {
 		Assert.assertTrue(isVisible(maxIterationsToLocateElements),
 				"Element '" + uiObject.getDisplayName() + "' is not visible.");
+		return this;
 	}
 
-	public void validateNotVisible(int maxIterationsToLocateElements) {
+	public UIObjectValidator validateNotVisible(int maxIterationsToLocateElements) {
 		Assert.assertFalse(isVisible(maxIterationsToLocateElements),
 				"Element '" + uiObject.getDisplayName() + "' is visible.");
+		return this;
 	}
 
-	public void validateHidden(int maxIterationsToLocateElements) {
+	public UIObjectValidator validateHidden(int maxIterationsToLocateElements) {
 		Assert.assertFalse(isVisible(maxIterationsToLocateElements),
 				"Element '" + uiObject.getDisplayName() + "' is visible.");
+		return this;
 	}
 
 	public abstract boolean isPresent(int maxIterationsToLocateElements);
 
 	public abstract boolean isVisible(int maxIterationsToLocateElements);
 
-	public abstract void click(int maxIterationsToLocateElements);
+	public abstract UIObjectValidator click(int maxIterationsToLocateElements);
 
-	public abstract void doubleClick(int maxIterationsToLocateElements);
+	public abstract UIObjectValidator doubleClick(int maxIterationsToLocateElements);
 
-	public abstract void rightClick(int maxIterationsToLocateElements);
+	public abstract UIObjectValidator rightClick(int maxIterationsToLocateElements);
 
-	public abstract void clickAndHold(int maxIterationsToLocateElements);
+	public abstract UIObjectValidator clickAndHold(int maxIterationsToLocateElements);
 
-	public abstract void release(int maxIterationsToLocateElements);
+	public abstract UIObjectValidator release(int maxIterationsToLocateElements);
 
-	public abstract void performKeyDown(Keys keys, int maxIterationsToLocateElements);
+	public abstract UIObjectValidator performKeyDown(Keys keys, int maxIterationsToLocateElements);
 
-	public abstract void performKeyUp(Keys keys, int maxIterationsToLocateElements);
+	public abstract UIObjectValidator performKeyUp(Keys keys, int maxIterationsToLocateElements);
 
-	public abstract void performKeyPressed(Keys keys, int maxIterationsToLocateElements);
+	public abstract UIObjectValidator performKeyPressed(Keys keys, int maxIterationsToLocateElements);
 
-	public abstract void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements);
+	public abstract UIObjectValidator typeText(String text, NewTextLocation location, int maxIterationsToLocateElements);
 
 	public abstract UIObjectValidator scrollElementOnViewport(Scrollbar scrollbar);
 

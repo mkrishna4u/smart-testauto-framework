@@ -52,14 +52,16 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 
 	@Override
 	@Deprecated
-	public void validateDisabled(int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI validateDisabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabled() API is not supported by TextBoxSI.");
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void validateEnabled(int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI validateEnabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabled() API is not supported by TextBoxSI.");
+		return this;
 	}
 
 	@Override
@@ -74,84 +76,92 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 	}
 
 	@Override
-	public void click(int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI click(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on TextBox '" + textBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void click(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on TextBox '" + textBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void doubleClick(int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI doubleClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on TextBox '" + textBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse double click on TextBox '" + textBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void rightClick(int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI rightClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on TextBox '" + textBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
-	public void rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse right click on TextBox '" + textBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void clickAndHold(int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI clickAndHold(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on TextBox '" + textBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void release(int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI release(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on TextBox '" + textBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -159,11 +169,11 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyDown on TextBox '" + textBoxObj.getDisplayName() + "'.", th);
 		}
-
+		return this;
 	}
 
 	@Override
-	public void performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -172,10 +182,11 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on TextBox '"
 					+ textBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -184,10 +195,11 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on TextBox '"
 					+ textBoxObj.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	@Override
-	public void typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		try {
 			match.click();
@@ -208,6 +220,7 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 		} catch (Throwable th) {
 			Assert.fail("Fail to type text '" + text + "' in TextBox '" + textBoxObj.getDisplayName() + "'.");
 		}
+		return this;
 	}
 
 	@Override
@@ -258,7 +271,7 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 		return null;
 	}
 
-	public void dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
 		try {
 			Match sourceElem = findElement(maxIterationsToLocateElements);
 			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(maxIterationsToLocateElements);
@@ -272,6 +285,7 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 			Assert.fail("Failed to perform dragAndDrop from source '" + textBoxObj.getDisplayName() + "' to target '"
 					+ target.getDisplayName() + "'.", th);
 		}
+		return this;
 	}
 
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {
@@ -291,7 +305,7 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 	}
 
 	@Override
-	public void validateValue(String expectedValue, TextMatchMechanism validationMechanism,
+	public TextBoxValidatorSI validateValue(String expectedValue, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements) {
 		if (textBoxObj.isDisabled()) {
 			Match match = findElement(maxIterationsToLocateElements);
@@ -299,6 +313,7 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 		} else {
 			validateTextValue(getValue(maxIterationsToLocateElements), expectedValue, validationMechanism);
 		}
+		return this;
 	}
 
 	/**
@@ -340,16 +355,16 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 
 	@Override
 	@Deprecated
-	public void validateReadonly(int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI validateReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("isDisabled() API is not supported by TextBox component.");
-
+		return this;
 	}
 
 	@Override
 	@Deprecated
-	public void validateNotReadonly(int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI validateNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("isDisabled() API is not supported by TextBox component.");
-
+		return this;
 	}
 
 	@Override
@@ -366,12 +381,14 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 	}
 
 	@Override
-	public void validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabledButNotReadonly() API is not supported by TextBox component.");
+		return this;
 	}
 
 	@Override
-	public void validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
+	public TextBoxValidatorSI validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabledButNotReadonly() API is not supported by TextBox component.");
+		return this;
 	}
 }

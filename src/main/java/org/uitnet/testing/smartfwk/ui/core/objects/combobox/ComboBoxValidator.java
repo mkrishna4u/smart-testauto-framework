@@ -45,32 +45,32 @@ public abstract class ComboBoxValidator extends UIObjectValidator {
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabled(int maxIterationsToLocateElements);
+	public abstract ComboBoxValidator validateDisabled(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabled(int maxIterationsToLocateElements);
+	public abstract ComboBoxValidator validateEnabled(int maxIterationsToLocateElements);
 	
 	public abstract boolean isDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateDisabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract ComboBoxValidator validateDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateEnabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract ComboBoxValidator validateEnabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract void validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
+	public abstract ComboBoxValidator validateSelectedItem(String expectedSelectedValue, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements);
 
 	public abstract String getSelectedItem(int maxIterationsToLocateElements);
 
 	public abstract List<String> getSelectedItems(int maxIterationsToLocateElements);
 
-	public abstract void selectFirstItem(int maxIterationsToLocateElements);
+	public abstract ComboBoxValidator selectFirstItem(int maxIterationsToLocateElements);
 
-	public abstract void selectLastItem(int maxIterationsToLocateElements);
+	public abstract ComboBoxValidator selectLastItem(int maxIterationsToLocateElements);
 
-	public abstract void selectItem(String itemName, int maxIterationsToLocateElements);
+	public abstract ComboBoxValidator selectItem(String itemName, int maxIterationsToLocateElements);
 
-	public abstract void selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements);
+	public abstract ComboBoxValidator selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements);
 
-	public abstract void validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements);
+	public abstract ComboBoxValidator validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements);
 
-	public abstract void validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements);
+	public abstract ComboBoxValidator validateItemsNotPresent(ItemList<String> items, int maxIterationsToLocateElements);
 }
