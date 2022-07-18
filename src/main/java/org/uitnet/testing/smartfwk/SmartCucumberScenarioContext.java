@@ -17,11 +17,13 @@
  */
 package org.uitnet.testing.smartfwk;
 
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
+import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
 
 import io.cucumber.java.Scenario;
 
@@ -38,7 +40,12 @@ public class SmartCucumberScenarioContext {
 	protected String activeAppName = null;
 
 	public SmartCucumberScenarioContext() {
-		params = new HashMap<>(8);
+		params = new TreeMap<>(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				return o2.length() - o1.length();
+			}
+		});
 	}
 
 	public Scenario getScenario() {
@@ -86,9 +93,73 @@ public class SmartCucumberScenarioContext {
 	public Object getParamValue(String paramName) {
 		return params.get(paramName);
 	}
+	
+	public String getParamValueAsString(String paramName) {
+		return ObjectUtil.valueAsString(params.get(paramName));
+	}
+	
+	public Integer getParamValueAsInteger(String paramName) {
+		return ObjectUtil.valueAsInteger(params.get(paramName));
+	}
+	
+	public Long getParamValueAsLong(String paramName) {
+		return ObjectUtil.valueAsLong(params.get(paramName));
+	}
+	
+	public Double getParamValueAsDouble(String paramName) {
+		return ObjectUtil.valueAsDouble(params.get(paramName));
+	}
+	
+	public Boolean getParamValueAsBoolean(String paramName) {
+		return ObjectUtil.valueAsBoolean(params.get(paramName));
+	}
+	
+	/**
+	 * MultiValue params are like Array, List, Set
+	 * @param paramName
+	 * @param delimitter          - could be , or any string, if null then it will
+	 *                            use default as ,
+	 * @param valueEnclosingChars like ' or " or empty/null (denotes no enclosing)
+	 * @return
+	 */
+	public String getMultiValueParamValueAsString(String paramName, String delimitter, String valueEnclosingChars) {
+		return ObjectUtil.listSetArrayValueAsString(params.get(paramName), delimitter, valueEnclosingChars);
+	}
 
 	public Map<String, Object> getAllParams() {
 		return params;
+	}
+	
+	public Map<String, Object> getEntriesForParamsEndsWithText(String text) {
+		Map<String, Object> fparams = new TreeMap<>(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				return o2.length() - o1.length();
+			}
+		});
+		
+		for (Map.Entry<String, Object> k : params.entrySet()) {
+			if (k.getKey().endsWith(text)) {
+				fparams.put(k.getKey(), k.getValue());
+			}
+		}
+		return fparams;
+	}
+	
+	public Map<String, Object> getEntriesForParamsStartsWithText(String text) {
+		Map<String, Object> fparams = new TreeMap<>(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				return o2.length() - o1.length();
+			}
+		});
+		
+		for (Map.Entry<String, Object> k : params.entrySet()) {
+			if (k.getKey().startsWith(text)) {
+				fparams.put(k.getKey(), k.getValue());
+			}
+		}
+		return fparams;
 	}
 
 	/**

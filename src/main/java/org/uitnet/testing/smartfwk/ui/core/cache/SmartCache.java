@@ -17,11 +17,14 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.cache;
 
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.SubmissionPublisher;
+
+import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
 
 /**
  * Abstract SmartCache class that can be used to store the data and can be
@@ -38,7 +41,12 @@ public abstract class SmartCache {
 	private SubmissionPublisher<SmartCache> publisher;
 
 	public SmartCache() {
-		cache = new HashMap<>();
+		cache = new TreeMap<>(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				return o2.length() - o1.length();
+			}
+		});
 		publisher = new SubmissionPublisher<>();
 	}
 
@@ -79,6 +87,42 @@ public abstract class SmartCache {
 		}
 		return v;
 	}
+	
+	public String getValueAsString(String key) {
+		return ObjectUtil.valueAsString(cache.get(key));
+	}
+	
+	public Integer getValueAsInteger(String key) {
+		return ObjectUtil.valueAsInteger(cache.get(key));
+	}
+	
+	public Long getValueAsLong(String key) {
+		return ObjectUtil.valueAsLong(cache.get(key));
+	}
+	
+	public Double getValueAsDouble(String key) {
+		return ObjectUtil.valueAsDouble(cache.get(key));
+	}
+	
+	public Boolean getValueAsBoolean(String key) {
+		return ObjectUtil.valueAsBoolean(cache.get(key));
+	}
+	
+	/**
+	 * MultiValue params are like Array, List, Set
+	 * @param key
+	 * @param delimitter          - could be , or any string, if null then it will
+	 *                            use default as ,
+	 * @param valueEnclosingChars like ' or " or empty/null (denotes no enclosing)
+	 * @return
+	 */
+	public String getMultiValueKeyValueAsString(String key, String delimitter, String valueEnclosingChars) {
+		return ObjectUtil.listSetArrayValueAsString(cache.get(key), delimitter, valueEnclosingChars);
+	}
+
+	public Map<String, Object> getAll() {
+		return cache;
+	}
 
 	public void clear() {
 		cache.clear();
@@ -102,6 +146,38 @@ public abstract class SmartCache {
 			}
 		}
 		return keys;
+	}
+	
+	public Map<String, Object> getEntriesForKeyesEndsWithText(String text) {
+		Map<String, Object> fparams = new TreeMap<>(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				return o2.length() - o1.length();
+			}
+		});
+		
+		for (Map.Entry<String, Object> k : cache.entrySet()) {
+			if (k.getKey().endsWith(text)) {
+				fparams.put(k.getKey(), k.getValue());
+			}
+		}
+		return fparams;
+	}
+	
+	public Map<String, Object> getEntriesForKeysStartsWithText(String text) {
+		Map<String, Object> fparams = new TreeMap<>(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				return o2.length() - o1.length();
+			}
+		});
+		
+		for (Map.Entry<String, Object> k : cache.entrySet()) {
+			if (k.getKey().startsWith(text)) {
+				fparams.put(k.getKey(), k.getValue());
+			}
+		}
+		return fparams;
 	}
 
 	public boolean isKeyPresent(String key) {

@@ -169,7 +169,7 @@ public class ObjectUtil {
 		} else if (obj instanceof Map) {
 			Assert.fail("Map to string conversion is not supported.");
 		} else {
-			strv = String.valueOf(obj);
+			strv = String.valueOf((valueEnclosingChars + obj + valueEnclosingChars));
 		}
 
 		return strv;
