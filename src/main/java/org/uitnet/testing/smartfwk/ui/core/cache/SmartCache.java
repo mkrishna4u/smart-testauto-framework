@@ -44,6 +44,9 @@ public abstract class SmartCache {
 		cache = new TreeMap<>(new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2) {
+				if(o1 == null && o2 == null) { return 0; }
+				if(o1 == null && o2 != null) { return o2.length(); }
+				if(o1 != null && o2 == null) { return 0 - o1.length(); }
 				return o2.length() - o1.length();
 			}
 		});
@@ -152,6 +155,9 @@ public abstract class SmartCache {
 		Map<String, Object> fparams = new TreeMap<>(new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2) {
+				if(o1 == null && o2 == null) { return 0; }
+				if(o1 == null && o2 != null) { return o2.length(); }
+				if(o1 != null && o2 == null) { return 0 - o1.length(); }
 				return o2.length() - o1.length();
 			}
 		});
@@ -168,6 +174,9 @@ public abstract class SmartCache {
 		Map<String, Object> fparams = new TreeMap<>(new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2) {
+				if(o1 == null && o2 == null) { return 0; }
+				if(o1 == null && o2 != null) { return o2.length(); }
+				if(o1 != null && o2 == null) { return 0 - o1.length(); }
 				return o2.length() - o1.length();
 			}
 		});
