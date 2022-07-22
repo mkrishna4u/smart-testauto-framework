@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uitnet.testing</groupId>
 	<artifactId>smart-testauto-framework</artifactId>
-	<version>5.0.3</version>
+	<version>5.0.4</version>
 	<packaging>jar</packaging>
 	<name>Smart Software Testing Automation Framework</name>
 	<description>Smart Software Testing Automation Framework is a tool used to automate the testing of software application. It includes the functionality i.e. Web UI Application Automation, Thick Client Automation, API Testing, Data Driven Testing etc.</description>

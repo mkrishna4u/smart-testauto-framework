@@ -51,9 +51,9 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 		if (connection == null || isSessionExpired()) {
 			disconnect();
 			connection = connect(activeDatabaseProfile);
-		} else {
-			lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
-		}
+		} 
+		
+		lastRequestAccessTimeInMs = Calendar.getInstance().getTimeInMillis();
 	}
 
 	protected boolean isSessionExpired() {
