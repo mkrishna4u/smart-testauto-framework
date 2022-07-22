@@ -17,6 +17,7 @@
  */
 package org.uitnet.testing.smartfwk;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -40,15 +41,7 @@ public class SmartCucumberScenarioContext {
 	protected String activeAppName = null;
 
 	public SmartCucumberScenarioContext() {
-		params = new TreeMap<>(new Comparator<String>() {
-			@Override
-			public int compare(String o1, String o2) {
-				if(o1 == null && o2 == null) { return 0; }
-				if(o1 == null && o2 != null) { return o2.length(); }
-				if(o1 != null && o2 == null) { return 0 - o1.length(); }
-				return o2.length() - o1.length();
-			}
-		});
+		params = new TreeMap<>(Collections.reverseOrder());
 	}
 
 	public Scenario getScenario() {

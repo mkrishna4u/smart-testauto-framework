@@ -17,6 +17,7 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.cache;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
@@ -41,15 +42,7 @@ public abstract class SmartCache {
 	private SubmissionPublisher<SmartCache> publisher;
 
 	public SmartCache() {
-		cache = new TreeMap<>(new Comparator<String>() {
-			@Override
-			public int compare(String o1, String o2) {
-				if(o1 == null && o2 == null) { return 0; }
-				if(o1 == null && o2 != null) { return o2.length(); }
-				if(o1 != null && o2 == null) { return 0 - o1.length(); }
-				return o2.length() - o1.length();
-			}
-		});
+		cache = new TreeMap<>(Collections.reverseOrder());
 		publisher = new SubmissionPublisher<>();
 	}
 
