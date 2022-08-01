@@ -26,3 +26,15 @@ hs_err_pid*
 /.project
 .settings
 javadoc
+/src/test/java/TestRemoteMachineActionHandler.java
+/src/test/java/id_rsa
+/src/test/java/id_rsa.pub
+/src/test/java/known_hosts
+/src/test/java/ssh_host_rsa_key2
+/src/test/java/ssh_host_rsa_key2.pub
+/src/test/java/TestRemoteMachineActionHandler.java
+/src/test/java/id_rsa
+/src/test/java/id_rsa.pub
+/src/test/java/known_hosts
+/src/test/java/ssh_host_rsa_key2
+/src/test/java/ssh_host_rsa_key2.pub
