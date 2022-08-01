@@ -23,6 +23,8 @@ import org.uitnet.testing.smartfwk.api.core.defaults.ApiTestManager;
 import org.uitnet.testing.smartfwk.api.core.defaults.SmartApiTestManager;
 import org.uitnet.testing.smartfwk.database.DatabaseManager;
 import org.uitnet.testing.smartfwk.database.SmartDatabaseManager;
+import org.uitnet.testing.smartfwk.remote_machine.RemoteMachineManager;
+import org.uitnet.testing.smartfwk.remote_machine.SmartRemoteMachineManager;
 import org.uitnet.testing.smartfwk.ui.core.AbstractAppConnector;
 import org.uitnet.testing.smartfwk.ui.core.SingletonAppConnectorMap;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
@@ -45,6 +47,10 @@ public class SmartRegistry {
 	public static ApiTestManager getApiTestManager() {
 		return SmartApiTestManager.getInstance();
 	}
+	
+	public static RemoteMachineManager getRemoteMachineManager() {
+		return SmartRemoteMachineManager.getInstance();
+	}
 
 	public static TestConfigManager getTestConfigManager() {
 		return TestConfigManager.getInstance();
@@ -53,6 +59,7 @@ public class SmartRegistry {
 	public static void deregisterAll() {
 		getDatabaseManager().deregisterAll();
 		getApiTestManager().deregisterAll();
+		getRemoteMachineManager().deregisterAll();
 		// deregister UI connectors
 		synchronized (SmartRegistry.class) {
 			try {

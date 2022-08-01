@@ -56,6 +56,7 @@ public abstract class SmartCache {
 	 * @return
 	 */
 	public Object get(String key) {
+		if(key == null) { return null; }
 		return cache.get(key);
 	}
 	
@@ -65,6 +66,7 @@ public abstract class SmartCache {
 	 * @return
 	 */
 	public Object getNullAsKey(String key) {
+		if(key == null) { return null; }
 		Object v = cache.get(key);
 		if(v == null) {
 			return key;
@@ -73,10 +75,12 @@ public abstract class SmartCache {
 	}
 
 	public Object removeAndGet(String key) {
+		if(key == null) { return null; }
 		return cache.remove(key);
 	}
 	
 	public Object removeAndGetNullAsKey(String key) {
+		if(key == null) { return null; }
 		Object v = cache.remove(key);
 		if(v == null) {
 			return key;
@@ -85,22 +89,27 @@ public abstract class SmartCache {
 	}
 	
 	public String getValueAsString(String key) {
+		if(key == null) { return null; }
 		return ObjectUtil.valueAsString(cache.get(key));
 	}
 	
 	public Integer getValueAsInteger(String key) {
+		if(key == null) { return null; }
 		return ObjectUtil.valueAsInteger(cache.get(key));
 	}
 	
 	public Long getValueAsLong(String key) {
+		if(key == null) { return null; }
 		return ObjectUtil.valueAsLong(cache.get(key));
 	}
 	
 	public Double getValueAsDouble(String key) {
+		if(key == null) { return null; }
 		return ObjectUtil.valueAsDouble(cache.get(key));
 	}
 	
 	public Boolean getValueAsBoolean(String key) {
+		if(key == null) { return null; }
 		return ObjectUtil.valueAsBoolean(cache.get(key));
 	}
 	
@@ -113,6 +122,7 @@ public abstract class SmartCache {
 	 * @return
 	 */
 	public String getMultiValueKeyValueAsString(String key, String delimitter, String valueEnclosingChars) {
+		if(key == null) { return null; }
 		return ObjectUtil.listSetArrayValueAsString(cache.get(key), delimitter, valueEnclosingChars);
 	}
 

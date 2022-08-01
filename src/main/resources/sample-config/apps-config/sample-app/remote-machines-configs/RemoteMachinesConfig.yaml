@@ -1,0 +1,61 @@
+################################################################################
+ # SmartTestAutoFramework
+ # Copyright 2021 and beyond
+ # 
+ # Licensed under the Apache License, Version 2.0 (the "License");
+ # you may not use this file except in compliance with the License.
+ # You may obtain a copy of the License at
+ # 
+ #     http://www.apache.org/licenses/LICENSE-2.0
+ # 
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS,
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ # 
+ # Author - Madhav Krishna
+################################################################################
+
+# configure remote machines. these machine will get registered using its unique name.
+# you can configure multiple remote machines to execute the commands. These machines
+# configuration uses SSH protocol for command execution and SFTP for file upload and download.
+remoteMachines: 
+  - name: Sample-Machine
+    hostNameOrIpAddress: 192.168.0.100
+    port: 22
+    # Class name that extends AbstractApiActionHandler class
+    actionHandlerClass: org.uitnet.testing.smartfwk.remote_machine.SmartRemoteMachineActionHandler
+    sessionExpiryDurationInSeconds: 3600
+    userName: sample-user
+    password: sample-user-password
+    privateKeyPath: test-config/apps-config/<app-name>/remote-machines-configs/<name-of-file>
+    privateKeyPassphrase: 
+    publicKeyPath: test-config/apps-config/<app-name>/remote-machines-configs/<name-of-file>
+    sshConfigs:
+      StrictHostKeyChecking: "no"
+      PreferredAuthentications: "publickey,password"
+    proxyConfig:
+      # Proxy configuration
+      #PROXY Configuration Options:NO_PROXY, AUTO_DETECT, USE_SYSTEM_PROXY, MANUAL_PROXY
+      proxyConfigType: NO_PROXY  
+      # Parameters for MANUAL_PROXY
+      httpProxyHostname: <proxy-host>
+      httpProxyPort: <proxy-port>  
+      sslProxyHostname: <proxy-host>
+      sslProxyPort: <proxy-port>  
+      ftpProxyHostname: <proxy-host>
+      ftpProxyPort: <proxy-port>  
+      socksHostname: <proxy-host>
+      socksPort: <proxy-port>
+      # SOCKS_VERSION options: V4, V5
+      socksVersion: V5
+      socksUsername: 
+      socksPassword:   
+      noProxyFor: localhost,127.0.0.1    
+    # Additional properties for remote machine (Define under additionalProps as child property)
+    additionalProps:
+
+# Additional properties (Define under additionalProps as child property)
+additionalProps:
+  

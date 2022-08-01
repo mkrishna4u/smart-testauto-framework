@@ -48,6 +48,10 @@ public class ProxyConfiguration {
 
 	private String noProxyFor;
 
+	public ProxyConfiguration() {
+		proxyConfigType = ProxyConfigurationType.NO_PROXY;
+	}
+	
 	public ProxyConfiguration(String appName, Map<String, String> properties) {
 		proxyConfigType = ProxyConfigurationType.NO_PROXY;
 		if(!DefaultInfo.DEFAULT_APP_NAME.equals(appName)) {
@@ -189,6 +193,58 @@ public class ProxyConfiguration {
 
 	public String getNoProxyFor() {
 		return noProxyFor;
+	}
+
+	public void setProxyConfigType(String proxyConfigType) {
+		this.proxyConfigType = ProxyConfigurationType.valueOf(proxyConfigType);
+	}
+
+	public void setHttpProxyHostname(String httpProxyHostname) {
+		this.httpProxyHostname = httpProxyHostname;
+	}
+
+	public void setHttpProxyPort(String httpProxyPort) {
+		this.httpProxyPort = httpProxyPort;
+	}
+
+	public void setSslProxyHostname(String sslProxyHostname) {
+		this.sslProxyHostname = sslProxyHostname;
+	}
+
+	public void setSslProxyPort(String sslProxyPort) {
+		this.sslProxyPort = sslProxyPort;
+	}
+
+	public void setFtpProxyHostname(String ftpProxyHostname) {
+		this.ftpProxyHostname = ftpProxyHostname;
+	}
+
+	public void setFtpProxyPort(String ftpProxyPort) {
+		this.ftpProxyPort = ftpProxyPort;
+	}
+
+	public void setSocksHostname(String socksHostname) {
+		this.socksHostname = socksHostname;
+	}
+
+	public void setSocksPort(String socksPort) {
+		this.socksPort = socksPort;
+	}
+
+	public void setSocksVersion(String socksVersion) {
+		this.socksVersion = socksVersion;
+	}
+
+	public void setSocksUsername(String socksUsername) {
+		this.socksUsername = socksUsername;
+	}
+
+	public void setSocksPassword(String socksPassword) {
+		this.socksPassword = socksPassword;
+	}
+
+	public void setNoProxyFor(String noProxyFor) {
+		this.noProxyFor = noProxyFor;
 	}
 
 }

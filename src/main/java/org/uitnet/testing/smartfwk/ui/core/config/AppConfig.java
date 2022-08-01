@@ -27,11 +27,13 @@ import java.util.Map;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.reader.YamlDocumentReader;
+import org.uitnet.testing.smartfwk.remote_machine.RemoteMachinesConfig;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.RemoteWebDriverProvider;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.ScreenCaptureUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.TypeRef;
@@ -65,6 +67,7 @@ public class AppConfig {
 	private ApiConfig apiConfig;
 	private AppDriverConfig appDriverConfig;
 	private EnvironmentConfig environmentConfig;
+	private RemoteMachinesConfig remoteMachinesConfig;
 
 	public AppConfig(String appName, DocumentContext yamlDoc, String appsConfigDir) {
 		this.appName = appName;
@@ -278,6 +281,9 @@ public class AppConfig {
 
 		propValue = JsonYamlUtil.readNoException("$.appDriverConfigFileName", String.class, appConfigDocContext, envAppConfigDocContext);
 		initAppDriverConfig(propValue);
+		
+		propValue = JsonYamlUtil.readNoException("$.remoteMachinesConfigFileName", String.class, appConfigDocContext, envAppConfigDocContext);
+		initRemoteMachinesConfig(propValue);
 	}
 
 	public ApiConfig getApiConfig() {
@@ -286,6 +292,10 @@ public class AppConfig {
 
 	public AppDriverConfig getAppDriverConfig() {
 		return appDriverConfig;
+	}
+	
+	public RemoteMachinesConfig getRemoteMachinesConfig() {
+		return remoteMachinesConfig;
 	}
 
 	private void initUserProfiles() {
@@ -395,6 +405,23 @@ public class AppConfig {
 				appDriverConfig = new AppDriverConfig(this, yamlReader.getDocumentContext());
 			} catch (Exception ex) {
 				Assert.fail("Failed to read property file - " + driverCfgFile + ". Going to exit...", ex);
+				System.exit(1);
+			}
+		}
+	}
+	
+	private void initRemoteMachinesConfig(String remoteMachinesConfigFileName) {
+		if (!StringUtil.isEmptyAfterTrim(remoteMachinesConfigFileName)) {
+			String remoteMachinesCfgFile = appsConfigDir + File.separator + appName + File.separator + "remote-machines-configs"
+					+ File.separator + remoteMachinesConfigFileName;
+			Assert.assertTrue(new File(remoteMachinesCfgFile).exists(),
+					"Missing '" + remoteMachinesCfgFile + "' file for '" + appName + "' application.");
+
+			try {
+				YamlDocumentReader yamlReader = new YamlDocumentReader(new File(remoteMachinesCfgFile));
+				remoteMachinesConfig = new RemoteMachinesConfig(appName, remoteMachinesCfgFile, yamlReader.getDocumentContext());
+			} catch (Exception ex) {
+				Assert.fail("Failed to read property file - " + remoteMachinesCfgFile + ". Going to exit...", ex);
 				System.exit(1);
 			}
 		}

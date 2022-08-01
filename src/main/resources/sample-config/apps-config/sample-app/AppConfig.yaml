@@ -54,6 +54,9 @@ appDriverConfigFileName: AppDriver.yaml
 # API Config file name
 apiConfigFileName: ApiConfig.yaml
 
+# RemoteMachinesConfig file name
+remoteMachinesConfigFileName: RemoteMachinesConfig.yaml
+
 # User profile configuration
 userProfileNames: [SampleUserProfile]
 

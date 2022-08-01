@@ -77,6 +77,7 @@ public class SmartCucumberScenarioContext {
 	}
 
 	public void addParamValue(String paramName, Object value) {
+		if(paramName == null) { return; }
 		params.put(paramName, value);
 	}
 
@@ -87,26 +88,32 @@ public class SmartCucumberScenarioContext {
 	 * @return
 	 */
 	public Object getParamValue(String paramName) {
+		if(paramName == null) { return null; }
 		return params.get(paramName);
 	}
 	
 	public String getParamValueAsString(String paramName) {
+		if(paramName == null) { return null; }
 		return ObjectUtil.valueAsString(params.get(paramName));
 	}
 	
 	public Integer getParamValueAsInteger(String paramName) {
+		if(paramName == null) { return null; }
 		return ObjectUtil.valueAsInteger(params.get(paramName));
 	}
 	
 	public Long getParamValueAsLong(String paramName) {
+		if(paramName == null) { return null; }
 		return ObjectUtil.valueAsLong(params.get(paramName));
 	}
 	
 	public Double getParamValueAsDouble(String paramName) {
+		if(paramName == null) { return null; }
 		return ObjectUtil.valueAsDouble(params.get(paramName));
 	}
 	
 	public Boolean getParamValueAsBoolean(String paramName) {
+		if(paramName == null) { return null; }
 		return ObjectUtil.valueAsBoolean(params.get(paramName));
 	}
 	
@@ -119,6 +126,7 @@ public class SmartCucumberScenarioContext {
 	 * @return
 	 */
 	public String getMultiValueParamValueAsString(String paramName, String delimitter, String valueEnclosingChars) {
+		if(paramName == null) { return null; }
 		return ObjectUtil.listSetArrayValueAsString(params.get(paramName), delimitter, valueEnclosingChars);
 	}
 
@@ -172,6 +180,7 @@ public class SmartCucumberScenarioContext {
 	 * @return
 	 */
 	public Object getParamValueNullAsParamName(String paramName) {
+		if(paramName == null) { return null; }
 		Object val = params.get(paramName);
 		if (val == null) {
 			return paramName;
@@ -180,6 +189,7 @@ public class SmartCucumberScenarioContext {
 	}
 
 	public void removeParam(String paramName) {
+		if(paramName == null) { return; }
 		params.remove(paramName);
 	}
 
