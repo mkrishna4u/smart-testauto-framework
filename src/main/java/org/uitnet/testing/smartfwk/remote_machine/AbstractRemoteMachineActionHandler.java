@@ -87,12 +87,6 @@ public abstract class AbstractRemoteMachineActionHandler implements RemoteMachin
 		return false;
 	}
 
-	public List<String> getDirectoryList(String absolutePath, TextMatchMechanism fileNameMatchMechanism, String text) {
-		String cmd = "cd " + absolutePath + " && find . -maxdepth 1 -type d";
-		String result = executeCommand(cmd);
-		return prepareFileList(result);
-	}
-
 	public List<String> getFileList(String absolutePath) {
 		String cmd = "cd " + absolutePath + " && find . -maxdepth 1 ! -type d";
 		String result = executeCommand(cmd);
@@ -131,15 +125,15 @@ public abstract class AbstractRemoteMachineActionHandler implements RemoteMachin
 	}
 
 	public AbstractRemoteMachineActionHandler validateFolderExists(String absolutePath,
-			TextMatchMechanism fileNameMatchMechanism, String expectedValue) {
+			TextMatchMechanism directoryNameMatchMechanism, String expectedValue) {
 		List<String> files = getFolderList(absolutePath);
 		for (String file : files) {
-			if (StringUtil.isTextMatchedWithExpectedValue(file, expectedValue, fileNameMatchMechanism)) {
+			if (StringUtil.isTextMatchedWithExpectedValue(file, expectedValue, directoryNameMatchMechanism)) {
 				return this;
 			}
 		}
 		Assert.fail("No folder found on '" + absolutePath + "' location using TextMatchMechanism: "
-				+ fileNameMatchMechanism + " that matches expected value '" + expectedValue + "'." + " AppName: "
+				+ directoryNameMatchMechanism + " that matches expected value '" + expectedValue + "'." + " AppName: "
 				+ appName + ", TargetServerName: " + remoteMachineName);
 		return this;
 	}
@@ -269,6 +263,31 @@ public abstract class AbstractRemoteMachineActionHandler implements RemoteMachin
 		return (absoluteLocalPath + File.separator + remoteFileName);
 	}
 
+	public String downloadFileAsDifferentName(String absoluteRemotePath, String remoteFileName,
+			String absoluteLocalPath, String newFileName) {
+		verifyConnection();
+
+		ChannelSftp channel = null;
+		try {
+			// channel type: shell, exec, sftp
+			channel = (ChannelSftp) ((Session) connection.getConnection()).openChannel("sftp");
+			channel.connect(10000);
+
+			channel.get(absoluteRemotePath + "/" + remoteFileName, absoluteLocalPath + "/" + newFileName);
+		} catch (Exception e) {
+			Assert.fail("Failed to download '" + absoluteRemotePath + "/" + remoteFileName + "' file. Reason: "
+					+ e.getMessage(), e);
+		} finally {
+			if (channel != null) {
+				try {
+					channel.disconnect();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return (absoluteLocalPath + File.separator + newFileName);
+	}
+
 	/**
 	 * Downloads the file from remote location. Returns the local file path where it
 	 * got downloaded.
@@ -308,6 +327,36 @@ public abstract class AbstractRemoteMachineActionHandler implements RemoteMachin
 		return (absoluteLocalPath + File.separator + fileName);
 	}
 
+	public String downloadFileAsDifferentName(String absoluteRemoteFilePath, String absoluteLocalPath,
+			String newFileName) {
+		verifyConnection();
+
+		ChannelSftp channel = null;
+		try {
+			// channel type: shell, exec, sftp
+			channel = (ChannelSftp) ((Session) connection.getConnection()).openChannel("sftp");
+			channel.connect(10000);
+
+			File localPath = new File(absoluteLocalPath);
+			if (!localPath.exists()) {
+				localPath.mkdirs();
+			}
+
+			channel.get(absoluteRemoteFilePath, absoluteLocalPath + File.separator + newFileName);
+		} catch (Exception e) {
+			Assert.fail("Failed to download '" + absoluteRemoteFilePath + "' file to local location '"
+					+ absoluteLocalPath + "'. Reason: " + e.getMessage(), e);
+		} finally {
+			if (channel != null) {
+				try {
+					channel.disconnect();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return (absoluteLocalPath + File.separator + newFileName);
+	}
+
 	/**
 	 * Upload the file from local path to remote path. Returns the remote file path
 	 * where the file was uploaded.
@@ -341,6 +390,32 @@ public abstract class AbstractRemoteMachineActionHandler implements RemoteMachin
 		return (absoluteRemotePath + "/" + localFileName);
 	}
 
+	public String uploadFileAsDifferentName(String absoluteLocalPath, String localFileName, String absoluteRemotePath,
+			String newRemoteFileName) {
+		verifyConnection();
+
+		ChannelSftp channel = null;
+		try {
+			// channel type: shell, exec, sftp
+			channel = (ChannelSftp) ((Session) connection.getConnection()).openChannel("sftp");
+			channel.connect(10000);
+
+			channel.put(absoluteLocalPath + File.separator + localFileName,
+					absoluteRemotePath + "/" + newRemoteFileName);
+		} catch (Exception e) {
+			Assert.fail("Failed to upload '" + absoluteLocalPath + File.separator + localFileName
+					+ "' file at location '" + absoluteRemotePath + "'. Reason: " + e.getMessage(), e);
+		} finally {
+			if (channel != null) {
+				try {
+					channel.disconnect();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return (absoluteRemotePath + "/" + newRemoteFileName);
+	}
+
 	/**
 	 * Upload the local file on remote location. Returns the remote file path where
 	 * it got uploaded.
@@ -372,6 +447,32 @@ public abstract class AbstractRemoteMachineActionHandler implements RemoteMachin
 		}
 
 		return (absoluteRemotePath + "/" + new File(absoluteLocalFilePath).getName());
+	}
+
+	public String uploadFileAsDifferentName(String absoluteLocalFilePath, String absoluteRemotePath,
+			String newRemoteFileName) {
+		verifyConnection();
+
+		ChannelSftp channel = null;
+		try {
+			// channel type: shell, exec, sftp
+			channel = (ChannelSftp) ((Session) connection.getConnection()).openChannel("sftp");
+			channel.connect(10000);
+
+			channel.put(absoluteLocalFilePath, absoluteRemotePath + "/" + newRemoteFileName);
+		} catch (Exception e) {
+			Assert.fail("Failed to upload '" + absoluteLocalFilePath + "' file at location '" + absoluteRemotePath
+					+ "'. Reason: " + e.getMessage(), e);
+		} finally {
+			if (channel != null) {
+				try {
+					channel.disconnect();
+				} catch (Exception e2) {
+				}
+			}
+		}
+
+		return (absoluteRemotePath + "/" + newRemoteFileName);
 	}
 
 	private List<String> prepareFileList(String cmdOutput) {
