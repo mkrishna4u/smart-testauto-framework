@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uitnet.testing</groupId>
 	<artifactId>smart-testauto-framework</artifactId>
-	<version>5.0.4</version>
+	<version>5.1.0</version>
 	<packaging>jar</packaging>
 	<name>Smart Software Testing Automation Framework</name>
 	<description>Smart Software Testing Automation Framework is a tool used to automate the testing of software application. It includes the functionality i.e. Web UI Application Automation, Thick Client Automation, API Testing, Data Driven Testing etc.</description>
@@ -33,30 +33,30 @@
 	</scm>
 
 	<properties>
-		<testng.version>7.5</testng.version>
-		<selenium.version>4.2.2</selenium.version>
+		<testng.version>7.6.1</testng.version>
+		<selenium.version>4.3.0</selenium.version>
 		<appium-client.version>8.1.1</appium-client.version>
-		<cucumber.version>7.3.4</cucumber.version>
+		<cucumber.version>7.5.0</cucumber.version>
 		<sikulix.version>2.0.5</sikulix.version>
 		<slf4j.version>1.7.36</slf4j.version>
-		<log4j.version>2.17.2</log4j.version>
-		<hibernate.version>5.6.7.Final</hibernate.version>
+		<log4j.version>2.18.0</log4j.version>
+		<hibernate.version>5.6.10.Final</hibernate.version>
 		<apache-poi.version>5.2.2</apache-poi.version>
 		<commons-csv.version>1.9.0</commons-csv.version>
 		<jsch.version>0.1.55</jsch.version>
 		<json-path.version>2.7.0</json-path.version>
-		<jackson.version>2.13.2</jackson.version>
-		<okhttp.version>4.9.3</okhttp.version>
+		<jackson.version>2.13.3</jackson.version>
+		<okhttp.version>4.10.0</okhttp.version>
 		<tika.version>2.4.1</tika.version>
-		<netty.version>4.1.76.Final</netty.version>
+		<netty.version>4.1.79.Final</netty.version>
 		<guava.version>31.1-jre</guava.version>
 		<maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-		<maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
+		<maven-surefire-plugin.version>3.0.0.M7</maven-surefire-plugin.version>
+		<maven.resources.plugin.version>3.3.0</maven.resources.plugin.version>
 		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-		<maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
+		<maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
 		<maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
 	</properties>
 
