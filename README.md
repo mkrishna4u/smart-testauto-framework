@@ -1,4 +1,4 @@
-# Smart Software Testing Automation Framework (smart-testauto-framework)
+# Smart-STAF: Smart Software Testing Automation Framework (smart-testauto-framework)
 **Data driven End-to-End testing (UI, API, Database and Remote Machine Testing) is made easy. Develop testcases for one environment and run the same testcases on different environments.**
 
 **Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native app automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX**
