@@ -33,6 +33,9 @@ Using this software we can easily test the following functionality of the softwa
 22. Use **SmartRemoteMachineManager** class is used to talk to remote machines / servers using SSH to perform uploaded file verifications, execute remote command or download remote file etc.
 23. **Multiple environment support**, means same testcases can be executed on different environments like **development, acceptance, pre-production and different web browsers etc.** without changing the code. To do so create environment files in **test-config/apps-config/[app-name]/environments/** directory and also create the different **AppDriver-[env-name].yaml** (if using different app driver), different database profiles in **database-profiles/** (if different database connection required) and different **ApiConfig-[env-name].yaml** in **api-configs/** (if different parameters are used for different environment). During testcase execution time, specify the following system property in **mvn** command **"-Dapps.active.environment=[app-name1]:[environment-name],[app-name2]:[environment-name]"** to activate the environment for the applications configured in project.
 
+This is **Configuration Driven Testing (CDT)** framework. Sample configurations are present here that can be used under ./test-config directory to configuration your project environment: 
+https://github.com/mkrishna4u/smart-testauto-framework/tree/main/src/main/resources/sample-config
+
 ## Integrated software testing tools (High level)
 1. Cucumber
 2. Selenium
