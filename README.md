@@ -1,5 +1,5 @@
 # Smart Software Testing Automation Framework (smart-testauto-framework)
-**Data driven End-to-End testing (UI, API and Database Testing) is made easy. Develop testcases for one environment and run the same testcases on different environments.**
+**Data driven End-to-End testing (UI, API, Database and Remote Machine Testing) is made easy. Develop testcases for one environment and run the same testcases on different environments.**
 
 **Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native app automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX**
 
@@ -43,7 +43,7 @@ Using this software we can easily test the following functionality of the softwa
 7. Relational Database ORM tools
 8. Excel / CSV file reader tools
 9. Java / JDK: Minimum Version Required = 11
-10. Secured Shell
+10. Secured Shell (SSH/SFTP)
 11. Tesseract-OCR (Ref Link: https://tesseract-ocr.github.io/tessdoc/) - Must be installed separately and environment PATH variable must have the path of this installed directory to perform image, audio and video file content matching. **FileContentsValidator** class will only work along with Tesseract-OCR. 
  
 This framework removes the complexity of all other software tools and provides a **Single Homogeneous Platform** for testing automation. Using that you can automate any app on any platform.
