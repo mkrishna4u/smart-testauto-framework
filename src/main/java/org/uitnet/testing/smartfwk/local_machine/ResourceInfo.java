@@ -15,42 +15,41 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.config;
-
-import org.testng.Assert;
+package org.uitnet.testing.smartfwk.local_machine;
 
 /**
- * Test Platform Type on which testing automation can be performed.
  * 
  * @author Madhav Krishna
  *
  */
-public enum PlatformType {
-	unknown("unknown"), windows("windows"), linux("linux"), mac("mac"), android_mobile("android-mobile"),
-	ios_mobile("ios-mobile");
-
-	private String type;
-
-	private PlatformType(String type) {
+public class ResourceInfo {
+	private String name;
+	private ResourceType type;
+	
+	public ResourceInfo(String name, ResourceType type) {
+		this.name = name;
 		this.type = type;
 	}
 
-	public String getType() {
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public ResourceType getType() {
 		return type;
 	}
 
-	public static PlatformType valueOf2(String type) {
-		for (PlatformType t : values()) {
-			if (t.getType().equals(type)) {
-				return t;
-			}
-		}
-		Assert.fail("Platform type '" + type + "' is not supported.");
-		return null;
+	public void setType(ResourceType type) {
+		this.type = type;
 	}
 	
 	@Override
 	public String toString() {
-		return type;
+		
+		return type.name() + ":" + name;
 	}
 }

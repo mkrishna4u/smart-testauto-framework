@@ -48,4 +48,9 @@ public enum WebBrowserType {
 		Assert.fail("Web Browser Type '" + strType + "' is not supported.");
 		return null;
 	}
+	
+	@Override
+	public String toString() {
+		return type;
+	}
 }

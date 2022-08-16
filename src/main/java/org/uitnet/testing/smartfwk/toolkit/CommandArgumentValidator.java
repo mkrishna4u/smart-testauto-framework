@@ -15,27 +15,14 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.cmd;
+package org.uitnet.testing.smartfwk.toolkit;
 
 /**
- * This is a command line utility using that we can do the following operations:
- * 1. Add application to the project.
- * 2. Remove application.
- * 3. Create new test environment.
- * 4. Add user profile in application.
- * 5. Remove user profile from application.
- * 8. Add step definition file for UI Test Cases.
- * 9. Add step definition file for Api Test Cases.
- * 10. Add page object file to define page objects for UI operations.
- * 11. Create DB profile (relational database) for application.
- * 12. Remove DB profile.
- * 
+ *
  * @author Madhav Krishna
  *
  */
-public class SmartTestingConfigurer {
+public interface CommandArgumentValidator {
 
-	public static void main(String[] args) {
-		
-	}
+	void validate(String option, CommandArgument arg, String argValue);
 }

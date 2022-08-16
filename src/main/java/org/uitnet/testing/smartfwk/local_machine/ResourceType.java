@@ -15,13 +15,13 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.cmd;
+package org.uitnet.testing.smartfwk.local_machine;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public enum ConfigCommandOptions {
-	
+public enum ResourceType {
+	FILE, DIRECTORY
 }

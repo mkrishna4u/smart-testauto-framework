@@ -42,3 +42,6 @@ userProfileNames: SampleUserProfile-TestEnv
 
 # Comma separated database profile names
 dbProfileNames: sample-db-TestEnv
+
+# RemoteMachinesConfig file name
+remoteMachinesConfigFileName: RemoteMachinesConfig-TestEnv.yaml

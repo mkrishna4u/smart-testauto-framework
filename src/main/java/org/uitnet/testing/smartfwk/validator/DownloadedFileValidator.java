@@ -23,6 +23,7 @@ import static org.testng.Assert.fail;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.support.HttpResponse;
@@ -44,6 +45,25 @@ public class DownloadedFileValidator {
 		return TestConfigManager.getInstance().getDownloadLocation();
 	}
 
+	public static void validateBrowserFileDownloaded(String expectedStartsWithText, String expectedFileExtension, 
+			boolean deleteLatestFilteredFileAfterValidation, int numIterationsToLocateFile) {
+		for (int i = 0; i <= numIterationsToLocateFile; i++) {
+			try {
+				
+				validateBrowserFileDownloaded(expectedStartsWithText, expectedFileExtension, deleteLatestFilteredFileAfterValidation);
+				break;
+			} catch(Exception | Error ex) {
+				if (i == numIterationsToLocateFile) {
+					break;
+				}
+			}
+			
+			try {
+				TimeUnit.SECONDS.sleep(2);
+			}catch(Exception ex1) {}
+		}
+	}
+	
 	public static void validateBrowserFileDownloaded(String expectedStartsWithText, String expectedFileExtension, boolean deleteLatestFilteredFileAfterValidation) {
 		TreeMap<Long, String> filteredFiles = new TreeMap<>();
 		try {
@@ -69,6 +89,25 @@ public class DownloadedFileValidator {
 	}
 
 	public static void validateFileDownloaded(String expectedFileName, HttpResponse httpResponse,
+			TextMatchMechanism fileNameMatchMechanism, boolean deleteAfterValidation, int numIterationsToLocateFile) {
+		for (int i = 0; i <= numIterationsToLocateFile; i++) {
+			try {
+				
+				validateFileDownloaded(expectedFileName, httpResponse, fileNameMatchMechanism, deleteAfterValidation);	
+				break;
+			} catch(Exception | Error ex) {
+				if (i == numIterationsToLocateFile) {
+					break;
+				}
+			}
+			
+			try {
+				TimeUnit.SECONDS.sleep(2);
+			}catch(Exception ex1) {}
+		}
+	}
+	
+	public static void validateFileDownloaded(String expectedFileName, HttpResponse httpResponse,
 			TextMatchMechanism fileNameMatchMechanism, boolean deleteAfterValidation) {
 		assertNotNull(httpResponse, "HTTP response should not be null.");
 		if(httpResponse.getPayloadType() == null || httpResponse.getPayloadType() != PayloadType.FILE) {
@@ -80,8 +119,27 @@ public class DownloadedFileValidator {
 	}
 
 	public static void validateFileDownloaded(String expectedFileName, String actualFileName,
+			String actualFileAbsolutePath, TextMatchMechanism fileNameMatchMechanism, boolean deleteAfterValidation, int numIterationsToLocateFile) {
+		for (int i = 0; i <= numIterationsToLocateFile; i++) {
+			try {
+				
+				validateFileDownloaded(expectedFileName, actualFileName, actualFileAbsolutePath, fileNameMatchMechanism, deleteAfterValidation);	
+				break;
+			} catch(Exception | Error ex) {
+				if (i == numIterationsToLocateFile) {
+					break;
+				}
+			}
+			
+			try {
+				TimeUnit.SECONDS.sleep(2);
+			}catch(Exception ex1) {}
+		}
+	}
+	
+	public static void validateFileDownloaded(String expectedFileName, String actualFileName,
 			String actualFileAbsolutePath, TextMatchMechanism fileNameMatchMechanism, boolean deleteAfterValidation) {
-		TextMatchMechanism fnMatchMech = null;
+		TextMatchMechanism fnMatchMech = fileNameMatchMechanism;
 		if (fileNameMatchMechanism == null) {
 			fnMatchMech = TextMatchMechanism.exactMatchWithExpectedValue;
 		}

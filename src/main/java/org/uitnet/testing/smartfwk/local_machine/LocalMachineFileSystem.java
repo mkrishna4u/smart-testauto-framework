@@ -18,12 +18,22 @@
 package org.uitnet.testing.smartfwk.local_machine;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Stream;
 
 import org.testng.Assert;
@@ -140,5 +150,158 @@ public class LocalMachineFileSystem {
 			return filePath.substring(0, lastIndex);
 		}
 		return null;
+	}
+
+	public static void createDirectoriesIfNotExist(String absoluteDirectoryPath) {
+		try {
+			if (absoluteDirectoryPath != null) {
+				if (!new File(absoluteDirectoryPath).exists()) {
+					Files.createDirectories(Path.of(absoluteDirectoryPath));
+				}
+			}
+		} catch (Exception e) {
+			Assert.fail("Failed to create '" + absoluteDirectoryPath + "' directory. Reason: " + e.getMessage(), e);
+		}
+	}
+	
+	public static void copyFileNoOverwrite(String filePath, String absoluteLocalPath,
+			String newfileName) {
+
+		try (InputStream resIS = new FileInputStream(new File(filePath))) {
+			createDirectoriesIfNotExist(absoluteLocalPath);
+			String file = absoluteLocalPath + File.separator + newfileName;
+			if (!new File(file).exists()) {
+				Files.copy(resIS, Path.of(file), StandardCopyOption.REPLACE_EXISTING);
+			}
+		} catch (Exception e) {
+			Assert.fail("Failed to copy '" + filePath + "' file on '" + absoluteLocalPath
+					+ "' location. Reason: " + e.getMessage(), e);
+		}
+	}
+	
+	public static void copyDirectoryRecursively(String directory, String targetDir, boolean shouldBackupOldFiles) {
+		try {
+			if(directory == null) { return; }
+			String[] files2 = new File(directory).list();
+			
+			Set<String> filesSet = new TreeSet<>();
+			if(files2 != null) {
+				for(String f : files2) {
+					filesSet.add(directory + File.separator + f);
+				}
+			}
+			
+			System.out.println(filesSet);
+			
+			if(filesSet.size() > 0) {
+				createDirectoriesIfNotExist(targetDir);
+			}
+			
+			File file1;
+			for(String filePath : filesSet) {
+				file1 = new File(filePath);
+				if(file1.isDirectory()) {
+					copyDirectoryRecursively(directory + "/" + file1.getName(), targetDir+ "/" + file1.getName(), shouldBackupOldFiles);
+				} else {
+					if(shouldBackupOldFiles) {
+						backupFileIfExists(targetDir, file1.getName());
+					}
+					copyFileNoOverwrite(directory + "/" + file1.getName() , targetDir, file1.getName());
+				}
+			}
+			
+		} catch (Exception e) {
+			Assert.fail("Failed to copy resources from '" + directory + "' location to new location '" + targetDir + "'. Reason: " + e.getMessage(), e);
+		}
+	}
+	
+	public static void replaceTextInFile(String absoluteFilePath, String textOrRegEx, String newText) {
+		try {
+			Path path = Paths.get(absoluteFilePath);
+			Charset charset = StandardCharsets.UTF_8;
+	
+			String content = new String(Files.readAllBytes(path), charset);
+			content = content.replace(textOrRegEx, newText);
+			Files.write(path, content.getBytes(charset));
+		}catch(Exception ex) {
+			Assert.fail("Failed to replace text in '" + absoluteFilePath + "' file.", ex);
+		}
+	}
+	
+	public static void backupFileIfExists(String path, String fileName) {
+		File f = new File(path + File.separator + fileName);
+		if(f.exists()) {
+			SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyyHHmmss");
+			String timestamp = sdf.format(Calendar.getInstance().getTime());
+			String backupFileName = path + File.separator + fileName + "." + timestamp + ".bak";
+			f.renameTo(new File(backupFileName));
+		}
+	}
+
+	public static void copyClassResoucesNoOverwrite(String classResourceFilePath, String absoluteLocalPath,
+			String newfileName) {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+		try (InputStream resIS = classLoader.getResourceAsStream(classResourceFilePath)) {
+			createDirectoriesIfNotExist(absoluteLocalPath);
+			String file = absoluteLocalPath + File.separator + newfileName;
+			if (!new File(file).exists()) {
+				Files.copy(resIS, Path.of(file), StandardCopyOption.REPLACE_EXISTING);
+			}
+		} catch (Exception e) {
+			Assert.fail("Failed to copy '" + classResourceFilePath + "' file on '" + absoluteLocalPath
+					+ "' location. Reason: " + e.getMessage(), e);
+		}
+	}
+
+	public static List<ResourceInfo> listClassResources(String classResourceDirectory) {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		List<ResourceInfo> fileNames = new LinkedList<>();
+		try {
+			URL resource = classLoader.getResource(classResourceDirectory);
+			if(resource == null) { return fileNames; }
+			File file = new File(resource.toURI());
+			File[] files = file.listFiles();
+			
+			for(File file1 : files) {
+				if(file1.isDirectory()) {
+					fileNames.add(new ResourceInfo(file1.getName(), ResourceType.DIRECTORY));
+				} else {
+					fileNames.add(new ResourceInfo(file1.getName(), ResourceType.FILE));
+				}
+			}
+			
+		} catch (Exception e) {
+			Assert.fail("Failed to find resources at resource location '" + classResourceDirectory + "'. Reason: " + e.getMessage(), e);
+		}
+		
+		return fileNames;
+	}
+	
+	public static void copyResourcesRecursively(String resourceDir, String targetDir, boolean shouldBackupOldFiles) {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		try {
+			URL resource = classLoader.getResource(resourceDir);
+			if(resource == null) { return; }
+			File file = new File(resource.toURI());
+			File[] files = file.listFiles();
+			if(files != null && files.length > 0) {
+				createDirectoriesIfNotExist(targetDir);
+			}
+			
+			for(File file1 : files) {
+				if(file1.isDirectory()) {
+					copyResourcesRecursively(resourceDir + "/" + file1.getName(), targetDir+ "/" + file1.getName(), shouldBackupOldFiles);
+				} else {
+					if(shouldBackupOldFiles) {
+						backupFileIfExists(targetDir, file1.getName());
+					}
+					copyClassResoucesNoOverwrite(resourceDir + "/" + file1.getName() , targetDir, file1.getName());
+				}
+			}
+			
+		} catch (Exception e) {
+			Assert.fail("Failed to copy resources from '" + resourceDir + "' location to new location '" + targetDir + "'. Reason: " + e.getMessage(), e);
+		}
 	}
 }
