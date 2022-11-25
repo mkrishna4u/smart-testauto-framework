@@ -10,6 +10,7 @@ Please refer the link below to understand STAS tool functionality and how to use
 
 ![STAS Architecture](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-architecture.jpg "STAS Architecture") 
 
+
 # STAS Connectivity
 ![STAS Connectivity](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-connectivity.jpg "STAS Connectivity") 
 
