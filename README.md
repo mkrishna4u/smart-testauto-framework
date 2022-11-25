@@ -8,6 +8,12 @@ Please refer the link below to understand STAS tool functionality and how to use
 
 [https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf "STAS Tool - Test Developer's Guide") 
 
+![STAS Architecture](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-architecture.jpg "STAS Architecture") 
+
+# STAS Connectivity
+![STAS Connectivity](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-connectivity.jpg "STAS Connectivity") 
+
+# High Level Description
 This is a software testing automation framework / tool that can be used to smartly test any type of application softwares (i.e. Web Applications, Native Applications, REST Server) that utilize the functionality of the following Java based software testing automation tools: Cucumber, Selenium, SikulliX, Appium etc. It supports **LOW CODE** strategy for easy maintenance of steps definitions and standardizing the way of configuring application data, writing the test scenarios and step definitions.
 
 This tool supports the **real environment** for software testing (Similar way our manual tester performs software testing like data preparation, run test cases (data-driven), data verification and generate reports etc.). Here using this tool we can automate data preparation, test cases execution, data verification and report generation easily.
@@ -41,9 +47,6 @@ Using this software we can easily test the following functionality of the softwa
 
 This is also a **Configuration Driven Testing (CDT)** framework. Sample configurations are present here that can be used under ./test-config directory to configuration your project environment: 
 https://github.com/mkrishna4u/smart-testauto-framework/tree/main/src/main/resources/sample-config
-
-# STAS Connectivity
-![STAS Connectivity](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-architecture.png "STAS Connectivity") 
 
 ## Integrated software testing tools (High level)
 1. Cucumber
@@ -81,8 +84,9 @@ This framework removes the complexity of all other software tools and provides a
 7.  Custom Webdriver (Remote Web driver)
 8.  Not Applicable: This is set for native applications.
 
-# How to start with this framework
-To start with this framework is as easy as could be. 
+
+# How to start with this framework tool
+To start with this framework / STAS tool is as easy as could be. 
 
 Please refer the link below to understand STAS tool functionality and how to use it:
 
