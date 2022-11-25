@@ -17,6 +17,9 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +27,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
+import org.uitnet.testing.smartfwk.core.validator.ExpectedInfo;
+import org.uitnet.testing.smartfwk.core.validator.InputValue;
+import org.uitnet.testing.smartfwk.core.validator.InputValueType;
+import org.uitnet.testing.smartfwk.core.validator.ParamPath;
+import org.uitnet.testing.smartfwk.core.validator.ParamValue;
+import org.uitnet.testing.smartfwk.core.validator.ParamValueType;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
@@ -175,4 +185,277 @@ public class JsonYamlUtil {
 		return mapper.writeValueAsString(obj);
 	}
 
+	/**
+	 * Read the values at JSON path in the given JSON document.
+	 * 
+	 * @param jsonPath   - path for which values to be read.
+	 * @param valueType  - type of values at the specified JSON path. If value type
+	 *                   is empty then it will read as String value.
+	 * @param jsonDocCtx - JSON document from where the value to be read.
+	 * @return the values based on valueType.
+	 */
+	public static Object readJsonPath(String jsonPath, ParamValueType valueType, DocumentContext jsonDocCtx) {
+		assertNotNull(jsonDocCtx, "JSON document cannot be null.");
+		if (valueType == null) {
+			valueType = ParamValueType.STRING;
+		}
+
+		switch (valueType) {
+		case STRING: {
+			return jsonDocCtx.read(jsonPath, String.class);
+		}
+		case STRING_LIST: {
+			return jsonDocCtx.read(jsonPath, new TypeRef<List<String>>() {
+			});
+		}
+		case INTEGER: {
+			return jsonDocCtx.read(jsonPath, Long.class);
+		}
+		case INTEGER_LIST: {
+			return jsonDocCtx.read(jsonPath, new TypeRef<List<Long>>() {
+			});
+		}
+		case DECIMAL: {
+			return jsonDocCtx.read(jsonPath, Double.class);
+		}
+		case DECIMAL_LIST: {
+			return jsonDocCtx.read(jsonPath, new TypeRef<List<Double>>() {
+			});
+		}
+		case BOOLEAN: {
+			return jsonDocCtx.read(jsonPath, Boolean.class);
+		}
+		case BOOLEAN_LIST: {
+			return jsonDocCtx.read(jsonPath, new TypeRef<List<Boolean>>() {
+			});
+		}
+		default:
+			fail("'" + valueType + "' value type is not supported.");
+		}
+
+		return null;
+	}
+	
+	public static ParamPath parseParamPath(String paramPath) {
+		assertNotNull(paramPath, "Parameter path cannot be null.");
+		paramPath = paramPath.trim();
+		ParamPath p = null;
+		if(paramPath.startsWith("{") && paramPath.endsWith("}")) {
+			JsonDocumentReader r = new JsonDocumentReader(paramPath, false);
+			p = r.readValueAsObject("$", ParamPath.class);
+		} else {
+			p = new ParamPath();
+			p.setPath(paramPath);
+			p.setValueType("string");
+		}
+		
+		return p;
+	}
+	
+	public static ExpectedInfo parseExpectedInfo(String expectedInfo) {
+		ExpectedInfo expInfo = null;
+		if(StringUtil.isEmptyAfterTrim(expectedInfo)) {
+			expInfo = new ExpectedInfo();
+			expInfo.setEv("");
+			expInfo.setValueType("string");
+			return expInfo;
+		} 
+		
+		expectedInfo = expectedInfo.trim();
+		
+		if(expectedInfo.startsWith("{") && expectedInfo.endsWith("}")) {
+			JsonDocumentReader r = new JsonDocumentReader(expectedInfo, false);
+			expInfo = r.readValueAsObject("$", ExpectedInfo.class);
+			return expInfo;
+		} else {
+			expInfo = new ExpectedInfo();
+			if("null".equalsIgnoreCase(expectedInfo)) {
+				expInfo.setEv(null);
+			} else {
+				expInfo.setEv(expectedInfo);
+			}
+			
+			expInfo.setValueType("string");
+			return expInfo;
+		}
+		
+	}
+	
+	public static InputValue parseInputValue(String inputValue) {
+		InputValue inputV = null;
+		if(StringUtil.isEmptyAfterTrim(inputValue)) {
+			inputV = new InputValue();
+			inputV.setValue("");
+			inputV.setValueType("string");
+			return inputV;
+		} 
+		
+		inputValue = inputValue.trim();
+		
+		if(inputValue.startsWith("{") && inputValue.endsWith("}")) {
+			JsonDocumentReader r = new JsonDocumentReader(inputValue, false);
+			inputV = r.readValueAsObject("$", InputValue.class);
+			if(inputV.getValueType() == null) {
+				inputV.setValueType(InputValueType.STRING.getType());
+			}
+			
+			return inputV;
+		} else {
+			inputV = new InputValue();
+			if("null".equalsIgnoreCase(inputValue)) {
+				inputV.setValue(null);
+			} else {
+				inputV.setValue(inputValue);
+			}
+			
+			inputV.setValueType(InputValueType.STRING.getType());
+			return inputV;
+		}
+		
+	}
+	
+	public static Object convertTextToTypedValue(String paramName, ParamValueType valueType, String text) {
+		if (valueType == null) {
+			valueType = ParamValueType.STRING;
+		}
+		
+		if(text == null) {
+			return null;
+		}
+		
+		text = text.trim();
+		boolean isJsonData = false;
+		boolean isListData = false;
+		if(text.startsWith("{") && text.endsWith("}")) {
+			isJsonData = true;
+		} else if(text.startsWith("[") && text.endsWith("]")) {
+			isListData = true;
+		}
+
+		switch (valueType) {
+		case STRING: {
+			if(isJsonData) {
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				ParamValue pv = reader.readValueAsObject("$", ParamValue.class);
+				return ((pv == null) ?  null :  "" + pv.getV());
+			} else {
+				return text;
+			}
+		}
+		case STRING_LIST: {
+			if(isJsonData) {
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				ParamValue pv = reader.readValueAsObject("$", ParamValue.class);
+				if(pv.getV() != null && !(pv.getV() instanceof List)) {
+					Assert.fail("Found non-list data: '" + text + "'.");
+				}
+				return ((pv == null) ?  null : pv.getV());
+			} else if(isListData) { 
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				List<String> pv = reader.readValuesAsList("$");
+				return pv;
+			} else {
+				Assert.fail("Found non-list data: '" + text + "'.");
+				return text;
+			}
+		}
+		case INTEGER: {
+			if(isJsonData) {
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				ParamValue pv = reader.readValueAsObject("$", ParamValue.class);
+				return ((pv == null) ?  null : Long.parseLong("" + pv.getV()));
+			} else {
+				try {
+					return Long.parseLong(text);
+				} catch(Exception ex) {
+					Assert.fail("Found non-numeric data: '" + text + "'.");
+				}
+				return null;
+			}
+		}
+		case INTEGER_LIST: {
+			if(isJsonData) {
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				ParamValue pv = reader.readValueAsObject("$", ParamValue.class);
+				if(pv.getV() != null && !(pv.getV() instanceof List)) {
+					Assert.fail("Found non-list data: '" + text + "'.");
+				}
+				return ((pv == null) ?  null : Long.parseLong("" + pv.getV()));
+			} else if(isListData) { 
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				List<Integer> pv = reader.readValuesAsList("$");
+				return pv;
+			} else {
+				Assert.fail("Found non-list data: '" + text + "'.");
+				return null;
+			}
+		}
+		case DECIMAL: {
+			if(isJsonData) {
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				ParamValue pv = reader.readValueAsObject("$", ParamValue.class);
+				return ((pv == null) ?  null : Double.parseDouble("" + pv.getV()));
+			} else {
+				try {
+					return Double.parseDouble(text);
+				} catch(Exception ex) {
+					Assert.fail("Found non-numeric data: '" + text + "'.");
+				}
+				return null;
+			}
+		}
+		case DECIMAL_LIST: {
+			if(isJsonData) {
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				ParamValue pv = reader.readValueAsObject("$", ParamValue.class);
+				if(pv.getV() != null && !(pv.getV() instanceof List)) {
+					Assert.fail("Found non-list data: '" + text + "'.");
+				}
+				return ((pv == null) ?  null :  Double.parseDouble("" + pv.getV()));
+			} else if(isListData) { 
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				List<Integer> pv = reader.readValuesAsList("$");
+				return pv;
+			} else {
+				Assert.fail("Found non-list data: '" + text + "'.");
+				return null;
+			}
+		}
+		case BOOLEAN: {
+			if(isJsonData) {
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				ParamValue pv = reader.readValueAsObject("$", ParamValue.class);
+				return ((pv == null) ?  null : Boolean.parseBoolean("" + pv.getV()));
+			} else {
+				try {
+					return Boolean.parseBoolean(text);
+				} catch(Exception ex) {
+					Assert.fail("Found non-boolean data: '" + text + "'. Value must be either true or false.");
+				}
+				return null;
+			}
+		}
+		case BOOLEAN_LIST: {
+			if(isJsonData) {
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				ParamValue pv = reader.readValueAsObject("$", ParamValue.class);
+				if(pv.getV() != null && !(pv.getV() instanceof List)) {
+					Assert.fail("Found non-list data: '" + text + "'.");
+				}
+				return ((pv == null) ?  null : pv.getV());
+			} else if(isListData) { 
+				JsonDocumentReader reader = new JsonDocumentReader(text, false);
+				List<Integer> pv = reader.readValuesAsList("$");
+				return pv;
+			} else {
+				Assert.fail("Found non-list data: '" + text + "'.");
+				return null;
+			}
+		}
+		default:
+			fail("'" + valueType + "' value type is not supported.");
+		}
+
+		return null;
+	}
 }

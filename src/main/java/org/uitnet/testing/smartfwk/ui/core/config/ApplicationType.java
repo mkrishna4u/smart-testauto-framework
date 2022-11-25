@@ -54,7 +54,7 @@ public enum ApplicationType {
 
 	public static ApplicationType valueOf2(String type) {
 		for (ApplicationType t : values()) {
-			if (t.getType().equals(type)) {
+			if (t.getType().equalsIgnoreCase(type)) {
 				return t;
 			}
 		}

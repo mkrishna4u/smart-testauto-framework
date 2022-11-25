@@ -91,6 +91,12 @@ public class ButtonValidatorSD extends ButtonValidator {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public ButtonValidatorSD forceClick(int maxIterationsToLocateElements) {
+		domObjValidator.forceClick(maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public ButtonValidatorSD doubleClick(int maxIterationsToLocateElements) {
@@ -113,6 +119,12 @@ public class ButtonValidatorSD extends ButtonValidator {
 	@Override
 	public ButtonValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
+	}
+	
+	@Override
+	public ButtonValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 

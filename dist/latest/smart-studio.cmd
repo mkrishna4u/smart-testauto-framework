@@ -1,1 +1,0 @@
-cls && mvn compile exec:java -Dexec.mainClass="org.uitnet.testing.smartfwk.toolkit.SmartToolkit" -Dexec.args="%*"

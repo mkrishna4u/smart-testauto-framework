@@ -104,6 +104,10 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		return session;
 	}
+	
+	public HttpSession getSession() {
+		return session;
+	}
 
 	protected void authenticate(String profileName) {
 		if (apiTestManager != null) {
@@ -162,6 +166,45 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		}
 
 		return prepareResponse(client, requestBuilder, responseContentType != null, targetURL);
+	}
+	
+	public HttpResponse httpHead(String relativeUrl, Integer connectTimeoutInSeconds,
+			Integer readTimeoutInSeconds) {
+		OkHttpClient client = new OkHttpClient.Builder()
+				.readTimeout(readTimeoutInSeconds == null ? 60 : readTimeoutInSeconds, TimeUnit.SECONDS)
+				.connectTimeout(connectTimeoutInSeconds == null ? 30 : connectTimeoutInSeconds, TimeUnit.SECONDS)
+				.build();
+
+		String targetURL = baseURL + "/" + relativeUrl;
+		okhttp3.Request.Builder requestBuilder = new Request.Builder().head().url(targetURL);
+
+		// Add headers
+		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
+			for (Map.Entry<String, String> kv : session.getParams().entrySet()) {
+				requestBuilder.addHeader(kv.getKey(), kv.getValue());
+			}
+		}
+
+		// Add cookies
+		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
+			String cookie = null;
+			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
+				if (cookie == null) {
+					cookie = kv.getKey() + "=" + kv.getValue();
+				} else {
+					cookie = kv + ";" + kv.getKey() + "=" + kv.getValue();
+				}
+			}
+
+			if (cookie != null) {
+				requestBuilder.addHeader("Cookie", cookie);
+			}
+		}
+
+		requestBuilder.removeHeader("Content-Type");
+		requestBuilder.removeHeader("Accept");
+		
+		return prepareResponse(client, requestBuilder, false, targetURL);
 	}
 
 	public HttpResponse httpDelete(String relativeUrl, String responseContentType, Integer connectTimeoutInSeconds,
@@ -245,7 +288,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 			}
 		}
 
-		if (request.getResponseContentType() == null || "".equals(request.getResponseContentType().trim())) {
+		if (StringUtil.isEmptyAfterTrim(request.getResponseContentType().trim())) {
 			requestBuilder.removeHeader("Accept");
 		} else {
 			requestBuilder.addHeader("Accept", request.getResponseContentType());
@@ -292,7 +335,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 			}
 		}
 
-		if (request.getResponseContentType() == null || "".equals(request.getResponseContentType().trim())) {
+		if (StringUtil.isEmptyAfterTrim(request.getResponseContentType().trim())) {
 			requestBuilder.removeHeader("Accept");
 		} else {
 			requestBuilder.addHeader("Accept", request.getResponseContentType());
@@ -312,10 +355,19 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		for (MultipartData part : request.getParts()) {
 			if (part.getContentType() == null) {
-				multipartBodyBuilder.addFormDataPart(part.getName(), part.getFileName());
+				if(part.getFileContents() != null) {
+					multipartBodyBuilder.addFormDataPart(part.getName(), part.getFileName());
+				} else {
+					multipartBodyBuilder.addPart(RequestBody.create(part.getFileContents()));
+				}
 			} else {
-				multipartBodyBuilder.addFormDataPart(part.getName(), part.getFileName(),
+				if(part.getFileContents() != null) {
+					multipartBodyBuilder.addFormDataPart(part.getName(), part.getFileName(),
 						RequestBody.create(new File(part.getFilePath()), MediaType.parse(part.getContentType())));
+				} else {
+					RequestBody body = RequestBody.create(part.getFileContents(), MediaType.parse(part.getContentType()));
+					multipartBodyBuilder.addFormDataPart(part.getName(), part.getFileName(), body);
+				}
 			}
 		}
 
@@ -346,7 +398,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 			}
 		}
 
-		if (request.getResponseContentType() == null || "".equals(request.getResponseContentType().trim())) {
+		if (StringUtil.isEmptyAfterTrim(request.getResponseContentType().trim())) {
 			requestBuilder.removeHeader("Accept");
 		} else {
 			requestBuilder.addHeader("Accept", request.getResponseContentType());

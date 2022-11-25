@@ -20,6 +20,7 @@ package org.uitnet.testing.smartfwk.remote_machine;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.config.ProxyConfiguration;
 
 /**
@@ -31,6 +32,10 @@ public class RemoteMachineConfig {
 	private String name;	
 	private String hostNameOrIpAddress;
 	private int port;
+	/**
+	 * For valid value, please refer 
+	 */
+	private String platformType = PlatformType.linux.getType();
 	
 	private String actionHandlerClass;
 	private Integer sessionExpiryDurationInSeconds;
@@ -73,6 +78,14 @@ public class RemoteMachineConfig {
 
 	public void setPort(int port) {
 		this.port = port;
+	}
+
+	public String getPlatformType() {
+		return platformType;
+	}
+
+	public void setPlatformType(String platformType) {
+		this.platformType = PlatformType.valueOf2(platformType).getType();
 	}
 
 	public String getActionHandlerClass() {

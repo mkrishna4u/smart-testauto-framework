@@ -90,6 +90,11 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public ComboBoxValidatorSI forceClick(int maxIterationsToLocateElements) {
+		return click(maxIterationsToLocateElements);
+	}
 
 	public ComboBoxValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
@@ -161,6 +166,17 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on ComboBox '" + comboBoxObj.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
+	
+	@Override
+	public ComboBoxValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
+		try {
+			Match match = findElement(maxIterationsToLocateElements);
+			match.mouseMove();
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse hoverover on ComboBox '" + comboBoxObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
@@ -618,6 +634,58 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	@Override
 	public ComboBoxValidatorSI validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabledButNotReadonly() API is not supported by ComboBox component.");
+		return this;
+	}
+
+	@Override
+	public ComboBoxValidatorSI selectAllItems(int maxIterationsToLocateElements) {
+		Assert.fail("selectAllItems() API is not supported by ComboBox component.");
+		return this;
+	}
+
+	@Override
+	public ComboBoxValidatorSI deselectItem(String itemName, int maxIterationsToLocateElements) {
+		Assert.fail("deselectItem() API is not supported by ComboBox component.");
+		return this;
+	}
+
+	@Override
+	public ComboBoxValidatorSI deselectAllItems(int maxIterationsToLocateElements) {
+		Assert.fail("deselectAllItems() API is not supported by ComboBox component.");
+		return this;
+	}
+
+	@Override
+	public ComboBoxValidatorSI deselectItems(ItemList<String> itemsToBeDeselected, int maxIterationsToLocateElements) {
+		Assert.fail("deselectItems() API is not supported by ComboBox component.");
+		return this;
+	}
+
+	@Override
+	public ComboBoxValidatorSI selectItem(String itemName, TextMatchMechanism textMatchMechanism,
+			int maxIterationsToLocateElements) {
+		Assert.fail("selectItem() API is not supported by ComboBox component.");
+		return this;
+	}
+
+	@Override
+	public ComboBoxValidatorSI selectItems(ItemList<String> itemsToBeSelected, TextMatchMechanism textMatchMechanism,
+			int maxIterationsToLocateElements) {
+		Assert.fail("selectItems() API is not supported by ComboBox component.");
+		return this;
+	}
+
+	@Override
+	public ComboBoxValidatorSI deselectItem(String itemName, TextMatchMechanism textMatchMechanism,
+			int maxIterationsToLocateElements) {
+		Assert.fail("deselectItem() API is not supported by ComboBox component.");
+		return this;
+	}
+
+	@Override
+	public ComboBoxValidatorSI deselectItems(ItemList<String> itemsToBeDeselected, TextMatchMechanism textMatchMechanism,
+			int maxIterationsToLocateElements) {
+		Assert.fail("deselectItems() API is not supported by ComboBox component.");
 		return this;
 	}
 }

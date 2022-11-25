@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.combobox;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
+import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -36,5 +36,5 @@ public abstract class ComboBox extends UIObject {
 
 	public abstract ComboBoxValidator getValidator(SmartAppDriver appDriver, Region region);
 	
-	public abstract ComboBoxValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region);
+	public abstract ComboBoxValidator getValidator(SmartCucumberScenarioContext scenarioContext, Region region);
 }

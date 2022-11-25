@@ -49,7 +49,7 @@ public class EnvironmentConfig {
 		Assert.assertTrue(new File(activeEnvConfigPath).exists(),
 				"Missing '" + activeEnvConfigPath + "' environment file in '" + appName + "' application.");
 		try {
-			YamlDocumentReader reader = new YamlDocumentReader(new File(activeEnvConfigPath));
+			YamlDocumentReader reader = new YamlDocumentReader(new File(activeEnvConfigPath), true);
 			docContext = reader.getDocumentContext();
 		} catch (Exception ex) {
 			Assert.fail("Failed to read property file - " + activeEnvConfigPath + ". Going to exit...", ex);

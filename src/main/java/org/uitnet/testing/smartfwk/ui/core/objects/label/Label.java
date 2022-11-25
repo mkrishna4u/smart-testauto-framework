@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.label;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
+import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -36,5 +36,5 @@ public abstract class Label extends UIObject {
 
 	public abstract LabelValidator getValidator(SmartAppDriver appDriver, Region region);
 
-	public abstract LabelValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region);
+	public abstract LabelValidator getValidator(SmartCucumberScenarioContext scenarioContext, Region region);
 }

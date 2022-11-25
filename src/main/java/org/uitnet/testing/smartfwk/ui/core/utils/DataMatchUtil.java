@@ -29,46 +29,95 @@ public class DataMatchUtil {
 
 	public static boolean matchTextValue(String actualValue, String expectedValue,
 			TextMatchMechanism validationMechanism) {
-		boolean matched = false;
+		return indexOfExpectedValue(actualValue, expectedValue, validationMechanism) >= 0;
+	}
+	
+	/**
+	 * Matches the expected values with actual value and returns the index of expected values in actual value.
+	 * @param actualValue
+	 * @param expectedValue
+	 * @param validationMechanism
+	 * @return returns the index of expected values in actual value. -1 is returned when value is not matched.
+	 */
+	public static int indexOfExpectedValue(String actualValue, String expectedValue,
+			TextMatchMechanism validationMechanism) {
+		
+		if(validationMechanism == null) {
+			validationMechanism = TextMatchMechanism.exactMatchWithExpectedValue;
+		}
+		
+		int index = -1;
 
+		if (actualValue == null && expectedValue == null &&
+				(validationMechanism == TextMatchMechanism.exactMatchWithExpectedValue ||
+				validationMechanism == TextMatchMechanism.icExactMatchWithExpectedValue ||
+				validationMechanism == TextMatchMechanism.exactMatchWithExpectedValueAfterRemovingSpaces ||
+				validationMechanism == TextMatchMechanism.icExactMatchWithExpectedValueAfterRemovingSpaces)) {
+			return 0;
+		}
+		
 		if (actualValue == null) {
-			return false;
+			return -1;
 		}
 
 		switch (validationMechanism) {
 		case startsWithExpectedValue:
 			if (actualValue.startsWith(expectedValue)) {
-				matched = true;
+				index = 0;
 			}
 			break;
 		case containsExpectedValue:
-			if (actualValue.contains(expectedValue)) {
-				matched = true;
-			}
+			index = actualValue.indexOf(expectedValue);
 			break;
 		case endsWithExpectedValue:
-			if (actualValue.contains(expectedValue)) {
-				matched = true;
+			if (actualValue.endsWith(expectedValue)) {
+				index = actualValue.lastIndexOf(expectedValue);
 			}
 			break;
 		case exactMatchWithExpectedValue:
 			if (actualValue.equals(expectedValue)) {
-				matched = true;
+				index = 0;
 			}
 			break;
 		case matchWithRegularExpression:
 			if (actualValue.matches(expectedValue)) {
-				matched = true;
+				index = 0;
 			}
 			break;
-		case exactMatchWithExpectedValueWithRemovedWhiteSpace:
+		case exactMatchWithExpectedValueAfterRemovingSpaces:
 			if (actualValue.replaceAll(" ", "").equals(expectedValue.replaceAll(" ", ""))) {
-				matched = true;
+				index = 0;
+			}
+			break;
+			
+		case icStartsWithExpectedValue:
+			if (actualValue.toLowerCase().startsWith(expectedValue.toLowerCase())) {
+				index = 0;
+			}
+			break;
+		case icContainsExpectedValue:
+			if (actualValue.toLowerCase().contains(expectedValue.toLowerCase())) {
+				index = actualValue.toLowerCase().indexOf(expectedValue.toLowerCase());
+			}
+			break;
+		case icEndsWithExpectedValue:
+			if (actualValue.toLowerCase().endsWith(expectedValue.toLowerCase())) {
+				index = actualValue.toLowerCase().lastIndexOf(expectedValue.toLowerCase());
+			}
+			break;
+		case icExactMatchWithExpectedValue:
+			if (actualValue.toLowerCase().equals(expectedValue.toLowerCase())) {
+				index = 0;
+			}
+			break;		
+		case icExactMatchWithExpectedValueAfterRemovingSpaces:
+			if (actualValue.replaceAll(" ", "").toLowerCase().equals(expectedValue.replaceAll(" ", "").toLowerCase())) {
+				index = 0;
 			}
 			break;
 		}
 
-		return matched;
+		return index;
 	}
 
 	public static void validateTextValue(String actualValue, String expectedValue,
@@ -77,37 +126,73 @@ public class DataMatchUtil {
 		case startsWithExpectedValue:
 			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
 				Assert.fail("Actual value '" + actualValue + "' does not starts with expected value '" + expectedValue
-						+ "'.");
+						+ "'. TextMatchMechanism = " + validationMechanism.name() + ".");
 			}
 			break;
 		case containsExpectedValue:
 			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
 				Assert.fail(
-						"Actual value '" + actualValue + "' does not contain expected value '" + expectedValue + "'.");
+						"Actual value '" + actualValue + "' does not contain expected value '" + expectedValue + 
+						"'. TextMatchMechanism = " + validationMechanism.name() + ".");
 			}
 			break;
 		case endsWithExpectedValue:
 			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
 				Assert.fail("Actual value '" + actualValue + "' does not ends with expected value '" + expectedValue
-						+ "'.");
+						+ "'. TextMatchMechanism = " + validationMechanism.name() + ".");
 			}
 			break;
 		case exactMatchWithExpectedValue:
 			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
 				Assert.fail(
-						"Actual value '" + actualValue + "' does not equal to expected value '" + expectedValue + "'.");
+						"Actual value '" + actualValue + "' does not equal to expected value '" + expectedValue + 
+						"'. TextMatchMechanism = " + validationMechanism.name() + ".");
 			}
 			break;
 		case matchWithRegularExpression:
 			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
 				Assert.fail("Actual value '" + actualValue + "' does not equal to expected regular expression value '"
-						+ expectedValue + "'.");
+						+ expectedValue + "'. TextMatchMechanism = " + validationMechanism.name() + ".");
 			}
 			break;
-		case exactMatchWithExpectedValueWithRemovedWhiteSpace:
+		case exactMatchWithExpectedValueAfterRemovingSpaces:
 			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
 				Assert.fail(
-						"Actual value '" + actualValue + "' does not equal to expected value '" + expectedValue + "'.");
+						"Actual value '" + actualValue + "' does not equal to expected value '" + expectedValue + 
+						"'. TextMatchMechanism = " + validationMechanism.name() + ".");
+			}
+			break;
+		case icStartsWithExpectedValue:
+			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
+				Assert.fail("Actual value '" + actualValue + "' does not starts with expected value '" + expectedValue
+						+ "'. TextMatchMechanism = " + validationMechanism.name() + ".");
+			}
+			break;
+		case icContainsExpectedValue:
+			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
+				Assert.fail(
+						"Actual value '" + actualValue + "' does not contain expected value '" + expectedValue + 
+						"'. TextMatchMechanism = " + validationMechanism.name() + ".");
+			}
+			break;
+		case icEndsWithExpectedValue:
+			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
+				Assert.fail("Actual value '" + actualValue + "' does not ends with expected value '" + expectedValue
+						+ "'. TextMatchMechanism = " + validationMechanism.name() + ".");
+			}
+			break;
+		case icExactMatchWithExpectedValue:
+			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
+				Assert.fail(
+						"Actual value '" + actualValue + "' does not equal to expected value '" + expectedValue + 
+						"'. TextMatchMechanism = " + validationMechanism.name() + ".");
+			}
+			break;		
+		case icExactMatchWithExpectedValueAfterRemovingSpaces:
+			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
+				Assert.fail(
+						"Actual value '" + actualValue + "' does not equal to expected value '" + expectedValue + 
+						"'. TextMatchMechanism = " + validationMechanism.name() + ".");
 			}
 			break;
 		}

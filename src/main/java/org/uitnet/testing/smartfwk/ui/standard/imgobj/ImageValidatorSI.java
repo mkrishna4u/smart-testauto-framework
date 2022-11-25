@@ -68,6 +68,11 @@ public class ImageValidatorSI extends ImageValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public ImageValidatorSI forceClick(int maxIterationsToLocateElements) {
+		return click(maxIterationsToLocateElements);
+	}
 
 	public ImageValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
@@ -139,6 +144,17 @@ public class ImageValidatorSI extends ImageValidator {
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on Image '" + imageObj.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
+	
+	@Override
+	public ImageValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
+		try {
+			Match match = findElement(maxIterationsToLocateElements);
+			match.mouseMove();
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse hoverover on Image '" + imageObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}

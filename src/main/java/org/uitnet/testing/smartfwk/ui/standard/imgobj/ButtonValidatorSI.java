@@ -91,7 +91,12 @@ public class ButtonValidatorSI extends ButtonValidator {
 		}
 		return this;
 	}
-
+	
+	@Override
+	public ButtonValidatorSI forceClick(int maxIterationsToLocateElements) {
+		return click(maxIterationsToLocateElements);
+	}
+	
 	public ButtonValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
@@ -162,6 +167,17 @@ public class ButtonValidatorSI extends ButtonValidator {
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on Button '" + buttonObj.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
+	
+	@Override
+	public ButtonValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
+		try {
+			Match match = findElement(maxIterationsToLocateElements);
+			match.mouseMove();
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse hoverover on Button '" + buttonObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}

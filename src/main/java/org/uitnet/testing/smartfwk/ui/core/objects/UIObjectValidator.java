@@ -20,6 +20,7 @@ package org.uitnet.testing.smartfwk.ui.core.objects;
 import java.awt.Rectangle;
 
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Key;
 import org.sikuli.script.Region;
@@ -123,6 +124,15 @@ public abstract class UIObjectValidator {
 				performKeyPressed(kbEvent.getKey(), maxIterationsToLocateElements);
 				break;
 			}
+		}
+		return this;
+	}
+	
+	public UIObjectValidator sendCommandKeys(int maxIterationsToLocateElements, CharSequence... keys) {
+		Object elem = findElement(maxIterationsToLocateElements);
+		if(elem != null && elem instanceof WebElement) {
+			WebElement webElem = (WebElement) elem;
+			webElem.sendKeys(Keys.chord(keys));
 		}
 		return this;
 	}
@@ -237,12 +247,16 @@ public abstract class UIObjectValidator {
 	public abstract boolean isVisible(int maxIterationsToLocateElements);
 
 	public abstract UIObjectValidator click(int maxIterationsToLocateElements);
+	
+	public abstract UIObjectValidator forceClick(int maxIterationsToLocateElements);
 
 	public abstract UIObjectValidator doubleClick(int maxIterationsToLocateElements);
 
 	public abstract UIObjectValidator rightClick(int maxIterationsToLocateElements);
 
 	public abstract UIObjectValidator clickAndHold(int maxIterationsToLocateElements);
+	
+	public abstract UIObjectValidator mouseHoverOver(int maxIterationsToLocateElements);
 
 	public abstract UIObjectValidator release(int maxIterationsToLocateElements);
 

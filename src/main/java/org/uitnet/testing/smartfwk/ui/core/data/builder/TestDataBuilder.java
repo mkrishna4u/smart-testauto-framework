@@ -58,18 +58,18 @@ public class TestDataBuilder {
 		return this;
 	}
 
-	public TestDataBuilder includeAlphabets(boolean includeAlphabets) {
+	public TestDataBuilder setIncludeAlphabets(boolean includeAlphabets) {
 		this.includeAlphabetsLower = includeAlphabets;
 		this.includeAlphabetsUpper = includeAlphabets;
 		return this;
 	}
 
-	public TestDataBuilder includeAlphabetsLower(boolean includeAlphabetsLower) {
+	public TestDataBuilder setIncludeAlphabetsLower(boolean includeAlphabetsLower) {
 		this.includeAlphabetsLower = includeAlphabetsLower;
 		return this;
 	}
 
-	public TestDataBuilder includeAlphabetsUpper(boolean includeAlphabetsUpper) {
+	public TestDataBuilder setIncludeAlphabetsUpper(boolean includeAlphabetsUpper) {
 		this.includeAlphabetsUpper = includeAlphabetsUpper;
 		return this;
 	}
@@ -84,7 +84,7 @@ public class TestDataBuilder {
 		return this;
 	}
 
-	public TestDataBuilder includeNumbers(boolean includeNumbers) {
+	public TestDataBuilder setIncludeNumbers(boolean includeNumbers) {
 		this.includeNumbers = includeNumbers;
 		return this;
 	}
@@ -95,7 +95,7 @@ public class TestDataBuilder {
 		return this;
 	}
 
-	public TestDataBuilder includeSpecialCharacters(boolean includeSpecialCharacters) {
+	public TestDataBuilder setIncludeSpecialCharacters(boolean includeSpecialCharacters) {
 		this.includeSpecialCharacters = includeSpecialCharacters;
 		return this;
 	}
@@ -106,28 +106,28 @@ public class TestDataBuilder {
 		return this;
 	}
 
-	public TestDataBuilder includeNewLine(boolean includeNewLine) {
+	public TestDataBuilder setIncludeNewLine(boolean includeNewLine) {
 		this.includeNewLine = includeNewLine;
 		return this;
 	}
 
-	public TestDataBuilder includeWhiteSpaces(boolean includeWhiteSpaces) {
+	public TestDataBuilder setIncludeWhiteSpaces(boolean includeWhiteSpaces) {
 		this.includeWhiteSpaces = includeWhiteSpaces;
 		return this;
 	}
 
-	public TestDataBuilder includeLeadingAndTrailingWhiteSpace(boolean includeLeadingAndTrailingWhiteSpace) {
+	public TestDataBuilder setIncludeLeadingAndTrailingWhiteSpace(boolean includeLeadingAndTrailingWhiteSpace) {
 		this.includeLeadingWhiteSpace = includeLeadingAndTrailingWhiteSpace;
 		this.includeTrailingWhiteSpace = includeLeadingAndTrailingWhiteSpace;
 		return this;
 	}
 
-	public TestDataBuilder includeLeadingWhiteSpace(boolean includeLeadingWhiteSpace) {
+	public TestDataBuilder setIncludeLeadingWhiteSpace(boolean includeLeadingWhiteSpace) {
 		this.includeLeadingWhiteSpace = includeLeadingWhiteSpace;
 		return this;
 	}
 
-	public TestDataBuilder includeTrailingWhiteSpace(boolean includeTrailingWhiteSpace) {
+	public TestDataBuilder setIncludeTrailingWhiteSpace(boolean includeTrailingWhiteSpace) {
 		this.includeTrailingWhiteSpace = includeTrailingWhiteSpace;
 		return this;
 	}

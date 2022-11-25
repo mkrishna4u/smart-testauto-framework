@@ -82,6 +82,11 @@ public class LabelValidatorSI extends LabelValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public LabelValidatorSI forceClick(int maxIterationsToLocateElements) {
+		return click(maxIterationsToLocateElements);
+	}
 
 	public LabelValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
@@ -153,6 +158,17 @@ public class LabelValidatorSI extends LabelValidator {
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on Label '" + labelObj.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
+	
+	@Override
+	public LabelValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
+		try {
+			Match match = findElement(maxIterationsToLocateElements);
+			match.mouseMove();
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse hoverover on Label '" + labelObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}

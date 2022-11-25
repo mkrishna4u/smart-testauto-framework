@@ -70,6 +70,12 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public CheckBoxValidatorSD forceClick(int maxIterationsToLocateElements) {
+		domObjValidator.forceClick(maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public CheckBoxValidatorSD doubleClick(int maxIterationsToLocateElements) {
@@ -92,6 +98,12 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 	@Override
 	public CheckBoxValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
+	}
+	
+	@Override
+	public CheckBoxValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 

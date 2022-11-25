@@ -35,6 +35,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.combobox.ComboBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 /**
  * 
@@ -113,6 +114,12 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public ComboBoxValidatorSD forceClick(int maxIterationsToLocateElements) {
+		domObjValidator.forceClick(maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public ComboBoxValidatorSD doubleClick(int maxIterationsToLocateElements) {
@@ -135,6 +142,12 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	@Override
 	public ComboBoxValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
+	}
+	
+	@Override
+	public ComboBoxValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 
@@ -302,10 +315,16 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 		}
 		return this;
 	}
-
+	
 	@Override
 	public ComboBoxValidatorSD selectItem(String itemName, int maxIterationsToLocateElements) {
+		return selectItem(itemName, TextMatchMechanism.exactMatchWithExpectedValue, maxIterationsToLocateElements);
+	}
+
+	@Override
+	public ComboBoxValidatorSD selectItem(String itemName, TextMatchMechanism textMatchMechanism, int maxIterationsToLocateElements) {
 		try {
+			textMatchMechanism = (textMatchMechanism == null) ? TextMatchMechanism.exactMatchWithExpectedValue : textMatchMechanism;
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					WebElement selectElement = domObjValidator.findElement(0);
@@ -319,7 +338,7 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 					boolean found = false;
 					for (WebElement option : options) {
 						optionTextValue = option.getText();
-						if (optionTextValue != null && itemName.equals(optionTextValue.trim())) {
+						if (StringUtil.isTextMatchedWithExpectedValue(optionTextValue, itemName, textMatchMechanism) && !option.isSelected()) {
 							PageScrollUtil.mouseClick(appDriver, option);
 							found = true;
 							break;
@@ -343,11 +362,146 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public ComboBoxValidatorSD deselectItem(String itemName, int maxIterationsToLocateElements) {
+		return deselectItem(itemName, TextMatchMechanism.exactMatchWithExpectedValue, maxIterationsToLocateElements);
+	}
+	
+	@Override
+	public ComboBoxValidatorSD deselectItem(String itemName, TextMatchMechanism textMatchMechanism, int maxIterationsToLocateElements) {
+		try {
+			textMatchMechanism = (textMatchMechanism == null) ? TextMatchMechanism.exactMatchWithExpectedValue : textMatchMechanism;
+			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+				try {
+					WebElement selectElement = domObjValidator.findElement(0);
+					PageScrollUtil.mouseClick(appDriver, selectElement);
+
+					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
+					Assert.assertNotNull(options,
+							"Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
+
+					String optionTextValue;
+					boolean found = false;
+					for (WebElement option : options) {
+						optionTextValue = option.getText();
+						if (StringUtil.isTextMatchedWithExpectedValue(optionTextValue, itemName, textMatchMechanism) && option.isSelected()) {
+							PageScrollUtil.mouseClick(appDriver, option);
+							found = true;
+							break;
+						}
+					}
+
+					if (!found) {
+						Assert.fail("Failed to find item '" + itemName + "' in ComboBox '" + uiObject.getDisplayName()
+								+ "'.");
+					}
+					return this;
+				} catch (Throwable th) {
+					if (i == maxIterationsToLocateElements) {
+						throw th;
+					}
+				}
+				appDriver.waitForSeconds(2);
+			}
+		} catch (Throwable th) {
+			Assert.fail("Failed to deselect item '" + itemName + "' on element '" + uiObject.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
+	
+	@Override
+	public ComboBoxValidatorSD deselectAllItems(int maxIterationsToLocateElements) {
+		try {
+			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+				try {
+					WebElement selectElement = domObjValidator.findElement(0);
+					PageScrollUtil.mouseClick(appDriver, selectElement);
+
+					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
+					Assert.assertNotNull(options,
+							"Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
+
+					for (WebElement option : options) {
+						if (option.isSelected()) {
+							PageScrollUtil.mouseClick(appDriver, option);
+						}
+					}
+
+					return this;
+				} catch (Throwable th) {
+					if (i == maxIterationsToLocateElements) {
+						throw th;
+					}
+				}
+				appDriver.waitForSeconds(2);
+			}
+		} catch (Throwable th) {
+			Assert.fail("Failed to deselect all items on element '" + uiObject.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
+	
+	@Override
+	public ComboBoxValidatorSD selectAllItems(int maxIterationsToLocateElements) {
+		try {
+			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+				try {
+					WebElement selectElement = domObjValidator.findElement(0);
+					PageScrollUtil.mouseClick(appDriver, selectElement);
+
+					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
+					Assert.assertNotNull(options,
+							"Failed to find items for ComboBox '" + uiObject.getDisplayName() + "'.");
+
+					for (WebElement option : options) {
+						if (!option.isSelected()) {
+							PageScrollUtil.mouseClick(appDriver, option);
+						}
+					}
+
+					return this;
+				} catch (Throwable th) {
+					if (i == maxIterationsToLocateElements) {
+						throw th;
+					}
+				}
+				appDriver.waitForSeconds(2);
+			}
+		} catch (Throwable th) {
+			Assert.fail("Failed to select all items on element '" + uiObject.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
 
 	@Override
 	public ComboBoxValidatorSD selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements) {
 		for (String item : itemsToBeSelected.getItems()) {
 			selectItem(item, maxIterationsToLocateElements);
+		}
+		return this;
+	}
+	
+	@Override
+	public ComboBoxValidatorSD selectItems(ItemList<String> itemsToBeSelected, TextMatchMechanism textMatchMechanism, int maxIterationsToLocateElements) {
+		for (String item : itemsToBeSelected.getItems()) {
+			selectItem(item, textMatchMechanism, maxIterationsToLocateElements);
+		}
+		return this;
+	}
+	
+	@Override
+	public ComboBoxValidatorSD deselectItems(ItemList<String> itemsToBeDeselected, int maxIterationsToLocateElements) {
+		for (String item : itemsToBeDeselected.getItems()) {
+			deselectItem(item, maxIterationsToLocateElements);
+		}
+		return this;
+	}
+	
+	@Override
+	public ComboBoxValidatorSD deselectItems(ItemList<String> itemsToBeDeselected, TextMatchMechanism textMatchMechanism, int maxIterationsToLocateElements) {
+		for (String item : itemsToBeDeselected.getItems()) {
+			deselectItem(item, textMatchMechanism, maxIterationsToLocateElements);
 		}
 		return this;
 	}

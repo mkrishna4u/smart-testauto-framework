@@ -72,6 +72,12 @@ public class WebPageTitleValidatorSD extends LabelValidator {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public WebPageTitleValidatorSD forceClick(int maxIterationsToLocateElements) {
+		domObjValidator.forceClick(maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public WebPageTitleValidatorSD doubleClick(int maxIterationsToLocateElements) {
@@ -97,6 +103,12 @@ public class WebPageTitleValidatorSD extends LabelValidator {
 		return this;
 	}
 
+	@Override
+	public WebPageTitleValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
+		return this;
+	}
+	
 	@Override
 	public WebPageTitleValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);

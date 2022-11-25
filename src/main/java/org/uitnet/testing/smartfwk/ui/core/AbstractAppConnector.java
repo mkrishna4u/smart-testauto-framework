@@ -230,7 +230,7 @@ public abstract class AbstractAppConnector {
 		}
 	}
 
-	public void captureScreenshot(Scenario scenario) {
+	public String captureScreenshot(Scenario scenario) {
 		String fileNameHint = prepareScreenshotFileName(scenario) + "-" + scenario.getStatus();
 
 		Rectangle screenArea = null;
@@ -246,9 +246,11 @@ public abstract class AbstractAppConnector {
 		String imageFile = ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null,
 				fileNameHint, screenArea, appDriver);
 		logOrAttachScreenshot(scenario, imageFile, fileNameHint);
+		
+		return imageFile;
 	}
 
-	public void captureScreenshot(Scenario scenario, String status) {
+	public String captureScreenshot(Scenario scenario, String status) {
 		String fileNameHint = prepareScreenshotFileName(scenario);
 
 		if (status != null) {
@@ -269,9 +271,11 @@ public abstract class AbstractAppConnector {
 				fileNameHint, screenArea, appDriver);
 		
 		logOrAttachScreenshot(scenario, imageFile, fileNameHint);
+		
+		return imageFile;
 	}
 
-	public void captureScreenshot(String fileNameHint) {
+	public String captureScreenshot(String fileNameHint) {
 		Rectangle screenArea = null;
 		if ((appConfig.getTestPlatformType() != PlatformType.windows
 				|| appConfig.getTestPlatformType() != PlatformType.linux
@@ -282,7 +286,7 @@ public abstract class AbstractAppConnector {
 			screenArea = Screen.getPrimaryScreen().getRect();
 		}
 
-		ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea,
+		return ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea,
 				appDriver);
 	}
 

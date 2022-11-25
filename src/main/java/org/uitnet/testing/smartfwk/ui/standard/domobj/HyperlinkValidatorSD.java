@@ -72,6 +72,12 @@ public class HyperlinkValidatorSD extends HyperlinkValidator {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public HyperlinkValidatorSD forceClick(int maxIterationsToLocateElements) {
+		domObjValidator.forceClick(maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public HyperlinkValidatorSD doubleClick(int maxIterationsToLocateElements) {
@@ -94,6 +100,12 @@ public class HyperlinkValidatorSD extends HyperlinkValidator {
 	@Override
 	public HyperlinkValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
+	}
+	
+	@Override
+	public HyperlinkValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 

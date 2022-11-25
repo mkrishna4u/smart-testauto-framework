@@ -27,6 +27,6 @@ import org.uitnet.testing.smartfwk.api.core.ApiAuthenticationProvider;
  */
 public interface ApiTestManager {
 	ApiAuthenticationProvider getAuthenticationProvider(String appName, String targetServerName, String userProfileName);
-	AbstractApiActionHandler getActionHandler(String appName, String targetServerName);
+	AbstractApiActionHandler getActionHandler(String appName, String targetServerName, String userProfileName);
 	public void deregisterAll();
 }

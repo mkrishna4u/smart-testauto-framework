@@ -27,6 +27,8 @@ import java.util.concurrent.SubmissionPublisher;
 
 import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
 
+import com.google.common.collect.ImmutableMap;
+
 /**
  * Abstract SmartCache class that can be used to store the data and can be
  * retrieved at any time. Also you can use events to inform subscriber for the
@@ -58,6 +60,10 @@ public abstract class SmartCache {
 	public Object get(String key) {
 		if(key == null) { return null; }
 		return cache.get(key);
+	}
+	
+	public ImmutableMap<String, Object> getCache() {
+		return ImmutableMap.copyOf(cache);
 	}
 	
 	/**

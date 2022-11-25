@@ -27,6 +27,7 @@ public class MultipartData {
 	public String contentType;
 	public String fileName;
 	public String filePath;
+	public byte[] fileContents;
 
 	public MultipartData() {
 		contentType = "application/octet-stream";
@@ -37,6 +38,13 @@ public class MultipartData {
 		this.fileName = fileName;
 		this.contentType = contentType;
 		this.filePath = filePath;
+	}
+	
+	public MultipartData(String name, String fileName, String contentType, byte[] fileContents) {
+		this.name = name;
+		this.fileName = fileName;
+		this.contentType = contentType;
+		this.fileContents = fileContents;
 	}
 
 	public String getName() {
@@ -69,5 +77,13 @@ public class MultipartData {
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+
+	public byte[] getFileContents() {
+		return fileContents;
+	}
+
+	public void setFileContents(byte[] fileContents) {
+		this.fileContents = fileContents;
 	}
 }

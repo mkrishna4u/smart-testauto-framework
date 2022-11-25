@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
-import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
@@ -103,7 +103,7 @@ public class TextAreaSI extends TextArea {
 	}
 
 	@Override
-	public TextAreaValidatorSI getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region) {
+	public TextAreaValidatorSI getValidator(SmartCucumberScenarioContext scenarioContext, Region region) {
 		return getValidator(scenarioContext.getActiveAppDriver(), region);
 	}
 

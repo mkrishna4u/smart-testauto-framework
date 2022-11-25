@@ -32,8 +32,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.WebElementUtil;
 
@@ -512,7 +514,12 @@ public class DOMObjectValidator extends UIObjectValidator {
 					PageScrollUtil.mouseClick(appDriver, webElem);
 
 					Actions webActions = new Actions(appDriver.getWebDriver());
-					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "c"));
+					if(OSDetectorUtil.getHostPlatform() == PlatformType.mac || OSDetectorUtil.getHostPlatform() == PlatformType.ios_mobile) {
+						webActions.sendKeys(Keys.chord(Keys.COMMAND, "a")).sendKeys(Keys.chord(Keys.COMMAND, "c"));
+					} else {
+						webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "c"));
+					}
+					
 					break;
 				} catch (MoveTargetOutOfBoundsException ex) {
 					appDriver.waitForSeconds(2);
@@ -538,8 +545,14 @@ public class DOMObjectValidator extends UIObjectValidator {
 					PageScrollUtil.mouseClick(appDriver, webElem);
 
 					Actions webActions = new Actions(appDriver.getWebDriver());
-					webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "v")).build()
-							.perform();
+					if(OSDetectorUtil.getHostPlatform() == PlatformType.mac || OSDetectorUtil.getHostPlatform() == PlatformType.ios_mobile) {
+						webActions.sendKeys(Keys.chord(Keys.COMMAND, "a")).sendKeys(Keys.chord(Keys.COMMAND, "v")).build()
+						.perform();
+					} else {
+						webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "v")).build()
+						.perform();
+					}
+					
 					break;
 				} catch (MoveTargetOutOfBoundsException ex) {
 					appDriver.waitForSeconds(2);
@@ -565,6 +578,24 @@ public class DOMObjectValidator extends UIObjectValidator {
 			}
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse click on element '" + domObject.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
+	
+	@Override
+	public DOMObjectValidator forceClick(int maxIterationsToLocateElements) {
+		try {
+			for (int i = 0; i < 5; i++) {
+				try {
+					WebElement webElem = findElement(maxIterationsToLocateElements);
+					PageScrollUtil.mouseForceClick(appDriver, webElem);
+					break;
+				} catch (MoveTargetOutOfBoundsException ex) {
+					appDriver.waitForSeconds(2);
+				}
+			}
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse force click on element '" + domObject.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
@@ -647,6 +678,20 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public DOMObjectValidator mouseHoverOver(int maxIterationsToLocateElements) {
+		for (int i = 0; i < 5; i++) {
+			try {
+				WebElement webElem = findElement(maxIterationsToLocateElements);
+				PageScrollUtil.mouseHoverOver(appDriver, webElem);
+				break;
+			} catch (MoveTargetOutOfBoundsException ex) {
+				appDriver.waitForSeconds(2);
+			}
+		}
+		return this;
+	}
 
 	public DOMObjectValidator performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		for (int i = 0; i < 5; i++) {
@@ -711,7 +756,12 @@ public class DOMObjectValidator extends UIObjectValidator {
 					actions.sendKeys(webElem, newtext).build().perform();
 					break;
 				case replace:
-					webElem.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+					if(OSDetectorUtil.getHostPlatform() == PlatformType.mac || OSDetectorUtil.getHostPlatform() == PlatformType.ios_mobile) {
+						webElem.sendKeys(Keys.chord(Keys.COMMAND, "a"));
+					} else {
+						webElem.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+					}
+					
 					webElem.sendKeys(Keys.BACK_SPACE);
 					actions = new Actions(appDriver.getWebDriver());
 					actions.sendKeys(webElem, text).build().perform();
@@ -723,6 +773,12 @@ public class DOMObjectValidator extends UIObjectValidator {
 				appDriver.waitForSeconds(2);
 			}
 		}
+		return this;
+	}
+	
+	public DOMObjectValidator sendKeys(int maxIterationsToLocateElements, CharSequence... keys) {
+		WebElement webElem = findElement(maxIterationsToLocateElements);
+		webElem.sendKeys(keys);
 		return this;
 	}
 

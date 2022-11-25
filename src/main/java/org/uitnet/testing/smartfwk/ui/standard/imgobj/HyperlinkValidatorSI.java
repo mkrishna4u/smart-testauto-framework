@@ -82,6 +82,11 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public HyperlinkValidatorSI forceClick(int maxIterationsToLocateElements) {
+		return click(maxIterationsToLocateElements);
+	}
 
 	public HyperlinkValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
@@ -159,6 +164,17 @@ public class HyperlinkValidatorSI extends HyperlinkValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on Hyperlink '" + hyperlinkObj.getDisplayName() + "'.",
 					th);
+		}
+		return this;
+	}
+	
+	@Override
+	public HyperlinkValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
+		try {
+			Match match = findElement(maxIterationsToLocateElements);
+			match.mouseMove();
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse hoverover on Hyperlink '" + hyperlinkObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}

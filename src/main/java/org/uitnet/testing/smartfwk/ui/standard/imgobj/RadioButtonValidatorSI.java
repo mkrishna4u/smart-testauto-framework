@@ -68,6 +68,11 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public RadioButtonValidatorSI forceClick(int maxIterationsToLocateElements) {
+		return click(maxIterationsToLocateElements);
+	}
 
 	public RadioButtonValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
@@ -139,6 +144,17 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on RadioButton '" + rbObject.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
+	
+	@Override
+	public RadioButtonValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
+		try {
+			Match match = findElement(maxIterationsToLocateElements);
+			match.mouseMove();
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse hoverover on RadioButton '" + rbObject.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
@@ -335,5 +351,11 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 	public RadioButtonValidatorSI validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabledButNotReadonly() API is not supported by RadioButton component.");
 		return this;
+	}
+
+	@Override
+	public boolean isSelected(int maxIterationsToLocateElements) {
+		Assert.fail("isSelected() API is not supported by RadioButton component.");
+		return false;
 	}
 }

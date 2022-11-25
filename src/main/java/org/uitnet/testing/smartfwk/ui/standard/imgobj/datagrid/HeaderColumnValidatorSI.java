@@ -91,6 +91,11 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public HeaderColumnValidatorSI forceClick(int maxIterationsToLocateElements) {
+		return click(maxIterationsToLocateElements);
+	}
 
 	public HeaderColumnValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
@@ -168,6 +173,17 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on HeaderColumn '" + headerColObj.getDisplayName() + "'.",
 					th);
+		}
+		return this;
+	}
+	
+	@Override
+	public HeaderColumnValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
+		try {
+			Match match = findElement(maxIterationsToLocateElements);
+			match.mouseMove();
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse hoverover on HeaderColumn '" + headerColObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}

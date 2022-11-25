@@ -1,4 +1,4 @@
-package validators;
+package validators.<app-name>;
 
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
@@ -6,7 +6,9 @@ import org.uitnet.testing.smartfwk.ui.core.config.UserProfile;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginPageValidator;
 
-import page_objects.*;
+import io.cucumber.java.PendingException;
+
+import page_objects.<app-name>.*;
 
 public class AppLoginPageValidator extends LoginPageValidator {
 
@@ -27,29 +29,36 @@ public class AppLoginPageValidator extends LoginPageValidator {
 		//TODO: Add code here to loging the system using user profile infomration
 		//The below code is just sample code. Correct it as per your application.
 		
-		SampleAppLoginPO.Button_SignIn.getValidator(appDriver, null).validateVisible(5);
+		/* LoginPO.Button_SignIn.getValidator(appDriver, null).validateVisible(5);
 
-		SampleAppLoginPO.Textbox_Username.getValidator(appDriver, null)
-				.typeText(userProfile.getAppLoginUserId(), NewTextLocation.replace, 0);
+		LoginPO.Textbox_Username.getValidator(appDriver, null)
+				.typeText(userProfile.getAppLoginUserId(), NewTextLocation.replace, 2);
 		
-		SampleAppLoginPO.Textbox_Password.getValidator(appDriver, null).typeText(userProfile.getAppLoginUserPassword(),
-				NewTextLocation.replace, 0);
+		LoginPO.Textbox_Password.getValidator(appDriver, null).typeText(userProfile.getAppLoginUserPassword(),
+				NewTextLocation.replace, 2);
 		
-		SampleAppLoginPO.Button_SignIn.getValidator(appDriver, null).click(0);
+		LoginPO.Button_SignIn.getValidator(appDriver, null).click(2); */
+		
+		throw new PendingException("Please implement tryLogin() method in '" + this.getClass() + "' class.");
 	}
 
 	@Override
 	protected void validateInfo(String activeUserProfileName) {
 		//TODO: Add code here to validate whether the login page is visible.
 		//The below code is just sample code. Correct it as per your application.
-		SampleAppLoginPO.Button_SignIn.getValidator(appDriver, null).validateVisible(2);
+		
+		// LoginPO.Button_SignIn.getValidator(appDriver, null).validateVisible(2);
+		throw new PendingException("Please implement tryLogin() method in '" + this.getClass() + "' class.");
 	}
 
 	@Override
 	public boolean checkLoginPageVisible(String activeUserProfileName) {
 		//TODO: Add code here to return true when the login page is visible else return false
 		//The below code is just sample code. Correct it as per your application.
-		return SampleAppLoginPO.Button_SignIn.getValidator(appDriver, null).isVisible(2);
+		
+		// return LoginPO.Button_SignIn.getValidator(appDriver, null).isVisible(2);
+		
+		throw new PendingException("Please implement checkLoginPageVisible() method in '" + this.getClass() + "' class.");
 	}
 
 }

@@ -53,7 +53,7 @@ public class StringArgumentValidator implements CommandArgumentValidator {
 		if(allowedCharsRegEx != null && allowedCharsRegEx.length() > 0) {
 			if(argValue != null) {
 				if(!argValue.matches(allowedCharsRegEx)) {
-					Assert.fail("Argument '" + arg.getName() + "' does not match with '" + allowedCharsRegEx + "' allowed characters for option '" + option + "'.");
+					Assert.fail("Argument '" + arg.getName() + "' value '" + argValue + "' does not match with '" + allowedCharsRegEx + "' allowed characters for option '" + option + "'.");
 				}
 			}
 		}

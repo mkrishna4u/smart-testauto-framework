@@ -85,6 +85,11 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public TextBoxValidatorSI forceClick(int maxIterationsToLocateElements) {
+		return click(maxIterationsToLocateElements);
+	}
 
 	public TextBoxValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
@@ -156,6 +161,17 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on TextBox '" + textBoxObj.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
+	
+	@Override
+	public TextBoxValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
+		try {
+			Match match = findElement(maxIterationsToLocateElements);
+			match.mouseMove();
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse hoverover on TextBox '" + textBoxObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}

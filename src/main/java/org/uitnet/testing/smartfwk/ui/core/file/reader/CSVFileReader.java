@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVFormat.Builder;
 import org.apache.commons.csv.CSVRecord;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
@@ -47,9 +47,9 @@ public class CSVFileReader {
 		Table table = new Table(extractFileName(filePath));
 		List<String> row;
 		try (Reader fileReader = new FileReader(filePath)) {
-			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withAllowDuplicateHeaderNames(true).withQuote(quoteChar)
-					.withDelimiter(delimiter).withIgnoreEmptyLines(false).withIgnoreSurroundingSpaces()
-					.parse(fileReader);
+			Iterable<CSVRecord> records = Builder.create().setAllowDuplicateHeaderNames(true).setQuote(quoteChar)
+					.setDelimiter(delimiter).setIgnoreEmptyLines(false).setIgnoreSurroundingSpaces(true).build().parse(fileReader);
+			
 			int rowCounter = 0;
 			String colValue;
 			for (CSVRecord record : records) {

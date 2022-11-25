@@ -18,7 +18,7 @@
 ################################################################################
 
 # Application name
-applicationName: sample-app
+applicationName: <app-name>
 
 # Application type
 # Supported application types: native-app, web-app
@@ -33,10 +33,10 @@ testPlatformType: windows
 appLaunchURL: 
 
 # Login Validator
-appLoginPageValidatorClass: 
+appLoginPageValidatorClass: validators.<app-name>.AppLoginPageValidator
 
 # Login Success Page Validator
-appLoginSuccessPageValidatorClass: 
+appLoginSuccessPageValidatorClass: validators.<app-name>.AppLoginSuccessPageValidator
 
 # Remote Web Driver Provider class (Applicable only if appWebBrowser = remoteWebDriverProvider)
 remoteWebDriverProviderClass:

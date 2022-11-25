@@ -17,6 +17,9 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
@@ -144,7 +147,39 @@ public class StringUtil {
 		return DataMatchUtil.matchTextValue(text, expectedValue, textMatchMechanism);
 	}
 	
+	/**
+	 * 
+	 * @param text
+	 * @param expectedValue
+	 * @param textMatchMechanism
+	 * @return the index of expected value in text. -1 is returned when value is not matched.
+	 */
+	public static int indexOfExpectedValue(String text, String expectedValue,
+			TextMatchMechanism textMatchMechanism) {
+		return DataMatchUtil.indexOfExpectedValue(text, expectedValue, textMatchMechanism);
+	}
+	
+	public static String removeItemsFromText(String text, String itemSeparator, String... itemsToRemove) {
+		if(text == null) { return null; }
+		String[] items = text.split(itemSeparator);
+		String newText = "";
+		List<String> itemsToRemoveList = Arrays.asList(itemsToRemove);
+		for(String item : items) {
+			if(itemsToRemoveList.contains(item.trim())) {
+				continue;
+			}
+			
+			if("".equals(newText)) {
+				newText = item;
+			} else {
+				newText = newText + itemSeparator + item;
+			}
+		}
+		
+		return newText;
+	}
+	
 	public static void main(String[] args) {
-		isTextMatchedWithExpectedValue("23245r", "dsfsd", null);
+		System.out.println(removeItemsFromText("bcdefg,mmm", ",", "efg", "bcd", "mmm"));
 	}
 }

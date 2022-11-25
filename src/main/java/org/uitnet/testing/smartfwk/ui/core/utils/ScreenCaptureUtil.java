@@ -91,7 +91,7 @@ public class ScreenCaptureUtil {
 		return ++screenshotId;
 	}
 
-	private static void captureScreenshot(Rectangle screenRectangle, String targetImageFileName,
+	private synchronized static void captureScreenshot(Rectangle screenRectangle, String targetImageFileName,
 			SmartAppDriver appDriver) throws AWTException, IOException {
 		boolean preferDriverScreenshots = TestConfigManager.getInstance().preferDriverScreenshots();
 		if (preferDriverScreenshots && appDriver != null) {

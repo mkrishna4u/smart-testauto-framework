@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.sikuli.script.Region;
+import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
-import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocateBy;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locator;
@@ -73,7 +73,7 @@ public class ComboBoxSD extends ComboBox {
 	}
 	
 	@Override
-	public ComboBoxValidatorSD getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region) {
+	public ComboBoxValidatorSD getValidator(SmartCucumberScenarioContext scenarioContext, Region region) {
 		return getValidator(scenarioContext.getActiveAppDriver(), region);
 	}
 

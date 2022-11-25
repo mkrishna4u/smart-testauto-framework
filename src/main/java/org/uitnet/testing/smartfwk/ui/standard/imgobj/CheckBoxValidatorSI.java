@@ -68,6 +68,11 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public CheckBoxValidatorSI forceClick(int maxIterationsToLocateElements) {
+		return click(maxIterationsToLocateElements);
+	}
 
 	public CheckBoxValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
@@ -139,6 +144,17 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on CheckBox '" + cbObject.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
+	
+	@Override
+	public CheckBoxValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
+		try {
+			Match match = findElement(maxIterationsToLocateElements);
+			match.mouseMove();
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse hoverover on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 		return this;
 	}

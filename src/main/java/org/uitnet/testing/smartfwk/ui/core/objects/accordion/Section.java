@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.accordion;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
+import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -36,5 +36,5 @@ public abstract class Section extends UIObject {
 
 	public abstract SectionValidator getValidator(SmartAppDriver appDriver, Region region);
 
-	public abstract SectionValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region);
+	public abstract SectionValidator getValidator(SmartCucumberScenarioContext scenarioContext, Region region);
 }

@@ -24,6 +24,7 @@ remoteMachines:
   - name: Sample-Machine
     hostNameOrIpAddress: 192.168.0.100
     port: 22
+    platformType: linux
     # Class name that extends AbstractApiActionHandler class
     actionHandlerClass: org.uitnet.testing.smartfwk.remote_machine.SmartRemoteMachineActionHandler
     sessionExpiryDurationInSeconds: 3600

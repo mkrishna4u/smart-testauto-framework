@@ -30,6 +30,8 @@ import org.uitnet.testing.smartfwk.api.core.support.HttpResponse;
 import org.uitnet.testing.smartfwk.api.core.support.PayloadType;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
+import org.uitnet.testing.smartfwk.ui.core.utils.DataMatchUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 /**
  * 
@@ -54,7 +56,7 @@ public class DownloadedFileValidator {
 				break;
 			} catch(Exception | Error ex) {
 				if (i == numIterationsToLocateFile) {
-					break;
+					throw ex;
 				}
 			}
 			
@@ -69,7 +71,8 @@ public class DownloadedFileValidator {
 		try {
 			Files.list(new File(getDownloadLocation()).toPath()).forEach((p) -> {
 				String fName = p.toFile().getName();
-				if(fName.startsWith(expectedStartsWithText) && fName.endsWith(expectedFileExtension)) {
+				if(fName.startsWith(expectedStartsWithText) && 
+						(!StringUtil.isEmptyAfterTrim(expectedFileExtension) && fName.endsWith(expectedFileExtension))) {
 					filteredFiles.put(p.toFile().lastModified(), fName);
 				}
 			});
@@ -78,7 +81,7 @@ public class DownloadedFileValidator {
 				Assert.fail("No file found at downloads location '" + getDownloadLocation() + "' that starts with '" + expectedStartsWithText + "' and ends with '" + expectedFileExtension + "' text.");
 			}
 		} catch (Exception ex) {
-
+			throw new RuntimeException(ex);
 		} catch (Error e) {
 			throw e;
 		} finally {
@@ -97,7 +100,7 @@ public class DownloadedFileValidator {
 				break;
 			} catch(Exception | Error ex) {
 				if (i == numIterationsToLocateFile) {
-					break;
+					throw ex;
 				}
 			}
 			
@@ -127,7 +130,7 @@ public class DownloadedFileValidator {
 				break;
 			} catch(Exception | Error ex) {
 				if (i == numIterationsToLocateFile) {
-					break;
+					throw ex;
 				}
 			}
 			
@@ -153,43 +156,79 @@ public class DownloadedFileValidator {
 
 		try {
 			switch (fnMatchMech) {
-			case exactMatchWithExpectedValue:
-				if (!actualFileName.equals(expectedFileName)) {
-					Assert.fail("Actual filename '" + actualFileName + " does not match with expected filename '"
-							+ expectedFileName + "'.");
+			case startsWithExpectedValue:
+				if (!DataMatchUtil.matchTextValue(actualFileName, expectedFileName, fnMatchMech)) {
+					Assert.fail("Actual filename '" + actualFileName + "' does not starts with expected text '" + expectedFileName
+							+ "'. TextMatchMechanism = " + fnMatchMech.name() + ".");
 				}
 				break;
 			case containsExpectedValue:
-				if (!actualFileName.contains(expectedFileName)) {
-					Assert.fail("Actual filename '" + actualFileName + " does not contain expected text '"
-							+ expectedFileName + "'.");
+				if (!DataMatchUtil.matchTextValue(actualFileName, expectedFileName, fnMatchMech)) {
+					Assert.fail(
+							"Actual filename '" + actualFileName + "' does not contain expected text '" + expectedFileName + 
+							"'. TextMatchMechanism = " + fnMatchMech.name() + ".");
 				}
 				break;
 			case endsWithExpectedValue:
-				if (!actualFileName.endsWith(expectedFileName)) {
-					Assert.fail("Actual filename '" + actualFileName + " does not ends with expected text '"
-							+ expectedFileName + "'.");
+				if (!DataMatchUtil.matchTextValue(actualFileName, expectedFileName, fnMatchMech)) {
+					Assert.fail("Actual filename '" + actualFileName + "' does not ends with expected text '" + expectedFileName
+							+ "'. TextMatchMechanism = " + fnMatchMech.name() + ".");
 				}
 				break;
-			case startsWithExpectedValue:
-				if (!actualFileName.startsWith(expectedFileName)) {
-					Assert.fail("Actual filename '" + actualFileName + " does not starts with expected text '"
-							+ expectedFileName + "'.");
-				}
-				break;
-			case exactMatchWithExpectedValueWithRemovedWhiteSpace:
-				if (!actualFileName.trim().equals(expectedFileName)) {
-					Assert.fail("Actual filename '" + actualFileName + " does not match with expected filename '"
-							+ expectedFileName + "'.");
+			case exactMatchWithExpectedValue:
+				if (!DataMatchUtil.matchTextValue(actualFileName, expectedFileName, fnMatchMech)) {
+					Assert.fail(
+							"Actual filename '" + actualFileName + "' does not equal to expected filename '" + expectedFileName + 
+							"'. TextMatchMechanism = " + fnMatchMech.name() + ".");
 				}
 				break;
 			case matchWithRegularExpression:
-				if (!actualFileName.matches(expectedFileName)) {
-					Assert.fail("Actual filename '" + actualFileName
-							+ " does not match with expected regular expression '" + expectedFileName + "'.");
+				if (!DataMatchUtil.matchTextValue(actualFileName, expectedFileName, fnMatchMech)) {
+					Assert.fail("Actual filename '" + actualFileName + "' does not equal to expected regular expression value '"
+							+ expectedFileName + "'. TextMatchMechanism = " + fnMatchMech.name() + ".");
 				}
 				break;
-
+			case exactMatchWithExpectedValueAfterRemovingSpaces:
+				if (!DataMatchUtil.matchTextValue(actualFileName, expectedFileName, fnMatchMech)) {
+					Assert.fail(
+							"Actual filename '" + actualFileName + "' does not equal to expected filename '" + expectedFileName + 
+							"'. TextMatchMechanism = " + fnMatchMech.name() + ".");
+				}
+				break;
+			case icStartsWithExpectedValue:
+				if (!DataMatchUtil.matchTextValue(actualFileName, expectedFileName, fnMatchMech)) {
+					Assert.fail("Actual filename '" + actualFileName + "' does not starts with expected text '" + expectedFileName
+							+ "'. TextMatchMechanism = " + fnMatchMech.name() + ".");
+				}
+				break;
+			case icContainsExpectedValue:
+				if (!DataMatchUtil.matchTextValue(actualFileName, expectedFileName, fnMatchMech)) {
+					Assert.fail(
+							"Actual filename '" + actualFileName + "' does not contain expected text '" + expectedFileName + 
+							"'. TextMatchMechanism = " + fnMatchMech.name() + ".");
+				}
+				break;
+			case icEndsWithExpectedValue:
+				if (!DataMatchUtil.matchTextValue(actualFileName, expectedFileName, fnMatchMech)) {
+					Assert.fail("Actual filename '" + actualFileName + "' does not ends with expected text '" + expectedFileName
+							+ "'. TextMatchMechanism = " + fnMatchMech.name() + ".");
+				}
+				break;
+			case icExactMatchWithExpectedValue:
+				if (!DataMatchUtil.matchTextValue(actualFileName, expectedFileName, fnMatchMech)) {
+					Assert.fail(
+							"Actual filename '" + actualFileName + "' does not equal to expected filename '" + expectedFileName + 
+							"'. TextMatchMechanism = " + fnMatchMech.name() + ".");
+				}
+				break;		
+			case icExactMatchWithExpectedValueAfterRemovingSpaces:
+				if (!DataMatchUtil.matchTextValue(actualFileName, expectedFileName, fnMatchMech)) {
+					Assert.fail(
+							"Actual filename '" + actualFileName + "' does not equal to expected filename '" + expectedFileName + 
+							"'. TextMatchMechanism = " + fnMatchMech.name() + ".");
+				}
+				break;
+				
 			default:
 				break;
 			}

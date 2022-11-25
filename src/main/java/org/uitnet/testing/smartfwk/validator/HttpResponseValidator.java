@@ -71,6 +71,13 @@ public class HttpResponseValidator {
 		return this;
 	}
 	
+	public HttpResponseValidator validateResponseNotEmpty() {
+		if(StringUtil.isEmptyAfterTrim(response.getPayload())) {
+			fail("HTTP Response payload should not be empty.");
+		}
+		return this;
+	}
+	
 	public HttpResponseValidator validateResponseIsNull() {
 		assertNull(response.getPayload(), "HTTP Response is not null.");
 		return this;

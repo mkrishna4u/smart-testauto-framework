@@ -18,11 +18,13 @@
 package org.uitnet.testing.smartfwk.api.core.reader;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,23 +47,30 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 public class JsonDocumentReader {
 	protected DocumentContext jsonDocCtx;
 
-	public JsonDocumentReader(File jsonFilePath) {
+	public JsonDocumentReader(File jsonFilePath, boolean updateSystemVariablesValue) {
 		try {
 			init();
 			Assert.assertNotNull(jsonFilePath, "JSON file path cannot be null.");
 			ObjectMapper objectMapper = createObjectMapper();
 			JacksonJsonProvider provider = new JacksonJsonProvider(objectMapper);
-			jsonDocCtx = JsonPath.using(Configuration.builder().jsonProvider(provider).build()).parse(jsonFilePath);
+			String jsonAsString = Files.readString(jsonFilePath.toPath());
+			if(updateSystemVariablesValue) {
+				jsonAsString = replaceSystemVariables(jsonAsString);
+			}
+			jsonDocCtx = JsonPath.using(Configuration.builder().jsonProvider(provider).build()).parse(jsonAsString);
 		} catch (Exception ex) {
 			Assert.fail("Failed to parse JSON document.", ex);
 		}
 	}
 
-	public JsonDocumentReader(String jsonAsString) {
+	public JsonDocumentReader(String jsonAsString, boolean updateSystemVariablesValue) {
 		try {
 			init();
 			Assert.assertNotNull(jsonAsString, "JSON document cannot be null.");
 			Assert.assertNotEquals(jsonAsString.trim(), "", "JSON document cannot be empty.");
+			if(updateSystemVariablesValue) {
+				jsonAsString = replaceSystemVariables(jsonAsString);
+			}
 			ObjectMapper objectMapper = createObjectMapper();
 			JacksonJsonProvider provider = new JacksonJsonProvider(objectMapper);
 			jsonDocCtx = JsonPath.using(Configuration.builder().jsonProvider(provider).build()).parse(jsonAsString);
@@ -147,5 +156,23 @@ public class JsonDocumentReader {
 				return EnumSet.noneOf(Option.class);
 			}
 		});
+	}
+	
+	private String replaceSystemVariables(String jsonAsStr) {
+		String updatedStr = jsonAsStr.replace("${project.root.directory}", Locations.getProjectRootDir());
+		return updatedStr;
+	}
+	
+	public static void main(String[] args) {
+		try {
+//			JsonDocumentReader r = new JsonDocumentReader("\"null\"", true);
+//			Object vs= r.readValueAsObject("$", String.class);
+//			System.out.println("" + vs);
+			
+			System.out.println("sadsa asd ${project.root.directory} dsasd sadsa ${project.root.directory} dsfdf".replace("${project.root.directory}", Locations.getProjectRootDir()));
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

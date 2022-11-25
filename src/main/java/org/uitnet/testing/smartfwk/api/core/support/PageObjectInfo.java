@@ -17,12 +17,7 @@
  */
 package org.uitnet.testing.smartfwk.api.core.support;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.TypeRef;
+import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 
 /**
  * 
@@ -30,50 +25,34 @@ import com.jayway.jsonpath.TypeRef;
  *
  */
 public class PageObjectInfo {
-	private String poClassName;
-	private String poObjectName;
-	private DocumentContext jsonParams;
+	private PageObject pageObject;
 	
-	public PageObjectInfo(String poClassName, String poObjectName, DocumentContext jsonParams) {
-		this.poClassName = poClassName;
-		this.poObjectName = poObjectName;
-		this.jsonParams = jsonParams;
+	public PageObjectInfo(PageObject pageObject) {
+		this.pageObject = pageObject;
 	}
 
 	public String getPoClassName() {
-		return poClassName;
-	}
-
-	public void setPoClassName(String poClassName) {
-		this.poClassName = poClassName;
-	}
-
-	public String getPoObjectName() {
-		return poObjectName;
-	}
-
-	public void setPoObjectName(String poObjectName) {
-		this.poObjectName = poObjectName;
-	}
-
-	public DocumentContext getJsonParams() {
-		return jsonParams;
-	}
-
-	public void setJsonParams(DocumentContext jsonParams) {
-		this.jsonParams = jsonParams;
+		int dotIdx = pageObject.getName().lastIndexOf(".");
+		return DefaultInfo.DEFAULT_PAGE_OBJECTS_PACKAGE + "." + pageObject.getName().substring(0, dotIdx);
 	}
 	
+	public String getPoClassFieldName() {
+		int dotIdx = pageObject.getName().lastIndexOf(".");
+		return pageObject.getName().substring(dotIdx+1, pageObject.getName().length());
+	}
+
+	public PageObject getPageObject() {
+		return pageObject;
+	}
+
 	public int getMaxIterationsToLocateElements() {
 		Integer maxTimeToWaitInSeconds = 4;
-		if(jsonParams != null) {
-			try {
-				maxTimeToWaitInSeconds = jsonParams.read("$.maxTimeToWaitInSeconds");
-			}catch(Exception ex) {}
-			
-			if(maxTimeToWaitInSeconds == null) {
-				maxTimeToWaitInSeconds = 4;
-			}
+		try {
+			maxTimeToWaitInSeconds = pageObject.getMaxTimeToWaitInSeconds();
+		}catch(Exception ex) {}
+		
+		if(maxTimeToWaitInSeconds == null) {
+			maxTimeToWaitInSeconds = 4;
 		}
 		
 		if(maxTimeToWaitInSeconds < 0) {
@@ -81,17 +60,5 @@ public class PageObjectInfo {
 		}
 		
 		return Double.valueOf(Math.floor(maxTimeToWaitInSeconds / 2)).intValue();
-	}
-	
-	public Map<String, String> getLocatorParams() {
-		if(jsonParams != null) {
-			try {
-				Map<String, String> params = jsonParams.read("$.locatorParams", new TypeRef<Map<String, String>>(){});
-				if(params != null) {
-					return params;
-				}
-			}catch(Exception ex) {}			
-		}
-		return new HashMap<>();
 	}
 }

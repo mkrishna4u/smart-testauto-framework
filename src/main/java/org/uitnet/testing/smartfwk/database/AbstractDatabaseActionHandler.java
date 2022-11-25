@@ -73,7 +73,7 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 
 	public DocumentContext getDataAsJsonDocument(String entityName, String searchStatement) {
 		String jsonData = getDataAsJsonString(entityName, searchStatement);
-		JsonDocumentReader reader = new JsonDocumentReader(jsonData);
+		JsonDocumentReader reader = new JsonDocumentReader(jsonData, false);
 
 		return reader.getDocumentContext();
 	}
@@ -119,7 +119,7 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 		
 		String jsonData = executeFunctionReturnAsJson(functionName, returnType, args);
 		
-		JsonDocumentReader reader = new JsonDocumentReader(jsonData);
+		JsonDocumentReader reader = new JsonDocumentReader(jsonData, false);
 
 		return reader.getDocumentContext();
 	}
@@ -129,7 +129,7 @@ public abstract class AbstractDatabaseActionHandler implements DatabaseConnectio
 		
 		String jsonData = executeProcedureReturnAsJson(procedureName, args);
 		
-		JsonDocumentReader reader = new JsonDocumentReader(jsonData);
+		JsonDocumentReader reader = new JsonDocumentReader(jsonData, false);
 
 		return reader.getDocumentContext();
 	}

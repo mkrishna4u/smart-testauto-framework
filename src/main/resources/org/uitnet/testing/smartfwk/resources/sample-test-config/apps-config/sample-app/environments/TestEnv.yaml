@@ -19,7 +19,7 @@
 
 ###########################################################################################################
 # Parameters written in this file will get overwritten / applied on AppConfig.yaml file to 
-# setup a new environment. As part of creating new environment we can override any property in
+# setup a new environment. As part of creating new environment we can override any property present in
 # AppConfig.yaml file.
 #
 # NOTE2: To run the testcases for different environment, specify the following system property in 

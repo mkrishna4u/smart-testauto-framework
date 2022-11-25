@@ -272,7 +272,7 @@ public class AppConfig {
 			String apiConfigFile = appsConfigDir + File.separator + this.appName + File.separator + "api-configs"
 					+ File.separator + propValue;
 			try {
-				YamlDocumentReader yamlReader = new YamlDocumentReader(new File(apiConfigFile));
+				YamlDocumentReader yamlReader = new YamlDocumentReader(new File(apiConfigFile), true);
 				this.apiConfig = new ApiConfig(this.appName, apiConfigFile, yamlReader.getDocumentContext());
 			} catch (Exception ex) {
 				Assert.fail("Failed to load '" + apiConfigFile + "' file for application '" + this.appName + "'.", ex);
@@ -368,7 +368,7 @@ public class AppConfig {
 	
 	private UserProfile prepareUserProfile(String profileName) {
 		String path = userProfileConfigDir + "/" + profileName + ".yaml";
-		YamlDocumentReader reader = new YamlDocumentReader(new File(path));
+		YamlDocumentReader reader = new YamlDocumentReader(new File(path), true);
 		UserProfile profile = reader.readValueAsObject("$", UserProfile.class);
 		profile.setAppName(appName);
 		return profile;
@@ -381,7 +381,7 @@ public class AppConfig {
 	
 	private DatabaseProfile prepareDatabaseProfile(String profileName) {
 		String path = dbProfileConfigDir + "/" + profileName + ".yaml";
-		YamlDocumentReader reader = new YamlDocumentReader(new File(path));
+		YamlDocumentReader reader = new YamlDocumentReader(new File(path), true);
 		DatabaseProfile profile = reader.readValueAsObject("$", DatabaseProfile.class);
 		profile.setAppName(appName);
 		return profile;
@@ -401,7 +401,7 @@ public class AppConfig {
 					"Missing '" + driverCfgFile + "' file for '" + appName + "' application.");
 
 			try {
-				YamlDocumentReader yamlReader = new YamlDocumentReader(new File(driverCfgFile));
+				YamlDocumentReader yamlReader = new YamlDocumentReader(new File(driverCfgFile), true);
 				appDriverConfig = new AppDriverConfig(this, yamlReader.getDocumentContext());
 			} catch (Exception ex) {
 				Assert.fail("Failed to read property file - " + driverCfgFile + ". Going to exit...", ex);
@@ -418,7 +418,7 @@ public class AppConfig {
 					"Missing '" + remoteMachinesCfgFile + "' file for '" + appName + "' application.");
 
 			try {
-				YamlDocumentReader yamlReader = new YamlDocumentReader(new File(remoteMachinesCfgFile));
+				YamlDocumentReader yamlReader = new YamlDocumentReader(new File(remoteMachinesCfgFile), true);
 				remoteMachinesConfig = new RemoteMachinesConfig(appName, remoteMachinesCfgFile, yamlReader.getDocumentContext());
 			} catch (Exception ex) {
 				Assert.fail("Failed to read property file - " + remoteMachinesCfgFile + ". Going to exit...", ex);

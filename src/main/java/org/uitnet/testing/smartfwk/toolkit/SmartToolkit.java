@@ -18,7 +18,6 @@
 package org.uitnet.testing.smartfwk.toolkit;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,14 +28,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.zip.ZipFile;
 
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.local_machine.LocalMachineFileSystem;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
-import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
 import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
 
 /**
@@ -47,14 +45,15 @@ import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
  */
 public class SmartToolkit {
 	private static StringArgumentValidator appValidator = new StringArgumentValidator(2, 32, "[A-Za-z0-9_]+");
-	private static StringArgumentValidator classNameValidator = new StringArgumentValidator(2, 64, "[A-Za-z0-9_]+");
-	private static EnumArgumentValidator<PlatformType> platformTypeValidator = new EnumArgumentValidator<PlatformType>(true, PlatformType.class);
-	private static EnumArgumentValidator<WebBrowserType> webBrowserTypeValidator = new EnumArgumentValidator<WebBrowserType>(true, WebBrowserType.class);
+	//private static StringArgumentValidator classNameValidator = new StringArgumentValidator(2, 64, "[A-Za-z0-9_]+");
+	//private static EnumArgumentValidator<PlatformType> platformTypeValidator = new EnumArgumentValidator<PlatformType>(true, PlatformType.class);
+	//private static EnumArgumentValidator<WebBrowserType> webBrowserTypeValidator = new EnumArgumentValidator<WebBrowserType>(true, WebBrowserType.class);
 	
 	private static Map<String, SmartToolkitCommand> toolkitCommands = new LinkedHashMap<>();
 
 	public static void main(String[] args) {
 		try {
+			sanitizeArgs(args);
 			initCommands();
 			
 			List<CommandInfo> userCommands = prepareUserCommands(args);
@@ -67,8 +66,14 @@ public class SmartToolkit {
 		}
 	}
 	
+	private static void sanitizeArgs(String[] args) {
+		if(args == null) { return; }
+		for(int i = 0; i < args.length; i++) {
+			args[i] = args[i].trim().replace("\n", "").replace("\r", "");
+		}
+	}
+	
 	private static List<CommandInfo> prepareUserCommands(String[] args) {
-		int i = 0;
 		List<CommandInfo> commands = new LinkedList<>();
 		CommandInfo command = null;
 		List<String> commandArgs = null;
@@ -92,6 +97,10 @@ public class SmartToolkit {
 				commandArgs = new LinkedList<>();
 				command.setArgs(commandArgs);
 			} else {
+				if(stCommand == null) {
+					Assert.fail("Command option '" + arg + "' is not valid.\nHelp: " + getHelp());
+				}
+				
 				CommandArgument[] argArr = stCommand.getArgs();
 				if(argArr != null && argArr.length > 0) {
 					for(CommandArgument ca : argArr) {
@@ -123,6 +132,11 @@ public class SmartToolkit {
 	}
 	
 	private static void processUserCommands(List<CommandInfo> commands) {
+		if(commands == null || commands.isEmpty()) {
+			Assert.fail("Please specify the correct command option from the list given below:" + getHelp());
+			return;
+		}
+		
 		SmartToolkitCommandExecuter executer = new SmartToolkitCommandExecuter();
 		try {
 			FileUtils.deleteDirectory(new File(Locations.getProjectRootDir() + File.separator + "temp"));
@@ -135,6 +149,9 @@ public class SmartToolkit {
 
 			for (CommandInfo command : commands) {
 				switch (command.getName()) {
+				case "--help":
+					printHelp();
+					break;
 				case "--init":
 					if (command.getArgs() == null || command.getArgs().size() == 0) {
 						executer.initProject(null);
@@ -142,11 +159,41 @@ public class SmartToolkit {
 						executer.initProject(command.getArgs().get(0));
 					}
 					break;
+				case "--add-app":
+					executer.initApp(command.getArgs().get(0));
+					break;
+				case "--add-env":
+					executer.addAppsEnv(command.getArgs().get(0));
+					break;
+				case "--prepare-app-driver-config":
+					executer.prepareDriverConfig(command.getArgs().get(0), null);
+					break;
+				case "--prepare-app-driver-config-for-env":
+					executer.prepareDriverConfig(command.getArgs().get(0), command.getArgs().get(1));
+					break;
+				case "--update-web-driver":
+					if (command.getArgs() == null || command.getArgs().size() == 2) {
+						executer.updateWebDriver(command.getArgs().get(0), ApplicationType.web_app, command.getArgs().get(1), command.getArgs().get(1));
+					} else if (command.getArgs() == null || command.getArgs().size() == 3) {
+						executer.updateWebDriver(command.getArgs().get(0), ApplicationType.web_app, command.getArgs().get(1), command.getArgs().get(1));
+					} else {
+						Assert.fail("Please check your command.\n" + getHelp(command.getName()));
+					}
+					
+					break;
+				case "--install-appium-server":
+					executer.installAppiumServer();
+					break;
+				case "--start-appium-server": 
+					executer.startAppiumServer();
+					break;
+				default: 
+					Assert.fail("Invalid command.\n" + getHelp());	
 				}
 			}
 		} finally {
 			try {
-				//FileUtils.deleteDirectory(new File(Locations.getProjectRootDir() + File.separator + "temp"));
+				FileUtils.deleteDirectory(new File(Locations.getProjectRootDir() + File.separator + "temp"));
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -162,72 +209,86 @@ public class SmartToolkit {
 				new CommandArgument[] { new CommandArgument("<app-name>", appValidator) },
 				"Used to add new app when it does not exist."));
 		
-		toolkitCommands.put("--add-app-env", new SmartToolkitCommand("--add-app-env",
+		toolkitCommands.put("--add-env", new SmartToolkitCommand("--add-env",
 				new CommandArgument[] { 
-					new CommandArgument("<app-name>", appValidator),
 					new CommandArgument("<environment-name>", appValidator) 
 				},
-				"Used to add new environment for the already configured application."));
+				"Used to add new environment for the already configured applications. Environment file is created under test-config/apps-config/<app-name>/environments directory."));
 		
-		toolkitCommands.put("--add-app-stepdef-class", new SmartToolkitCommand("--add-app-stepdef-class",
+//		toolkitCommands.put("--add-app-stepdef-class", new SmartToolkitCommand("--add-app-stepdef-class",
+//				new CommandArgument[] { 
+//					new CommandArgument("<app-name>", appValidator),
+//					new CommandArgument("<step-definitions-class-file-name>", classNameValidator)
+//				},
+//				"Used to create new step definition file for the already existing application."));
+		
+//		toolkitCommands.put("--add-app-po", new SmartToolkitCommand("--add-app-po",
+//				new CommandArgument[] { 
+//					new CommandArgument("<app-name>", appValidator),
+//					new CommandArgument("<page-object-class-file-name>", classNameValidator)
+//				},
+//				"Used to create new page object class for UI page. In that tester can configure page elements."));
+		
+		toolkitCommands.put("--prepare-app-driver-config", new SmartToolkitCommand("--prepare-app-driver-config",
+				new CommandArgument[] { 
+					new CommandArgument("<app-name>", appValidator)
+				},
+				"Used to prepare driver config for the application based on the application AppConfig.yaml file details."));
+		
+		toolkitCommands.put("--prepare-app-driver-config-for-env", new SmartToolkitCommand("--prepare-app-driver-config-for-env",
 				new CommandArgument[] { 
 					new CommandArgument("<app-name>", appValidator),
-					new CommandArgument("<step-definitions-class-file-name>", classNameValidator)
+					new CommandArgument("<env-name>", appValidator)
 				},
-				"Used to create new step definition file for the already existing application."));
+				"Used to prepare driver config for the application environment based on the application AppConfig-<env-name>.yaml file details."));
 		
-		toolkitCommands.put("--add-app-po", new SmartToolkitCommand("--add-app-po",
+		toolkitCommands.put("--update-web-driver", new SmartToolkitCommand("--update-web-driver",
 				new CommandArgument[] { 
-					new CommandArgument("<app-name>", appValidator),
-					new CommandArgument("<page-object-class-file-name>", classNameValidator)
+					new CommandArgument("<platform-type>", appValidator),
+					new CommandArgument("<web-browser-type>", appValidator),
+					new CommandArgument("<version>", null)
 				},
-				"Used to create new page object class for UI page. In that tester can configure page elements."));
+				"Used to download the web browser for the specified platform and web browser. Please refer application AppConfig.yaml "
+				+ "file for more details on <platform-type> and <web-browser-type>. Or see the directory structure under "
+				+ "test-config/app-drivers/ directory to get details on <platform-type> and <web-browser-type>."));
 		
-		toolkitCommands.put("--install-webdriver", new SmartToolkitCommand("--install-webdriver",
-				new CommandArgument[] { 
-					new CommandArgument("<platform-type>", platformTypeValidator),
-					new CommandArgument("<web-browser-type>", webBrowserTypeValidator),
-					new CommandArgument("<driver-version>", null)
-				},
-				"Used to install web driver to the specified version."));
+//		toolkitCommands.put("--add-e2e-feature", new SmartToolkitCommand("--add-e2e-feature",
+//				new CommandArgument[] { 
+//					new CommandArgument("<feature-file-name>", classNameValidator) 
+//				},
+//				"Used to create a e2e (End to end) feature file in e2e directory."));
 		
-		toolkitCommands.put("--add-e2e-feature", new SmartToolkitCommand("--add-e2e-feature",
-				new CommandArgument[] { 
-					new CommandArgument("<feature-file-name>", classNameValidator) 
-				},
-				"Used to create a e2e (End to end) feature file in e2e directory."));
+//		toolkitCommands.put("--add-app-api-feature", new SmartToolkitCommand("--add-app-api-feature",
+//				new CommandArgument[] { 
+//					new CommandArgument("<app-name>", appValidator),
+//					new CommandArgument("<feature-file-name>", classNameValidator)
+//				},
+//				"Used to create a api feature file for configured application."));
 		
-		toolkitCommands.put("--add-app-api-feature", new SmartToolkitCommand("--add-app-api-feature",
-				new CommandArgument[] { 
-					new CommandArgument("<app-name>", appValidator),
-					new CommandArgument("<feature-file-name>", classNameValidator)
-				},
-				"Used to create a api feature file for configured application."));
+//		toolkitCommands.put("--add-app-ui-feature", new SmartToolkitCommand("--add-app-ui-feature",
+//				new CommandArgument[] { 
+//					new CommandArgument("<app-name>", appValidator),
+//					new CommandArgument("<feature-file-name>", classNameValidator)
+//				},
+//				"Used to create a UI feature file for configured application."));
 		
-		toolkitCommands.put("--add-app-ui-feature", new SmartToolkitCommand("--add-app-ui-feature",
-				new CommandArgument[] { 
-					new CommandArgument("<app-name>", appValidator),
-					new CommandArgument("<feature-file-name>", classNameValidator)
-				},
-				"Used to create a UI feature file for configured application."));
-		
-		toolkitCommands.put("--add-app-remote-machine", new SmartToolkitCommand("--add-app-remote-machine",
-				new CommandArgument[] {
-					new CommandArgument("<app-name>", appValidator),
-					new CommandArgument("<remote-machine-name>", appValidator)
-				},
-				"Used to add remote machine in the existing remote-machine config file for the configured application."
-				+ " If Remote machine file does not exist then it will configure the one."));
+//		toolkitCommands.put("--add-app-remote-machine", new SmartToolkitCommand("--add-app-remote-machine",
+//				new CommandArgument[] {
+//					new CommandArgument("<app-name>", appValidator),
+//					new CommandArgument("<remote-machine-name>", appValidator)
+//				},
+//				"Used to add remote machine in the existing remote-machine config file for the configured application."
+//				+ " If Remote machine file does not exist then it will configure the one."));
 		
 		toolkitCommands.put("--install-appium-server", new SmartToolkitCommand("--install-appium-server",
 				new CommandArgument[] { },
 				"Used to install appium server for mobile testing. Note installed nodejs directory path should be "
-				+ "configured in PATH system variabled so that it can use npm or node command."));
+				+ "configured in PATH system variable so that it can use npm or node command."));
 		
 		toolkitCommands.put("--start-appium-server", new SmartToolkitCommand("--start-appium-server",
 				new CommandArgument[] { },
 				"Used to start appium server on default host and port. Note installed nodejs directory path should be "
-						+ "configured in PATH system variabled so that it can use npm or node command."));
+						+ "configured in PATH system variable so that it can use npm or node command."));
 		
 	}
 
@@ -240,6 +301,13 @@ public class SmartToolkit {
 		for(Map.Entry<String, SmartToolkitCommand> entry: toolkitCommands.entrySet()) {
 			help = help + "\n" + entry.getValue() + "\n";
 		}
+		
+		return help;
+	}
+	
+	private static String getHelp(String commandName) {
+		String help = "smart-studio ";
+		help = help + toolkitCommands.get(commandName);
 		
 		return help;
 	}

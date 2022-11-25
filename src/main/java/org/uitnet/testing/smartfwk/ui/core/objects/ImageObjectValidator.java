@@ -193,6 +193,11 @@ public class ImageObjectValidator extends UIObjectValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public ImageObjectValidator forceClick(int maxIterationsToLocateElements) {
+		return click(maxIterationsToLocateElements);
+	}
 
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {
 		switch (imageSection) {
@@ -391,5 +396,17 @@ public class ImageObjectValidator extends UIObjectValidator {
 	public Actions getNewSeleniumActions() {
 		Assert.fail("getNewSeleniumActions() API is not supported by Button component.");
 		return null;
+	}
+
+	@Override
+	public ImageObjectValidator mouseHoverOver(int maxIterationsToLocateElements) {
+		try {
+			Match match = findElement(maxIterationsToLocateElements);
+			match.mouseMove();
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse hoverover on element '"
+					+ imgLocator.getDisplayName() + "'.", th);
+		}
+		return this;
 	}
 }

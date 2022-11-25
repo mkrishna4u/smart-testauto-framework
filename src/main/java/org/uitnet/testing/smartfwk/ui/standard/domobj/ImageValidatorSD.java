@@ -69,6 +69,12 @@ public class ImageValidatorSD extends ImageValidator {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public ImageValidatorSD forceClick(int maxIterationsToLocateElements) {
+		domObjValidator.forceClick(maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public ImageValidatorSD doubleClick(int maxIterationsToLocateElements) {
@@ -91,6 +97,12 @@ public class ImageValidatorSD extends ImageValidator {
 	@Override
 	public ImageValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
+	}
+	
+	@Override
+	public ImageValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 

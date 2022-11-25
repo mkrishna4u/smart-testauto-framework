@@ -23,13 +23,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.core.validator.ParamPath;
+import org.uitnet.testing.smartfwk.core.validator.ParamValueType;
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -58,6 +66,10 @@ public class XmlDocumentReader {
 			Assert.fail("Failed to parse XML document.", ex);
 		}
 	}
+	
+	public XmlDocumentReader(Document xmlDoc) {
+		this.xmlDoc = xmlDoc;
+	}
 
 	private Document parseXML(byte[] contents) throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -71,5 +83,61 @@ public class XmlDocumentReader {
 
 	public Document getDocument() {
 		return xmlDoc;
+	}
+	
+	public Object findAttributeOrTextValues(String elementName, ParamPath xpath) {
+		XPath xPath = XPathFactory.newInstance().newXPath();
+		List<Object> values = new LinkedList<>();
+		try {
+			NodeList nodes = null;
+			try {
+				nodes = (NodeList) xPath.compile(xpath.getPath()).evaluate(getDocument(), XPathConstants.NODESET);
+				if(nodes == null) {
+					return null;
+				}
+			} catch(Exception ex) {
+				if(xpath.getValueType() == ParamValueType.STRING) {
+					return xPath.compile(xpath.getPath()).evaluate(getDocument(), XPathConstants.STRING);
+				} else if(xpath.getValueType() == ParamValueType.INTEGER) {
+					Double d = (Double) xPath.compile(xpath.getPath()).evaluate(getDocument(), XPathConstants.NUMBER);
+					if(d != null) {
+						return d.longValue();
+					} else {
+						return d;
+					}
+				} else if(xpath.getValueType() == ParamValueType.DECIMAL) {
+					return xPath.compile(xpath.getPath()).evaluate(getDocument(), XPathConstants.NUMBER);
+				} else if(xpath.getValueType() == ParamValueType.BOOLEAN) {
+					return xPath.compile(xpath.getPath()).evaluate(getDocument(), XPathConstants.BOOLEAN);
+				}
+			}
+						
+			for(int i = 0; i < nodes.getLength(); i++) {
+				if(xpath.getValueType() == ParamValueType.STRING) {
+					return nodes.item(i).getTextContent();
+				} else if(xpath.getValueType() == ParamValueType.STRING_LIST) {
+					values.add(nodes.item(i).getTextContent());
+				} else if(xpath.getValueType() == ParamValueType.INTEGER) {
+					return Integer.valueOf(nodes.item(i).getTextContent());
+				} else if(xpath.getValueType() == ParamValueType.INTEGER_LIST) {
+					values.add(Integer.valueOf(nodes.item(i).getTextContent()));
+				} else if(xpath.getValueType() == ParamValueType.DECIMAL) {
+					return Double.valueOf(nodes.item(i).getTextContent());
+				} else if(xpath.getValueType() == ParamValueType.DECIMAL_LIST) {
+					values.add(Double.valueOf(nodes.item(i).getTextContent()));
+				} else if(xpath.getValueType() == ParamValueType.BOOLEAN) {
+					return Boolean.valueOf(nodes.item(i).getTextContent());
+				} else if(xpath.getValueType() == ParamValueType.BOOLEAN_LIST) {
+					values.add(Boolean.valueOf(nodes.item(i).getTextContent()));
+				} else {
+					Assert.fail("Param value type '" + xpath + "' is not supported.");
+				}
+			}
+			
+		} catch (Exception e) {
+			Assert.fail("Element '" + elementName + "' has incorrect XML Path '" + xpath.getPath() + "'.", e);
+		}
+		
+		return values;
 	}
 }

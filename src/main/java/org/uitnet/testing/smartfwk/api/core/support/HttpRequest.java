@@ -20,6 +20,8 @@ package org.uitnet.testing.smartfwk.api.core.support;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
+
 /**
  * 
  * @author Madhav Krishna
@@ -57,7 +59,12 @@ public class HttpRequest {
 	}
 
 	public HttpRequest setPayloadType(String payloadType) {
-		headers.put("Content-Type", payloadType);
+		if(StringUtil.isEmptyAfterTrim(payloadType)) {
+			headers.remove("Content-Type");
+		} else {
+			headers.put("Content-Type", payloadType);
+		}
+		
 		return this;
 	}
 	
@@ -84,7 +91,12 @@ public class HttpRequest {
 	}
 
 	public HttpRequest setResponseContentType(String responseContentType) {
-		headers.put("Accept", responseContentType);
+		if(StringUtil.isEmptyAfterTrim(responseContentType)) {
+			headers.remove("Accept");
+		} else {
+			headers.put("Accept", responseContentType);
+		}
+		
 		return this;
 	}
 }

@@ -97,7 +97,7 @@ public class TestConfigManager {
 				f.mkdirs();
 			}
 			
-			YamlDocumentReader reader = new YamlDocumentReader(new File(TEST_CONFIG_FILE_PATH));
+			YamlDocumentReader reader = new YamlDocumentReader(new File(TEST_CONFIG_FILE_PATH), true);
 
 			initTestConfig(reader.getDocumentContext());
 			initAppConfigs();
@@ -191,7 +191,7 @@ public class TestConfigManager {
 			for (String appName : appNames) {
 				currAppName = appName;
 				appConfigFile = appsConfigDir + File.separator + appName + File.separator + "AppConfig.yaml";
-				YamlDocumentReader reader = new YamlDocumentReader(new File(appConfigFile));
+				YamlDocumentReader reader = new YamlDocumentReader(new File(appConfigFile), true);
 
 				appConfig = new AppConfig(currAppName, reader.getDocumentContext(), appsConfigDir);
 				appConfigs.put(appName, appConfig);
@@ -212,7 +212,7 @@ public class TestConfigManager {
 				+ "\n" + "enableBrowserExtensions: false\n" + "browserWindowSize: " + Screen.getPrimaryScreen().w
 				+ " x " + Screen.getPrimaryScreen().h + "\n";
 
-		YamlDocumentReader reader = new YamlDocumentReader(defaultConfig);
+		YamlDocumentReader reader = new YamlDocumentReader(defaultConfig, true);
 		AppConfig appConfig = new AppConfig(DefaultInfo.DEFAULT_APP_NAME, reader.getDocumentContext(), appsConfigDir);
 		return appConfig;
 	}
@@ -282,7 +282,7 @@ public class TestConfigManager {
 	private void initSikuliSettings() {
 		String sikuliSettingsFile = sikuliConfigDir + File.separator + "SikuliSettings.yaml";
 		try {
-			YamlDocumentReader reader = new YamlDocumentReader(new File(sikuliSettingsFile));
+			YamlDocumentReader reader = new YamlDocumentReader(new File(sikuliSettingsFile), true);
 
 			sikuliSettings = new SikuliSettings(sikuliConfigDir, reader.getDocumentContext());
 		} catch (Exception ex) {

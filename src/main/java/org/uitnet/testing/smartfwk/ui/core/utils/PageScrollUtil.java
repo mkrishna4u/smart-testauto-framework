@@ -249,6 +249,15 @@ public class PageScrollUtil {
 		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(element).click().perform();
 	}
+	
+	public static void mouseForceClick(SmartAppDriver appDriver, WebElement element) {
+		if (appDriver.getScrollElementToViewportHandler() != null) {
+			appDriver.getScrollElementToViewportHandler().handle(appDriver, element);
+		}
+
+		JavascriptExecutor executor = (JavascriptExecutor)appDriver.getWebDriver();
+		executor.executeScript("arguments[0].click();", element);
+	}
 
 	public static void mouseDoubleClick(SmartAppDriver appDriver, WebElement element) {
 		if (appDriver.getScrollElementToViewportHandler() != null) {
@@ -293,5 +302,17 @@ public class PageScrollUtil {
 
 		Actions action = new Actions(appDriver.getWebDriver());
 		action.moveToElement(source).dragAndDrop(source, target).perform();
+	}
+	
+	public static void mouseHoverOver(SmartAppDriver appDriver, WebElement element) {
+		if (appDriver.getScrollElementToViewportHandler() != null) {
+			appDriver.getScrollElementToViewportHandler().handle(appDriver, element);
+			appDriver.waitForMilliSeconds(1000);
+		}
+
+		Actions action = new Actions(appDriver.getWebDriver());
+		action.moveToElement(element).perform();
+		
+		appDriver.waitForMilliSeconds(400);
 	}
 }

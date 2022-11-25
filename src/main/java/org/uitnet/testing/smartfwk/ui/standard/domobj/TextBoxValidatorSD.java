@@ -151,6 +151,12 @@ public class TextBoxValidatorSD extends TextBoxValidator {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public TextBoxValidatorSD forceClick(int maxIterationsToLocateElements) {
+		domObjValidator.forceClick(maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public TextBoxValidatorSD doubleClick(int maxIterationsToLocateElements) {
@@ -173,6 +179,12 @@ public class TextBoxValidatorSD extends TextBoxValidator {
 	@Override
 	public TextBoxValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
+	}
+	
+	@Override
+	public TextBoxValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 
@@ -202,8 +214,7 @@ public class TextBoxValidatorSD extends TextBoxValidator {
 
 	@Override
 	public String getValue(int maxIterationsToLocateElements) {
-		WebElement webElem = domObjValidator.findElement(maxIterationsToLocateElements);
-		return webElem.getAttribute("value");
+		return WebElementUtil.getInputTextValue(appDriver, domObjValidator.getUIObject(), maxIterationsToLocateElements);
 	}
 
 	@Override

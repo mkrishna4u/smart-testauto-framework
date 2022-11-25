@@ -1,4 +1,4 @@
-# Smart Software Testing Automation Framework (smart-testauto-framework)
+# Smart Software Testing Automation Framework (smart-testauto-framework) / Smart TestAuto Studio (STAS)
 **Data driven End-to-End testing (UI, API, Database and Remote Machine Testing) is made easy. Develop testcases for one environment and run the same testcases on different environments.**
 
 **Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native app automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX**
@@ -13,7 +13,7 @@ Using this software we can easily test the following functionality of the softwa
 2.  **Native applications** like **Desktop applications** (like calculator), **Mobile applications** (like calculator)
 3.  **Visualization testing / Image recognition testing** (like image based testing using *SI object classes like ImageSI, ButtonSI, TextboxSI object classes etc.). NOTE: To perform visualization testing, application must be launched and visible on PC. Visualization testing can not be performed on headless web browsers.
 4.  Perform **Data Driven Testing (DDT)** on user interface against your relational database i.e. Oracle, MySQL, Postgres, MariaDB etc. Use **SmartDatabaseManager** class to perform CRUD operations on database. **SqlDatabaseActionHandler** can be registered with database profiles to perform CRUD operations on relational/SQL databases.
-5.  Perform **Data Driven Testing (DDT)** using excel, CSV data, JSON, YAML and XML data files. Reads excel (.xlsx and .xls) files data using **ExcelFileReader** class. Reads CSV file data using **CSVFileReader** class.
+5.  Perform **Data Driven Testing (DDT)** using Excel, CSV data, JSON, YAML and XML data files. Reads excel (.xlsx and .xls) files data using **ExcelFileReader** class. Reads CSV file data using **CSVFileReader** class.
 6. Perform **Behavior Driven Testing(BDT)** using Cucumber Gherkin feature files.
 7.  **API Testing (REST API)** using **SmartApiTestManager** **AbstractApiActionHandler** class. This class maintains sessions and supports customizable login(..) and logout() APIs. Create your own class that extends AbstractApiActionHandler class and use it to perform HTTP operations like GET, POST, PUT, DELETE etc. These api action handler class can be registered with ApiConfig.yaml file.
 8.  Read JSON data using **JsonDocumentReader**. It uses the JSON Path information available on https://github.com/json-path/JsonPath
@@ -25,7 +25,7 @@ Using this software we can easily test the following functionality of the softwa
 14. **Configure multiple applications** in a single project and write test scenarios that involves communication among multiple applications and automate test steps in a simple way by adding less code.
 15. Support standard way of configuration for applications, application user profiles and application relational database profiles.
 16. Write scenarios and its definitions once for any platform and run the same scenarios and definitions on any other platforms for any of the software application without changing the scenario and the step definition (Note the behavior of the application on different platforms should be same but locator may change). In this case you can attach multiple locators (platform specific) to a single UI control (like textbox, buttons etc.).
-17. Use **SmartCucumberUiScenarioContext** cucumber CDI (Constructor Dependency Injection) class for UI test step definition and **SmartCucumberApiScenarioContext** cucumber CDI (Constructor Dependency Injection) class for API step definition to share the information from one step to another step in a same scenario and different step definition class files.
+17. Use **SmartCucumberScenarioContext** cucumber CDI (Constructor Dependency Injection) class for UI, Api and Database test step definition.
 18. Platform specific sample driver configuration files (AppDriver.yaml) are present in the following directory **sample-config/apps-drivers**. Copy specific file in your application config directory like **test-config/apps-config/[app-name]/driver-configs** and also copy your application file like ?.app, ?.apk ?.exe, or ?.api etc.
 19. Use **TestDataBuilder** class to build randomized test data of any length that may include alphabets, numbers, special characters, newline, whitespaces, leading characters etc.
 20. Use **FieldValidator** class to validate the field value as per the expected value or criteria. Also **StringUtil** class is very handy to check the textual / string data.
@@ -74,6 +74,14 @@ This framework removes the complexity of all other software tools and provides a
 8.  Not Applicable: This is set for native applications.
 
 # How to start with this framework
+To start with this framework is as easy as could be. It provides the smart-testauto-studio project that provides the command line interface (CLI) to setup the project for any application. It is under ./smart-testauto-studio directory: From this directory get the latest version README file to understand how to setup the smart-testauto-studio environment. URL for latest **smart-testauto-studio** is given below:
+
+[https://github.com/mkrishna4u/smart-testauto-framework/tree/main/smart-testauto-studio/latest](https://github.com/mkrishna4u/smart-testauto-framework/tree/main/smart-testauto-studio/latest "Latest Smart TestAuto Studio CLI") 
+
+README file for the latest **smart-testauto-studio** is given below:  
+
+[https://github.com/mkrishna4u/smart-testauto-framework/tree/main/smart-testauto-studio/latest/README.md](https://github.com/mkrishna4u/smart-testauto-framework/tree/main/smart-testauto-studio/latest/README.md "Latest Smart TestAuto Studio CLI") 
+
 Use the following github quickstart project and follow the instructions there to setup your testing environment:
 1. **smart-testauto-quickstart-java(For NonMobile Web Application):** Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-java>
 

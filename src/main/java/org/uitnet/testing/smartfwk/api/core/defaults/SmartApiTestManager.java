@@ -40,15 +40,19 @@ import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 public class SmartApiTestManager implements ApiTestManager {
 	private static SmartApiTestManager instance;
 
+	// Registered action handlers. Key: appName, Value: AbstractApiActionHandler
+	private Map<String, AbstractApiActionHandler> registeredActionHandlers;
+
 	// Key: appName, Value: AbstractApiActionHandler
-	private Map<String, AbstractApiActionHandler> appActionHandlers;
+	private Map<String, AbstractApiActionHandler> activeActionHandlers;
 
 	// Key: appName:targetServerName:userProfileName, Value:
 	// ApiAuthenticationProvider
 	private Map<String, ApiAuthenticationProvider> appAuthProviders;
 
 	private SmartApiTestManager() {
-		appActionHandlers = new HashMap<>();
+		registeredActionHandlers = new HashMap<>();
+		activeActionHandlers = new HashMap<>();
 		appAuthProviders = new HashMap<>();
 		initActionHandlers();
 	}
@@ -108,17 +112,29 @@ public class SmartApiTestManager implements ApiTestManager {
 	 */
 	private void registerActionHandler(String appName, String targetServerName,
 			AbstractApiActionHandler actionHandler) {
-		appActionHandlers.put(prepareKey(appName, targetServerName), actionHandler);
+		registeredActionHandlers.put(prepareKey(appName, targetServerName), actionHandler);
 	}
 
 	@Override
-	public AbstractApiActionHandler getActionHandler(String appName, String targetServerName) {
-		AbstractApiActionHandler helper = getRegisteredActionHandler(appName, targetServerName);
-		return helper;
+	public AbstractApiActionHandler getActionHandler(String appName, String targetServerName, String userProfileName) {
+		String key = prepareAuthProviderMapKey(appName, targetServerName, userProfileName);
+		AbstractApiActionHandler handler = activeActionHandlers.get(key);
+		if (handler == null) {
+			synchronized (SmartApiTestManager.class) {
+				handler = activeActionHandlers.get(key);
+				if (handler == null) {
+					handler = getRegisteredActionHandler(appName, targetServerName);
+					handler.setActiveProfileName(userProfileName);
+					activeActionHandlers.put(key, handler);
+				}
+			}
+		}
+
+		return handler;
 	}
 
 	private AbstractApiActionHandler getRegisteredActionHandler(String appName, String targetServerName) {
-		AbstractApiActionHandler actionHandler = appActionHandlers.get(prepareKey(appName, targetServerName));
+		AbstractApiActionHandler actionHandler = registeredActionHandlers.get(prepareKey(appName, targetServerName));
 		Assert.assertNotNull(actionHandler, "No test helper registered with SmartApiTestManager class for appName = "
 				+ appName + " and targetServerName = " + targetServerName
 				+ ". This must be registered in cucumber step definition method that is annotated with @BeforeAll.");
@@ -162,7 +178,8 @@ public class SmartApiTestManager implements ApiTestManager {
 
 	@Override
 	public synchronized void deregisterAll() {
-		appActionHandlers.clear();
+		registeredActionHandlers.clear();
+		activeActionHandlers.clear();
 
 		for (ApiAuthenticationProvider aap : appAuthProviders.values()) {
 			aap.logout();

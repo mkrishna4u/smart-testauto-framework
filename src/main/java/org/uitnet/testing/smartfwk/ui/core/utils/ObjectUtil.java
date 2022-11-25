@@ -20,11 +20,15 @@ package org.uitnet.testing.smartfwk.ui.core.utils;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.core.validator.ParamValue;
+import org.uitnet.testing.smartfwk.core.validator.ParamValueType;
+import org.uitnet.testing.smartfwk.core.validator.ValueMatchOperator;
 
 /**
  * 
@@ -261,7 +265,131 @@ public class ObjectUtil {
 		return out;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(listSetArrayValueAsString(new Integer[] { null, 55, 78 }, null, "\""));
+	@SuppressWarnings("unchecked")
+	public static ParamValue convertObjectToParamValue(Object obj) {
+		ParamValue pvalue = new ParamValue();
+		pvalue.setV(obj);
+
+		ParamValueType valueType = null;
+		if (obj != null && obj instanceof List) {
+			List<Object> list = (List<Object>) obj;
+			for (Object elem : list) {
+				if (elem != null) {
+					if (elem instanceof Long || elem instanceof Integer) {
+						valueType = ParamValueType.INTEGER_LIST;
+						break;
+					} else if (elem instanceof Boolean) {
+						valueType = ParamValueType.BOOLEAN_LIST;
+						break;
+					} else if (elem instanceof Double || elem instanceof Float) {
+						valueType = ParamValueType.DECIMAL_LIST;
+						break;
+					}
+				}
+			}
+			if (valueType == null) {
+				valueType = ParamValueType.STRING_LIST;
+			}
+		} else if (obj != null && obj instanceof Set) {
+			Set<Object> list = (Set<Object>) obj;
+			List<Object> list2 = new ArrayList<>();
+			for (Object elem : list) {
+				list2.add(elem);
+				if (elem != null) {
+					if (elem instanceof Long || elem instanceof Integer) {
+						valueType = ParamValueType.INTEGER_LIST;
+					} else if (elem instanceof Boolean) {
+						valueType = ParamValueType.BOOLEAN_LIST;
+					} else if (elem instanceof Double || elem instanceof Float) {
+						valueType = ParamValueType.DECIMAL_LIST;
+					}
+				}
+			}
+			if (valueType == null) {
+				valueType = ParamValueType.STRING_LIST;
+			}
+			pvalue.setV(list2);
+		} else if (obj != null && obj instanceof Map) {
+			Assert.fail("Map data is not supported.");
+		} else if (obj != null && obj.getClass().isArray()) {
+			Object[] list = (Object[]) obj;
+			List<Object> list2 = new ArrayList<>();
+			for (Object elem : list) {
+				list2.add(elem);
+				if (elem != null) {
+					if (elem instanceof Long || elem instanceof Integer) {
+						valueType = ParamValueType.INTEGER_LIST;
+					} else if (elem instanceof Boolean) {
+						valueType = ParamValueType.BOOLEAN_LIST;
+					} else if (elem instanceof Double || elem instanceof Float) {
+						valueType = ParamValueType.DECIMAL_LIST;
+					}
+				}
+			}
+			if (valueType == null) {
+				valueType = ParamValueType.STRING_LIST;
+			}
+			pvalue.setV(list2);
+		} else {
+			if (obj instanceof Long || obj instanceof Integer) {
+				valueType = ParamValueType.INTEGER;
+			} else if (obj instanceof Boolean) {
+				valueType = ParamValueType.BOOLEAN;
+			} else if (obj instanceof Double || obj instanceof Float) {
+				valueType = ParamValueType.DECIMAL;
+			}
+
+			if (valueType == null) {
+				valueType = ParamValueType.STRING;
+			}
+		}
+
+		pvalue.setValueType(valueType.getType());
+
+		return pvalue;
 	}
+
+	@SuppressWarnings("unchecked")
+	public static void fixValueTypesInParamValueObjects(ParamValue pv1, ValueMatchOperator operator, ParamValue pv2) {
+		if (pv1.getValueType() != pv2.getValueType() && pv1 != null && pv2 != null) {
+			if (pv1.getValueType().getType().endsWith("-list")) {
+				List<Object> list = (List<Object>) pv1.getV();
+				if (list == null || list.isEmpty()) {
+					if (operator == ValueMatchOperator.EQUAL_TO || operator == ValueMatchOperator.GREATER_THAN
+							|| operator == ValueMatchOperator.GREATER_THAN_EQUAL_TO
+							|| operator == ValueMatchOperator.LESS_THAN
+							|| operator == ValueMatchOperator.LESS_THAN_EQUAL_TO) {
+						pv1.setValueType(pv2.getValueType().getType());
+					}
+				}
+			} else if (pv2.getValueType().getType().endsWith("-list")) {
+				List<Object> list = (List<Object>) pv2.getV();
+				if (list == null || list.isEmpty()) {
+					if (operator == ValueMatchOperator.EQUAL_TO || operator == ValueMatchOperator.GREATER_THAN
+							|| operator == ValueMatchOperator.GREATER_THAN_EQUAL_TO
+							|| operator == ValueMatchOperator.LESS_THAN
+							|| operator == ValueMatchOperator.LESS_THAN_EQUAL_TO) {
+						pv2.setValueType(pv1.getValueType().getType());
+					}
+				}
+			} else {
+				if (pv1.getV() == null) {
+					if (operator == ValueMatchOperator.EQUAL_TO || operator == ValueMatchOperator.GREATER_THAN
+							|| operator == ValueMatchOperator.GREATER_THAN_EQUAL_TO
+							|| operator == ValueMatchOperator.LESS_THAN
+							|| operator == ValueMatchOperator.LESS_THAN_EQUAL_TO) {
+						pv1.setValueType(pv2.getValueType().getType());
+					}
+				} else if (pv2.getV() == null) {
+					if (operator == ValueMatchOperator.EQUAL_TO || operator == ValueMatchOperator.GREATER_THAN
+							|| operator == ValueMatchOperator.GREATER_THAN_EQUAL_TO
+							|| operator == ValueMatchOperator.LESS_THAN
+							|| operator == ValueMatchOperator.LESS_THAN_EQUAL_TO) {
+						pv2.setValueType(pv1.getValueType().getType());
+					}
+				}
+			}
+		}
+	}
+
 }

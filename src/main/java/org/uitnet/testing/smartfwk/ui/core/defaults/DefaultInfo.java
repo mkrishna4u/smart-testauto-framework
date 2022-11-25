@@ -30,4 +30,6 @@ public class DefaultInfo {
 			.getPackageName() + "." + DefaultAppLoginSuccessPageValidator.class.getSimpleName();
 	public static final String DEFAULT_USER_PROFILE_NAME = "DEFAULT-USER-PROFILE";
 	public static final String DEFAULT_PAGE_OBJECTS_PACKAGE = "page_objects";
+	
+	public static String YAML_FILE_VARIABLE_PROJECT_ROOT_DIR = "${project.root.directory}";
 }

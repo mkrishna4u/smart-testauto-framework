@@ -238,27 +238,35 @@ public class WebElementUtil {
 						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
 								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				
-				if (appDriver.getAppType() == ApplicationType.native_app) {
-					String getElemTextAttr = appDriver.getAppConfig().getAppDriverConfig().getWebAttrMap()
-							.get(SmartConstants.WEBATTRMAPKEY_GET_INPUT_VALUE_ATTR);
-					if (getElemTextAttr != null && !"".equals(getElemTextAttr)) {
-						text = webElem.getAttribute(getElemTextAttr);
-					} else {
-						Assert.fail("Please specify the value for property '"
-								+ SmartConstants.WEBATTRMAPKEY_GET_INPUT_VALUE_ATTR
-								+ "' in AppDriver.yaml file for Application '" + appDriver.getAppName() + "'.");
-					}
-				} else {
-					if (webElem != null) {
-						text = webElem.getAttribute("value");
-					}
-				}
+				text = getInputTextValue(appDriver, webElem);
 			} catch (Throwable th) {
 				if (i == maxIterationsToLocateElements) {
 					throw th;
 				}
 			}
 			appDriver.waitForSeconds(2);
+		}
+		
+		return text;
+	}
+	
+	public static String getInputTextValue(SmartAppDriver appDriver, WebElement webElem) {
+		String text = "";
+		
+		if (appDriver.getAppType() == ApplicationType.native_app) {
+			String getElemTextAttr = appDriver.getAppConfig().getAppDriverConfig().getWebAttrMap()
+					.get(SmartConstants.WEBATTRMAPKEY_GET_INPUT_VALUE_ATTR);
+			if (getElemTextAttr != null && !"".equals(getElemTextAttr)) {
+				text = webElem.getAttribute(getElemTextAttr);
+			} else {
+				Assert.fail("Please specify the value for property '"
+						+ SmartConstants.WEBATTRMAPKEY_GET_INPUT_VALUE_ATTR
+						+ "' in AppDriver.yaml file for Application '" + appDriver.getAppName() + "'.");
+			}
+		} else {
+			if (webElem != null) {
+				text = webElem.getAttribute("value");
+			}
 		}
 		
 		return text;

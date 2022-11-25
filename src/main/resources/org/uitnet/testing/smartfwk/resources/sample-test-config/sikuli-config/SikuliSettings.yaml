@@ -18,7 +18,7 @@
 ################################################################################
 
 #OCR Settings
-ocr-tessdata-location: .
+ocr-tessdata-location: "C:/Program Files/Tesseract-OCR/tessdata"
 settings:
   OcrLanguage: "string:eng"
   OcrTextSearch: "boolean:true"

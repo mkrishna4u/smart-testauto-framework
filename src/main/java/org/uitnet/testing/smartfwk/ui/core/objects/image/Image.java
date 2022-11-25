@@ -18,7 +18,7 @@
 package org.uitnet.testing.smartfwk.ui.core.objects.image;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
+import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -36,5 +36,5 @@ public abstract class Image extends UIObject {
 
 	public abstract ImageValidator getValidator(SmartAppDriver appDriver, Region region);
 	
-	public abstract ImageValidator getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region);
+	public abstract ImageValidator getValidator(SmartCucumberScenarioContext scenarioContext, Region region);
 }

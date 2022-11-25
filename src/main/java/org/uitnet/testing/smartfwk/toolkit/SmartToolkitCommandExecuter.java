@@ -24,10 +24,17 @@ import java.util.TreeSet;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.reader.YamlDocumentReader;
+import org.uitnet.testing.smartfwk.common.command.SmartCommandExecuter;
 import org.uitnet.testing.smartfwk.local_machine.LocalMachineFileSystem;
-import org.uitnet.testing.smartfwk.local_machine.ResourceInfo;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
+import org.uitnet.testing.smartfwk.ui.core.config.WebBrowserType;
+import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
+
+import com.jayway.jsonpath.DocumentContext;
 
 /**
  * 
@@ -43,53 +50,82 @@ public class SmartToolkitCommandExecuter {
 	public void initProject(String appName) {
 		String baseDir = Locations.getProjectRootDir() + File.separator;
 		String baseTempDir = baseDir + "temp/org/uitnet/testing/smartfwk/resources/";
-		// 1. Create project directory structure
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-config");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-config/app-drivers");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-config/apps-config");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-config/sikuli-config");
+		boolean isProjectExist = new File(baseDir + "test-config").exists();
 		
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "cucumber-testcases");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "cucumber-testcases/e2e");
-		
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "sikuli-resources");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "libs");
-		
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-data");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-results");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-results/downloads");
-		
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/java");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/resources");
-		
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/java");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/resources");
-		
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "scripts");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "scripts/windows");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "scripts/unix");
-		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "temp");
-		
-		// Copy global constants file
-		LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "sample-global/GlobalConstants.java", baseDir + "src/main/java/global", "GlobalConstants.java");
-		
-		LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "sample-test-config" + File.separator + "TestConfig.yaml", baseDir + "test-config", "TestConfig.yaml");
-		
-		// Copy log4j file
-		LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "log4j.xml", baseDir + "src/main/resources", "log4j.xml");
-		
-		
-		// copy scripts
-		copyScripts();
-		
+		if(!isProjectExist) {
+			// 1. Create project directory structure
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-config");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-config/app-drivers");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-config/apps-config");
+			
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "cucumber-testcases");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "cucumber-testcases/e2e");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "cucumber-testcases/e2e/api");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "cucumber-testcases/e2e/ui");
+			
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "sikuli-resources");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "libs");
+			
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-data");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-data/api-request-templates");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-results");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-results/downloads");
+			
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/java");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/java/api");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/java/page_objects");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/resources");
+			
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/java");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/java/stepdefs/api");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/java/stepdefs/ui");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/java/stepdefs/database");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/resources");
+			
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "scripts");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "scripts/windows");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "scripts/unix");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "temp");
+			
+			// Copy global constants file
+			LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "sample-global/GlobalConstants.java", baseDir + "src/main/java/global", "GlobalConstants.java");
+			
+			LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "sample-test-config" + File.separator + "TestConfig.yaml", baseDir + "test-config", "TestConfig.yaml");
+			
+			// Copy log4j file
+			LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "cucumber/cucumber.properties", baseDir + "src/main/resources", "cucumber.properties");
+			
+			LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "log4j.xml", baseDir + "src/main/resources", "log4j.xml");
+			
+			// copy scripts
+			copyScripts();
+			
+			// copy sikuli configs
+			LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-test-config/sikuli-config", baseDir + "test-config/sikuli-config", true);
+			
+			// copy common stepdefs
+			LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "sample-stepdefs/api/SmartSharedApiStepDefs.java", baseDir + "src/test/java/stepdefs/api", "SmartSharedApiStepDefs.java");
+			LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "sample-stepdefs/ui/SmartSharedUiStepDefs.java", baseDir + "src/test/java/stepdefs/ui", "SmartSharedUiStepDefs.java");
+			
+		} else {
+			System.out.println("Smart studio seems already configured.");
+		}
 		
 		// Initialize application
 		if(!StringUtil.isEmptyAfterTrim(appName)) {
 			initApp(appName);
+			System.out.println("Smart project environment configured successfully for '" + appName + "' application.");
+		} else {
+			System.out.println("Smart project environment configured successfully.");
 		}
+		
+		// Copy sample feature files
+		LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "sample-feature-files/SampleUiFeature.feature", baseDir + "cucumber-testcases/e2e/ui", "SampleUiFeature.feature");
+		LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "sample-feature-files/SampleApiFeature.feature", baseDir + "cucumber-testcases/e2e/api", "SampleApiFeature.feature");
 	}
 
 	public void initApp(String appName) {
+		System.out.println("Going to configure '" + appName + "' application...");
 		String baseDir = Locations.getProjectRootDir() + File.separator;
 		String baseTempDir = baseDir + "temp/org/uitnet/testing/smartfwk/resources/";
 		String appDir = baseDir + "test-config/apps-config/" + appName;
@@ -99,13 +135,16 @@ public class SmartToolkitCommandExecuter {
 			LocalMachineFileSystem.createDirectoriesIfNotExist(appDir);
 		}
 		
+		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/java/stepdefs/api/" + appName);
+		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/java/stepdefs/ui/" + appName);
+		
 		String sampleAppDir = baseTempDir + "sample-test-config/apps-config/sample-app";
 		
 		// Copy sample files to app directory
 		LocalMachineFileSystem.copyDirectoryRecursively(sampleAppDir, appDir, true);
 		
 		// Update sample-app to appName		
-		LocalMachineFileSystem.replaceTextInFile(appDir + File.separator + "AppConfig.yaml", "sample-app", appName);
+		LocalMachineFileSystem.replaceTextInFile(appDir + File.separator + "AppConfig.yaml", "<app-name>", appName);
 		addNewAppIntoTestConfig(appName);
 		
 		// Create appDir into page object
@@ -114,23 +153,161 @@ public class SmartToolkitCommandExecuter {
 		// Create appDir into validators folder
 		LocalMachineFileSystem.createDirectoriesIfNotExist(Locations.getProjectRootDir() + File.separator + "src/main/java/validators/" + appName);
 		
-		// Create appDir into stepdefs folder
-		LocalMachineFileSystem.createDirectoriesIfNotExist(Locations.getProjectRootDir() + File.separator + "src/test/java/stepdefs/" + appName);
+		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "test-runners", 
+				baseDir + "src/test/java/stepdefs", true);
 		
-		// Copy app validators into validators.
+		// Copy app validators into validators folder.
 		copyAppValidators(appName);
+		
+		
+		// Copy sample page objects into page_objects.appName directory
+		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-po", 
+				baseDir + "src/main/java/page_objects/" + appName, true);
+		LocalMachineFileSystem.replaceTextInFile(baseDir + "src/main/java/page_objects/" + appName + "/LoginPO.java", "<app-name>", appName);
+		LocalMachineFileSystem.replaceTextInFile(baseDir + "src/main/java/page_objects/" + appName + "/LoginSuccessPO.java", "<app-name>", appName);
+		LocalMachineFileSystem.replaceTextInFile(baseDir + "src/main/java/page_objects/" + appName + "/SamplePO.java", "<app-name>", appName);
+		
+		// Copy sample stepdefs into stepdefs.ui and stepdefs.api directory
+		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-stepdefs/ui/app", 
+				baseDir + "src/test/java/stepdefs/ui/" + appName, true);
+		LocalMachineFileSystem.replaceTextInFile(baseDir + "src/test/java/stepdefs/ui/" + appName + "/SamplePageStepDefs.java", "<app-name>", appName);
+		
+		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-stepdefs/api/app", 
+				baseDir + "src/test/java/stepdefs/api/" + appName, true);
+		LocalMachineFileSystem.replaceTextInFile(baseDir + "src/test/java/stepdefs/api/" + appName + "/SampleApiStepDefs.java", "<app-name>", appName);
+		
+		prepareDriverConfig(appName, null);
+		
+		System.out.println("'" + appName + "' application configured successfully.");
+	}
+	
+	public void prepareDriverConfig(String appName, String envName) {
+		System.out.println("Going to prepare driver configuration for '" + appName + "' application...");
+		String baseDir = Locations.getProjectRootDir() + File.separator;
+		String appDir = baseDir + "test-config/apps-config/" + appName;
+		String baseTempDir = baseDir + "temp/org/uitnet/testing/smartfwk/resources/";
+		YamlDocumentReader appConfig = new YamlDocumentReader(new File(appDir + File.separator + "AppConfig.yaml"), true);
+		DocumentContext appConfigDoc = appConfig.getDocumentContext();
+		
+		PlatformType hostPlatformType = OSDetectorUtil.getHostPlatform();
+		PlatformType targetPlatformType = PlatformType.valueOf2(appConfigDoc.read("$.testPlatformType", String.class));
+		ApplicationType appType = ApplicationType.valueOf2(appConfigDoc.read("$.applicationType", String.class));
+		WebBrowserType webBrowserType = WebBrowserType.valueOf2(appConfigDoc.read("$.appWebBrowser", String.class));
+		String newDriverFileName = "AppDriver.yaml";
+		if(!StringUtil.isEmptyAfterTrim(envName)) {
+			YamlDocumentReader appEnvConfig = new YamlDocumentReader(new File(appDir + File.separator + "environments/AppConfig-" + envName + ".yaml"), true);
+			DocumentContext appEnvConfigDoc = appEnvConfig.getDocumentContext();
+			String value = JsonYamlUtil.readNoException("$.testPlatformType", String.class, appEnvConfigDoc);
+			if(!StringUtil.isEmptyAfterTrim(value)) {
+				targetPlatformType = PlatformType.valueOf2(value);
+			}
+			
+			value = JsonYamlUtil.readNoException("$.applicationType", String.class, appEnvConfigDoc);			
+			if(!StringUtil.isEmptyAfterTrim(value)) {
+				appType = ApplicationType.valueOf2(value);
+			}
+			
+			value = JsonYamlUtil.readNoException("$.appWebBrowser", String.class, appEnvConfigDoc);			
+			if(!StringUtil.isEmptyAfterTrim(value)) {
+				webBrowserType = WebBrowserType.valueOf2(value);
+			}
+			
+			newDriverFileName = "AppDriver-" + envName + ".yaml";
+		}
+				
+		String driverPlatform = null;
+		if(targetPlatformType.getType().endsWith("-mobile")) {
+			driverPlatform = targetPlatformType.getType();
+			if(appType == ApplicationType.native_app) {
+				LocalMachineFileSystem.copyFileWithOverwrite(baseTempDir + "sample-test-config/app-drivers/" + driverPlatform + "/" + appType.getType() +
+						"/AppDriver.yaml", baseDir + "test-config/apps-config/" + appName + "/driver-configs" 
+						, newDriverFileName, true);
+			} else {
+				LocalMachineFileSystem.copyFileWithOverwrite(baseTempDir + "sample-test-config/app-drivers/" + driverPlatform + "/" + appType.getType() +
+						"/" + webBrowserType.getType() + "/AppDriver.yaml", baseDir + "test-config/apps-config/" + appName + "/driver-configs" 
+						, newDriverFileName, true);
+			}
+			
+		} else {
+			driverPlatform = hostPlatformType.getType();
+			
+			if(appType == ApplicationType.native_app) {
+				LocalMachineFileSystem.copyFileWithOverwrite(baseTempDir + "sample-test-config/app-drivers/" + driverPlatform + "/" + appType.getType() +
+						"/AppDriver.yaml", baseDir + "test-config/apps-config/" + appName + "/driver-configs" 
+						, newDriverFileName, true);
+			} else {
+				File f = new File(baseDir + "test-config/app-drivers/" + driverPlatform + "/" + appType.getType() + "/" + webBrowserType);
+				if(!f.exists()) {
+					f.mkdirs();
+				}
+				
+				LocalMachineFileSystem.copyFileWithOverwrite(baseTempDir + "sample-test-config/app-drivers/" + driverPlatform + "/" + appType.getType() +
+						"/" + webBrowserType.getType() + "/AppDriver.yaml", baseDir + "test-config/apps-config/" + appName + "/driver-configs" 
+						, newDriverFileName, true);
+				updateWebDriver(driverPlatform, ApplicationType.web_app, webBrowserType.getType(), "");
+				System.out.println("IMPORTANT: Manually download the selenium web driver online for '" + webBrowserType.getType() 
+				+ "' web browser and '" + hostPlatformType.getType() + "' platform and place it into '" + f.getAbsolutePath() + "' directory.");
+			}
+		}
+		
+		System.out.println("Driver configuration for '" + appName + "' application prepared successfully.");
+		
+	}
+	
+	public void updateWebDriver(String platformTypeStr, ApplicationType appType, String webBrowserTypeStr, String webDriverVersion) {
+		PlatformType platformType = PlatformType.valueOf2(platformTypeStr);
+		WebBrowserType webBrowserType = WebBrowserType.valueOf2(webBrowserTypeStr);
+		new SmartWebDriverDownloader().download(platformType, appType, webBrowserType, webDriverVersion);
+	}
+	
+	public void addAppsEnv(String envName) {
+		System.out.println("Going to prepare '" + envName + "' environment for all applications...");
+		String baseDir = Locations.getProjectRootDir() + File.separator;
+		String baseTempDir = baseDir + "temp/org/uitnet/testing/smartfwk/resources/";
+		
+		List<String> dirNames = LocalMachineFileSystem.listAllDirectoriesName(baseDir + "test-config/apps-config/");
+		for(String appName: dirNames) {
+			LocalMachineFileSystem.copyFileWithOverwrite(baseTempDir + "sample-env/SampleEnv.yaml", baseDir + "test-config/apps-config/" + appName + "/environments" 
+					, envName + ".yaml", true);
+			LocalMachineFileSystem.replaceTextInFile(baseDir + "test-config/apps-config/" + appName + "/environments/" + envName + ".yaml", "<Sample-Env>", envName);
+			System.out.println("IMPORTANT: Update '" + baseDir + "test-config/apps-config/" + appName + "/environments/" + envName + ".yaml" + "' file to create new environment. Copy any property from '" 
+			+ appName + "' application's AppConfig.yaml file with different value.");
+		}
+		
+		System.out.println("NOTE: If you do not change any '" + baseDir + "test-config/apps-config/<App-Name>/environments/" + envName 
+				+ ".yaml' file then during runtime, it will pick default information from AppConfig.yaml file for that application.");
+	}
+	
+	public void installAppiumServer() {
+		System.out.println("Going to install Appium Server...");
+		String appiumServerDir = Locations.getProjectRootDir() + File.separator + "appium-server";
+		LocalMachineFileSystem.createDirectoriesIfNotExist(appiumServerDir);
+		
+		SmartCommandExecuter executer = new SmartCommandExecuter();
+		executer.execute(appiumServerDir, "npm", "install", "appium");
+		
+		System.out.println("Appium Server installation is successful. It is installed in appium-server/ directory.");
+	}
+	
+	public void startAppiumServer() {
+		System.out.println("Going to start Appium Server...");
+		SmartCommandExecuter executer = new SmartCommandExecuter();
+		executer.execute(Locations.getProjectRootDir() + File.separator + "appium-server", "appium");
 	}
 	
 	public void copyScripts() {
 		String baseDir = Locations.getProjectRootDir() + File.separator;
 		String scriptsDir = baseDir + "scripts";
 		String baseTempDir = baseDir + "temp/org/uitnet/testing/smartfwk/resources/";
-		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-scripts", scriptsDir, true);
+		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-scripts/unix", scriptsDir + "/unix", true);
+		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-scripts/windows", scriptsDir + "/windows", true);
+		
+		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-scripts/main", baseDir, true);
 	}
 	
 	private void addNewAppIntoTestConfig(String appName) {
 		String testConfigFilePath = Locations.getProjectRootDir() + File.separator + "test-config/TestConfig.yaml";
-		YamlDocumentReader testConfig = new YamlDocumentReader(new File(testConfigFilePath));
+		YamlDocumentReader testConfig = new YamlDocumentReader(new File(testConfigFilePath), true);
 		String appNames = testConfig.getDocumentContext().read("$.appNames", String.class);
 		if("sample-app".equals(appNames)) {
 			LocalMachineFileSystem.replaceTextInFile(testConfigFilePath, "sample-app", appName);
@@ -146,17 +323,17 @@ public class SmartToolkitCommandExecuter {
 		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-validators", 
 				baseDir + "src/main/java/validators/" + appName, true);
 		
-		// Change the class name
-		new File(baseDir + "src/main/java/validators/" + appName + "/SampleAppLoginPageValidator.java")
-			.renameTo(new File(baseDir + "src/main/java/validators/" + appName + "/SampleAppLoginPageValidator.java"));
+		// Change the package name to point to correct app directory
+		String targetValidatorFile = baseDir + "src/main/java/validators/" + appName + "/AppLoginPageValidator.java";
+		LocalMachineFileSystem.replaceTextInFile(targetValidatorFile, "<app-name>", appName);
+		
+		targetValidatorFile = baseDir + "src/main/java/validators/" + appName + "/AppLoginSuccessPageValidator.java";
+		LocalMachineFileSystem.replaceTextInFile(targetValidatorFile, "<app-name>", appName);		
 	}
 	
 	public static void main(String[] args) {
 		try {
 			SmartToolkitCommandExecuter executer = new SmartToolkitCommandExecuter();
-			//LocalMachineFileSystem.copyClassResoucesNoOverwrite("log4j.xml", Locations.getProjectRootDir() + File.separator + "test-data/temp", "log4j2.xml");
-			//List<ResourceInfo> fileNames = LocalMachineFileSystem.listClassResources("sample-scripts/");
-			//System.out.println(fileNames);
 			
 			String[] files2 = new File("C:\\projects").list();
 			

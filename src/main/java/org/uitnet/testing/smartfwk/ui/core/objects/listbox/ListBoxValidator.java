@@ -67,8 +67,27 @@ public abstract class ListBoxValidator extends UIObjectValidator {
 	public abstract ListBoxValidator selectLastItem(int maxIterationsToLocateElements);
 
 	public abstract ListBoxValidator selectItem(String itemName, int maxIterationsToLocateElements);
+	
+	public abstract ListBoxValidator selectItem(String itemName, TextMatchMechanism textMatchMechanism, int maxIterationsToLocateElements);
 
 	public abstract ListBoxValidator selectItems(ItemList<String> itemsToBeSelected, int maxIterationsToLocateElements);
+	
+	public abstract ListBoxValidator selectItems(ItemList<String> itemsToBeSelected, 
+			TextMatchMechanism textMatchMechanism, int maxIterationsToLocateElements);
+	
+	public abstract ListBoxValidator selectAllItems(int maxIterationsToLocateElements);
+
+	public abstract ListBoxValidator deselectItem(String itemName, int maxIterationsToLocateElements);
+	
+	public abstract ListBoxValidator deselectItem(String itemName, TextMatchMechanism textMatchMechanism, int maxIterationsToLocateElements);
+
+	public abstract ListBoxValidator deselectAllItems(int maxIterationsToLocateElements);
+
+	public abstract ListBoxValidator deselectItems(ItemList<String> itemsToBeDeselected,
+			TextMatchMechanism textMatchMechanism, int maxIterationsToLocateElements);	
+	
+	public abstract ListBoxValidator deselectItems(ItemList<String> itemsToBeDeselected,
+			int maxIterationsToLocateElements);	
 
 	public abstract ListBoxValidator validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements);
 

@@ -18,11 +18,13 @@
 package org.uitnet.testing.smartfwk.api.core.reader;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,13 +50,18 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 public class YamlDocumentReader {
 	protected DocumentContext jsonDocCtx;
 
-	public YamlDocumentReader(File yamlFilePath) {
+	public YamlDocumentReader(File yamlFilePath, boolean updateSystemVariablesValue) {
 		try {
 			init();
 			Assert.assertNotNull(yamlFilePath, "YAML file path cannot be null.");
 			ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
-			Object yamlData = yamlMapper.readValue(yamlFilePath, Object.class);
-
+			String yamlAsString = Files.readString(yamlFilePath.toPath());
+			if(updateSystemVariablesValue) {
+				yamlAsString = replaceSystemVariables(yamlAsString);
+			}
+			
+			Object yamlData = yamlMapper.readValue(yamlAsString, Object.class);
+			
 			ObjectMapper objectMapper = new ObjectMapper();
 			JacksonJsonProvider provider = new JacksonJsonProvider(objectMapper);
 			jsonDocCtx = JsonPath.using(Configuration.builder().jsonProvider(provider).build())
@@ -64,11 +71,15 @@ public class YamlDocumentReader {
 		}
 	}
 
-	public YamlDocumentReader(String yamlAsString) {
+	public YamlDocumentReader(String yamlAsString, boolean updateSystemVariablesValue) {
 		try {
 			init();
 			Assert.assertNotNull(yamlAsString, "YAML document cannot be null.");
 			Assert.assertNotEquals(yamlAsString.trim(), "", "YAML document cannot be empty.");
+			if(updateSystemVariablesValue) {
+				yamlAsString = replaceSystemVariables(yamlAsString);
+			}
+			
 			ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
 			Object yamlData = yamlMapper.readValue(yamlAsString, Object.class);
 
@@ -126,6 +137,11 @@ public class YamlDocumentReader {
 		}
 		return null;
 		
+	}
+	
+	private String replaceSystemVariables(String jsonAsStr) {
+		String updatedStr = jsonAsStr.replace("${project.root.directory}", Locations.getProjectRootDir());
+		return updatedStr;
 	}
 
 	protected void init() {

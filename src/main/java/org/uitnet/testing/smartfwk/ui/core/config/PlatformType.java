@@ -41,7 +41,7 @@ public enum PlatformType {
 
 	public static PlatformType valueOf2(String type) {
 		for (PlatformType t : values()) {
-			if (t.getType().equals(type)) {
+			if (t.getType().equalsIgnoreCase(type)) {
 				return t;
 			}
 		}

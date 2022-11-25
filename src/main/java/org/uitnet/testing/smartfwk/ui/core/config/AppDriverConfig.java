@@ -27,9 +27,9 @@ import java.util.logging.Level;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
+import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
-import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.TypeRef;

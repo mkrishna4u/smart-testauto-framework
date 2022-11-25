@@ -67,6 +67,23 @@ public class LocalMachineFileSystem {
 		}
 		return fileNames;
 	}
+	
+	public static List<String> listAllDirectoriesName(String absoluteLocalPath) {
+		List<String> fileNames = new LinkedList<>();
+		try (Stream<Path> fs = Files.list(Path.of(absoluteLocalPath))) {
+			fs.forEach((path) -> {
+				File f = path.toFile();
+				if(f.isDirectory()) {
+					fileNames.add(f.getName());
+				}
+			});
+		} catch (Exception e) {
+			Assert.fail(
+					"Failed to list directories from local '" + absoluteLocalPath + "' directory. Reason: " + e.getMessage(),
+					e);
+		}
+		return fileNames;
+	}
 
 	public static List<String> deleteFiles(String absoluteLocalPath, TextMatchMechanism fileNameMatchMechanism,
 			String expectedValue) {
@@ -179,6 +196,23 @@ public class LocalMachineFileSystem {
 		}
 	}
 	
+	public static void copyFileWithOverwrite(String filePath, String absoluteLocalPath,
+			String newfileName, boolean shouldBackupOldFile) {
+
+		if(shouldBackupOldFile) {
+			backupFileIfExists(absoluteLocalPath, newfileName);
+		}
+		
+		try (InputStream resIS = new FileInputStream(new File(filePath))) {
+			createDirectoriesIfNotExist(absoluteLocalPath);
+			String file = absoluteLocalPath + File.separator + newfileName;
+			Files.copy(resIS, Path.of(file), StandardCopyOption.REPLACE_EXISTING);
+		} catch (Exception e) {
+			Assert.fail("Failed to copy '" + filePath + "' file on '" + absoluteLocalPath
+					+ "' location. Reason: " + e.getMessage(), e);
+		}
+	}
+	
 	public static void copyDirectoryRecursively(String directory, String targetDir, boolean shouldBackupOldFiles) {
 		try {
 			if(directory == null) { return; }
@@ -191,7 +225,7 @@ public class LocalMachineFileSystem {
 				}
 			}
 			
-			System.out.println(filesSet);
+//			/System.out.println(filesSet);
 			
 			if(filesSet.size() > 0) {
 				createDirectoriesIfNotExist(targetDir);
@@ -221,7 +255,7 @@ public class LocalMachineFileSystem {
 			Charset charset = StandardCharsets.UTF_8;
 	
 			String content = new String(Files.readAllBytes(path), charset);
-			content = content.replace(textOrRegEx, newText);
+			content = content.replaceAll(textOrRegEx, newText);
 			Files.write(path, content.getBytes(charset));
 		}catch(Exception ex) {
 			Assert.fail("Failed to replace text in '" + absoluteFilePath + "' file.", ex);

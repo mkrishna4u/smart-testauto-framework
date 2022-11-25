@@ -55,4 +55,6 @@ public abstract class RadioButtonGroupValidator extends UIObjectValidator {
 	 * @param maxIterationsToLocateElements
 	 */
 	public abstract RadioButtonGroupValidator validateNotSelectedOptions(ItemMap<String, String> options, int maxIterationsToLocateElements);
+	
+	public abstract RadioButtonGroupValidator validateNoOptionsAreSelected(int maxIterationsToLocateElements);
 }

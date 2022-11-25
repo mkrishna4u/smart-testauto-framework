@@ -19,7 +19,7 @@ package org.uitnet.testing.smartfwk.ui.standard.imgobj.datagrid;
 
 import org.sikuli.script.Region;
 import org.testng.Assert;
-import org.uitnet.testing.smartfwk.ui.core.SmartCucumberUiScenarioContext;
+import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ObjectLocation;
@@ -54,7 +54,7 @@ public class HeaderColumnSI extends Button {
 	}
 
 	@Override
-	public HeaderColumnValidatorSI getValidator(SmartCucumberUiScenarioContext scenarioContext, Region region) {
+	public HeaderColumnValidatorSI getValidator(SmartCucumberScenarioContext scenarioContext, Region region) {
 		return getValidator(scenarioContext.getActiveAppDriver(), region);
 	}
 

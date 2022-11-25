@@ -17,6 +17,38 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.objects;
 
+import org.testng.Assert;
+
+/**
+ * 
+ * @author Madhav Krishna
+ *
+ */
 public enum NewTextLocation {
-	start, end, replace
+	start("start"), end("end"), replace("replace");
+
+	private String value;
+
+	private NewTextLocation(String value) {
+		this.value = value;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public static NewTextLocation valueOf2(String value) {
+		for (NewTextLocation t : values()) {
+			if (t.getValue().equals(value.toLowerCase()) || t.name().equalsIgnoreCase(value)) {
+				return t;
+			}
+		}
+		Assert.fail("Text location '" + value + "' is not supported.");
+		return null;
+	}
+
+	@Override
+	public String toString() {
+		return value;
+	}
 }

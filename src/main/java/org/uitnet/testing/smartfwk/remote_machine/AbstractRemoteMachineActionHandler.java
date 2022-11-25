@@ -26,11 +26,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
 import org.testng.Assert;
 import org.testng.collections.Lists;
 import org.uitnet.testing.smartfwk.local_machine.LocalMachineFileSystem;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
@@ -88,63 +90,111 @@ public abstract class AbstractRemoteMachineActionHandler implements RemoteMachin
 	}
 
 	public List<String> getFileList(String absolutePath) {
-		String cmd = "cd " + absolutePath + " && find . -maxdepth 1 ! -type d";
+		String cmd = "";
+		if(PlatformType.windows.getType().equals(this.remoteMachineConfig.getPlatformType())) {
+			cmd = "cd " + absolutePath + " && dir /b /a-d";
+		} else {
+			cmd = "cd " + absolutePath + " && find . -maxdepth 1 ! -type d";
+		}
+		
 		String result = executeCommand(cmd);
 		return prepareFileList(result);
 	}
 
 	public List<String> getFolderList(String absolutePath) {
-		String cmd = "cd " + absolutePath + " && find . -maxdepth 1 -type d";
+		String cmd = "";
+		if(PlatformType.windows.getType().equals(this.remoteMachineConfig.getPlatformType())) {
+			cmd = "cd " + absolutePath + " && dir /b /ad";
+		} else {
+			cmd = "cd " + absolutePath + " && find . -maxdepth 1 -type d";
+		}
 		String result = executeCommand(cmd);
 		return prepareFileList(result);
 	}
 
 	public AbstractRemoteMachineActionHandler validateFileExists(String absolutePath,
-			TextMatchMechanism fileNameMatchMechanism, String expectedValue) {
-		List<String> files = getFileList(absolutePath);
-		for (String file : files) {
-			if (StringUtil.isTextMatchedWithExpectedValue(file, expectedValue, fileNameMatchMechanism)) {
-				return this;
+			TextMatchMechanism fileNameMatchMechanism, String expectedValue, int maxIterationsToLocateFile) {
+		for (int i = 0; i <= maxIterationsToLocateFile; i++) {
+			try {
+				List<String> files = getFileList(absolutePath);
+				for (String file : files) {
+					if (StringUtil.isTextMatchedWithExpectedValue(file, expectedValue, fileNameMatchMechanism)) {
+						return this;
+					}
+				}
+				Assert.fail("No file found on '" + absolutePath + "' location using TextMatchMechanism: "
+						+ fileNameMatchMechanism + " that matches expected value '" + expectedValue + "'."
+						+ " AppName: " + appName + ", TargetServerName: " + remoteMachineName);
+			} catch (Exception | Error e) {
+				if(i == maxIterationsToLocateFile) {
+					throw e;
+				}
+				try { TimeUnit.SECONDS.sleep(2); } catch(Exception e1) {};
 			}
 		}
-		Assert.fail("No file found on '" + absolutePath + "' location using TextMatchMechanism: "
-				+ fileNameMatchMechanism + " that matches expected value '" + expectedValue + "'." + " AppName: "
-				+ appName + ", TargetServerName: " + remoteMachineName);
 		return this;
 	}
 
-	public AbstractRemoteMachineActionHandler validateFilesExist(String absolutePath, List<String> files) {
-		List<String> remoteFiles = getFileList(absolutePath);
-		List<String> newList = Lists.newArrayList(files);
-		newList.removeAll(remoteFiles);
-		if (newList.size() > 0) {
-			Assert.fail("Following files are not found on '" + absolutePath + "' location" + "'." + " AppName: "
-					+ appName + ", TargetServerName: " + remoteMachineName + ". Not found files: " + newList);
+	public AbstractRemoteMachineActionHandler validateFilesExist(String absolutePath, List<String> files, int maxIterationsToLocateFile) {
+		for (int i = 0; i <= maxIterationsToLocateFile; i++) {
+			try {
+				List<String> remoteFiles = getFileList(absolutePath);
+				List<String> newList = Lists.newArrayList(files);
+				newList.removeAll(remoteFiles);
+				if (newList.size() > 0) {
+					Assert.fail("Following files are not found on '" + absolutePath + "' location" + "'." + " AppName: "
+							+ appName + ", TargetServerName: " + remoteMachineName + ". Not found files: " + newList);
+				}
+			} catch (Exception | Error e) {
+				if (i == maxIterationsToLocateFile) {
+					throw e;
+				}
+				try { TimeUnit.SECONDS.sleep(2); } catch(Exception e1) {};
+			}
 		}
+		
 		return this;
 	}
 
 	public AbstractRemoteMachineActionHandler validateFolderExists(String absolutePath,
-			TextMatchMechanism directoryNameMatchMechanism, String expectedValue) {
-		List<String> files = getFolderList(absolutePath);
-		for (String file : files) {
-			if (StringUtil.isTextMatchedWithExpectedValue(file, expectedValue, directoryNameMatchMechanism)) {
-				return this;
+			TextMatchMechanism folderNameMatchMechanism, String expectedValue, int maxIterationsToLocateFolder) {
+		for (int i = 0; i <= maxIterationsToLocateFolder; i++) {
+			try {
+				List<String> files = getFolderList(absolutePath);
+				for (String file : files) {
+					if (StringUtil.isTextMatchedWithExpectedValue(file, expectedValue, folderNameMatchMechanism)) {
+						return this;
+					}
+				}
+				Assert.fail("No folder found on '" + absolutePath + "' location using TextMatchMechanism: "
+						+ folderNameMatchMechanism + " that matches expected value '" + expectedValue + "'." + " AppName: "
+						+ appName + ", TargetServerName: " + remoteMachineName);
+			} catch (Exception | Error e) {
+				if (i == maxIterationsToLocateFolder) {
+					throw e;
+				}
+				try { TimeUnit.SECONDS.sleep(2); } catch(Exception e1) {};
 			}
 		}
-		Assert.fail("No folder found on '" + absolutePath + "' location using TextMatchMechanism: "
-				+ directoryNameMatchMechanism + " that matches expected value '" + expectedValue + "'." + " AppName: "
-				+ appName + ", TargetServerName: " + remoteMachineName);
 		return this;
 	}
 
-	public AbstractRemoteMachineActionHandler validateFolderExist(String absolutePath, List<String> folders) {
-		List<String> remoteFiles = getFolderList(absolutePath);
-		List<String> newList = Lists.newArrayList(folders);
-		newList.removeAll(remoteFiles);
-		if (newList.size() > 0) {
-			Assert.fail("Following folders are not found on '" + absolutePath + "' location" + "'." + " AppName: "
-					+ appName + ", TargetServerName: " + remoteMachineName + ". Not found folders: " + newList);
+	public AbstractRemoteMachineActionHandler validateFolderExist(String absolutePath, List<String> folders, int maxIterationsToLocateFolder) {
+		for (int i = 0; i <= maxIterationsToLocateFolder; i++) {
+			try {
+				List<String> remoteFiles = getFolderList(absolutePath);
+				List<String> newList = Lists.newArrayList(folders);
+				newList.removeAll(remoteFiles);
+				if (newList.size() > 0) {
+					Assert.fail("Following folders are not found on '" + absolutePath + "' location" + "'." + " AppName: "
+							+ appName + ", TargetServerName: " + remoteMachineName + ". Not found folders: " + newList);
+				}
+			} catch (Exception | Error e) {
+				if (i == maxIterationsToLocateFolder) {
+					throw e;
+				}
+				try { TimeUnit.SECONDS.sleep(2); } catch(Exception e1) {};
+			}
 		}
 		return this;
 	}
@@ -157,7 +207,12 @@ public abstract class AbstractRemoteMachineActionHandler implements RemoteMachin
 				continue;
 			}
 			if (StringUtil.isTextMatchedWithExpectedValue(file, expectedValue, fileNameMatchMechanism)) {
-				executeCommand("cd " + absolutePath + " && rm " + file);
+				if (PlatformType.windows.getType().equals(remoteMachineConfig.getPlatformType())) {
+					executeCommand("cd " + absolutePath + " && del /f /q " + file);
+				} else {
+					executeCommand("cd " + absolutePath + " && rm -f " + file);
+				}
+
 			}
 		}
 		return this;
@@ -484,8 +539,10 @@ public abstract class AbstractRemoteMachineActionHandler implements RemoteMachin
 		try (StringReader sr = new StringReader(cmdOutput); BufferedReader br = new BufferedReader(sr)) {
 			String line = null;
 			while ((line = br.readLine()) != null) {
-				if (line.length() > 2) {
+				if (line.startsWith("./") || line.startsWith(".\\")) {
 					files.add(line.substring(2));
+				} else if(!line.equals(".") && !line.equals("")) {
+					files.add(line);
 				}
 			}
 		} catch (Exception e) {

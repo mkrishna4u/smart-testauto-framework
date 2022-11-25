@@ -72,6 +72,12 @@ public class LabelValidatorSD extends LabelValidator {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public LabelValidatorSD forceClick(int maxIterationsToLocateElements) {
+		domObjValidator.forceClick(maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public LabelValidatorSD doubleClick(int maxIterationsToLocateElements) {
@@ -94,6 +100,12 @@ public class LabelValidatorSD extends LabelValidator {
 	@Override
 	public LabelValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
+	}
+	
+	@Override
+	public LabelValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 

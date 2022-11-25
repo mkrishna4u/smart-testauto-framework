@@ -26,7 +26,7 @@ public enum UIObjectType {
 	accordion, button, checkBox, checkBoxGroup, comboBox, listBox, choices, dateItem, dateTimeItem, timeItem,
 	horizontalScrollBar, hyperlink, image, label, table, locator, menuItem, radioButton, radioButtonGroup, section,
 	tabSheet, tab, textArea, textBox, textBoxWithSearchIcon, toolStrip, verticalScrollBar, webPageTitle, webPage,
-	webURL, leftSideImageOfRectangle, rightSideImageOfRectangle, headerColumn,
+	webURL, leftSideImageOfRectangle, rightSideImageOfRectangle, headerColumn, file, multiStateBox,
 
 	projectSpecific // Used only for project specific component, no handling will be there in core
 					// framework.

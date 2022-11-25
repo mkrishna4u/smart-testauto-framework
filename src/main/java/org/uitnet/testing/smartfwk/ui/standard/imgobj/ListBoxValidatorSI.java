@@ -87,6 +87,11 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public ListBoxValidatorSI forceClick(int maxIterationsToLocateElements) {
+		return click(maxIterationsToLocateElements);
+	}
 
 	public ListBoxValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
@@ -158,6 +163,17 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform mouse clickAndHold on Choices '" + listBoxObj.getDisplayName() + "'.", th);
+		}
+		return this;
+	}
+	
+	@Override
+	public ListBoxValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
+		try {
+			Match match = findElement(maxIterationsToLocateElements);
+			match.mouseMove();
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform mouse hoverover on Choices '" + listBoxObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
@@ -547,6 +563,58 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 	@Override
 	public ListBoxValidatorSI validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("validateEnabledButNotReadonly() API is not supported by ListBox component.");
+		return this;
+	}
+
+	@Override
+	public ListBoxValidatorSI selectAllItems(int maxIterationsToLocateElements) {
+		Assert.fail("selectAllItems() API is not supported by ListBox component.");
+		return this;
+	}
+
+	@Override
+	public ListBoxValidatorSI deselectItem(String itemName, int maxIterationsToLocateElements) {
+		Assert.fail("deselectItem() API is not supported by ListBox component.");
+		return this;
+	}
+
+	@Override
+	public ListBoxValidatorSI deselectAllItems(int maxIterationsToLocateElements) {
+		Assert.fail("deselectAllItems() API is not supported by ListBox component.");
+		return this;
+	}
+
+	@Override
+	public ListBoxValidatorSI deselectItems(ItemList<String> itemsToBeDeselected, int maxIterationsToLocateElements) {
+		Assert.fail("deselectItems() API is not supported by ListBox component.");
+		return this;
+	}
+
+	@Override
+	public ListBoxValidatorSI selectItem(String itemName, TextMatchMechanism textMatchMechanism,
+			int maxIterationsToLocateElements) {
+		Assert.fail("selectItem() API is not supported by ListBox component.");
+		return this;
+	}
+
+	@Override
+	public ListBoxValidatorSI selectItems(ItemList<String> itemsToBeSelected, TextMatchMechanism textMatchMechanism,
+			int maxIterationsToLocateElements) {
+		Assert.fail("selectItems() API is not supported by ListBox component.");
+		return this;
+	}
+
+	@Override
+	public ListBoxValidatorSI deselectItem(String itemName, TextMatchMechanism textMatchMechanism,
+			int maxIterationsToLocateElements) {
+		Assert.fail("deselectItem() API is not supported by ListBox component.");
+		return this;
+	}
+
+	@Override
+	public ListBoxValidatorSI deselectItems(ItemList<String> itemsToBeDeselected, TextMatchMechanism textMatchMechanism,
+			int maxIterationsToLocateElements) {
+		Assert.fail("deselectItems() API is not supported by ListBox component.");
 		return this;
 	}
 }

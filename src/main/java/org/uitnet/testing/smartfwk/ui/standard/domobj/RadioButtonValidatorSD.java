@@ -70,6 +70,12 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public RadioButtonValidatorSD forceClick(int maxIterationsToLocateElements) {
+		domObjValidator.forceClick(maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public RadioButtonValidatorSD doubleClick(int maxIterationsToLocateElements) {
@@ -92,6 +98,12 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 	@Override
 	public RadioButtonValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
+	}
+	
+	@Override
+	public RadioButtonValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 
@@ -170,6 +182,23 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 		Assert.assertFalse(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 		return this;
+	}
+	
+	@Override
+	public boolean isSelected(int maxIterationsToLocateElements) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+			try {
+				WebElement webElem = findElement(0);
+				return webElem.isSelected();
+			} catch (Throwable th) {
+				if (i == maxIterationsToLocateElements) {
+					throw th;
+				}
+			}
+			appDriver.waitForSeconds(2);
+		}
+		
+		return false;
 	}
 
 	@Override

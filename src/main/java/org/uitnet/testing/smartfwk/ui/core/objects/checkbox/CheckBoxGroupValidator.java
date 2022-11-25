@@ -40,17 +40,23 @@ public abstract class CheckBoxGroupValidator extends UIObjectValidator {
 		return checkBoxGroup;
 	}
 
-	public abstract void validateCheckedAndEnabledCheckBoxes(ItemList<String> cbNames, int maxIterationsToLocateElements);
+	public abstract void checkAllCheckBoxes(int maxIterationsToLocateElements);
+	
+	public abstract void uncheckAllCheckBoxes(int maxIterationsToLocateElements);
+	
+	public abstract void checkCheckBoxes(ItemList<String> cbNames, int maxIterationsToLocateElements);
+	
+	public abstract void uncheckCheckBoxes(ItemList<String> cbNames, int maxIterationsToLocateElements);
+	
+	public abstract void validateCheckedCheckBoxes(ItemList<String> cbNames, int maxIterationsToLocateElements);
+	
+	public abstract void validateUncheckedCheckBoxes(ItemList<String> cbNames, int maxIterationsToLocateElements);
 
-	public abstract void validateUncheckedAndEnabledCheckBoxes(ItemList<String> cbNames, int maxIterationsToLocateElements);
-
-	public abstract void validateCheckedAndDisabledCheckBoxes(ItemList<String> cbNames, int maxIterationsToLocateElements);
-
-	public abstract void validateUncheckedAndDisabledCheckBoxes(ItemList<String> cbNames, int maxIterationsToLocateElements);
-
-	public abstract void validateDisabledCheckBoxes(ItemList<String> cbNames, int maxIterationsToLocateElements);
-
-	public abstract void validateEnabledCheckBoxes(ItemList<String> cbNames, int maxIterationsToLocateElements);
-
-	public abstract void validateAllCheckBoxesPresent(ItemList<String> cbNames, int maxIterationsToLocateElements);
+	public abstract void validateCheckBoxesPresent(ItemList<String> cbNames, int maxIterationsToLocateElements);
+	
+	public abstract void validateCheckBoxesNotPresent(ItemList<String> cbNames, int maxIterationsToLocateElements);
+	
+	public abstract void validateNoCheckBoxesAreChecked(int maxIterationsToLocateElements);
+	
+	public abstract void validateAllCheckBoxesAreChecked(int maxIterationsToLocateElements);
 }

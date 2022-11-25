@@ -73,6 +73,12 @@ public class RadioButtonGroupValidatorSD extends RadioButtonGroupValidator {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public RadioButtonGroupValidatorSD forceClick(int maxIterationsToLocateElements) {
+		domObjValidator.forceClick(maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public RadioButtonGroupValidatorSD doubleClick(int maxIterationsToLocateElements) {
@@ -95,6 +101,12 @@ public class RadioButtonGroupValidatorSD extends RadioButtonGroupValidator {
 	@Override
 	public RadioButtonGroupValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
+	}
+	
+	@Override
+	public RadioButtonGroupValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 
@@ -302,6 +314,30 @@ public class RadioButtonGroupValidatorSD extends RadioButtonGroupValidator {
 	@Override
 	public Actions getNewSeleniumActions() {
 		return domObjValidator.getNewSeleniumActions();
+	}
+
+	@Override
+	public RadioButtonGroupValidator validateNoOptionsAreSelected(int maxIterationsToLocateElements) {
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+			try {
+				List<WebElement> webElems = findElements(0);
+				String elemVal;
+				for (WebElement elem : webElems) {
+					elemVal = elem.getAttribute("value");
+					if (elemVal != null && elem.isSelected()) {
+						Assert.fail("Found '" + elemVal + "' option selected.");
+					}
+				}
+				
+				return this;
+			} catch (Throwable th) {
+				if (i == maxIterationsToLocateElements) {
+					throw th;
+				}
+			}
+			appDriver.waitForSeconds(2);
+		}
+		return this;
 	}
 
 }

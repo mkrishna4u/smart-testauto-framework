@@ -151,6 +151,12 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public TextAreaValidatorSD forceClick(int maxIterationsToLocateElements) {
+		domObjValidator.forceClick(maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public TextAreaValidatorSD doubleClick(int maxIterationsToLocateElements) {
@@ -173,6 +179,12 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 	@Override
 	public TextAreaValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
+		return this;
+	}
+	
+	@Override
+	public TextAreaValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 
