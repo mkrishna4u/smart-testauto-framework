@@ -3,7 +3,12 @@
 
 **Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native app automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX**
 
-A software testing automation framework that can be used to smartly test any type of application softwares (i.e. Web Applications, Native Applications, REST Server) that utilize the functionality of the following Java based software testing automation tools: Cucumber, Selenium, SikulliX, Appium etc. It supports **LOW CODE** strategy for easy maintenance of steps definitions and standardizing the way of configuring application data, writing the test scenarios and step definitions.
+# STAS Architecture & Documentation
+Please refer the link below to understand STAS tool functionality and how to use it:
+
+[https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf "STAS Tool - Test Developer's Guide") 
+
+This is a software testing automation framework / tool that can be used to smartly test any type of application softwares (i.e. Web Applications, Native Applications, REST Server) that utilize the functionality of the following Java based software testing automation tools: Cucumber, Selenium, SikulliX, Appium etc. It supports **LOW CODE** strategy for easy maintenance of steps definitions and standardizing the way of configuring application data, writing the test scenarios and step definitions.
 
 This tool supports the **real environment** for software testing (Similar way our manual tester performs software testing like data preparation, run test cases (data-driven), data verification and generate reports etc.). Here using this tool we can automate data preparation, test cases execution, data verification and report generation easily.
 
@@ -36,6 +41,9 @@ Using this software we can easily test the following functionality of the softwa
 
 This is also a **Configuration Driven Testing (CDT)** framework. Sample configurations are present here that can be used under ./test-config directory to configuration your project environment: 
 https://github.com/mkrishna4u/smart-testauto-framework/tree/main/src/main/resources/sample-config
+
+# STAS Connectivity
+![STAS Connectivity](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-architecture.png "STAS Connectivity") 
 
 ## Integrated software testing tools (High level)
 1. Cucumber
@@ -74,25 +82,18 @@ This framework removes the complexity of all other software tools and provides a
 8.  Not Applicable: This is set for native applications.
 
 # How to start with this framework
-To start with this framework is as easy as could be. It provides the smart-testauto-studio project that provides the command line interface (CLI) to setup the project for any application. It is under ./smart-testauto-studio directory: From this directory get the latest version README file to understand how to setup the smart-testauto-studio environment. URL for latest **smart-testauto-studio** is given below:
+To start with this framework is as easy as could be. 
 
-[https://github.com/mkrishna4u/smart-testauto-framework/tree/main/smart-testauto-studio/latest](https://github.com/mkrishna4u/smart-testauto-framework/tree/main/smart-testauto-studio/latest "Latest Smart TestAuto Studio CLI") 
+Please refer the link below to understand STAS tool functionality and how to use it:
 
-README file for the latest **smart-testauto-studio** is given below:  
+[https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf "STAS Tool - Test Developer's Guide") 
 
-[https://github.com/mkrishna4u/smart-testauto-framework/tree/main/smart-testauto-studio/latest/README.md](https://github.com/mkrishna4u/smart-testauto-framework/tree/main/smart-testauto-studio/latest/README.md "Latest Smart TestAuto Studio CLI") 
-
-Use the following github quickstart project and follow the instructions there to setup your testing environment:
+There are some sample test projects that uses STAS tool:
 1. **smart-testauto-quickstart-java(For NonMobile Web Application):** Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-java>
 
-2. **smart-testauto-quickstart-windows-native-java(For windows-native applications):** Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-windows-native-java>
+2. **smart-testauto-quickstart-android-native-java(For android-native applications):** Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-android-native-java>
 
-3. **smart-testauto-quickstart-android-native-java(For android-native applications):** Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-android-native-java>
-
-Work in progress to add more quickstart projects for different platforms...
-
-# Documentation & More Details
-Please refer <a href="https://github.com/mkrishna4u/smart-testauto-framework/wiki">wiki</a> pages for more details about this framework.
+Work in progress to add more sample projects for different platforms...
 
 # License
 Apache License, 2.0
