@@ -19,7 +19,7 @@ public class TestInputValue {
 				+ "}";
 		
 		try {
-			JsonDocumentReader r = new JsonDocumentReader(jsonInput);
+			JsonDocumentReader r = new JsonDocumentReader(jsonInput, false);
 			DocumentContext dc = r.getDocumentContext();
 			InputValue iv = dc.read("$", InputValue.class);
 			System.out.println(iv.getAutoValueInputs().build());
