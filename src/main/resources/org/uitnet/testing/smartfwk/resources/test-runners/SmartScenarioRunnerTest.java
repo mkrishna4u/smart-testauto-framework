@@ -33,7 +33,7 @@ import io.cucumber.testng.CucumberOptions;
 	features = {
 			"cucumber-testcases/e2e" }, 
 	plugin = {"pretty", "json:test-results/cucumber-reports/json/smart-testauto-reports.json"}, 
-	glue = {"stepdefs", "org.uitnet.testing.smartfwk.core.stepdefs.en"}
+	glue = {"org.uitnet.testing.smartfwk.core.stepdefs.en", "stepdefs"}
 	)
 @Listeners(SmartUiTestNGExecutionListener.class)
 public class SmartScenarioRunnerTest extends AbstractTestNGCucumberTests {

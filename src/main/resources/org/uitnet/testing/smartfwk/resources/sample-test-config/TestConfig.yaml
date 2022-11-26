@@ -26,6 +26,9 @@ preferDriverScreenshots: true
 # embedScreenshotsInTestReport: valid values: true, false
 embedScreenshotsInTestReport: true
 
+# useDefaultStepDefsHooks valid values: true. false
+useDefaultStepDefsHooks: true
+
 # Additional properties (Define under additionalProps as child property)
 additionalProps:
   

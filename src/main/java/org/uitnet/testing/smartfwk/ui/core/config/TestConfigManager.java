@@ -66,6 +66,7 @@ public class TestConfigManager {
 	private SikuliSettings sikuliSettings;
 	
 	private String downloadLocation;
+	private boolean useDefaultStepDefsHooks;
 
 	private TestConfigManager() {
 		init();
@@ -156,6 +157,13 @@ public class TestConfigManager {
 				embedScreenshotsInTestReport = true;
 			} else {
 				embedScreenshotsInTestReport = false;
+			}
+			
+			boolValue = JsonYamlUtil.readNoException("$.useDefaultStepDefsHooks", Boolean.class, yamlDoc);
+			if (boolValue == null || boolValue.booleanValue() == true) {
+				useDefaultStepDefsHooks = true;
+			} else {
+				useDefaultStepDefsHooks = false;
 			}
 
 			cucumberTestcasesDir = Locations.getProjectRootDir() + File.separator + "cucumber-testcases";
@@ -301,6 +309,10 @@ public class TestConfigManager {
 
 	public PlatformType getHostPlatformType() {
 		return hostPlatformType;
+	}
+
+	public boolean getUseDefaultStepDefsHooks() {
+		return useDefaultStepDefsHooks;
 	}
 
 }
