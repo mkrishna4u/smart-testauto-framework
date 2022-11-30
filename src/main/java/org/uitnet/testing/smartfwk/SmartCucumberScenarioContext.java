@@ -20,6 +20,7 @@ package org.uitnet.testing.smartfwk;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -55,6 +56,7 @@ import io.cucumber.java.Scenario;
  */
 public class SmartCucumberScenarioContext {
 	protected Map<String, Object> params;
+	protected Map<String, Boolean> conditions;
 	protected Scenario scenario = null;
 	protected boolean isUiScenario = false;
 
@@ -71,6 +73,7 @@ public class SmartCucumberScenarioContext {
 	public SmartCucumberScenarioContext() {
 		isUiScenario = false;
 		params = new TreeMap<>(Collections.reverseOrder());
+		conditions = new LinkedHashMap<>(1);
 		driverConfigs = new HashMap<>();
 
 		if (getTestConfigManager().isParallelMode()) {
@@ -463,6 +466,60 @@ public class SmartCucumberScenarioContext {
 	
 	public boolean isUiScenario() {
 		return this.isUiScenario;
+	}
+	
+	public void setCondition(String conditionName, Boolean value) {
+		this.conditions.put(conditionName, value);
+	}
+	
+	public boolean isConditionSet(String conditionName) {
+		Boolean value = this.conditions.get(conditionName);
+		if(value == null) {
+			return false;
+		} 
+		return true;
+	}
+	
+	public void unsetCondition(String conditionName) {
+		this.conditions.remove(conditionName);
+	}
+	
+	public void unsetAllConditions() {
+		this.conditions.clear();;
+	}
+	
+	public boolean isLastConditionSetToTrue() {
+		if(conditions.size() == 0) {
+			return true;
+		}
+		
+		int counter = 0;
+		for(Map.Entry<String, Boolean> condition : conditions.entrySet()) {
+			counter++;
+			if(counter == conditions.size()) {
+				if(condition.getValue() != null && condition.getValue().equals(Boolean.TRUE)) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public String getLastConditionName() {
+		if(conditions.size() == 0) {
+			return "";
+		}
+		
+		int counter = 0;
+		for(Map.Entry<String, Boolean> condition : conditions.entrySet()) {
+			counter++;
+			if(counter == conditions.size()) {
+				return condition.getKey();
+			}
+		}
+		
+		return "";
 	}
 
 	/**
