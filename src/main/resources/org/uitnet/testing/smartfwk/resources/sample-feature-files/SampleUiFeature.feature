@@ -30,10 +30,10 @@ Feature: (Provide title of your feature here)
 
   @RegressionTest @SmokeTest @SanityTest @TempScenario
   Scenario: [SampleScenario] Verify the home page navigation.
-    Given user profile "SampleUserProfile" is already activated on "(app-name)" application.
-    When click on "(app-name).SamplePO.MenuItem_Home" page element.
+     Given user is already logged in using "<User Profile Name>" user profile on "(app-name)" application.
+    When click on "(app-name).SamplePO.MenuItem_Home" page element to "open Home page".
     Then "Home page" will be "opened".
-    And verify that the following page elements are visible:
+    And verify that the following page elements are visible on "Home page":
       | Page Element                       |
       | (app-name).SamplePO.PageTitle_Home |
     And verify that the following page elements are not visible:
@@ -42,13 +42,13 @@ Feature: (Provide title of your feature here)
       
   @RegressionTest @SmokeTest @SanityTest @TempScenario
   Scenario Outline: [SampleScenario] Verify the home page navigation using different user profiles/roles.
-    Given user profile "<User Profile Name>" is already activated on "(app-name)" application.
-    When click on "(app-name).SamplePO.MenuItem_Home" page element.
+    Given user is already logged in using "<User Profile Name>" user profile on "(app-name)" application.
+    When click on "(app-name).SamplePO.MenuItem_Home" page element to "open Home page".
     Then "Home page" will be "opened".
-    And verify that the following page elements are visible:
+    And verify that the following page elements are visible on "Home page":
       | Page Element                       |
       | (app-name).SamplePO.PageTitle_Home |
-    And verify that the following page elements are not visible:
+    And verify that the following page elements are not visible on "Home page":
       | Page Element                              |
       | (app-name).SamplePO.Textbox_HiddenElement |
     
