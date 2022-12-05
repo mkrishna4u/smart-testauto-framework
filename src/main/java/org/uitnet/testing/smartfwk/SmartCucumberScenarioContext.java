@@ -170,7 +170,7 @@ public class SmartCucumberScenarioContext {
 	}
 
 	public DocumentContext getOverriddenDriverProps(String applicationName, String browserType) {
-		return driverConfigs.get(applicationName + "-" + applicationName);
+		return driverConfigs.get(applicationName + "-" + browserType);
 	}
 
 	public void captureScreenshot() {

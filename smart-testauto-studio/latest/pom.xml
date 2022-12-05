@@ -111,7 +111,7 @@
 					<threadCount>1</threadCount>
 					<redirectTestOutputToFile>false</redirectTestOutputToFile>
 					<disableXmlReport>true</disableXmlReport>
-					<argLine>-Xmx3g -XX:MaxPermSize=512m</argLine>
+					<argLine>-Xmx3g</argLine>
 					<properties>
 						<property>
 							<name>dataproviderthreadcount</name>

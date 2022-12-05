@@ -17,9 +17,14 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNotNull;
+
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
+import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
@@ -177,6 +182,39 @@ public class StringUtil {
 		}
 		
 		return newText;
+	}
+	
+	public static void validateAtLeastNKeywordPresent(String text, int atLeastN, boolean inOrder, String... keyWords) {
+		assertNotNull(text);
+		assertNotEquals(text.trim(), "");
+		
+		assertNotNull(keyWords);
+		List<String> foundKeywords = new LinkedList<>();
+		int index = -1;
+		int prevIndex = -1;
+		for (String keyWord : keyWords) {
+			if (foundKeywords.size() == atLeastN) {
+				break;
+			}
+			
+			index = text.indexOf(keyWord);
+			if (index >= 0) {
+				if(inOrder) {
+					if(index > prevIndex) {
+						foundKeywords.add(keyWord);
+						prevIndex = index;
+					}
+				} else {
+					foundKeywords.add(keyWord);
+				}
+			}
+		}
+
+		if (foundKeywords.size() != atLeastN) {
+			Assert.fail("Expected at least " + atLeastN + " keywords to match" + (inOrder ? " in order" : "") + " but matched only " + foundKeywords.size()
+					+ " keywords. \nExpected keywords: " + Arrays.asList(keyWords) + ".\n Matched keywords: "
+					+ foundKeywords);
+		}
 	}
 	
 	public static void main(String[] args) {

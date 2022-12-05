@@ -22,6 +22,8 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
 
+import java.util.List;
+
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.support.HttpResponse;
 import org.uitnet.testing.smartfwk.api.core.support.PayloadType;
@@ -96,6 +98,14 @@ public class HttpResponseValidator {
 				fail("HTTP response content length should be greater than " + (minLength - 1) + ".");
 			}
 		}
+		return this;
+	}
+	
+	public HttpResponseValidator validateBodyContainsKeywords(List<String> keywords, boolean inOrder) {
+		String payload = response.getPayload();
+		assertNotNull(payload, "HTTP response body/payload should not be null.");
+		
+		StringUtil.validateAtLeastNKeywordPresent(payload, keywords.size(), inOrder, keywords.toArray(new String[keywords.size()]));
 		return this;
 	}
 
