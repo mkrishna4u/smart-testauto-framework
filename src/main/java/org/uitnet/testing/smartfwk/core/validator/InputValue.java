@@ -121,7 +121,7 @@ public class InputValue {
 		if(StringUtil.isEmptyAfterTrim(location)) {
 			this.location = NewTextLocation.replace;
 		} else {
-			this.location = NewTextLocation.valueOf(location.trim());
+			this.location = NewTextLocation.valueOf2(location.trim());
 		}
 		
 	}
@@ -148,7 +148,7 @@ public class InputValue {
 		if(StringUtil.isEmptyAfterTrim(selectingOptionMatchMechanism)) {
 			this.selectingOptionMatchMechanism = TextMatchMechanism.exactMatchWithExpectedValue;
 		} else {
-			this.selectingOptionMatchMechanism = TextMatchMechanism.valueOf(selectingOptionMatchMechanism);
+			this.selectingOptionMatchMechanism = TextMatchMechanism.valueOf2(selectingOptionMatchMechanism);
 		}
 	}
 

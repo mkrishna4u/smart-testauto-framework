@@ -345,7 +345,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 	}
 
 	public HttpResponse httpUploadFormFiles(String relativeUrl, HttpMultipartRequest request,
-			Integer connectTimeoutInSeconds, Integer readTimeoutInSeconds) {
+			Integer connectTimeoutInSeconds, Integer readTimeoutInSeconds, boolean isHttpPut) {
 		OkHttpClient client = new OkHttpClient.Builder()
 				.readTimeout(readTimeoutInSeconds == null ? 60 : readTimeoutInSeconds, TimeUnit.SECONDS)
 				.connectTimeout(connectTimeoutInSeconds == null ? 30 : connectTimeoutInSeconds, TimeUnit.SECONDS)
@@ -372,8 +372,14 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		}
 
 		String targetURL = baseURL + "/" + relativeUrl;
-		okhttp3.Request.Builder requestBuilder = new Request.Builder().post(multipartBodyBuilder.build())
-				.url(targetURL);
+		okhttp3.Request.Builder requestBuilder = null;
+		if(isHttpPut) {
+			requestBuilder = new Request.Builder().put(multipartBodyBuilder.build())
+					.url(targetURL);
+		} else {
+			requestBuilder = new Request.Builder().post(multipartBodyBuilder.build())
+					.url(targetURL);
+		}
 
 		// Add headers
 		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
