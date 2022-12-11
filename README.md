@@ -4,7 +4,7 @@
 **Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native app automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX**
 
 # STAS Architecture & Documentation
-**STAS** supports the **codeless modal / architecture** by providing the standaridized Cucumber/Gherkin based generic step definitions, using that you can create your scenarios faster and test your application faster.
+**STAS** supports the **codeless model / architecture** by providing the standaridized Cucumber/Gherkin based generic step definitions, using that you can create your scenarios faster and test your application faster.
 Please refer the links below to understand STAS tool functionality and how to use it:
 
 [https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf "STAS Tool - Test Developer's Guide") 
@@ -102,8 +102,6 @@ There are some sample test projects that uses STAS tool:
 1. **smart-testauto-quickstart-java(For NonMobile Web Application):** Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-java>
 
 2. **smart-testauto-quickstart-android-native-java(For android-native applications):** Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-android-native-java>
-
-Work in progress to add more sample projects for different platforms...
 
 # License
 Apache License, 2.0
