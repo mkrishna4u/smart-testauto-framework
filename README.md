@@ -1,17 +1,18 @@
 # Smart Software Testing Automation Framework (smart-testauto-framework) / Smart TestAuto Studio (STAS)
-**Data driven End-to-End testing (UI, API, Database and Remote Machine Testing) is made easy. Develop testcases for one environment and run the same testcases on different environments.**
+**Data driven End-to-End testing (UI, API, Database, Remote Machine Testing, Local Machine Testing) is made easy. Develop testcases for one environment and run the same testcases on different environments.**
 
 **Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native app automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX**
 
 # STAS Architecture & Documentation
-Please refer the link below to understand STAS tool functionality and how to use it:
+**STAS** supports the **codeless modal / architecture** by providing the standaridized Cucumber/Gherkin based generic step definitions, using that you can create your scenarios faster and test your application faster.
+Please refer the links below to understand STAS tool functionality and how to use it:
 
 [https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf "STAS Tool - Test Developer's Guide") 
 
 ![STAS Architecture](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-architecture.jpg "STAS Architecture") 
 
 
-Documentation related to STAS standard cucumber step definitions (English version) is present at:
+Documentation related to STAS standard cucumber step definitions (English version) (contains Usecases) is present at:
 
 [https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en/blob/main/docs/STAS-StepDefinitions-En-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en/blob/main/docs/STAS-StepDefinitions-En-TestDevelopersGuide.pdf "STAS Standard Cucumber Step Definitions (English) - Test Developer's Guide") 
 
