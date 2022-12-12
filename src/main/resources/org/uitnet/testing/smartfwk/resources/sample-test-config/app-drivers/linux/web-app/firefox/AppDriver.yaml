@@ -50,10 +50,11 @@ experimentalOptions:
 # Configure Browser extensions(for debugging purpose). Files should be stored in <driver>/extensions path. 
 # Key starts with <Extn-Name>: <Extn-filename>
 browserExtensions:
-  firebug.filename: firebug-2.0.2.xpi
-  firepath.filename: firepath-0.9.7-fx.xpi
-  
+   
 # Configure WebDriver preferences as child to browserPreferences:
 browserPreferences:
-  extensions.firebug.currentVersion: 2.0.2
-  extensions.firebug.allPagesActivation: on
+  browser.download.folderList: 2
+  browser.download.dir: '${project.root.directory}/test-data/downloads'
+  browser.helperApps.alwaysAsk.force: false
+  browser.helperApps.neverAsk.saveToDisk: '*'
+  pdfjs.disabled: true

@@ -25,8 +25,8 @@
 #            @Then [C] then X page is opened.
 
 @FeatureTag
-Feature: (Provide title of your feature here)
-  (Add short description of your feature)cucumber
+Feature: Provide short title of your feature here
+  Add short description of your feature here.
 
   @RegressionTest @SmokeTest @SanityTest @TempScenario
   Scenario: [SampleScenario] Verify the home page navigation.
@@ -47,11 +47,14 @@ Feature: (Provide title of your feature here)
     Then "Home page" will be "opened".
     And verify that the following page elements are visible on "Home page":
       | Page Element                       |
-      | (app-name).SamplePO.PageTitle_Home |
+      | <Visible Element>                  |
     And verify that the following page elements are not visible on "Home page":
-      | Page Element                              |
-      | (app-name).SamplePO.Textbox_HiddenElement |
+      | Page Element       |
+      | <Hidden Element>   |
     
     Examples:
-      | User Profile Name | Visible Element | Hidden Element |
-      | SampleUserProfile  | (app-name).SamplePO.PageTitle_Home |(app-name).SamplePO.Textbox_HiddenElement |
+      | User Profile Name  | Visible Element                     | Hidden Element                            |
+      | SampleUserProfile  | (app-name).SamplePO.PageTitle_Home  |(app-name).SamplePO.Textbox_HiddenElement  |
+      | SampleUserProfile2 | (app-name).SamplePO.PageTitle_Home2 |(app-name).SamplePO.Textbox_HiddenElement2 |
+      
+      

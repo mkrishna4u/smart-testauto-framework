@@ -3,13 +3,13 @@ browserType: opera
 headless: false
 
 # System property name where to set browser driver executable
-driverSystemPropertyName: webdriver.opera.driver
+driverSystemPropertyName: webdriver.chrome.driver
 
 # Configure web browser driver binary path, download it from https://github.com/operasoftware/operachromiumdriver/releases
 driverFileName: operadriver.exe
 
 # Driver Arguments: add space separated multiple arguments
-driverArguments: 
+driverArguments: allow-elevated-browser
 
 # pageLoadStrategy: normal, eager, none
 pageLoadStrategy: normal
@@ -34,7 +34,11 @@ driverCapabilities:
 
 # Configure WebDriver experimental options as child to experimentalOptions:
 experimentalOptions:
-
+  w3c: true
+  prefs:
+    download.default_directory: '${project.root.directory}\test-data\downloads'
+    download.directory_upgrade: true
+  
 # Configure Browser extensions(for debugging purpose). Files should be stored in <driver>/extensions path. 
 # Key starts with <Extn-Name>: <Extn-filename>
 browserExtensions:

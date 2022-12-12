@@ -29,22 +29,36 @@ Feature: Title of your feature
   Short description of the feature
 
   @RegressionTest @SmokeTest @SanityTest @TempScenario
-  Scenario: Title of scenario
-    Given I want to write a step with precondition
-    And some other precondition
-    When I complete action
-    And some other action
-    And yet another action
-    Then I validate the outcomes
-    And check more outcomes
-
+  Scenario: [SampleScenario] Verify get users list based on parameters using HTTP GET and verify response contents.
+    When make HTTP GET request on target server [AppName="myapp", TargetServer="myapp-services", TargetURL="get-users?country=US&state=VA"] using [UserProfile="StandardUserProfile"] with header info [Accept="application/json"] and variable info [RespVar="HTTP_RESP_VAR"].
+    Then verify "HTTP_RESP_VAR" HTTP response contains HTTPStatusCode=200.
+    And verify "HTTP_RESP_VAR" HTTP response contains following header information:
+      | Header Name  | Expected Value   | Text Match Mechanism               |
+      | Content-Type | application/json | ic-exact-match-with-expected-value |
+    And verify "HTTP_RESP_VAR" HTTP response contains JSON data with the following expected params information:
+      | Parameter/JSON Path                               | Operator    | Expected Information                                         |
+      | {path: "$[*].country", valueType: "string-list"}  | =           | US                                                           |
+      | {path: "$[*].state", valueType: "string-list"}    | starts-with | {ev: "VA", textMatchMechanism: "starts-with-expected-value"} |
+      | {path: "$[*].userName", valueType: "string-list"} | !=          | {ev: ""}                                                     |      
+      
   @RegressionTest @SmokeTest @SanityTest @TempScenario
-  Scenario Outline: Title of your scenario outline
-    Given I want to write a step with <name>
-    When I check for the <value> in step
-    Then I verify the <status> in step
-
-    Examples: 
-      | name  | value | status  |
-      | name1 |     5 | success |
-      | name2 |     7 | Fail    |
+  Scenario Outline: [SampleScenario] Verify get users list based on different USA State using HTTP GET and verify response contents.
+    When make HTTP GET request on target server [AppName="myapp", TargetServer="myapp-services", TargetURL="get-users?country=<Country Code>&state=<State Abbreviation>"] using [UserProfile="StandardUserProfile"] with header info [Accept="application/json"] and variable info [RespVar="HTTP_RESP_VAR"].
+    Then verify "HTTP_RESP_VAR" HTTP response contains HTTPStatusCode=200.
+    And verify "HTTP_RESP_VAR" HTTP response contains following header information:
+      | Header Name  | Expected Value   | Text Match Mechanism               |
+      | Content-Type | application/json | ic-exact-match-with-expected-value |
+    And verify "HTTP_RESP_VAR" HTTP response contains JSON data with the following expected params information:
+      | Parameter/JSON Path                               | Operator    | Expected Information                                                           |
+      | {path: "$[*].country", valueType: "string-list"}  | =           | <Country Code>                                                                 |
+      | {path: "$[*].state", valueType: "string-list"}    | contains    | {ev: "<State Abbreviation>", textMatchMechanism: "starts-with-expected-value"} |
+      
+    Examples:
+      | Country Code    | State Abbreviation |
+      | US              | VA                 |
+      | US              | MD                 |
+      | IN              | UP                 |
+      | IN              | HR                 |
+      
+      
+      

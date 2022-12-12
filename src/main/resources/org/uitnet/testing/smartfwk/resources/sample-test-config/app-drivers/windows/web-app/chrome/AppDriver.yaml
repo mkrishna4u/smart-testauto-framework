@@ -31,7 +31,6 @@ pageLoadTimeoutInSeconds: 60
 
 # Configure WebDriver capabilities as child elements to driverCapabilities:
 driverCapabilities:
-  download.default_directory: test-results/downloads
   
 # Configure WebDriver experimental options as child to experimentalOptions:
 experimentalOptions:
