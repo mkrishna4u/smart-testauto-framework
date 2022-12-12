@@ -38,7 +38,7 @@ Feature: Title of your feature
     And verify "HTTP_RESP_VAR" HTTP response contains JSON data with the following expected params information:
       | Parameter/JSON Path                               | Operator    | Expected Information                                         |
       | {path: "$[*].country", valueType: "string-list"}  | =           | US                                                           |
-      | {path: "$[*].state", valueType: "string-list"}    | starts-with | {ev: "VA", textMatchMechanism: "starts-with-expected-value"} |
+      | {path: "$[*].state", valueType: "string-list"}    | contains    | {ev: "VA", textMatchMechanism: "starts-with-expected-value"} |
       | {path: "$[*].userName", valueType: "string-list"} | !=          | {ev: ""}                                                     |      
       
   @RegressionTest @SmokeTest @SanityTest @TempScenario
