@@ -36,10 +36,10 @@ Feature: Title of your feature
       | Header Name  | Expected Value   | Text Match Mechanism               |
       | Content-Type | application/json | ic-exact-match-with-expected-value |
     And verify "HTTP_RESP_VAR" HTTP response contains JSON data with the following expected params information:
-      | Parameter/JSON Path                               | Operator    | Expected Information                                         |
-      | {path: "$[*].country", valueType: "string-list"}  | =           | US                                                           |
-      | {path: "$[*].state", valueType: "string-list"}    | contains    | {ev: "VA", textMatchMechanism: "starts-with-expected-value"} |
-      | {path: "$[*].userName", valueType: "string-list"} | !=          | {ev: ""}                                                     |      
+      | Parameter/JSON Path                               | Operator    | Expected Information                                                                     |
+      | {path: "$[*].country", valueType: "string-list"}  | =           | US                                                                                       |
+      | {path: "$[*].state", valueType: "string-list"}    | in          | {ev: ["VA"], valueType: "string-list", textMatchMechanism: "starts-with-expected-value"} |
+      | {path: "$[*].userName", valueType: "string-list"} | !=          | {ev: ""}                                                                                 |      
       
   @RegressionTest @SmokeTest @SanityTest @TempScenario
   Scenario Outline: [SampleScenario] Verify get users list based on different USA State using HTTP GET and verify response contents.
@@ -49,9 +49,9 @@ Feature: Title of your feature
       | Header Name  | Expected Value   | Text Match Mechanism               |
       | Content-Type | application/json | ic-exact-match-with-expected-value |
     And verify "HTTP_RESP_VAR" HTTP response contains JSON data with the following expected params information:
-      | Parameter/JSON Path                               | Operator    | Expected Information                                                           |
-      | {path: "$[*].country", valueType: "string-list"}  | =           | <Country Code>                                                                 |
-      | {path: "$[*].state", valueType: "string-list"}    | contains    | {ev: "<State Abbreviation>", textMatchMechanism: "starts-with-expected-value"} |
+      | Parameter/JSON Path                               | Operator    | Expected Information                                                                                       |
+      | {path: "$[*].country", valueType: "string-list"}  | =           | <Country Code>                                                                                             |
+      | {path: "$[*].state", valueType: "string-list"}    | in          | {ev: ["<State Abbreviation>"], valueType: "string-list", textMatchMechanism: "starts-with-expected-value"} |
       
     Examples:
       | Country Code    | State Abbreviation |
