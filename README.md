@@ -5,6 +5,9 @@
 
 # STAS Architecture & Documentation
 **STAS** supports the **Codeless Model / Architecture** by providing the standardized Cucumber/Gherkin based generic step definitions, using that you can create your test scenarios faster and test your application faster.
+
+NOTE: STAS is developed over STAF for faster test scenario development without writing code.
+
 Please refer the links below to understand STAS tool functionality and how to use it:
 
 [https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf "STAS Tool - Test Developer's Guide") 
@@ -24,7 +27,7 @@ This is a software testing automation framework / tool that can be used to smart
 
 This tool supports the **real environment** for software testing automation (Similar way our manual tester performs software testing like data preparation, run test cases (data-driven), data verification and generate reports etc.). Here using this tool we can automate data preparation, test cases execution, data verification and report generation easily.
 
-Using this software we can easily test the following functionality of the software applications:
+Using STAF software we can easily test the following functionality of the software applications:
 
 1.  **Web User Interface** running on different web browsers (like Chrome, Firefox etc.) on different platforms (like windows, mobile, mac, linux, android, iOS etc.)
 2.  **Native applications** like **Desktop applications** (like calculator), **Mobile applications** (like calculator)
