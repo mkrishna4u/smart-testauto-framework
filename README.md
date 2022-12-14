@@ -1,10 +1,10 @@
-# Smart Software Testing Automation Framework (smart-testauto-framework) / Smart TestAuto Studio (STAS)
-**Data driven End-to-End testing (UI, API, Database, Remote Machine Testing, Local Machine Testing) is made easy. Develop testcases for one environment and run the same testcases on different environments.**
+# Smart Testing Automation Framework (STAF) / Smart TestAuto Studio (STAS)
+**STAF / STAS** is the smart software testing automation tool that makes data driven End-to-End testing (UI, API, Database, Remote Machine Testing, Local Machine Testing) easy. Develop test scenarios for one environment and run the same scenarios on different environments without changing the test scenarios.
 
-**Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native app automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX**
+**NOTE:** Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native application automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX.
 
 # STAS Architecture & Documentation
-**STAS** supports the **codeless model / architecture** by providing the standaridized Cucumber/Gherkin based generic step definitions, using that you can create your test scenarios faster and test your application faster.
+**STAS** supports the **Codeless Model / Architecture** by providing the standardized Cucumber/Gherkin based generic step definitions, using that you can create your test scenarios faster and test your application faster.
 Please refer the links below to understand STAS tool functionality and how to use it:
 
 [https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf "STAS Tool - Test Developer's Guide") 
@@ -20,9 +20,9 @@ Documentation related to STAS standard cucumber step definitions (English versio
 ![STAS Connectivity](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-connectivity.jpg "STAS Connectivity") 
 
 # High Level Description
-This is a software testing automation framework / tool that can be used to smartly test any type of application softwares (i.e. Web Applications, Native Applications, REST Server) that utilize the functionality of the following Java based software testing automation tools: Cucumber, Selenium, SikulliX, Appium etc. It supports **LOW CODE** strategy for easy maintenance of steps definitions and standardizing the way of configuring application data, writing the test scenarios and step definitions.
+This is a software testing automation framework / tool that can be used to smartly test any type of application softwares (i.e. Web Applications, Native Applications, REST Server) that utilize the functionality of the following Java based software testing automation tools: Cucumber, Selenium, SikulliX, Appium etc. It supports **NO CODE / LOW CODE** strategy for easy maintenance of steps definitions and standardizing the way of configuring application data, writing the test scenarios and step definitions.
 
-This tool supports the **real environment** for software testing (Similar way our manual tester performs software testing like data preparation, run test cases (data-driven), data verification and generate reports etc.). Here using this tool we can automate data preparation, test cases execution, data verification and report generation easily.
+This tool supports the **real environment** for software testing automation (Similar way our manual tester performs software testing like data preparation, run test cases (data-driven), data verification and generate reports etc.). Here using this tool we can automate data preparation, test cases execution, data verification and report generation easily.
 
 Using this software we can easily test the following functionality of the software applications:
 
