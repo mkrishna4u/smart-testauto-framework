@@ -36,7 +36,7 @@ Feature: Provide short title of your feature here
     And verify that the following page elements are visible on "Home page":
       | Page Element                       |
       | (app-name).SamplePO.PageTitle_Home |
-    And verify that the following page elements are not visible:
+    And verify that the following page elements are not visible on "Home page":
       | Page Element                              |
       | (app-name).SamplePO.Textbox_HiddenElement |
       
