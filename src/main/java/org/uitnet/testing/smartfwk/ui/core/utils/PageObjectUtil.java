@@ -249,7 +249,7 @@ public class PageObjectUtil {
 			ComboBoxValidator validator = (ComboBoxValidator) poValidator;
 			if(expectedInfo.getEv() != null) {// EV should be List/Array
 				List<String> selectedItems = validator.getSelectedItems(poInfo.getMaxIterationsToLocateElements());
-				ParamPath fieldInfo = new ParamPath(validator.getUIObject().getDisplayName(), ParamValueType.STRING.getType());
+				ParamPath fieldInfo = new ParamPath(validator.getUIObject().getDisplayName(), ParamValueType.STRING_LIST.getType());
 				ParameterValidator.validateParamValueAsExpectedInfo(true, fieldInfo, selectedItems, operator, expectedInfo);
 			}
 		} else if(poValidator instanceof HyperlinkValidator) {
@@ -258,7 +258,7 @@ public class PageObjectUtil {
 			ListBoxValidator validator = (ListBoxValidator) poValidator;
 			if(expectedInfo.getEv() != null) {// EV should be List/Array
 				List<String> selectedItems = validator.getSelectedItems(poInfo.getMaxIterationsToLocateElements());
-				ParamPath fieldInfo = new ParamPath(validator.getUIObject().getDisplayName(), ParamValueType.STRING.getType());
+				ParamPath fieldInfo = new ParamPath(validator.getUIObject().getDisplayName(), ParamValueType.STRING_LIST.getType());
 				ParameterValidator.validateParamValueAsExpectedInfo(true, fieldInfo, selectedItems, operator, expectedInfo);
 			}
 		} else if(poValidator instanceof InputFileValidator) {
