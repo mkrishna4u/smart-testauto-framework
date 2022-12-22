@@ -44,6 +44,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.checkbox.CheckBoxGroupValidat
 import org.uitnet.testing.smartfwk.ui.core.objects.checkbox.CheckBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.combobox.ComboBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.file.InputFileValidator;
+import org.uitnet.testing.smartfwk.ui.core.objects.image.ImageValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.label.LabelValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.link.HyperlinkValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.listbox.ListBoxValidator;
@@ -52,6 +53,14 @@ import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonGroupValidat
 import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.textarea.TextAreaValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.textbox.TextBoxValidator;
+import org.uitnet.testing.smartfwk.ui.standard.domobj.ButtonValidatorSD;
+import org.uitnet.testing.smartfwk.ui.standard.domobj.HyperlinkValidatorSD;
+import org.uitnet.testing.smartfwk.ui.standard.domobj.ImageValidatorSD;
+import org.uitnet.testing.smartfwk.ui.standard.domobj.LabelValidatorSD;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.ButtonValidatorSI;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.HyperlinkValidatorSI;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.ImageValidatorSI;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.LabelValidatorSI;
 import org.uitnet.testing.smartfwk.validator.ParameterValidator;
 
 import com.jayway.jsonpath.DocumentContext;
@@ -242,9 +251,41 @@ public class PageObjectUtil {
 			MultiStateBoxValidator validator = (MultiStateBoxValidator) poValidator;
 			validator.validateStateSelected("" + expectedInfo.getEv(), poInfo.getMaxIterationsToLocateElements());
 		} else if(poValidator instanceof ButtonValidator) {
-			Assert.fail("ButtonValidator is not supported.");
+			ButtonValidator validator = (ButtonValidator) poValidator;
+			String avalue = "";
+			if(validator instanceof ButtonValidatorSD) {
+				ButtonValidatorSD v = (ButtonValidatorSD) validator;
+				if(StringUtil.isEmptyAfterTrim(poInfo.getPageObject().getAttrName())) {
+					avalue = WebElementUtil.getElementText(scenarioContext.getActiveAppDriver(), v.getDOMObjectValidator().getUIObject(), poInfo.getMaxIterationsToLocateElements());
+				} else {
+					avalue = v.getDOMObjectValidator().getAttributeValue(avalue, poInfo.getMaxIterationsToLocateElements());
+				}
+				ParamPath fieldInfo = new ParamPath(validator.getUIObject().getDisplayName(), ParamValueType.STRING.getType());
+				ParameterValidator.validateParamValueAsExpectedInfo(true, fieldInfo, avalue, operator, expectedInfo);
+			} else if(validator instanceof ButtonValidatorSI) {
+				ButtonValidatorSI v = (ButtonValidatorSI) validator;
+				v.validateVisible(poInfo.getMaxIterationsToLocateElements());
+			} else {
+				Assert.fail("The following validator is not supported: " + validator);
+			}
 		} else if(poValidator instanceof LabelValidator) {
-			Assert.fail("ButtonValidator is not supported.");
+			LabelValidator validator = (LabelValidator) poValidator;
+			String avalue = "";
+			if(validator instanceof LabelValidatorSD) {
+				LabelValidatorSD v = (LabelValidatorSD) validator;
+				if(StringUtil.isEmptyAfterTrim(poInfo.getPageObject().getAttrName())) {
+					avalue = WebElementUtil.getElementText(scenarioContext.getActiveAppDriver(), v.getDOMObjectValidator().getUIObject(), poInfo.getMaxIterationsToLocateElements());
+				} else {
+					avalue = v.getDOMObjectValidator().getAttributeValue(avalue, poInfo.getMaxIterationsToLocateElements());
+				}
+				ParamPath fieldInfo = new ParamPath(validator.getUIObject().getDisplayName(), ParamValueType.STRING.getType());
+				ParameterValidator.validateParamValueAsExpectedInfo(true, fieldInfo, avalue, operator, expectedInfo);
+			} else if(validator instanceof LabelValidatorSI) {
+				LabelValidatorSI v = (LabelValidatorSI) validator;
+				v.validateVisible(poInfo.getMaxIterationsToLocateElements());
+			} else {
+				Assert.fail("The following validator is not supported: " + validator);
+			}
 		} else if(poValidator instanceof ComboBoxValidator) {
 			ComboBoxValidator validator = (ComboBoxValidator) poValidator;
 			if(expectedInfo.getEv() != null) {// EV should be List/Array
@@ -253,7 +294,41 @@ public class PageObjectUtil {
 				ParameterValidator.validateParamValueAsExpectedInfo(true, fieldInfo, selectedItems, operator, expectedInfo);
 			}
 		} else if(poValidator instanceof HyperlinkValidator) {
-			Assert.fail("ButtonValidator is not supported.");
+			HyperlinkValidator validator = (HyperlinkValidator) poValidator;
+			String avalue = "";
+			if(validator instanceof HyperlinkValidatorSD) {
+				HyperlinkValidatorSD v = (HyperlinkValidatorSD) validator;
+				if(StringUtil.isEmptyAfterTrim(poInfo.getPageObject().getAttrName())) {
+					avalue = WebElementUtil.getElementText(scenarioContext.getActiveAppDriver(), v.getDOMObjectValidator().getUIObject(), poInfo.getMaxIterationsToLocateElements());
+				} else {
+					avalue = v.getDOMObjectValidator().getAttributeValue(avalue, poInfo.getMaxIterationsToLocateElements());
+				}
+				ParamPath fieldInfo = new ParamPath(validator.getUIObject().getDisplayName(), ParamValueType.STRING.getType());
+				ParameterValidator.validateParamValueAsExpectedInfo(true, fieldInfo, avalue, operator, expectedInfo);
+			} else if(validator instanceof HyperlinkValidatorSI) {
+				HyperlinkValidatorSI v = (HyperlinkValidatorSI) validator;
+				v.validateVisible(poInfo.getMaxIterationsToLocateElements());
+			} else {
+				Assert.fail("The following validator is not supported: " + validator);
+			}
+		} else if(poValidator instanceof ImageValidator) {
+			ImageValidator validator = (ImageValidator) poValidator;
+			String avalue = "";
+			if(validator instanceof ImageValidatorSD) {
+				ImageValidatorSD v = (ImageValidatorSD) validator;
+				if(StringUtil.isEmptyAfterTrim(poInfo.getPageObject().getAttrName())) {
+					avalue = WebElementUtil.getElementText(scenarioContext.getActiveAppDriver(), v.getDOMObjectValidator().getUIObject(), poInfo.getMaxIterationsToLocateElements());
+				} else {
+					avalue = v.getDOMObjectValidator().getAttributeValue(avalue, poInfo.getMaxIterationsToLocateElements());
+				}
+				ParamPath fieldInfo = new ParamPath(validator.getUIObject().getDisplayName(), ParamValueType.STRING.getType());
+				ParameterValidator.validateParamValueAsExpectedInfo(true, fieldInfo, avalue, operator, expectedInfo);
+			} else if(validator instanceof ImageValidatorSI) {
+				ImageValidatorSI v = (ImageValidatorSI) validator;
+				v.validateVisible(poInfo.getMaxIterationsToLocateElements());
+			} else {
+				Assert.fail("The following validator is not supported: " + validator);
+			}
 		} else if(poValidator instanceof ListBoxValidator) {
 			ListBoxValidator validator = (ListBoxValidator) poValidator;
 			if(expectedInfo.getEv() != null) {// EV should be List/Array

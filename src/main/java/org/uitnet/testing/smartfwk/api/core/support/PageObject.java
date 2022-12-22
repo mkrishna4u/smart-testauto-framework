@@ -26,6 +26,7 @@ import java.util.Map;
  */
 public class PageObject {
 	private String name;
+	private String attrName;
 	private Integer maxTimeToWaitInSeconds;
 	private Map<String, String> params;
 	
@@ -39,6 +40,14 @@ public class PageObject {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getAttrName() {
+		return attrName;
+	}
+
+	public void setAttrName(String attrName) {
+		this.attrName = attrName;
 	}
 
 	public Integer getMaxTimeToWaitInSeconds() {
