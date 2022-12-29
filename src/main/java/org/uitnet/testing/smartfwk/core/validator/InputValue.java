@@ -67,6 +67,13 @@ public class InputValue {
 	 */
 	private String toPo;
 	
+	/**
+	 * Typing speed in milliseconds per character.
+	 */
+	private Integer typeSpeedMspc = 0;
+	
+	private Boolean typeAfterClick = true;
+	
 	public InputValue() {
 		// do nothing
 	}
@@ -158,5 +165,21 @@ public class InputValue {
 
 	public void setToPo(String toPo) {
 		this.toPo = toPo;
+	}
+
+	public Integer getTypeSpeedMspc() {
+		return typeSpeedMspc;
+	}
+
+	public void setTypeSpeedMspc(Integer typeSpeedMspc) {
+		this.typeSpeedMspc = (typeSpeedMspc == null || typeSpeedMspc < 1) ? 0 : typeSpeedMspc;
+	}
+
+	public Boolean getTypeAfterClick() {
+		return typeAfterClick;
+	}
+
+	public void setTypeAfterClick(Boolean typeAfterClick) {
+		this.typeAfterClick = (typeAfterClick == null) ? true : typeAfterClick;
 	}
 }

@@ -61,6 +61,8 @@ public abstract class TextAreaValidator extends UIObjectValidator {
 
 	public abstract TextAreaValidator typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements);
 
+	public abstract TextAreaValidator typeText(String textToType, NewTextLocation location, int typeSpeedInMspc, boolean clickBeforeType, int maxIterationsToLocateElements);
+	
 	public abstract TextAreaValidator validateTextValue(String expectedValue, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements);
 

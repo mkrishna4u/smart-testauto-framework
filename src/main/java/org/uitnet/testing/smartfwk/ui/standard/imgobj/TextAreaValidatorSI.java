@@ -30,12 +30,15 @@ import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
+import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.textarea.TextAreaValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
+import org.uitnet.testing.smartfwk.ui.standard.domobj.TextAreaValidatorSD;
 
 /**
  * 
@@ -216,9 +219,17 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 
 	@Override
 	public TextAreaValidatorSI typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
+		return typeText(text, location, 0, true, maxIterationsToLocateElements);
+	}
+	
+	@Override
+	public TextAreaValidatorSI typeText(String text, NewTextLocation location, int typeSpeedInMspc, boolean clickBeforeType, int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		try {
-			match.click();
+			if(clickBeforeType) {
+				match.click();
+			}
+			
 			switch (location) {
 			case start:
 				match.type(Key.HOME);
@@ -226,12 +237,21 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 			case end:
 				match.type(Key.END);
 				break;
-			case replace:
-				match.type("a", KeyModifier.CTRL);
+			case replace:				
+				if(OSDetectorUtil.getHostPlatform() == PlatformType.mac || OSDetectorUtil.getHostPlatform() == PlatformType.ios_mobile) {
+					match.type("a", KeyModifier.CMD);
+				} else {
+					match.type("a", KeyModifier.CTRL);
+				}
 				break;
 			}
-
-			match.type(text);
+			if(typeSpeedInMspc < 1) {
+				match.type(text);
+			} else {
+				match.delayType(typeSpeedInMspc);
+				match.type(text);
+			}
+			
 			// validateTextValue(text, TextMatchMechanism.containsExpectedValue, 0);
 		} catch (Throwable th) {
 			Assert.fail("Fail to type text '" + text + "' in TextArea '" + textAreaObj.getDisplayName() + "'.");

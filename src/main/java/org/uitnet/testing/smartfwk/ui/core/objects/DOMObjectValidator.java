@@ -736,24 +736,41 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	public DOMObjectValidator typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
+		return typeText(text, location, 0, true, maxIterationsToLocateElements);
+	}
+	
+	/**
+	 * Used to type the text on textbox and textarea componenets.
+	 * 
+	 * @param text - text to type
+	 * @param location - location where to start typing.
+	 * @param typeSpeedInMspc - type speed in milliseconds per character.
+	 * @param clickBeforeType - should click before typing.
+	 * @param maxIterationsToLocateElements - max iteration to locate elements.
+	 * @return
+	 */
+	public DOMObjectValidator typeText(String text, NewTextLocation location, int typeSpeedInMspc, boolean clickBeforeType, int maxIterationsToLocateElements) {
 		String newtext;
-		Actions actions;
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
+				if(clickBeforeType) {
+					webElem.click();
+				}
 
 				switch (location) {
 				case start:
 					newtext = text;
-					actions = new Actions(appDriver.getWebDriver());
+					
 					webElem.sendKeys(Keys.HOME);
-					actions.sendKeys(webElem, newtext).build().perform();
+					
+					typeWithInterval(newtext, typeSpeedInMspc, webElem);
+					
 					break;
 				case end:
 					newtext = text;
-					actions = new Actions(appDriver.getWebDriver());
 					webElem.sendKeys(Keys.END);
-					actions.sendKeys(webElem, newtext).build().perform();
+					typeWithInterval(newtext, typeSpeedInMspc, webElem);
 					break;
 				case replace:
 					if(OSDetectorUtil.getHostPlatform() == PlatformType.mac || OSDetectorUtil.getHostPlatform() == PlatformType.ios_mobile) {
@@ -763,8 +780,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					}
 					
 					webElem.sendKeys(Keys.BACK_SPACE);
-					actions = new Actions(appDriver.getWebDriver());
-					actions.sendKeys(webElem, text).build().perform();
+					typeWithInterval(text, typeSpeedInMspc, webElem);
 					break;
 				}
 
@@ -785,5 +801,24 @@ public class DOMObjectValidator extends UIObjectValidator {
 	@Override
 	public Actions getNewSeleniumActions() {
 		return new Actions(appDriver.getWebDriver());
+	}
+	
+	public void typeWithInterval(String textToType, int typeSpeedInMspc, WebElement webElem) {
+		Actions actions;
+		if(typeSpeedInMspc < 1) {
+			actions = new Actions(appDriver.getWebDriver());
+			actions.sendKeys(webElem, textToType).build().perform();
+		} else {
+			if(textToType != null) {
+				for(int ci = 0; ci < textToType.length(); ci++) {
+					actions = new Actions(appDriver.getWebDriver());
+					if(ci == 0) {
+						actions.sendKeys(webElem, "" + textToType.charAt(ci)).build().perform();
+					} else {
+						actions.pause(typeSpeedInMspc).sendKeys(webElem, "" + textToType.charAt(ci)).build().perform();
+					}
+				}
+			}
+		}
 	}
 }

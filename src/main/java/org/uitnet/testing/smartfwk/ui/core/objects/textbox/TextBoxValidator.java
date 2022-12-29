@@ -19,6 +19,7 @@ package org.uitnet.testing.smartfwk.ui.core.objects.textbox;
 
 import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
@@ -60,6 +61,8 @@ public abstract class TextBoxValidator extends UIObjectValidator {
 	public abstract TextBoxValidator validateNotReadonly(int maxIterationsToLocateElements);
 
 	public abstract TextBoxValidator typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements);
+	
+	public abstract TextBoxValidator typeText(String text, NewTextLocation location, int typeSpeedInMspc, boolean clickBeforeType, int maxIterationsToLocateElements);
 
 	public abstract TextBoxValidator validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
 

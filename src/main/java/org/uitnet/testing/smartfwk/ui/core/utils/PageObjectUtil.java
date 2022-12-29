@@ -19,6 +19,7 @@ package org.uitnet.testing.smartfwk.ui.core.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -360,10 +361,11 @@ public class PageObjectUtil {
 			if(inputValue.getAction() == InputValueAction.TYPE) {
 				if(inputValue.getValueType() == InputValueType.AUTO_GENERATED) {
 					String value = inputValue.getAutoValueInputs().build();
-					validator.typeText(value, inputValue.getLocation(), poInfo.getMaxIterationsToLocateElements());
+					validator.typeText(value, inputValue.getLocation(), inputValue.getTypeSpeedMspc(), inputValue.getTypeAfterClick(), 
+							poInfo.getMaxIterationsToLocateElements());
 				} else {
 					validator.typeText((inputValue.getValue() == null ? "" : "" + inputValue.getValue()), 
-							inputValue.getLocation(), poInfo.getMaxIterationsToLocateElements());
+							inputValue.getLocation(), inputValue.getTypeSpeedMspc(), inputValue.getTypeAfterClick(), poInfo.getMaxIterationsToLocateElements());
 				}
 			} else if(inputValue.getAction() == InputValueAction.COMMAND_KEYS) {
 				List<String> cmdKeys = (List<String>)inputValue.getValue();
@@ -392,10 +394,10 @@ public class PageObjectUtil {
 			if(inputValue.getAction() == InputValueAction.TYPE) {
 				if(inputValue.getValueType() == InputValueType.AUTO_GENERATED) {
 					String value = inputValue.getAutoValueInputs().build();
-					validator.typeText(value, inputValue.getLocation(), poInfo.getMaxIterationsToLocateElements());
+					validator.typeText(value, inputValue.getLocation(), inputValue.getTypeSpeedMspc(), inputValue.getTypeAfterClick(), poInfo.getMaxIterationsToLocateElements());
 				} else {
 					validator.typeText((inputValue.getValue() == null ? "" : "" + inputValue.getValue()), 
-							inputValue.getLocation(), poInfo.getMaxIterationsToLocateElements());
+							inputValue.getLocation(), inputValue.getTypeSpeedMspc(), inputValue.getTypeAfterClick(), poInfo.getMaxIterationsToLocateElements());
 				}
 			} else if(inputValue.getAction() == InputValueAction.COMMAND_KEYS) {
 				List<String> cmdKeys = (List<String>)inputValue.getValue();
@@ -682,12 +684,15 @@ public class PageObjectUtil {
 			}
 		} else if(poValidator instanceof InputFileValidator) {
 			InputFileValidator validator = (InputFileValidator) poValidator;
-			if(inputValue.getAction() == InputValueAction.TYPE) {
-				if(inputValue.getValueType() == InputValueType.AUTO_GENERATED) {
-					Assert.fail("Auto generated values are not supported for InputFile component.");
+			if(inputValue.getAction() == InputValueAction.SELECT) {
+				if(inputValue.getValueType() == InputValueType.STRING_LIST) {
+					validator.uploadFiles(((List<String>)inputValue.getValue()), poInfo.getMaxIterationsToLocateElements());
+				} else if(inputValue.getValueType() == InputValueType.STRING) {
+					List<String> list = new LinkedList<>();
+					list.add("" + inputValue.getValue());
+					validator.uploadFiles(list, poInfo.getMaxIterationsToLocateElements());
 				} else {
-					validator.typeText((inputValue.getValue() == null ? "" : "" + inputValue.getValue()), 
-							inputValue.getLocation(), poInfo.getMaxIterationsToLocateElements());
+					Assert.fail("Value type '" + inputValue.getValueType().getType() + "' is not supported.");
 				}
 			} else if(inputValue.getAction() == InputValueAction.COMMAND_KEYS) {
 				List<String> cmdKeys = (List<String>)inputValue.getValue();

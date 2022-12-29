@@ -88,6 +88,8 @@ public abstract class ComboBoxValidator extends UIObjectValidator {
 
 	public abstract ComboBoxValidator deselectItems(ItemList<String> itemsToBeDeselected,
 			TextMatchMechanism textMatchMechanism, int maxIterationsToLocateElements);
+	
+	public abstract List<String> getAvailableItems(int maxIterationsToLocateElements);
 
 	public abstract ComboBoxValidator validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements);
 

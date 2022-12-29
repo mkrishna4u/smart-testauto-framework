@@ -505,6 +505,35 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public List<String> getAvailableItems(int maxIterationsToLocateElements) {
+		List<String> items = new LinkedList<>();
+		try {
+			String optionTextValue;
+			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+				try {
+					WebElement selectElement = domObjValidator.findElement(0);
+
+					List<WebElement> options = selectElement.findElements(By.xpath("./option"));
+					
+					for (WebElement option : options) {
+						optionTextValue = option.getText();
+						items.add(optionTextValue);
+					}
+				} catch (Throwable th) {
+					if (i == maxIterationsToLocateElements) {
+						throw th;
+					}
+				}
+				appDriver.waitForSeconds(2);
+			}
+		} catch (Throwable th) {
+			// do nothing
+		}
+		
+		return items;
+	}
 
 	@Override
 	public ComboBoxValidatorSD validateItemsPresent(ItemList<String> items, int maxIterationsToLocateElements) {

@@ -608,84 +608,90 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	@Override
 	@Deprecated
 	public boolean isDisabled(int maxIterationsToLocateElements) {
-		Assert.fail("isDisabled() API is not supported by ComboBox component.");
+		Assert.fail("isDisabled() API is not supported by ComboBoxSI component.");
 		return false;
 	}
 
 	@Override
 	@Deprecated
 	public Actions getNewSeleniumActions() {
-		Assert.fail("getNewSeleniumActions() API is not supported by ComboBox component.");
+		Assert.fail("getNewSeleniumActions() API is not supported by ComboBoxSI component.");
 		return null;
 	}
 
 	@Override
 	public boolean isDisabledButNotReadonly(int maxIterationsToLocateElements) {
-		Assert.fail("isDisabledButNotReadonly() API is not supported by ComboBox component.");
+		Assert.fail("isDisabledButNotReadonly() API is not supported by ComboBoxSI component.");
 		return false;
 	}
 
 	@Override
 	public ComboBoxValidatorSI validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
-		Assert.fail("validateDisabledButNotReadonly() API is not supported by ComboBox component.");
+		Assert.fail("validateDisabledButNotReadonly() API is not supported by ComboBoxSI component.");
 		return this;
 	}
 
 	@Override
 	public ComboBoxValidatorSI validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
-		Assert.fail("validateEnabledButNotReadonly() API is not supported by ComboBox component.");
+		Assert.fail("validateEnabledButNotReadonly() API is not supported by ComboBoxSI component.");
 		return this;
 	}
 
 	@Override
 	public ComboBoxValidatorSI selectAllItems(int maxIterationsToLocateElements) {
-		Assert.fail("selectAllItems() API is not supported by ComboBox component.");
+		Assert.fail("selectAllItems() API is not supported by ComboBoxSI component.");
 		return this;
 	}
 
 	@Override
 	public ComboBoxValidatorSI deselectItem(String itemName, int maxIterationsToLocateElements) {
-		Assert.fail("deselectItem() API is not supported by ComboBox component.");
+		Assert.fail("deselectItem() API is not supported by ComboBoxSI component.");
 		return this;
 	}
 
 	@Override
 	public ComboBoxValidatorSI deselectAllItems(int maxIterationsToLocateElements) {
-		Assert.fail("deselectAllItems() API is not supported by ComboBox component.");
+		Assert.fail("deselectAllItems() API is not supported by ComboBoxSI component.");
 		return this;
 	}
 
 	@Override
 	public ComboBoxValidatorSI deselectItems(ItemList<String> itemsToBeDeselected, int maxIterationsToLocateElements) {
-		Assert.fail("deselectItems() API is not supported by ComboBox component.");
+		Assert.fail("deselectItems() API is not supported by ComboBoxSI component.");
 		return this;
 	}
 
 	@Override
 	public ComboBoxValidatorSI selectItem(String itemName, TextMatchMechanism textMatchMechanism,
 			int maxIterationsToLocateElements) {
-		Assert.fail("selectItem() API is not supported by ComboBox component.");
+		Assert.fail("selectItem() API is not supported by ComboBoxSI component.");
 		return this;
 	}
 
 	@Override
 	public ComboBoxValidatorSI selectItems(ItemList<String> itemsToBeSelected, TextMatchMechanism textMatchMechanism,
 			int maxIterationsToLocateElements) {
-		Assert.fail("selectItems() API is not supported by ComboBox component.");
+		Assert.fail("selectItems() API is not supported by ComboBoxSI component.");
 		return this;
 	}
 
 	@Override
 	public ComboBoxValidatorSI deselectItem(String itemName, TextMatchMechanism textMatchMechanism,
 			int maxIterationsToLocateElements) {
-		Assert.fail("deselectItem() API is not supported by ComboBox component.");
+		Assert.fail("deselectItem() API is not supported by ComboBoxSI component.");
 		return this;
 	}
 
 	@Override
 	public ComboBoxValidatorSI deselectItems(ItemList<String> itemsToBeDeselected, TextMatchMechanism textMatchMechanism,
 			int maxIterationsToLocateElements) {
-		Assert.fail("deselectItems() API is not supported by ComboBox component.");
+		Assert.fail("deselectItems() API is not supported by ComboBoxSI component.");
 		return this;
+	}
+	
+	@Override
+	public List<String> getAvailableItems(int maxIterationsToLocateElements) {
+		Assert.fail("getAvailableItems() API is not supported by ComboBoxSI component.");
+		return null;
 	}
 }

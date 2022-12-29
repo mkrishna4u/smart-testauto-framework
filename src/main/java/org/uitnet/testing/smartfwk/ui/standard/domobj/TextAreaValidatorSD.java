@@ -112,6 +112,12 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
 		return this;
 	}
+	
+	@Override
+	public TextAreaValidatorSD typeText(String textToType, NewTextLocation location, int typeSpeedInMspc, boolean clickBeforeType, int maxIterationsToLocateElements) {
+		domObjValidator.typeText(textToType, location, typeSpeedInMspc, clickBeforeType, maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public TextAreaValidatorSD validateTextValue(String expectedValue, TextMatchMechanism validationMechanism,
