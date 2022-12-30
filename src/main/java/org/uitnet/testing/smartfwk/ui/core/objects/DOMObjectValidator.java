@@ -753,13 +753,12 @@ public class DOMObjectValidator extends UIObjectValidator {
 		String newtext;
 		for (int i = 0; i < 5; i++) {
 			try {
+				appDriver.waitForMilliSeconds(100);
 				WebElement webElem = findElement(maxIterationsToLocateElements);
 				if(clickBeforeType) {
 					webElem.click();
 				}
 
-				appDriver.waitForMilliSeconds(100);
-				
 				switch (location) {
 				case start:
 					newtext = text;
