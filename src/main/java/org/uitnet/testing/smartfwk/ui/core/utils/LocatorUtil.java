@@ -128,10 +128,6 @@ public class LocatorUtil {
 
 	public static WebElement findWebElement(WebDriver appDriver, Locator locator) {
 		WebElement webElem = null;
-		try {
-			TimeUnit.MILLISECONDS.wait(100);
-		} catch(Exception ex) {}
-		
 		if (appDriver instanceof AppiumDriver) {
 			AppiumDriver driver = (AppiumDriver) appDriver;
 			switch (locator.getLocateBy()) {
@@ -205,9 +201,6 @@ public class LocatorUtil {
 
 	public static List<WebElement> findWebElements(WebDriver appDriver, Locator locator) {
 		List<WebElement> webElem = null;
-		try {
-			TimeUnit.MILLISECONDS.wait(100);
-		} catch(Exception ex) {}
 		
 		if (appDriver instanceof AppiumDriver) {
 			AppiumDriver driver = (AppiumDriver) appDriver;

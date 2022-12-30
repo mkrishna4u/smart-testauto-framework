@@ -143,7 +143,6 @@ public class DOMObjectValidator extends UIObjectValidator {
 	@Override
 	public WebElement findElement(int maxIterationsToLocateElements) {
 		WebElement webElem = null;
-		appDriver.waitForMilliSeconds(100);
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
@@ -191,7 +190,6 @@ public class DOMObjectValidator extends UIObjectValidator {
 	@Override
 	public WebElement findElementNoException(int maxIterationsToLocateElements) {
 		WebElement webElem = null;
-		appDriver.waitForMilliSeconds(100);
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
@@ -227,7 +225,6 @@ public class DOMObjectValidator extends UIObjectValidator {
 	@Override
 	public List<WebElement> findElements(int maxIterationsToLocateElements) {
 		List<WebElement> webElems = null;
-		appDriver.waitForMilliSeconds(100);
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElems = LocatorUtil.findWebElements(appDriver.getWebDriver(),
@@ -513,6 +510,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 * @return
 	 */
 	public DOMObjectValidator copyTextToClipboard(int maxIterationsToLocateElements) {
+		appDriver.waitForMilliSeconds(100);
 		try {
 			for (int i = 0; i < 5; i++) {
 				try {
@@ -544,6 +542,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 * @return
 	 */
 	public DOMObjectValidator pasteTextFromClipboard(int maxIterationsToLocateElements) {
+		appDriver.waitForMilliSeconds(100);
 		try {
 			for (int i = 0; i < 5; i++) {
 				try {
@@ -572,6 +571,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 	@Override
 	public DOMObjectValidator click(int maxIterationsToLocateElements) {
+		appDriver.waitForMilliSeconds(100);
 		try {
 			for (int i = 0; i < 5; i++) {
 				try {
@@ -590,6 +590,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	
 	@Override
 	public DOMObjectValidator forceClick(int maxIterationsToLocateElements) {
+		appDriver.waitForMilliSeconds(100);
 		try {
 			for (int i = 0; i < 5; i++) {
 				try {
@@ -608,6 +609,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 	@Override
 	public DOMObjectValidator doubleClick(int maxIterationsToLocateElements) {
+		appDriver.waitForMilliSeconds(100);
 		try {
 			for (int i = 0; i < 5; i++) {
 				try {
@@ -626,6 +628,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 	@Override
 	public DOMObjectValidator rightClick(int maxIterationsToLocateElements) {
+		appDriver.waitForMilliSeconds(100);
 		try {
 			WebElement webElem = findElement(maxIterationsToLocateElements);
 			Point location = webElem.getLocation();
@@ -640,6 +643,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	public DOMObjectValidator clickAndHold(int maxIterationsToLocateElements) {
+		appDriver.waitForMilliSeconds(100);
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
@@ -653,6 +657,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	public DOMObjectValidator release(int maxIterationsToLocateElements) {
+		appDriver.waitForMilliSeconds(100);
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
@@ -666,6 +671,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	public DOMObjectValidator dragAndDrop(DOMObject target, int maxIterationsToLocateElements) {
+		appDriver.waitForMilliSeconds(100);
 		try {
 			for (int i = 0; i < 5; i++) {
 				try {
@@ -687,6 +693,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	
 	@Override
 	public DOMObjectValidator mouseHoverOver(int maxIterationsToLocateElements) {
+		appDriver.waitForMilliSeconds(100);
 		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
@@ -757,6 +764,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 */
 	public DOMObjectValidator typeText(String text, NewTextLocation location, int typeSpeedInMspc, boolean clickBeforeType, int maxIterationsToLocateElements) {
 		String newtext;
+		appDriver.waitForMilliSeconds(100);
 		for (int i = 0; i < 5; i++) {
 			try {				
 				WebElement webElem = findElement(maxIterationsToLocateElements);
@@ -799,6 +807,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 	
 	public DOMObjectValidator sendKeys(int maxIterationsToLocateElements, CharSequence... keys) {
+		appDriver.waitForMilliSeconds(100);
 		WebElement webElem = findElement(maxIterationsToLocateElements);
 		webElem.sendKeys(keys);
 		return this;
