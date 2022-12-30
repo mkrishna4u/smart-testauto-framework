@@ -758,6 +758,8 @@ public class DOMObjectValidator extends UIObjectValidator {
 					webElem.click();
 				}
 
+				appDriver.waitForMilliSeconds(100);
+				
 				switch (location) {
 				case start:
 					newtext = text;
