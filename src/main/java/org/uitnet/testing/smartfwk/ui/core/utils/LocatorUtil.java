@@ -19,6 +19,7 @@ package org.uitnet.testing.smartfwk.ui.core.utils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -127,6 +128,10 @@ public class LocatorUtil {
 
 	public static WebElement findWebElement(WebDriver appDriver, Locator locator) {
 		WebElement webElem = null;
+		try {
+			TimeUnit.MILLISECONDS.wait(100);
+		} catch(Exception ex) {}
+		
 		if (appDriver instanceof AppiumDriver) {
 			AppiumDriver driver = (AppiumDriver) appDriver;
 			switch (locator.getLocateBy()) {
@@ -194,12 +199,16 @@ public class LocatorUtil {
 				Assert.fail("Locate by '" + locator.getLocateBy().name() + "' is not supported.");
 			}
 		}
-
+		
 		return webElem;
 	}
 
 	public static List<WebElement> findWebElements(WebDriver appDriver, Locator locator) {
 		List<WebElement> webElem = null;
+		try {
+			TimeUnit.MILLISECONDS.wait(100);
+		} catch(Exception ex) {}
+		
 		if (appDriver instanceof AppiumDriver) {
 			AppiumDriver driver = (AppiumDriver) appDriver;
 			switch (locator.getLocateBy()) {

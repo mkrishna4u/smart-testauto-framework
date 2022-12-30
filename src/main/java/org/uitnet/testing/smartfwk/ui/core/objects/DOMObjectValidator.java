@@ -143,6 +143,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	@Override
 	public WebElement findElement(int maxIterationsToLocateElements) {
 		WebElement webElem = null;
+		appDriver.waitForMilliSeconds(100);
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
@@ -164,6 +165,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			}
 			appDriver.waitForSeconds(2);
 		}
+		
 		return webElem;
 	}
 
@@ -189,6 +191,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	@Override
 	public WebElement findElementNoException(int maxIterationsToLocateElements) {
 		WebElement webElem = null;
+		appDriver.waitForMilliSeconds(100);
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
@@ -209,6 +212,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			}
 			appDriver.waitForSeconds(2);
 		}
+		
 		return webElem;
 	}
 
@@ -223,6 +227,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	@Override
 	public List<WebElement> findElements(int maxIterationsToLocateElements) {
 		List<WebElement> webElems = null;
+		appDriver.waitForMilliSeconds(100);
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				webElems = LocatorUtil.findWebElements(appDriver.getWebDriver(),
@@ -241,6 +246,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			}
 			appDriver.waitForSeconds(2);
 		}
+		
 		return webElems;
 	}
 
@@ -752,8 +758,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	public DOMObjectValidator typeText(String text, NewTextLocation location, int typeSpeedInMspc, boolean clickBeforeType, int maxIterationsToLocateElements) {
 		String newtext;
 		for (int i = 0; i < 5; i++) {
-			try {
-				appDriver.waitForMilliSeconds(100);
+			try {				
 				WebElement webElem = findElement(maxIterationsToLocateElements);
 				if(clickBeforeType) {
 					webElem.click();
