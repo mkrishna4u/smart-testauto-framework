@@ -70,9 +70,17 @@ public class InputValue {
 	/**
 	 * Typing speed in milliseconds per character.
 	 */
-	private Integer typeSpeedMspc = 0;
+	private int typeSpeedMspc = 0;
 	
-	private Boolean typeAfterClick = true;
+	/**
+	 * Flag to indicate typing should start after clicking on the element.
+	 */
+	private boolean typeAfterClick = true;
+	
+	/**
+	 * Indicate how long system should wait after operation is initiated.
+	 */
+	private int waitTimeInMsAfterOp = 0;
 	
 	public InputValue() {
 		// do nothing
@@ -167,19 +175,27 @@ public class InputValue {
 		this.toPo = toPo;
 	}
 
-	public Integer getTypeSpeedMspc() {
+	public int getTypeSpeedMspc() {
 		return typeSpeedMspc;
 	}
 
 	public void setTypeSpeedMspc(Integer typeSpeedMspc) {
-		this.typeSpeedMspc = (typeSpeedMspc == null || typeSpeedMspc < 1) ? 0 : typeSpeedMspc;
+		this.typeSpeedMspc = (typeSpeedMspc == null || typeSpeedMspc.intValue() < 1) ? 0 : typeSpeedMspc.intValue();
 	}
 
-	public Boolean getTypeAfterClick() {
+	public boolean getTypeAfterClick() {
 		return typeAfterClick;
 	}
 
 	public void setTypeAfterClick(Boolean typeAfterClick) {
-		this.typeAfterClick = (typeAfterClick == null) ? true : typeAfterClick;
+		this.typeAfterClick = (typeAfterClick == null) ? true : typeAfterClick.booleanValue();
+	}
+
+	public int getWaitTimeInMsAfterOp() {
+		return waitTimeInMsAfterOp;
+	}
+
+	public void setWaitTimeInMsAfterOp(Integer waitTimeInMsAfterOp) {
+		this.waitTimeInMsAfterOp = (waitTimeInMsAfterOp == null || waitTimeInMsAfterOp.intValue() < 1) ? 0 : waitTimeInMsAfterOp.intValue();
 	}
 }

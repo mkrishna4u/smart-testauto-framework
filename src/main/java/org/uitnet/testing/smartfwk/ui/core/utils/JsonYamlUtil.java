@@ -31,6 +31,7 @@ import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
 import org.uitnet.testing.smartfwk.core.validator.ExpectedInfo;
 import org.uitnet.testing.smartfwk.core.validator.InputValue;
 import org.uitnet.testing.smartfwk.core.validator.InputValueType;
+import org.uitnet.testing.smartfwk.core.validator.MethodInfo;
 import org.uitnet.testing.smartfwk.core.validator.ParamPath;
 import org.uitnet.testing.smartfwk.core.validator.ParamValue;
 import org.uitnet.testing.smartfwk.core.validator.ParamValueType;
@@ -312,6 +313,29 @@ public class JsonYamlUtil {
 			return inputV;
 		}
 		
+	}
+	
+	public static MethodInfo parseMethodInfo(String methodInfo) {
+		MethodInfo mInfo = null;
+		if(StringUtil.isEmptyAfterTrim(methodInfo)) {
+			Assert.fail("Invalid method definition. Correct format is: \n" +
+					"{className: \"qualified-class-name\", methodName: \"method-name\", "
+					+ "methodArgs: [arg1, \"arg2\", [1,2,3]], isStatic: true/false}");
+			return mInfo;
+		} 
+		
+		methodInfo = methodInfo.trim();
+		
+		if(methodInfo.startsWith("{") && methodInfo.endsWith("}")) {
+			JsonDocumentReader r = new JsonDocumentReader(methodInfo, false);
+			mInfo = r.readValueAsObject("$", MethodInfo.class);
+			return mInfo;
+		} else {
+			Assert.fail("Invalid method definition. Correct format is: \n" +
+			"{className: \"qualified-class-name\", methodName: \"method-name\", "
+			+ "methodArgs: [arg1, \"arg2\", [1,2,3]], isStatic: true/false}");;
+		}
+		return mInfo;
 	}
 	
 	public static Object convertTextToTypedValue(String paramName, ParamValueType valueType, String text) {

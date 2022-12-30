@@ -257,6 +257,28 @@ public class ObjectUtil {
 
 		return foundMethod;
 	}
+	
+	public static Method findClassMethod(Class<?> clazz, String methodName, int numArgs) {
+		Method foundMethod = null;
+		try {
+			Method[] methods = clazz.getMethods();
+			for (Method m : methods) {
+				if (m.getName().equals(methodName) && m.getParameterCount() == numArgs) {					
+					foundMethod = m;
+					break;
+				}
+			}
+
+		} catch (Exception ex) {
+			Assert.fail("Failed to find '" + methodName + "' method in class '" + clazz.getName() + "'.", ex);
+		}
+
+		if (foundMethod == null) {
+			Assert.fail("Failed to find '" + methodName + "' method in class '" + clazz.getName() + "'.");
+		}
+
+		return foundMethod;
+	}
 
 	public static Object invokeMethod(Object clazzObj, Method m, Object[] argValues)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {

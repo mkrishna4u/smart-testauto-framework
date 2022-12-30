@@ -26,6 +26,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
@@ -114,7 +115,7 @@ public class InputFileValidatorSD extends InputFileValidator {
 
 	@Override
 	public InputFileValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
-		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
+		domObjValidator.typeText(textToType, location, 0, false, maxIterationsToLocateElements);
 		return this;
 	}
 
@@ -243,13 +244,18 @@ public class InputFileValidatorSD extends InputFileValidator {
 	}
 
 	@Override
-	public void uploadFiles(List<String> relativeFilePaths, int maxIterationsToLocateElements) {
+	public void selectFiles(ItemList<String> relativeFilePaths, int maxIterationsToLocateElements) {
+		selectFiles(relativeFilePaths, 0, maxIterationsToLocateElements);
+	}
+	
+	@Override
+	public void selectFiles(ItemList<String> relativeFilePaths, int waitTimeInSecondsAfterSelect, int maxIterationsToLocateElements) {
 		String paths = "";
 		for(int i = 0; i < relativeFilePaths.size(); i++) {
 			if(StringUtil.isEmptyNoTrim(paths)) {
-				paths = Locations.getProjectRootDir() + File.separator +  relativeFilePaths.get(i);
+				paths = Locations.getProjectRootDir() + File.separator +  relativeFilePaths.getItem(i);
 			} else {
-				paths = paths + "\n" + Locations.getProjectRootDir() + File.separator +  relativeFilePaths.get(i);
+				paths = paths + "\n" + Locations.getProjectRootDir() + File.separator +  relativeFilePaths.getItem(i);
 			}
 		}
 		if(OSDetectorUtil.getHostPlatform() == PlatformType.windows) {
@@ -260,5 +266,8 @@ public class InputFileValidatorSD extends InputFileValidator {
 		
 		WebElement webElem = domObjValidator.findElement(maxIterationsToLocateElements);
 		webElem.sendKeys(paths);
+		if(waitTimeInSecondsAfterSelect > 0) {
+			appDriver.waitForSeconds(waitTimeInSecondsAfterSelect);
+		}
 	}
 }

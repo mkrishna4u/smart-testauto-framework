@@ -19,7 +19,6 @@ package org.uitnet.testing.smartfwk.ui.core.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -686,11 +685,11 @@ public class PageObjectUtil {
 			InputFileValidator validator = (InputFileValidator) poValidator;
 			if(inputValue.getAction() == InputValueAction.SELECT) {
 				if(inputValue.getValueType() == InputValueType.STRING_LIST) {
-					validator.uploadFiles(((List<String>)inputValue.getValue()), poInfo.getMaxIterationsToLocateElements());
+					validator.selectFiles(new ItemList<>((List<String>)inputValue.getValue()), poInfo.getMaxIterationsToLocateElements());
 				} else if(inputValue.getValueType() == InputValueType.STRING) {
-					List<String> list = new LinkedList<>();
+					ItemList<String> list = new ItemList<>();
 					list.add("" + inputValue.getValue());
-					validator.uploadFiles(list, poInfo.getMaxIterationsToLocateElements());
+					validator.selectFiles(list, poInfo.getMaxIterationsToLocateElements());
 				} else {
 					Assert.fail("Value type '" + inputValue.getValueType().getType() + "' is not supported.");
 				}
@@ -718,6 +717,10 @@ public class PageObjectUtil {
 			}
 		} else {
 			Assert.fail("Support for '" + poInfo.getPoClassFieldName() + "' type of component is not present.");
+		}
+		
+		if(inputValue.getWaitTimeInMsAfterOp() > 0) {
+			scenarioContext.waitForSeconds(inputValue.getWaitTimeInMsAfterOp());
 		}
 	}
 	

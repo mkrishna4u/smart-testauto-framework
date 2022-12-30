@@ -37,7 +37,9 @@ public class ItemList<T> {
 
 	public ItemList(List<T> items) {
 		list = new ArrayList<T>();
-		list.addAll(items);
+		if(items != null) {
+			list.addAll(items);
+		}
 	}
 
 	public ItemList<T> add(T item) {
@@ -53,6 +55,10 @@ public class ItemList<T> {
 	public ItemList<T> removeAll(Collection<T> items) {
 		list.removeAll(items);
 		return this;
+	}
+	
+	public T getItem(int index) {
+		return list.get(index);
 	}
 
 	public int size() {

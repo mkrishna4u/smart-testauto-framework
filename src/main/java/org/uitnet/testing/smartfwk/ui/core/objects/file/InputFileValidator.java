@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
@@ -64,5 +65,6 @@ public abstract class InputFileValidator extends UIObjectValidator {
 
 	public abstract InputFileValidator validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
 
-	public abstract void uploadFiles(List<String> relativeFilePaths, int maxIterationsToLocateElements);
+	public abstract void selectFiles(ItemList<String> relativeFilePaths, int maxIterationsToLocateElements);
+	public abstract void selectFiles(ItemList<String> relativeFilePaths, int waitTimeInSecondsAfterSelect, int maxIterationsToLocateElements);
 }
