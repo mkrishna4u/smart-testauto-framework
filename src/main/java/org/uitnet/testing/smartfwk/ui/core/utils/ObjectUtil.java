@@ -473,7 +473,6 @@ public class ObjectUtil {
 		
 		Collection<Object> objs = null;
 		for(int i = 0; i < argsType.length; i++) {
-			System.out.println("TYPE-NAME: " + argsType[i].getTypeName());
 			if(argsType[i].isArray()) {
 				objs = ((Collection<Object>) argsValue[i]);
 				Object[] valueArr = (Object[]) Array.newInstance(argsType[i].getComponentType(), objs.size());
