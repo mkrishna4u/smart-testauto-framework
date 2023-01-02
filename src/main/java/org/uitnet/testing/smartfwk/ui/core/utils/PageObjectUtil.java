@@ -158,7 +158,7 @@ public class PageObjectUtil {
 		return validatorObj;
 	}
 
-	public static Object invokeValidatorMethod(String methodName, Class<?>[] methodArgTypes, Object[] methodArgValues,
+	public static Object invokeValidatorMethod(String methodName, String[] methodArgTypes, Object[] methodArgValues,
 			PageObjectInfo poInfo, SmartCucumberScenarioContext scenarioContext) {
 		Object validatorObj = getPageObjectValidator(poInfo, scenarioContext);
 		Method method = ObjectUtil.findClassMethod(validatorObj.getClass(), methodName, methodArgTypes);

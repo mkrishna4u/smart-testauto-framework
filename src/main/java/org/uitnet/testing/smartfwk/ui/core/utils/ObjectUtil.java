@@ -17,13 +17,16 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.core.validator.ParamValue;
@@ -221,7 +224,7 @@ public class ObjectUtil {
 		return foundConstructor;
 	}
 
-	public static Method findClassMethod(Class<?> clazz, String methodName, Class<?>[] argTypes) {
+	/* public static Method findClassMethod(Class<?> clazz, String methodName, Class<?>[] argTypes) {
 		Method foundMethod = null;
 		try {
 			Method[] methods = clazz.getMethods();
@@ -235,6 +238,43 @@ public class ObjectUtil {
 					for (int i = 0; i < paramTypes.length; i++) {
 						paramType = paramTypes[i];
 						if (!paramType.getTypeName().equals(argTypes[i].getTypeName())) {
+							found = false;
+							break;
+						}
+					}
+
+					if (found) {
+						foundMethod = m;
+						break;
+					}
+				}
+			}
+
+		} catch (Exception ex) {
+			Assert.fail("Failed to find '" + methodName + "' method in class '" + clazz.getName() + "'.", ex);
+		}
+
+		if (foundMethod == null) {
+			Assert.fail("Failed to find '" + methodName + "' method in class '" + clazz.getName() + "'.");
+		}
+
+		return foundMethod;
+	} */
+	
+	public static Method findClassMethod(Class<?> clazz, String methodName, String[] argTypesName) {
+		Method foundMethod = null;
+		try {
+			Method[] methods = clazz.getMethods();
+			boolean found = false;
+			for (Method m : methods) {
+				foundMethod = null;
+				if (m.getName().equals(methodName) && m.getParameterCount() == argTypesName.length) {
+					Class<?>[] paramTypes = m.getParameterTypes();
+					Class<?> paramType = null;
+					found = true;
+					for (int i = 0; i < paramTypes.length; i++) {
+						paramType = paramTypes[i];
+						if (!paramType.getTypeName().equals(argTypesName[i])) {
 							found = false;
 							break;
 						}
@@ -283,6 +323,7 @@ public class ObjectUtil {
 	public static Object invokeMethod(Object clazzObj, Method m, Object[] argValues)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object out = null;
+		fixArgsValues(m.getParameterTypes(), argValues);
 		out = m.invoke(clazzObj, argValues);
 		return out;
 	}
@@ -412,6 +453,134 @@ public class ObjectUtil {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Used to fix the method arguments value based on the method arguments type.
+	 * 
+	 * @param argsType
+	 * @param argsValue
+	 */
+	@SuppressWarnings("unchecked")
+	public static void fixArgsValues(Class<?>[] argsType, Object[] argsValue) {
+		if(argsType == null || argsType.length==0|| argsValue == null || argsValue.length==0) {
+			return;
+		}
+		
+		if(argsValue.length != argsType.length) {
+			Assert.fail("Number of argument value should be same as number of argument type. NumArgTypes: " + argsType.length + ", NumArgValue: " + argsValue.length);
+		}
+		
+		Collection<Object> objs = null;
+		for(int i = 0; i < argsType.length; i++) {
+			System.out.println("TYPE-NAME: " + argsType[i].getTypeName());
+			if(argsType[i].isArray()) {
+				objs = ((Collection<Object>) argsValue[i]);
+				Object[] valueArr = (Object[]) Array.newInstance(argsType[i].getComponentType(), objs.size());
+				
+				if(objs != null) {
+					int counter;
+					for(int j = 0; j < objs.size(); j++) {
+						counter = 0;
+						for(Object obj : objs) {
+							if(counter == j) {
+								valueArr[j] = obj; 
+								break;
+							}
+							counter++;
+						}
+					}
+					argsValue[i] = valueArr;
+				}
+			} else if("java.util.Set".equals(argsType[i].getTypeName())) {
+				objs = ((Collection<Object>) argsValue[i]);
+				Set<Object> valueArr = new TreeSet<>();
+				
+				if(objs != null) {
+					int counter;
+					for(int j = 0; j < objs.size(); j++) {
+						counter = 0;
+						for(Object obj : objs) {
+							if(counter == j) {
+								valueArr.add(obj); 
+								break;
+							}
+							counter++;
+						}
+					}
+					argsValue[i] = valueArr;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Used to convert string to java class type name.
+	 * @param typeAsStr - like String, String[], List<String>, Set<String>,
+	 * 		java.util.List, java.util.Set etc.
+	 * @return converted value as java class type name.
+	 */
+	public static String convertStringToJavaClassType(String typeAsStr) {
+		String clazzTypeName = null;
+		try {
+			boolean isArray = false;
+			typeAsStr = typeAsStr.trim();
+			if (typeAsStr.endsWith("[]")) {
+				isArray = true;
+				typeAsStr = typeAsStr.split("\\[\\]")[0];
+			}
+
+			if (typeAsStr.equals("int")) {
+				clazzTypeName = (isArray ? int[].class.getTypeName() : Integer.TYPE.getTypeName());
+			} else if (typeAsStr.equals("long")) {
+				clazzTypeName = (isArray ? long[].class.getTypeName() : Long.TYPE.getTypeName());
+			} else if (typeAsStr.equals("double")) {
+				clazzTypeName = (isArray ? double[].class.getTypeName() : Double.TYPE.getTypeName());
+			} else if (typeAsStr.equals("float")) {
+				clazzTypeName = (isArray ? float[].class.getTypeName() : Float.TYPE.getTypeName());
+			} else if (typeAsStr.equals("short")) {
+				clazzTypeName = (isArray ? short[].class.getTypeName() : Short.TYPE.getTypeName());
+			} else if (typeAsStr.equals("byte")) {
+				clazzTypeName = (isArray ? byte[].class.getTypeName() : Byte.TYPE.getTypeName());
+			} else if (typeAsStr.equals("boolean")) {
+				clazzTypeName = (isArray ? boolean[].class.getTypeName() : Boolean.TYPE.getTypeName());
+			} else if (typeAsStr.equals("char")) {
+				clazzTypeName = (isArray ? char[].class.getTypeName() : Character.TYPE.getTypeName());
+			} else if (typeAsStr.equals("Integer")) {
+				clazzTypeName = (isArray ? Integer[].class.getTypeName() : Integer.class.getTypeName());
+			} else if (typeAsStr.equals("Long")) {
+				clazzTypeName = (isArray ? Long[].class.getTypeName() : Long.class.getTypeName());
+			} else if (typeAsStr.equals("Double")) {
+				clazzTypeName = (isArray ? Double[].class.getTypeName() : Double.class.getTypeName());
+			} else if (typeAsStr.equals("Float")) {
+				clazzTypeName = (isArray ? Float[].class.getTypeName() : Float.class.getTypeName());
+			} else if (typeAsStr.equals("Short")) {
+				clazzTypeName = (isArray ? Short[].class.getTypeName() : Short.class.getTypeName());
+			} else if (typeAsStr.equals("Byte")) {
+				clazzTypeName = (isArray ? Byte[].class.getTypeName() : Byte.class.getTypeName());
+			} else if (typeAsStr.equals("Boolean")) {
+				clazzTypeName = (isArray ? Boolean[].class.getTypeName() : Boolean.class.getTypeName());
+			} else if (typeAsStr.equals("Character")) {
+				clazzTypeName = (isArray ? Character[].class.getTypeName() : Character.class.getTypeName());
+			} else if (typeAsStr.equals("String")) {
+				clazzTypeName = (isArray ? String[].class.getTypeName() : String.class.getTypeName());
+			} else if (typeAsStr.startsWith("List")) {
+				clazzTypeName = (isArray ? List[].class.getTypeName() : List.class.getTypeName());
+			} else if (typeAsStr.startsWith("Set")) {
+				clazzTypeName = (isArray ? Set[].class.getTypeName() : Set.class.getTypeName());
+			} else if (typeAsStr.startsWith("Map")) {
+				clazzTypeName = (isArray ? Map[].class.getTypeName() : Map.class.getTypeName());
+			} else {
+				Class<?> c = Class.forName(typeAsStr);
+				clazzTypeName = (isArray ? Array.newInstance(c).getClass().getTypeName() : c.getTypeName());
+			}
+
+		} catch (Exception ex) {
+			Assert.fail("Failed to convert argument type to a class. Please specify fully "
+					+ "qualified class name as argument type. Note: the following primitive "
+					+ "types are supported: int, long, double, float, byte, boolean, char.", ex);
+		}
+		return clazzTypeName;
 	}
 
 }

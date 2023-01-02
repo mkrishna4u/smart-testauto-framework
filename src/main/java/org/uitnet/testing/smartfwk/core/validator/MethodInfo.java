@@ -20,6 +20,8 @@ package org.uitnet.testing.smartfwk.core.validator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
+
 /**
  * Represents the calling method information.
  * 
@@ -29,10 +31,10 @@ import java.util.List;
 public class MethodInfo {
 	private String className;
 	private String methodName;
-	private List<Class<?>> argsType;
+	private List<String> argsType;
 	private List<Object> argsValue;
 	private Boolean isStatic = false;
-	
+
 	public MethodInfo() {
 		argsType = new LinkedList<>();
 		argsValue = new LinkedList<>();
@@ -54,12 +56,18 @@ public class MethodInfo {
 		this.methodName = methodName;
 	}
 
-	public List<Class<?>> getArgsType() {
+	public List<String> getArgsType() {
 		return argsType;
 	}
 
-	public void setArgsType(List<Class<?>> argsType) {
-		this.argsType = argsType == null ? new LinkedList<>() : argsType;
+	public void setArgsType(List<String> argsType) {
+		if (argsType != null) {
+			String clazz = null;
+			for (String arg : argsType) {
+				clazz = ObjectUtil.convertStringToJavaClassType(arg);
+				this.argsType.add(clazz);
+			}
+		}
 	}
 
 	public List<Object> getArgsValue() {

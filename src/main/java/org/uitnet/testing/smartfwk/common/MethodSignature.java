@@ -17,6 +17,11 @@
  */
 package org.uitnet.testing.smartfwk.common;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
+
 /**
  * 
  * @author Madhav Krishna
@@ -24,11 +29,12 @@ package org.uitnet.testing.smartfwk.common;
  */
 public class MethodSignature {
 	private String name;
-	private Class<?>[] argsType;
-	private Object[] argsValue;
+	private List<String> argsType;
+	private List<Object> argsValue;
 	
 	public MethodSignature() {
-		
+		argsType = new LinkedList<>();
+		argsValue = new LinkedList<>();
 	}
 
 	public String getName() {
@@ -39,19 +45,25 @@ public class MethodSignature {
 		this.name = name;
 	}
 
-	public Class<?>[] getArgsType() {
-		return argsType;
+	public String[] getArgsType() {
+		return argsType.toArray(new String[argsType.size()]);
 	}
 
-	public void setArgsType(Class<?>[] argsType) {
-		this.argsType = argsType;
+	public void setArgsType(String[] argsType) {
+		if (argsType != null) {
+			String clazz = null;
+			for (String arg : argsType) {
+				clazz = ObjectUtil.convertStringToJavaClassType(arg);
+				this.argsType.add(clazz);
+			}
+		}
 	}
 
 	public Object[] getArgsValue() {
-		return argsValue;
+		return argsValue.toArray(new Object[argsValue.size()]);
 	}
 
-	public void setArgsValue(Object[] argsValue) {
+	public void setArgsValue(List<Object> argsValue) {
 		this.argsValue = argsValue;
 	}
 }

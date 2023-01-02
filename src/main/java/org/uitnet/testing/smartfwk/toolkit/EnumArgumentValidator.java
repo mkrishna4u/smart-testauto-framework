@@ -52,7 +52,7 @@ public class EnumArgumentValidator<ENUM> implements CommandArgumentValidator {
 		}
 		
 		try {
-			Method m = ObjectUtil.findClassMethod(enumClass, enumMethodToValidateValidEnum, new Class[] {String.class});
+			Method m = ObjectUtil.findClassMethod(enumClass, enumMethodToValidateValidEnum, new String[] {String.class.getTypeName()});
 			ObjectUtil.invokeMethod(enumClass, m, new Object[] {argValue});
 		} catch(Exception | Error ex) {
 			try {
