@@ -24,11 +24,10 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.Region;
 import org.testng.Assert;
@@ -526,7 +525,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					}
 					
 					break;
-				} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+				} catch (WebDriverException ex) {
 					appDriver.waitForSeconds(2);
 				}
 			}
@@ -560,7 +559,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					}
 					
 					break;
-				} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+				} catch (WebDriverException ex) {
 					appDriver.waitForSeconds(2);
 				}
 			}
@@ -579,7 +578,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					WebElement webElem = findElement(maxIterationsToLocateElements);
 					PageScrollUtil.mouseClick(appDriver, webElem);
 					break;
-				} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+				} catch (WebDriverException ex) {
 					appDriver.waitForSeconds(2);
 				}
 			}
@@ -598,7 +597,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					WebElement webElem = findElement(maxIterationsToLocateElements);
 					PageScrollUtil.mouseForceClick(appDriver, webElem);
 					break;
-				} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+				} catch (WebDriverException ex) {
 					appDriver.waitForSeconds(2);
 				}
 			}
@@ -617,7 +616,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					WebElement webElem = findElement(maxIterationsToLocateElements);
 					PageScrollUtil.mouseDoubleClick(appDriver, webElem);
 					break;
-				} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+				} catch (WebDriverException ex) {
 					appDriver.waitForSeconds(2);
 				}
 			}
@@ -650,7 +649,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
 				PageScrollUtil.mouseClickAndHold(appDriver, webElem);
 				break;
-			} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+			} catch (WebDriverException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
@@ -664,7 +663,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
 				PageScrollUtil.mouseRelease(appDriver, webElem);
 				break;
-			} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+			} catch (WebDriverException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
@@ -681,7 +680,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 					PageScrollUtil.mouseDragAndDrop(appDriver, sourceElem, targetElem);
 					break;
-				} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+				} catch (WebDriverException ex) {
 					appDriver.waitForSeconds(2);
 				}
 			}
@@ -700,7 +699,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
 				PageScrollUtil.mouseHoverOver(appDriver, webElem);
 				break;
-			} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+			} catch (WebDriverException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
@@ -714,7 +713,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyDown(webElem, keys).build().perform();
 				break;
-			} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+			} catch (WebDriverException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
@@ -728,7 +727,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyUp(webElem, keys).build().perform();
 				break;
-			} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+			} catch (WebDriverException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
@@ -742,7 +741,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				Actions actions = new Actions(appDriver.getWebDriver());
 				actions.keyDown(webElem, keys).keyUp(webElem, keys).build().perform();
 				break;
-			} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+			} catch (WebDriverException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
@@ -800,7 +799,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 				}
 
 				break;
-			} catch (MoveTargetOutOfBoundsException | StaleElementReferenceException ex) {
+			} catch (WebDriverException ex) {
 				appDriver.waitForSeconds(2);
 			}
 		}
