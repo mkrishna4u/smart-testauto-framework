@@ -68,6 +68,25 @@ public class LocalMachineFileSystem {
 		return fileNames;
 	}
 	
+	public static List<String> listFiles(String absoluteLocalPath, TextMatchMechanism fileNameMatchMechanism,
+			String fileNamePrefix, String fileExtension) {
+		List<String> fileNames = new LinkedList<>();
+		try (Stream<Path> fs = Files.list(Path.of(absoluteLocalPath))) {
+			fs.forEach((path) -> {
+				String fileName = path.toFile().getName();
+				if (StringUtil.isTextMatchedWithExpectedValue(fileName, fileNamePrefix,
+						fileNameMatchMechanism) && (StringUtil.isEmptyAfterTrim(fileExtension) ? true : fileName.endsWith(fileExtension))) {
+					fileNames.add(path.toFile().getAbsolutePath());
+				}
+			});
+		} catch (Exception e) {
+			Assert.fail(
+					"Failed to list files from local '" + absoluteLocalPath + "' directory. Reason: " + e.getMessage(),
+					e);
+		}
+		return fileNames;
+	}
+	
 	public static List<String> listAllDirectoriesName(String absoluteLocalPath) {
 		List<String> fileNames = new LinkedList<>();
 		try (Stream<Path> fs = Files.list(Path.of(absoluteLocalPath))) {
@@ -92,6 +111,29 @@ public class LocalMachineFileSystem {
 			fs.forEach((path) -> {
 				if (StringUtil.isTextMatchedWithExpectedValue(path.toFile().getName(), expectedValue,
 						fileNameMatchMechanism)) {
+					fileNames.add(path.toFile().getAbsolutePath());
+					try {
+						Files.delete(path);
+					} catch (Exception e1) {
+						throw new RuntimeException(e1.getMessage());
+					}
+				}
+			});
+		} catch (Exception e) {
+			Assert.fail("Failed to delete files from local '" + absoluteLocalPath + "' directory. Reason: "
+					+ e.getMessage(), e);
+		}
+		return fileNames;
+	}
+	
+	public static List<String> deleteFiles(String absoluteLocalPath, TextMatchMechanism fileNameMatchMechanism,
+			String fileNamePrefix, String fileExtension) {
+		List<String> fileNames = new LinkedList<>();
+		try (Stream<Path> fs = Files.list(Path.of(absoluteLocalPath))) {
+			fs.forEach((path) -> {
+				String fileName = path.toFile().getName();
+				if (StringUtil.isTextMatchedWithExpectedValue(fileName, fileNamePrefix,
+						fileNameMatchMechanism) && (StringUtil.isEmptyAfterTrim(fileExtension) ? true : fileName.endsWith(fileExtension))) {
 					fileNames.add(path.toFile().getAbsolutePath());
 					try {
 						Files.delete(path);

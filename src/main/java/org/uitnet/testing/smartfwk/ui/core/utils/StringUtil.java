@@ -217,7 +217,59 @@ public class StringUtil {
 		}
 	}
 	
+	/**
+	 * Used to return substring starting from startIndex until max characters are extracted.
+	 * If max chars are not available then it will just return the available characters startIndex
+	 * onwards.
+	 * 
+	 * @param str
+	 * @param startIndex
+	 * @param maxCharsToExtract
+	 * @return
+	 */
+	public static String substring(String str, int startIndex, int maxCharsToExtract) {
+		if(str == null ||  startIndex >= str.length()) { return ""; }
+		StringBuilder sb = new StringBuilder("");
+		int endIndex = startIndex + maxCharsToExtract - 1;
+		for(int i = startIndex; i < str.length(); i++) {
+			if(i <= endIndex) {
+				sb.append(str.charAt(i));
+			}
+		}
+		
+		return sb.toString();
+	}
+	
+	/**
+	 * Extract the text from the startToken and endToken.
+	 * 
+	 * @param str - string from where the text to be extracted.
+	 * @param startToken - startToken
+	 * @param endToken - endToken.
+	 * @return
+	 */
+	public static String substring(String str, String startToken, String endToken) {
+		if(StringUtil.isEmptyNoTrim(str)) { return ""; }
+		startToken = (startToken == null ? "" : startToken);
+		endToken = (endToken == null ? "" : endToken);
+		
+		int startIndex = 0;
+		int endIndex = str.length() - 1;
+		
+		int idx = str.indexOf(startToken);
+		if( idx >= 0) {
+			startIndex = idx + startToken.length();
+		}
+		
+		idx = str.indexOf(endToken, startIndex);
+		if( idx > 0) {
+			endIndex = idx - 1;
+		}
+		
+		return substring(str, startIndex, (endIndex - startIndex + 1));
+	}
+	
 	public static void main(String[] args) {
-		System.out.println(removeItemsFromText("bcdefg,mmm", ",", "efg", "bcd", "mmm"));
+		System.out.println(substring("he$llo$how are$ you", 0, 2));
 	}
 }
