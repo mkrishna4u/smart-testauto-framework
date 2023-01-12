@@ -12,6 +12,7 @@ public class TestNumbers {
 			
 			NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
 			System.out.println("nf:" + nf.format(4234.45435));
+			
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
