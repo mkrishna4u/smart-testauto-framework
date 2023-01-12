@@ -111,7 +111,7 @@ public class FileContentsValidator {
 				if(inOrder) {
 					if(index > prevIndex) {
 						foundKeywords.add(keyWord);
-						prevIndex = index + keyWord.length() - 1;
+						prevIndex = index + keyWord.length();
 					}
 				} else {
 					foundKeywords.add(keyWord);
