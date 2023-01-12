@@ -537,6 +537,32 @@ public class PageObjectUtil {
 			} else {
 				Assert.fail("'" + inputValue.getAction() + "' is not supported on RadioButtonGroup component.");
 			}
+		} else if(poValidator instanceof MultiStateBoxValidator) {
+			MultiStateBoxValidator validator = (MultiStateBoxValidator) poValidator;
+			if(inputValue.getAction() == InputValueAction.CHECK || inputValue.getAction() == InputValueAction.SELECT || inputValue.getAction() == InputValueAction.TYPE) {
+				validator.selectState("" + inputValue.getValue(), poInfo.getMaxIterationsToLocateElements());
+			} else if(inputValue.getAction() == InputValueAction.COMMAND_KEYS) {
+				List<String> cmdKeys = (List<String>)inputValue.getValue();
+				if(cmdKeys != null && !cmdKeys.isEmpty()) {
+					String[] keysArr = prepareKeysChord(cmdKeys);
+					validator.sendCommandKeys(poInfo.getMaxIterationsToLocateElements(), keysArr);
+				} else {
+					Assert.fail("No command key found to perform operation.");
+				}
+			} else if(inputValue.getAction() == InputValueAction.MOUSE_CLICK) {
+				validator.click(poInfo.getMaxIterationsToLocateElements());
+			} else if(inputValue.getAction() == InputValueAction.MOUSE_DOUBLECLICK) {
+				validator.doubleClick(poInfo.getMaxIterationsToLocateElements());
+			} else if(inputValue.getAction() == InputValueAction.MOUSE_DRAG_DROP) {
+				Assert.assertNotNull(inputValue.getToPo(), "For Drag-And-Drop operation 'toPo' property must be specified.");
+				PageObjectInfo toPoInfo = getPageObjectInfo(inputValue.getToPo());
+				UIObjectValidator toValidator = (UIObjectValidator) getPageObjectValidator(toPoInfo, scenarioContext);
+				WebElement fromElem = (WebElement) validator.findElement(poInfo.getMaxIterationsToLocateElements());
+				WebElement toElem = (WebElement) toValidator.findElement(poInfo.getMaxIterationsToLocateElements());
+				DragAndDropUtil.dragAndDropElement(fromElem, toElem, scenarioContext.getActiveAppDriver());
+			} else {
+				Assert.fail("'" + inputValue.getAction() + "' is not supported on RadioButtonGroup component.");
+			}
 		} else if(poValidator instanceof ButtonValidator) {
 			ButtonValidator validator = (ButtonValidator) poValidator;
 			if(inputValue.getAction() == InputValueAction.COMMAND_KEYS) {
