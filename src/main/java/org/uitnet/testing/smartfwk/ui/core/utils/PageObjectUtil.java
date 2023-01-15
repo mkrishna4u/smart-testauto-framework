@@ -161,9 +161,22 @@ public class PageObjectUtil {
 	public static Object invokeValidatorMethod(String methodName, String[] methodArgTypes, Object[] methodArgValues,
 			PageObjectInfo poInfo, SmartCucumberScenarioContext scenarioContext) {
 		Object validatorObj = getPageObjectValidator(poInfo, scenarioContext);
-		Method method = ObjectUtil.findClassMethod(validatorObj.getClass(), methodName, methodArgTypes);
+		
+		Class<?> clazz = validatorObj.getClass();
+		Method m = null;
+		if(methodArgTypes == null || methodArgTypes.length == 0) {
+			m = ObjectUtil.findClassMethod(clazz, methodName, methodArgValues.length);
+		} else {
+			m = ObjectUtil.findClassMethod(clazz, methodName, methodArgTypes);
+		}
+		
 		try {
-			return ObjectUtil.invokeMethod(validatorObj, method, methodArgValues);
+			
+			if(methodArgValues.length > 0) {
+				return ObjectUtil.invokeMethod(validatorObj, m, methodArgValues);
+			} else {
+				return m.invoke(validatorObj);
+			}
 		} catch (Exception | Error ex) {
 			Assert.fail("'" + methodName + "' operation is failed for page object '" + poInfo.getPoClassName() + "."
 					+ poInfo.getPoClassFieldName() + "'. Reason: " + ex.getLocalizedMessage(), ex);
