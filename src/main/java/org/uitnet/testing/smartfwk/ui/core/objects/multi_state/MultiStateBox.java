@@ -17,9 +17,6 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.objects.multi_state;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
@@ -33,21 +30,11 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
  *
  */
 public abstract class MultiStateBox extends UIObject {
-	protected List<String> validStates = new LinkedList<>();
 	
-	public MultiStateBox(LocatorType locatorType, String displayName, String[] validStates) {
+	public MultiStateBox(LocatorType locatorType, String displayName) {
 		super(locatorType, UIObjectType.multiStateBox, displayName);
-		if(validStates != null) {
-			for(String s : validStates) {
-				this.validStates.add(s);
-			}
-		}
 	}
 	
-	public List<String> getValidStates() {
-		return validStates;
-	}
-
 	public abstract MultiStateBoxValidator getValidator(SmartAppDriver appDriver, Region region);
 
 	public abstract MultiStateBoxValidator getValidator(SmartCucumberScenarioContext scenarioContext, Region region);
