@@ -64,7 +64,7 @@ public class MultiStateElementValidatorSD extends MultiStateElementValidator {
 		return domObjValidator;
 	}
 	
-	private void validateStateIsValid(String state) {
+	protected void validateStateIsValid(String state) {
 		if(!validStates.contains(state)) {
 			Assert.fail("'" + state + "' is not a valid state. Valid states are: " + validStates);
 		}
