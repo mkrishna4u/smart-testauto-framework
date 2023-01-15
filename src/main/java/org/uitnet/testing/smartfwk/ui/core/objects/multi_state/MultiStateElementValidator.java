@@ -26,34 +26,34 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
  * @author Madhav Krishna
  *
  */
-public abstract class MultiStateBoxValidator extends UIObjectValidator {
-	private MultiStateBox multiStateBox;
+public abstract class MultiStateElementValidator extends UIObjectValidator {
+	private MultiStateElement multiStateBox;
 
-	public MultiStateBoxValidator(SmartAppDriver appDriver, MultiStateBox uiObject, Region region) {
+	public MultiStateElementValidator(SmartAppDriver appDriver, MultiStateElement uiObject, Region region) {
 		super(appDriver, uiObject, region);
 		this.multiStateBox = uiObject;
 	}
 
 	@Override
-	public MultiStateBox getUIObject() {
+	public MultiStateElement getUIObject() {
 		return multiStateBox;
 	}
 
 	public abstract boolean isStateSelected(String state, int maxIterationsToLocateElements);
 
-	public abstract MultiStateBoxValidator validateStateSelected(String state, int maxIterationsToLocateElements);
+	public abstract MultiStateElementValidator validateStateSelected(String state, int maxIterationsToLocateElements);
 
-	public abstract MultiStateBoxValidator selectState(String state, int maxIterationsToLocateElements);
+	public abstract MultiStateElementValidator selectState(String state, int maxIterationsToLocateElements);
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
 
-	public abstract MultiStateBoxValidator validateDisabled(int maxIterationsToLocateElements);
+	public abstract MultiStateElementValidator validateDisabled(int maxIterationsToLocateElements);
 
-	public abstract MultiStateBoxValidator validateEnabled(int maxIterationsToLocateElements);
+	public abstract MultiStateElementValidator validateEnabled(int maxIterationsToLocateElements);
 	
 	public abstract boolean isDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract MultiStateBoxValidator validateDisabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract MultiStateElementValidator validateDisabledButNotReadonly(int maxIterationsToLocateElements);
 
-	public abstract MultiStateBoxValidator validateEnabledButNotReadonly(int maxIterationsToLocateElements);
+	public abstract MultiStateElementValidator validateEnabledButNotReadonly(int maxIterationsToLocateElements);
 }

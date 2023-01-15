@@ -48,7 +48,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.image.ImageValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.label.LabelValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.link.HyperlinkValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.listbox.ListBoxValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.multi_state.MultiStateBoxValidator;
+import org.uitnet.testing.smartfwk.ui.core.objects.multi_state.MultiStateElementValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonGroupValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.textarea.TextAreaValidator;
@@ -260,8 +260,8 @@ public class PageObjectUtil {
 			} else {
 				validator.validateNoOptionsAreSelected(poInfo.getMaxIterationsToLocateElements());
 			}
-		} else if(poValidator instanceof MultiStateBoxValidator) {
-			MultiStateBoxValidator validator = (MultiStateBoxValidator) poValidator;
+		} else if(poValidator instanceof MultiStateElementValidator) {
+			MultiStateElementValidator validator = (MultiStateElementValidator) poValidator;
 			validator.validateStateSelected("" + expectedInfo.getEv(), poInfo.getMaxIterationsToLocateElements());
 		} else if(poValidator instanceof ButtonValidator) {
 			ButtonValidator validator = (ButtonValidator) poValidator;
@@ -550,8 +550,8 @@ public class PageObjectUtil {
 			} else {
 				Assert.fail("'" + inputValue.getAction() + "' is not supported on RadioButtonGroup component.");
 			}
-		} else if(poValidator instanceof MultiStateBoxValidator) {
-			MultiStateBoxValidator validator = (MultiStateBoxValidator) poValidator;
+		} else if(poValidator instanceof MultiStateElementValidator) {
+			MultiStateElementValidator validator = (MultiStateElementValidator) poValidator;
 			if(inputValue.getAction() == InputValueAction.CHECK || inputValue.getAction() == InputValueAction.SELECT || inputValue.getAction() == InputValueAction.TYPE) {
 				validator.selectState("" + inputValue.getValue(), poInfo.getMaxIterationsToLocateElements());
 			} else if(inputValue.getAction() == InputValueAction.COMMAND_KEYS) {

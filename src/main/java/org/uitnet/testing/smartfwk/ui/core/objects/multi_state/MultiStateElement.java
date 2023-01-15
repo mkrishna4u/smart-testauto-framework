@@ -25,17 +25,21 @@ import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 
 /**
+ * This is an element that have multiple states i.e. Expandable Collapsable
+ * section (Accordion), Minimized / Maximized element, triple state checkbox
+ * etc.
  * 
  * @author Madhav Krishna
  *
  */
-public abstract class MultiStateBox extends UIObject {
-	
-	public MultiStateBox(LocatorType locatorType, String displayName) {
+public abstract class MultiStateElement extends UIObject {
+
+	public MultiStateElement(LocatorType locatorType, String displayName) {
 		super(locatorType, UIObjectType.multiStateBox, displayName);
 	}
-	
-	public abstract MultiStateBoxValidator getValidator(SmartAppDriver appDriver, Region region);
 
-	public abstract MultiStateBoxValidator getValidator(SmartCucumberScenarioContext scenarioContext, Region region);
+	public abstract MultiStateElementValidator getValidator(SmartAppDriver appDriver, Region region);
+
+	public abstract MultiStateElementValidator getValidator(SmartCucumberScenarioContext scenarioContext,
+			Region region);
 }
