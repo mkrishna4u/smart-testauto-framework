@@ -267,6 +267,7 @@ public class JsonYamlUtil {
 		if(expectedInfo.startsWith("{") && expectedInfo.endsWith("}")) {
 			JsonDocumentReader r = new JsonDocumentReader(expectedInfo, false);
 			expInfo = r.readValueAsObject("$", ExpectedInfo.class);
+			expInfo.setEv(ObjectUtil.fixObjectValueAsPerItsType(expInfo.getEv(), expInfo.getValueType()));
 			return expInfo;
 		} else {
 			expInfo = new ExpectedInfo();
@@ -299,6 +300,8 @@ public class JsonYamlUtil {
 			if(inputV.getValueType() == null) {
 				inputV.setValueType(InputValueType.STRING.getType());
 			}
+			
+			inputV.setValue(ObjectUtil.fixObjectValueAsPerItsType(inputV.getValue(), ParamValueType.valueOf2(inputV.getValueType().getType())));
 			
 			return inputV;
 		} else {

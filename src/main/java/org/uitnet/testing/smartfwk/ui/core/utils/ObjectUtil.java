@@ -17,6 +17,8 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import static org.testng.Assert.fail;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -453,6 +455,70 @@ public class ObjectUtil {
 				}
 			}
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Object fixObjectValueAsPerItsType(Object value, ParamValueType valueType) {
+		if (valueType == null) {
+			valueType = ParamValueType.STRING;
+		}
+		
+		if(value == null) { return null; }
+		
+		switch (valueType) {
+		case STRING: {
+			return ("" + value);
+		}
+		case STRING_LIST: {
+			List<Object> elems = (List<Object>) value;
+			List<String> elems2 = new ArrayList<>();
+			for(Object elem : elems) {
+				elems2.add(elem == null ? null : "" + elem);
+			}
+			
+			return elems2;
+		}
+		case INTEGER: {
+			return Long.parseLong("" + value);
+		}
+		case INTEGER_LIST: {
+			List<Object> elems = (List<Object>) value;
+			List<Long> elems2 = new ArrayList<>();
+			for(Object elem : elems) {
+				elems2.add(elem == null ? null : Long.parseLong("" + elem));
+			}
+			
+			return elems2;
+		}
+		case DECIMAL: {
+			return Double.parseDouble("" + value);
+		}
+		case DECIMAL_LIST: {
+			List<Object> elems = (List<Object>) value;
+			List<Double> elems2 = new ArrayList<>();
+			for(Object elem : elems) {
+				elems2.add(elem == null ? null : Double.parseDouble("" + elem));
+			}
+			
+			return elems2;
+		}
+		case BOOLEAN: {
+			return Boolean.parseBoolean("" + value);
+		}
+		case BOOLEAN_LIST: {
+			List<Object> elems = (List<Object>) value;
+			List<Boolean> elems2 = new ArrayList<>();
+			for(Object elem : elems) {
+				elems2.add(elem == null ? null : Boolean.parseBoolean("" + elem));
+			}
+			
+			return elems2;
+		}
+		default:
+			fail("'" + valueType + "' value type is not supported.");
+		}
+
+		return null;
 	}
 	
 	/**
