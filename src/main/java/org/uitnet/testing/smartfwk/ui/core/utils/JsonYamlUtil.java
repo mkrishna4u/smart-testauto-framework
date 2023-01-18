@@ -20,6 +20,7 @@ package org.uitnet.testing.smartfwk.ui.core.utils;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -410,7 +411,7 @@ public class JsonYamlUtil {
 				return ((pv == null) ?  null : Long.parseLong("" + pv.getV()));
 			} else if(isListData) { 
 				JsonDocumentReader reader = new JsonDocumentReader(text, false);
-				List<Integer> pv = reader.readValuesAsList("$");
+				List<Long> pv = reader.readValuesAsList("$");
 				return pv;
 			} else {
 				Assert.fail("Found non-list data: '" + text + "'.");
@@ -441,7 +442,7 @@ public class JsonYamlUtil {
 				return ((pv == null) ?  null :  Double.parseDouble("" + pv.getV()));
 			} else if(isListData) { 
 				JsonDocumentReader reader = new JsonDocumentReader(text, false);
-				List<Integer> pv = reader.readValuesAsList("$");
+				List<Double> pv = reader.readValuesAsList("$");
 				return pv;
 			} else {
 				Assert.fail("Found non-list data: '" + text + "'.");
@@ -472,7 +473,7 @@ public class JsonYamlUtil {
 				return ((pv == null) ?  null : pv.getV());
 			} else if(isListData) { 
 				JsonDocumentReader reader = new JsonDocumentReader(text, false);
-				List<Integer> pv = reader.readValuesAsList("$");
+				List<Boolean> pv = reader.readValuesAsList("$");
 				return pv;
 			} else {
 				Assert.fail("Found non-list data: '" + text + "'.");
