@@ -36,6 +36,7 @@ import org.uitnet.testing.smartfwk.core.validator.ParamValueType;
 import org.uitnet.testing.smartfwk.core.validator.ValueMatchOperator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.DataMatchUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 /**
@@ -531,6 +532,9 @@ public class ParameterValidator {
 			ExpectedInfo expectedInfo) {
 		String paramOrFieldTxt = isField ? "Field '" : "Param '";
 		ValueMatchOperator op = ValueMatchOperator.valueOf2(operator);
+		
+		actualValue = ObjectUtil.fixObjectValueAsPerItsType(actualValue, param.getValueType());
+		expectedInfo.setEv(ObjectUtil.fixObjectValueAsPerItsType(expectedInfo.getEv(), expectedInfo.getValueType()));
 
 		/* TODO: correct textMatchMechanism based on ignoreCase value.
 		if (expectedInfo.getIgnoreCase() == IgnoreCase.YES) {
@@ -869,18 +873,27 @@ public class ParameterValidator {
 				break;
 			}
 			case INTEGER_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST) {
-					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "'.");
+				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST && expectedInfo.getValueType() != ParamValueType.INTEGER) {
+					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "' or '" + ParamValueType.INTEGER.getType() + "'.");
 				}
-
+				
 				List<Long> aListValue = (List<Long>) actualValue;
-				List<Long> eListValue = (List<Long>) expectedInfo.getEv();
-
-				if ((aListValue == null) || (eListValue != null && aListValue.size() <= eListValue.size())) {
-					fail(paramOrFieldTxt + param.getPath()
-							+ "' value length should be greater than the expected value length. ActualValue: "
-							+ aListValue + ", ExpectedValue: " + eListValue + ".");
+				if (expectedInfo.getValueType() == ParamValueType.INTEGER_LIST) {
+					List<Long> eListValue = (List<Long>) expectedInfo.getEv();
+					if ((aListValue == null) || (eListValue != null && aListValue.size() <= eListValue.size())) {
+						fail(paramOrFieldTxt + param.getPath()
+								+ "' value length should be greater than the expected value length. ActualValue: "
+								+ aListValue + ", ExpectedValue: " + eListValue + ".");
+					}
+				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
+					Long evalue = (Long) expectedInfo.getEv();
+					for(Long aValue : aListValue) {
+						if(aValue == null || evalue == null || !(aValue.longValue() > evalue.longValue())) {
+							Assert.fail("Actual value '" + aValue + "' is not greater than the expected value '" + evalue + "'.");
+						}
+					}
 				}
+				
 				break;
 			}
 			case BOOLEAN: {
@@ -919,18 +932,27 @@ public class ParameterValidator {
 				break;
 			}
 			case DECIMAL_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST) {
-					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "'.");
+				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST && expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "' or '" + ParamValueType.DECIMAL.getType() + "'.");
 				}
-
+				
 				List<Double> aListValue = (List<Double>) actualValue;
-				List<Double> eListValue = (List<Double>) expectedInfo.getEv();
-
-				if ((aListValue == null) || (eListValue != null && aListValue.size() <= eListValue.size())) {
-					fail(paramOrFieldTxt + param.getPath()
-							+ "' value length should be greater than the expected value length. ActualValue: "
-							+ aListValue + ", ExpectedValue: " + eListValue + ".");
+				if (expectedInfo.getValueType() == ParamValueType.DECIMAL_LIST) {
+					List<Double> eListValue = (List<Double>) expectedInfo.getEv();
+					if ((aListValue == null) || (eListValue != null && aListValue.size() <= eListValue.size())) {
+						fail(paramOrFieldTxt + param.getPath()
+								+ "' value length should be greater than the expected value length. ActualValue: "
+								+ aListValue + ", ExpectedValue: " + eListValue + ".");
+					}
+				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
+					Double evalue = (Double) expectedInfo.getEv();
+					for(Double aValue : aListValue) {
+						if(aValue == null || evalue == null || !(aValue.doubleValue() > evalue.doubleValue())) {
+							Assert.fail("Actual value '" + aValue + "' is not greater than the expected value '" + evalue + "'.");
+						}
+					}
 				}
+				
 				break;
 			}
 			default:
@@ -991,18 +1013,27 @@ public class ParameterValidator {
 				break;
 			}
 			case INTEGER_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST) {
-					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "'.");
+				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST && expectedInfo.getValueType() != ParamValueType.INTEGER) {
+					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "' or '" + ParamValueType.INTEGER.getType() + "'.");
 				}
-
+				
 				List<Long> aListValue = (List<Long>) actualValue;
-				List<Long> eListValue = (List<Long>) expectedInfo.getEv();
-
-				if ((aListValue == null) || (eListValue != null && aListValue.size() < eListValue.size())) {
-					fail(paramOrFieldTxt + param.getPath()
-							+ "' value length should be greater than equal to the expected value length. ActualValue: "
-							+ aListValue + ", ExpectedValue: " + eListValue + ".");
+				if (expectedInfo.getValueType() == ParamValueType.INTEGER_LIST) {
+					List<Long> eListValue = (List<Long>) expectedInfo.getEv();
+					if ((aListValue == null) || (eListValue != null && aListValue.size() < eListValue.size())) {
+						fail(paramOrFieldTxt + param.getPath()
+								+ "' value length should be greater than or equal to the expected value length. ActualValue: "
+								+ aListValue + ", ExpectedValue: " + eListValue + ".");
+					}
+				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
+					Long evalue = (Long) expectedInfo.getEv();
+					for(Long aValue : aListValue) {
+						if(aValue == null || evalue == null || !(aValue.longValue() >= evalue.longValue())) {
+							Assert.fail("Actual value '" + aValue + "' is not greater than equal to the expected value '" + evalue + "'.");
+						}
+					}
 				}
+				
 				break;
 			}
 			case BOOLEAN: {
@@ -1041,18 +1072,27 @@ public class ParameterValidator {
 				break;
 			}
 			case DECIMAL_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST) {
-					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "'.");
+				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST && expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "' or '" + ParamValueType.DECIMAL.getType() + "'.");
 				}
-
+				
 				List<Double> aListValue = (List<Double>) actualValue;
-				List<Double> eListValue = (List<Double>) expectedInfo.getEv();
-
-				if ((aListValue == null) || (eListValue != null && aListValue.size() < eListValue.size())) {
-					fail(paramOrFieldTxt + param.getPath()
-							+ "' value length should be greater than equal to the expected value length. ActualValue: "
-							+ aListValue + ", ExpectedValue: " + eListValue + ".");
+				if (expectedInfo.getValueType() == ParamValueType.DECIMAL_LIST) {
+					List<Double> eListValue = (List<Double>) expectedInfo.getEv();
+					if ((aListValue == null) || (eListValue != null && aListValue.size() < eListValue.size())) {
+						fail(paramOrFieldTxt + param.getPath()
+								+ "' value length should be greater than equal to the expected value length. ActualValue: "
+								+ aListValue + ", ExpectedValue: " + eListValue + ".");
+					}
+				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
+					Double evalue = (Double) expectedInfo.getEv();
+					for(Double aValue : aListValue) {
+						if(aValue == null || evalue == null || !(aValue.doubleValue() >= evalue.doubleValue())) {
+							Assert.fail("Actual value '" + aValue + "' is not greater than equal to the expected value '" + evalue + "'.");
+						}
+					}
 				}
+				
 				break;
 			}
 			default:
@@ -1112,18 +1152,27 @@ public class ParameterValidator {
 				break;
 			}
 			case INTEGER_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST) {
-					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "'.");
+				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST && expectedInfo.getValueType() != ParamValueType.INTEGER) {
+					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "' or '" + ParamValueType.INTEGER.getType() + "'.");
 				}
-
+				
 				List<Long> aListValue = (List<Long>) actualValue;
-				List<Long> eListValue = (List<Long>) expectedInfo.getEv();
-
-				if ((aListValue == null) || (eListValue != null && aListValue.size() >= eListValue.size())) {
-					fail(paramOrFieldTxt + param.getPath()
-							+ "' value length should be less than the expected value length. ActualValue: " + aListValue
-							+ ", ExpectedValue: " + eListValue + ".");
+				if (expectedInfo.getValueType() == ParamValueType.INTEGER_LIST) {
+					List<Long> eListValue = (List<Long>) expectedInfo.getEv();
+					if ((aListValue == null) || (eListValue != null && aListValue.size() >= eListValue.size())) {
+						fail(paramOrFieldTxt + param.getPath()
+								+ "' value length should be less than the expected value length. ActualValue: "
+								+ aListValue + ", ExpectedValue: " + eListValue + ".");
+					}
+				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
+					Long evalue = (Long) expectedInfo.getEv();
+					for(Long aValue : aListValue) {
+						if(aValue == null || evalue == null || !(aValue.longValue() < evalue.longValue())) {
+							Assert.fail("Actual value '" + aValue + "' is not less than the expected value '" + evalue + "'.");
+						}
+					}
 				}
+				
 				break;
 			}
 			case BOOLEAN: {
@@ -1161,18 +1210,27 @@ public class ParameterValidator {
 				break;
 			}
 			case DECIMAL_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST) {
-					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "'.");
+				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST && expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "' or '" + ParamValueType.DECIMAL.getType() + "'.");
 				}
-
+				
 				List<Double> aListValue = (List<Double>) actualValue;
-				List<Double> eListValue = (List<Double>) expectedInfo.getEv();
-
-				if ((aListValue == null) || (eListValue != null && aListValue.size() >= eListValue.size())) {
-					fail(paramOrFieldTxt + param.getPath()
-							+ "' value length should be less than the expected value length. ActualValue: " + aListValue
-							+ ", ExpectedValue: " + eListValue + ".");
+				if (expectedInfo.getValueType() == ParamValueType.DECIMAL_LIST) {
+					List<Double> eListValue = (List<Double>) expectedInfo.getEv();
+					if ((aListValue == null) || (eListValue != null && aListValue.size() >= eListValue.size())) {
+						fail(paramOrFieldTxt + param.getPath()
+								+ "' value length should be less than the expected value length. ActualValue: "
+								+ aListValue + ", ExpectedValue: " + eListValue + ".");
+					}
+				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
+					Double evalue = (Double) expectedInfo.getEv();
+					for(Double aValue : aListValue) {
+						if(aValue == null || evalue == null || !(aValue.doubleValue() < evalue.doubleValue())) {
+							Assert.fail("Actual value '" + aValue + "' is not less than the expected value '" + evalue + "'.");
+						}
+					}
 				}
+				
 				break;
 			}
 			default:
@@ -1233,18 +1291,27 @@ public class ParameterValidator {
 				break;
 			}
 			case INTEGER_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST) {
-					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "'.");
+				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST && expectedInfo.getValueType() != ParamValueType.INTEGER) {
+					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "' or '" + ParamValueType.INTEGER.getType() + "'.");
 				}
-
+				
 				List<Long> aListValue = (List<Long>) actualValue;
-				List<Long> eListValue = (List<Long>) expectedInfo.getEv();
-
-				if ((aListValue == null) || (eListValue != null && aListValue.size() > eListValue.size())) {
-					fail(paramOrFieldTxt + param.getPath()
-							+ "' value length should be less than equal to the expected value length. ActualValue: "
-							+ aListValue + ", ExpectedValue: " + eListValue + ".");
+				if (expectedInfo.getValueType() == ParamValueType.INTEGER_LIST) {
+					List<Long> eListValue = (List<Long>) expectedInfo.getEv();
+					if ((aListValue == null) || (eListValue != null && aListValue.size() > eListValue.size())) {
+						fail(paramOrFieldTxt + param.getPath()
+								+ "' value length should be less than equal to the expected value length. ActualValue: "
+								+ aListValue + ", ExpectedValue: " + eListValue + ".");
+					}
+				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
+					Long evalue = (Long) expectedInfo.getEv();
+					for(Long aValue : aListValue) {
+						if(aValue == null || evalue == null || !(aValue.longValue() <= evalue.longValue())) {
+							Assert.fail("Actual value '" + aValue + "' is not less than equal to the expected value '" + evalue + "'.");
+						}
+					}
 				}
+				
 				break;
 			}
 			case BOOLEAN: {
@@ -1283,19 +1350,27 @@ public class ParameterValidator {
 				break;
 			}
 			case DECIMAL_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST) {
-					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "'.");
+				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST && expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "' or '" + ParamValueType.DECIMAL.getType() + "'.");
 				}
-
+				
 				List<Double> aListValue = (List<Double>) actualValue;
-				List<Double> eListValue = (List<Double>) expectedInfo.getEv();
-
-				if ((aListValue == null) || (eListValue != null && aListValue.size() > eListValue.size())) {
-					fail(paramOrFieldTxt + param.getPath()
-							+ "' value length should be less than equal to the expected value length. ActualValue: "
-							+ aListValue + ", ExpectedValue: " + eListValue + ".");
+				if (expectedInfo.getValueType() == ParamValueType.DECIMAL_LIST) {
+					List<Double> eListValue = (List<Double>) expectedInfo.getEv();
+					if ((aListValue == null) || (eListValue != null && aListValue.size() > eListValue.size())) {
+						fail(paramOrFieldTxt + param.getPath()
+								+ "' value length should be less than equal to the expected value length. ActualValue: "
+								+ aListValue + ", ExpectedValue: " + eListValue + ".");
+					}
+				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
+					Double evalue = (Double) expectedInfo.getEv();
+					for(Double aValue : aListValue) {
+						if(aValue == null || evalue == null || !(aValue.doubleValue() <= evalue.doubleValue())) {
+							Assert.fail("Actual value '" + aValue + "' is not less than equal to the expected value '" + evalue + "'.");
+						}
+					}
 				}
-				break;
+				
 			}
 			default:
 				fail("Value type '" + param.getValueType().getType() + "' is not supported.");
