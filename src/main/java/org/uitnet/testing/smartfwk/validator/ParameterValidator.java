@@ -1167,7 +1167,7 @@ public class ParameterValidator {
 				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
 					Long evalue = (Long) expectedInfo.getEv();
 					for(Long aValue : aListValue) {
-						if(aValue == null || evalue == null || !(aValue.longValue() < evalue.longValue())) {
+						if(aValue != null && (evalue == null || !(aValue.longValue() < evalue.longValue()))) {
 							Assert.fail("Actual value '" + aValue + "' is not less than the expected value '" + evalue + "'.");
 						}
 					}
@@ -1225,7 +1225,7 @@ public class ParameterValidator {
 				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
 					Double evalue = (Double) expectedInfo.getEv();
 					for(Double aValue : aListValue) {
-						if(aValue == null || evalue == null || !(aValue.doubleValue() < evalue.doubleValue())) {
+						if(aValue != null && (evalue == null || !(aValue.doubleValue() < evalue.doubleValue()))) {
 							Assert.fail("Actual value '" + aValue + "' is not less than the expected value '" + evalue + "'.");
 						}
 					}
@@ -1306,7 +1306,7 @@ public class ParameterValidator {
 				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
 					Long evalue = (Long) expectedInfo.getEv();
 					for(Long aValue : aListValue) {
-						if(aValue == null || evalue == null || !(aValue.longValue() <= evalue.longValue())) {
+						if(aValue != null && (evalue == null || !(aValue.longValue() <= evalue.longValue()))) {
 							Assert.fail("Actual value '" + aValue + "' is not less than equal to the expected value '" + evalue + "'.");
 						}
 					}
@@ -1365,7 +1365,7 @@ public class ParameterValidator {
 				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
 					Double evalue = (Double) expectedInfo.getEv();
 					for(Double aValue : aListValue) {
-						if(aValue == null || evalue == null || !(aValue.doubleValue() <= evalue.doubleValue())) {
+						if(aValue != null && ( evalue == null || !(aValue.doubleValue() <= evalue.doubleValue()))) {
 							Assert.fail("Actual value '" + aValue + "' is not less than equal to the expected value '" + evalue + "'.");
 						}
 					}
