@@ -1370,7 +1370,7 @@ public class ParameterValidator {
 						}
 					}
 				}
-				
+				break;
 			}
 			default:
 				fail("Value type '" + param.getValueType().getType() + "' is not supported.");
