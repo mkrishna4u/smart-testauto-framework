@@ -112,5 +112,10 @@ There are some sample test projects that uses STAS tool:
 
 2. **smart-testauto-quickstart-android-native-java(For android-native applications):** Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-android-native-java>
 
+# Questions and community support
+Please use the following link if you have any question and need of community support:
+
+[https://gitter.im/Smart-TestAuto-Studio-STAS-STAF/community](https://gitter.im/Smart-TestAuto-Studio-STAS-STAF/community "Gitter Community - STAS / STAF")
+
 # License
 Apache License, 2.0
