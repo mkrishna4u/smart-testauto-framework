@@ -37,6 +37,8 @@ import org.testng.Assert;
 import org.uitnet.testing.smartfwk.core.validator.ParamPath;
 import org.uitnet.testing.smartfwk.core.validator.ParamValueType;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -139,5 +141,24 @@ public class XmlDocumentReader {
 		}
 		
 		return values;
+	}
+	
+	public static Element getChildElement(Node node, int index) {
+		if(node == null) { return null; }
+		
+		NodeList nodes = node.getChildNodes();
+		if(nodes == null) { return null; }
+		
+		Node n;
+		for(int i = 0; i < nodes.getLength(); i++) {
+			n = nodes.item(i);
+			if(n.getNodeType() == Node.ELEMENT_NODE) {
+				if(index == 0) {
+					return (Element)n;
+				}
+				index--;
+			}
+		}
+		return null;
 	}
 }
