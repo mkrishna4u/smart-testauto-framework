@@ -1,23 +1,29 @@
-# Smart Testing Automation Framework (STAF) / Smart TestAuto Studio (STAS)
-**STAF / STAS** is the smart software testing automation tool that makes data driven End-to-End testing (UI, API, Database, Remote Machine Testing, Local Machine Testing) easy. Develop test scenarios for one environment and run the same scenarios on different environments without changing the test scenarios.
+# Smart TestAuto Studio (STAS)
+<<i>A smart power of testing automation - bye bye to programming</i>>
+
+**STAS** is a very powerful and the smart software testing automation tool that makes data driven End-to-End testing (UI, API, Database, Remote Machine Testing, Local Machine Testing) easy. Develop test scenarios for one environment and run the same scenarios on different environments without changing the test scenarios.
+
+**STAS** is based on **STAF (Smart Testing Automation Framework)** java library. STAF is the brain of STAS tool.
 
 **NOTE:** Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native application automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX.
 
 # STAS Architecture & Documentation
-**STAS** supports the **Codeless Model / Architecture** by providing the standardized Cucumber/Gherkin based generic step definitions, using that you can create your test scenarios faster and test your application faster.
+**STAS** is a well designed testing automation tool that increases the product quality amazingly with less effort and cost. The most important factor of this tool is the faster development of test scenarios and the easy maintenance of test scenarios with less effort which makes it powerful.
 
-NOTE: STAS is developed over STAF for faster test scenario development without writing code.
+**STAS** supports the **Codeless Model / Architecture** by providing the standardized Cucumber/Gherkin based generic step definitions, using that you can create your test scenarios faster and test your application faster.
 
 Please refer the links below to understand STAS tool functionality and how to use it:
 
 [https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf "STAS Tool - Test Developer's Guide") 
 
-![STAS Architecture](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-architecture.jpg "STAS Architecture") 
-
-
 Documentation related to STAS standard cucumber step definitions (English version) (contains Usecases) is present at:
 
 [https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en/blob/main/docs/STAS-StepDefinitions-En-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en/blob/main/docs/STAS-StepDefinitions-En-TestDevelopersGuide.pdf "STAS Standard Cucumber Step Definitions (English) - Test Developer's Guide") 
+
+![STAS Architecture](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-architecture.jpg "STAS Architecture") 
+
+
+
 
 # STAS Connectivity
 ![STAS Connectivity](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-connectivity.jpg "STAS Connectivity") 
