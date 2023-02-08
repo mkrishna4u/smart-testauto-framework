@@ -25,6 +25,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
 import org.testng.Assert;
@@ -38,6 +40,7 @@ import org.uitnet.testing.smartfwk.ui.core.SingletonAppConnectorMap;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.cache.DefaultSmartCache;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
+import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
@@ -59,6 +62,7 @@ public class SmartCucumberScenarioContext {
 	protected Map<String, Boolean> conditions;
 	protected Scenario scenario = null;
 	protected boolean isUiScenario = false;
+	protected String screenCaptureFailedStatus = null;
 
 	protected String activeAppName = null;
 
@@ -188,7 +192,13 @@ public class SmartCucumberScenarioContext {
 
 	public void captureScreenshotWithScenarioStatus(String status) {
 		if (appConnectors.get(activeAppName) != null) {
-			appConnectors.get(activeAppName).captureScreenshot(scenario, status);
+			try {
+				screenCaptureFailedStatus = status;
+				appConnectors.get(activeAppName).captureScreenshot(scenario, status);
+				screenCaptureFailedStatus = null;
+			} catch(Throwable th) {
+				// do nothing
+			}
 		}
 	}
 
@@ -262,8 +272,47 @@ public class SmartCucumberScenarioContext {
 		}
 	}
 
-	
 	public void close() {
+		close(false);
+	}
+	
+	public void close(boolean captureScreenshot) {
+		AppConfig appConfig = getTestConfigManager().getAppConfig(getActiveAppName());
+		
+		String alertText = null;
+		if(appConfig != null && isUiScenario() && appConfig.getAppType() == ApplicationType.web_app) {
+			// check if any alert present, close it.
+			WebDriver webDriver;
+			Alert alert = null;
+			
+			try {
+				webDriver = getActiveAppDriver().getWebDriver();
+				if(webDriver != null) {
+					alert = webDriver.switchTo().alert();
+					if(alert != null) {
+						try {
+							alertText = alert.getText();
+							alert.accept();
+						} finally {
+							alert.dismiss();
+						}
+					}
+				}
+				
+			} catch(Throwable ex) {
+				// Do nothing
+			}
+		}
+		
+		
+		if(isUiScenario()) {
+			if(alertText != null) {
+				captureScreenshotWithScenarioStatus("scenario-FAILED");
+			} else {
+				captureScreenshotWithScenarioStatus("scenario-" + scenario.getStatus());
+			}
+		}
+		
 		if (getTestConfigManager().isParallelMode() || !driverConfigs.isEmpty()) {
 			for (AbstractAppConnector connector : appConnectors.values()) {
 				connector.logoutAndQuit();
@@ -271,6 +320,10 @@ public class SmartCucumberScenarioContext {
 			appConnectors.clear();
 		} else {
 			closeAllChildWindows();
+		}	
+		
+		if(alertText != null) {
+			Assert.fail("Web browser alert should not be present (Existing alert is closed). Found alert presence with message: " + alertText);
 		}
 	}
 
