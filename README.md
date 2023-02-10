@@ -117,6 +117,8 @@ There are some sample test projects that uses STAS tool:
 # Questions and community support
 Please use the following link if you have any question and need of community support:
 
+[https://github.com/mkrishna4u/smart-testauto-framework/discussions](https://github.com/mkrishna4u/smart-testauto-framework/discussions "STAS/STAF discussions")
+
 [https://gitter.im/Smart-TestAuto-Studio-STAS-STAF/community](https://gitter.im/Smart-TestAuto-Studio-STAS-STAF/community "Gitter Community - STAS / STAF")
 
 # License
