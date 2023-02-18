@@ -277,7 +277,10 @@ public class SmartCucumberScenarioContext {
 	}
 	
 	public void close(boolean captureScreenshot) {
-		AppConfig appConfig = getTestConfigManager().getAppConfig(getActiveAppName());
+		AppConfig appConfig = null;
+		if(getActiveAppName() != null) {
+			appConfig = getTestConfigManager().getAppConfig(getActiveAppName());
+		}
 		
 		String alertText = null;
 		if(appConfig != null && isUiScenario() && appConfig.getAppType() == ApplicationType.web_app) {
@@ -352,7 +355,7 @@ public class SmartCucumberScenarioContext {
 	}
 
 	public void log(String message) {
-		scenario.log(message);
+		scenario.log("" + message);
 	}
 
 	public void addParamValue(String paramName, Object value) {
