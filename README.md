@@ -103,7 +103,7 @@ This framework removes the complexity of all other software tools and provides a
 # How to start with this framework tool
 To start with this framework / STAS tool is as easy as could be. 
 
-**Download STAS (smart-testauto-studio.zip) from link:** [https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.0.7](https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.0.7 "STAS 6.0.7") 
+**Download STAS (smart-testauto-studio.zip) from link:** [https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.0.7](https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.0.7 "STAS 6.0.") 
 
 Please refer the link below to understand STAS tool functionality and how to use it:
 
@@ -113,6 +113,31 @@ There are some sample test projects that uses STAS tool:
 1. **smart-testauto-quickstart-java(For NonMobile Web Application):** Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-java>
 
 2. **smart-testauto-quickstart-android-native-java(For android-native applications):** Github URL: <https://github.com/mkrishna4u/smart-testauto-quickstart-android-native-java>
+
+# STAS Connectors List
+Official Connectors are given below:
+
+1. STAS Standard Cucumber Step Definitions (English): https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en
+
+2. STAS MongoDB Connector: https://github.com/mkrishna4u/smart-testauto-mongodb-connector
+
+3. STAS Relational Database (i.e. Oracle, MySQL. MariaDB, PostGres etc.) connector: This is in-built in STAS. You do not need any 3rd party library. Only thing you need is Database Driver specific Maven Dependency.
+
+Example MongoDB Java Driver Maven Dependency:
+
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>8.0.32</version>
+	</dependency>
+	
+Also configure the specific connection settings in **test-config/apps-config/&lt;app-name&gt;/database-profile/sample-db.yaml** file for the specific dialect information as sample given below:
+
+	hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+	hibernate.connection.driver_class: com.mysql.jdbc.Driver
+	hibernate.connection.url: jdbc:mysql://localhost:3306/my-db
+
+Hibernate Dialect information for Database Connection: https://docs.jboss.org/hibernate/orm/5.6/userguide/html_single/Hibernate_User_Guide.html#database-dialect
 
 # Questions and community support
 Please use the following link if you have any question and need of community support:
