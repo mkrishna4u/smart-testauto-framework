@@ -110,7 +110,11 @@ public class InputValue {
 
 	public void setValueType(String valueType) {
 		if(StringUtil.isEmptyAfterTrim(valueType)) {
-			this.valueType = InputValueType.STRING;
+			if(value == null || !value.getClass().isArray()) {
+				this.valueType = InputValueType.STRING;
+			} else {
+				this.valueType = InputValueType.STRING_LIST;
+			}
 		} else {
 			this.valueType = InputValueType.valueOf2(valueType.trim());
 		}
