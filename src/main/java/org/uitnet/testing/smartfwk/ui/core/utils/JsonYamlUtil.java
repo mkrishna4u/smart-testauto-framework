@@ -20,7 +20,6 @@ package org.uitnet.testing.smartfwk.ui.core.utils;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

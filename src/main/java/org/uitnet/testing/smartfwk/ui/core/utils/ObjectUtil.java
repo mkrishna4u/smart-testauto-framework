@@ -405,7 +405,11 @@ public class ObjectUtil {
 			}
 
 			if (valueType == null) {
-				valueType = ParamValueType.STRING;
+				if(obj == null || !obj.getClass().isArray()) {
+					valueType = ParamValueType.STRING;
+				} else {
+					valueType = ParamValueType.STRING_LIST;
+				}
 			}
 		}
 
@@ -460,7 +464,11 @@ public class ObjectUtil {
 	@SuppressWarnings("unchecked")
 	public static Object fixObjectValueAsPerItsType(Object value, ParamValueType valueType) {
 		if (valueType == null) {
-			valueType = ParamValueType.STRING;
+			if(value == null || !value.getClass().isArray()) {
+				valueType = ParamValueType.STRING;
+			} else {
+				valueType = ParamValueType.STRING_LIST;
+			}
 		}
 		
 		if(value == null) { return null; }
