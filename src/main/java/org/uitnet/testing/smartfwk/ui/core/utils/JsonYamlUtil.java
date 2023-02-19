@@ -298,7 +298,7 @@ public class JsonYamlUtil {
 			JsonDocumentReader r = new JsonDocumentReader(inputValue, false);
 			inputV = r.readValueAsObject("$", InputValue.class);
 			if(inputV.getValueType() == null) {
-				if(inputV.getValue() == null || !inputV.getValue().getClass().isArray()) {
+				if(inputV.getValue() == null || !(inputV.getValue() instanceof List || inputV.getValue().getClass().isArray())) {
 					inputV.setValueType(InputValueType.STRING.getType());
 				} else {
 					inputV.setValueType(InputValueType.STRING_LIST.getType());

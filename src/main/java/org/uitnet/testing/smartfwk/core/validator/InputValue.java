@@ -17,6 +17,8 @@
  */
 package org.uitnet.testing.smartfwk.core.validator;
 
+import java.util.List;
+
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.data.builder.TestDataBuilder;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
@@ -110,7 +112,7 @@ public class InputValue {
 
 	public void setValueType(String valueType) {
 		if(StringUtil.isEmptyAfterTrim(valueType)) {
-			if(value == null || !value.getClass().isArray()) {
+			if(value == null || !(value instanceof List || value.getClass().isArray())) {
 				this.valueType = InputValueType.STRING;
 			} else {
 				this.valueType = InputValueType.STRING_LIST;

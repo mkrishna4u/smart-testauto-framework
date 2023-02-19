@@ -405,7 +405,7 @@ public class ObjectUtil {
 			}
 
 			if (valueType == null) {
-				if(obj == null || !obj.getClass().isArray()) {
+				if(obj == null || !(obj instanceof List || obj.getClass().isArray())) {
 					valueType = ParamValueType.STRING;
 				} else {
 					valueType = ParamValueType.STRING_LIST;
@@ -464,7 +464,7 @@ public class ObjectUtil {
 	@SuppressWarnings("unchecked")
 	public static Object fixObjectValueAsPerItsType(Object value, ParamValueType valueType) {
 		if (valueType == null) {
-			if(value == null || !value.getClass().isArray()) {
+			if(value == null || !(value instanceof List || value.getClass().isArray())) {
 				valueType = ParamValueType.STRING;
 			} else {
 				valueType = ParamValueType.STRING_LIST;
