@@ -564,7 +564,7 @@ public class ParameterValidator {
 				break;
 			}
 			case STRING_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST || expectedInfo.getValueType() != ParamValueType.STRING) {
+				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST && expectedInfo.getValueType() != ParamValueType.STRING) {
 					fail("Expected value type must be of '" + ParamValueType.STRING_LIST.getType() + "' or '" + ParamValueType.STRING.getType() + "'.");
 				}
 				
@@ -613,7 +613,7 @@ public class ParameterValidator {
 				break;
 			}
 			case INTEGER_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST || expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST && expectedInfo.getValueType() != ParamValueType.INTEGER) {
 					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "' or '" + ParamValueType.INTEGER.getType() + "'.");
 				}
 				
@@ -661,7 +661,7 @@ public class ParameterValidator {
 				break;
 			}
 			case BOOLEAN_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST || expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST && expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
 					fail("Expected value type must be of '" + ParamValueType.BOOLEAN_LIST.getType() + "' or '" + ParamValueType.BOOLEAN.getType() + "'.");
 				}
 				
@@ -710,7 +710,7 @@ public class ParameterValidator {
 				break;
 			}
 			case DECIMAL_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST || expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST && expectedInfo.getValueType() != ParamValueType.DECIMAL) {
 					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "' or '" + ParamValueType.DECIMAL.getType() + "'.");
 				}
 				
@@ -768,7 +768,7 @@ public class ParameterValidator {
 				break;
 			}
 			case STRING_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST || expectedInfo.getValueType() != ParamValueType.STRING) {
+				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST && expectedInfo.getValueType() != ParamValueType.STRING) {
 					fail("Expected value type must be of '" + ParamValueType.STRING_LIST.getType() + "' or '" + ParamValueType.STRING.getType() + "'.");
 				}
 
@@ -816,7 +816,7 @@ public class ParameterValidator {
 				break;
 			}
 			case INTEGER_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST || expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST && expectedInfo.getValueType() != ParamValueType.INTEGER) {
 					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "' or '" + ParamValueType.INTEGER.getType() + "'.");
 				}
 
@@ -863,7 +863,7 @@ public class ParameterValidator {
 				break;
 			}
 			case BOOLEAN_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST || expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST && expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
 					fail("Expected value type must be of '" + ParamValueType.BOOLEAN_LIST.getType() + "' or '" + ParamValueType.BOOLEAN.getType() + "'.");
 				}
 
@@ -911,7 +911,7 @@ public class ParameterValidator {
 				break;
 			}
 			case DECIMAL_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST || expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST && expectedInfo.getValueType() != ParamValueType.DECIMAL) {
 					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "' or '" + ParamValueType.DECIMAL.getType() + "'.");
 				}
 
@@ -970,7 +970,7 @@ public class ParameterValidator {
 				break;
 			}
 			case STRING_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST || expectedInfo.getValueType() != ParamValueType.STRING) {
+				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST && expectedInfo.getValueType() != ParamValueType.STRING) {
 					fail("Expected value type must be of '" + ParamValueType.STRING_LIST.getType() + "' or '" + ParamValueType.STRING.getType() + "'.");
 				}
 
@@ -1019,7 +1019,7 @@ public class ParameterValidator {
 				break;
 			}
 			case INTEGER_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST || expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST && expectedInfo.getValueType() != ParamValueType.INTEGER) {
 					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "' or '" + ParamValueType.INTEGER.getType() + "'.");
 				}
 
@@ -1057,7 +1057,7 @@ public class ParameterValidator {
 				break;
 			}
 			case BOOLEAN_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST || expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST && expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
 					fail("Expected value type must be of '" + ParamValueType.BOOLEAN_LIST.getType() + "' or '" + ParamValueType.BOOLEAN.getType() + "'.");
 				}
 
@@ -1105,7 +1105,7 @@ public class ParameterValidator {
 				break;
 			}
 			case DECIMAL_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST || expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST && expectedInfo.getValueType() != ParamValueType.DECIMAL) {
 					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "' or '" + ParamValueType.DECIMAL.getType() + "'.");
 				}
 
@@ -1164,7 +1164,7 @@ public class ParameterValidator {
 				break;
 			}
 			case STRING_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST || expectedInfo.getValueType() != ParamValueType.STRING) {
+				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST && expectedInfo.getValueType() != ParamValueType.STRING) {
 					fail("Expected value type must be of '" + ParamValueType.STRING_LIST.getType() + "' or '" + ParamValueType.STRING.getType() + "'.");
 				}
 
@@ -1213,7 +1213,7 @@ public class ParameterValidator {
 				break;
 			}
 			case INTEGER_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST || expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST && expectedInfo.getValueType() != ParamValueType.INTEGER) {
 					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "' or '" + ParamValueType.INTEGER.getType() + "'.");
 				}
 
@@ -1251,7 +1251,7 @@ public class ParameterValidator {
 				break;
 			}
 			case BOOLEAN_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST || expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST && expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
 					fail("Expected value type must be of '" + ParamValueType.BOOLEAN_LIST.getType() + "' or '" + ParamValueType.BOOLEAN.getType() + "'.");
 				}
 
@@ -1299,7 +1299,7 @@ public class ParameterValidator {
 				break;
 			}
 			case DECIMAL_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST || expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST && expectedInfo.getValueType() != ParamValueType.DECIMAL) {
 					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "' or '" + ParamValueType.DECIMAL.getType() + "'.");
 				}
 
@@ -1357,7 +1357,7 @@ public class ParameterValidator {
 				break;
 			}
 			case STRING_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST || expectedInfo.getValueType() != ParamValueType.STRING) {
+				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST && expectedInfo.getValueType() != ParamValueType.STRING) {
 					fail("Expected value type must be of '" + ParamValueType.STRING_LIST.getType() + "' or '" + ParamValueType.STRING.getType() + "'.");
 				}
 
@@ -1405,7 +1405,7 @@ public class ParameterValidator {
 				break;
 			}
 			case INTEGER_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST || expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST && expectedInfo.getValueType() != ParamValueType.INTEGER) {
 					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "' or '" + ParamValueType.INTEGER.getType() + "'.");
 				}
 
@@ -1443,7 +1443,7 @@ public class ParameterValidator {
 				break;
 			}
 			case BOOLEAN_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST || expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST && expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
 					fail("Expected value type must be of '" + ParamValueType.BOOLEAN_LIST.getType() + "' or '" + ParamValueType.BOOLEAN.getType() + "'.");
 				}
 
@@ -1490,7 +1490,7 @@ public class ParameterValidator {
 				break;
 			}
 			case DECIMAL_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST || expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST && expectedInfo.getValueType() != ParamValueType.DECIMAL) {
 					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "' or '" + ParamValueType.DECIMAL.getType() + "'.");
 				}
 
@@ -1548,7 +1548,7 @@ public class ParameterValidator {
 				break;
 			}
 			case STRING_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST || expectedInfo.getValueType() != ParamValueType.STRING) {
+				if (expectedInfo.getValueType() != ParamValueType.STRING_LIST && expectedInfo.getValueType() != ParamValueType.STRING) {
 					fail("Expected value type must be of '" + ParamValueType.STRING_LIST.getType() + "' or '" + ParamValueType.STRING.getType() + "'.");
 				}
 
@@ -1597,7 +1597,7 @@ public class ParameterValidator {
 				break;
 			}
 			case INTEGER_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST || expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				if (expectedInfo.getValueType() != ParamValueType.INTEGER_LIST && expectedInfo.getValueType() != ParamValueType.INTEGER) {
 					fail("Expected value type must be of '" + ParamValueType.INTEGER_LIST.getType() + "' or '" + ParamValueType.INTEGER.getType() + "'.");
 				}
 
@@ -1635,7 +1635,7 @@ public class ParameterValidator {
 				break;
 			}
 			case BOOLEAN_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST || expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				if (expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST && expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
 					fail("Expected value type must be of '" + ParamValueType.BOOLEAN_LIST.getType() + "' or '" + ParamValueType.BOOLEAN.getType() + "'.");
 				}
 
@@ -1683,7 +1683,7 @@ public class ParameterValidator {
 				break;
 			}
 			case DECIMAL_LIST: {
-				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST || expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				if (expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST && expectedInfo.getValueType() != ParamValueType.DECIMAL) {
 					fail("Expected value type must be of '" + ParamValueType.DECIMAL_LIST.getType() + "' or '" + ParamValueType.DECIMAL.getType() + "'.");
 				}
 
