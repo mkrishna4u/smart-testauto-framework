@@ -570,7 +570,7 @@ public class ParameterValidator {
 				
 				List<String> aListValue = (List<String>) actualValue;
 				String a1 = "", e1 = "";
-				if(expectedInfo.getValueType() != ParamValueType.STRING_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.STRING_LIST) {
 					List<String> eListValue = (List<String>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -585,7 +585,7 @@ public class ParameterValidator {
 									+ expectedInfo.getTextMatchMechanism().name() + ".");
 						}
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.STRING) {
+				} else if(expectedInfo.getValueType() == ParamValueType.STRING) {
 					String eValue = (String) expectedInfo.getEv();
 					e1 = eValue == null ? "" : eValue;
 					for (int i = 0; i < aListValue.size(); i++) {
@@ -619,7 +619,7 @@ public class ParameterValidator {
 				
 				List<Long> aListValue = (List<Long>) actualValue;
 				Long a1 = 0l, e1 = 0l;
-				if(expectedInfo.getValueType() != ParamValueType.INTEGER_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.INTEGER_LIST) {
 					List<Long> eListValue = (List<Long>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -632,7 +632,7 @@ public class ParameterValidator {
 										+ " does not match with expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
 					Long eValue = (Long) expectedInfo.getEv();
 	
 					e1 = eValue == null ? 0l : eValue;
@@ -668,7 +668,7 @@ public class ParameterValidator {
 				List<Boolean> aListValue = (List<Boolean>) actualValue;
 				
 				Boolean a1 = false, e1 = false;
-				if(expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.BOOLEAN_LIST) {
 					List<Boolean> eListValue = (List<Boolean>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -681,7 +681,7 @@ public class ParameterValidator {
 										+ " does not match with expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				} else if(expectedInfo.getValueType() == ParamValueType.BOOLEAN) {
 					Boolean eValue = (Boolean) expectedInfo.getEv();
 	
 					e1 = eValue == null ? false : eValue;
@@ -716,7 +716,7 @@ public class ParameterValidator {
 				
 				List<Double> aListValue = (List<Double>) actualValue;
 				Double a1 = 0d, e1 = 0d;
-				if(expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.DECIMAL_LIST) {
 					List<Double> eListValue = (List<Double>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -729,7 +729,7 @@ public class ParameterValidator {
 										+ " does not match with expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
 					Double eValue = (Double) expectedInfo.getEv();
 	
 					e1 = eValue == null ? 0d : eValue;
@@ -775,7 +775,7 @@ public class ParameterValidator {
 				List<String> aListValue = (List<String>) actualValue;
 				
 				String a1 = "", e1 = "";
-				if(expectedInfo.getValueType() != ParamValueType.INTEGER_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.INTEGER_LIST) {
 					List<String> eListValue = (List<String>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -788,7 +788,7 @@ public class ParameterValidator {
 										+ " should not match with expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
 					String eValue = (String) expectedInfo.getEv();
 	
 					e1 = eValue == null ? "" : eValue;
@@ -822,7 +822,7 @@ public class ParameterValidator {
 
 				List<Long> aListValue = (List<Long>) actualValue;
 				Long a1 = 0l, e1 = 0l;
-				if(expectedInfo.getValueType() != ParamValueType.INTEGER_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.INTEGER_LIST) {
 					List<Long> eListValue = (List<Long>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -835,7 +835,7 @@ public class ParameterValidator {
 										+ " should not match with expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
 					Long eValue = (Long) expectedInfo.getEv();
 	
 					e1 = eValue == null ? 0l : eValue;
@@ -870,7 +870,7 @@ public class ParameterValidator {
 				List<Boolean> aListValue = (List<Boolean>) actualValue;
 				
 				Boolean a1 = false, e1 = false;
-				if(expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.BOOLEAN_LIST) {
 					List<Boolean> eListValue = (List<Boolean>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -883,7 +883,7 @@ public class ParameterValidator {
 										+ " should not match with expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				} else if(expectedInfo.getValueType() == ParamValueType.BOOLEAN) {
 					Boolean eValue = (Boolean) expectedInfo.getEv();
 	
 					e1 = eValue == null ? false : eValue;
@@ -917,7 +917,7 @@ public class ParameterValidator {
 
 				List<Double> aListValue = (List<Double>) actualValue;
 				Double a1 = 0d, e1 = 0d;
-				if(expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.DECIMAL_LIST) {
 					List<Double> eListValue = (List<Double>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -930,7 +930,7 @@ public class ParameterValidator {
 										+ " should not match with expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
 					Double eValue = (Double) expectedInfo.getEv();
 	
 					e1 = eValue == null ? 0d : eValue;
@@ -976,7 +976,7 @@ public class ParameterValidator {
 
 				List<String> aListValue = (List<String>) actualValue;
 				String a1 = "", e1 = "";
-				if(expectedInfo.getValueType() != ParamValueType.STRING_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.STRING_LIST) {
 					List<String> eListValue = (List<String>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -988,7 +988,7 @@ public class ParameterValidator {
 										+ " should be greater than the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.STRING) {
+				} else if(expectedInfo.getValueType() == ParamValueType.STRING) {
 					String eValue = (String) expectedInfo.getEv();
 					
 					e1 = eValue == null ? "" : eValue;
@@ -1025,7 +1025,7 @@ public class ParameterValidator {
 
 				List<Long> aListValue = (List<Long>) actualValue;
 				Long a1 = 0l, e1 = 0l;
-				if(expectedInfo.getValueType() != ParamValueType.INTEGER_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.INTEGER_LIST) {
 					List<Long> eListValue = (List<Long>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1037,7 +1037,7 @@ public class ParameterValidator {
 										+ " should be greater than the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
 					Long eValue = (Long) expectedInfo.getEv();
 					
 					e1 = eValue == null ? 0 : eValue;
@@ -1063,7 +1063,7 @@ public class ParameterValidator {
 
 				List<Boolean> aListValue = (List<Boolean>) actualValue;
 				Boolean a1 = false, e1 = false;
-				if(expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.BOOLEAN_LIST) {
 					List<Boolean> eListValue = (List<Boolean>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1075,7 +1075,7 @@ public class ParameterValidator {
 										+ " should be greater than the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				} else if(expectedInfo.getValueType() == ParamValueType.BOOLEAN) {
 					Boolean eValue = (Boolean) expectedInfo.getEv();
 					
 					e1 = eValue == null ? false : eValue;
@@ -1111,7 +1111,7 @@ public class ParameterValidator {
 
 				List<Double> aListValue = (List<Double>) actualValue;
 				Double a1 = 0d, e1 = 0d;
-				if(expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.DECIMAL_LIST) {
 					List<Double> eListValue = (List<Double>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1123,7 +1123,7 @@ public class ParameterValidator {
 										+ " should be greater than the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
 					Double eValue = (Double) expectedInfo.getEv();
 					
 					e1 = eValue == null ? 0d : eValue;
@@ -1170,7 +1170,7 @@ public class ParameterValidator {
 
 				List<String> aListValue = (List<String>) actualValue;
 				String a1 = "", e1 = "";
-				if(expectedInfo.getValueType() != ParamValueType.STRING_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.STRING_LIST) {
 					List<String> eListValue = (List<String>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1182,7 +1182,7 @@ public class ParameterValidator {
 										+ " should be greater than equal to the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.STRING) {
+				} else if(expectedInfo.getValueType() == ParamValueType.STRING) {
 					String eValue = (String) expectedInfo.getEv();
 					
 					e1 = eValue == null ? "" : eValue;
@@ -1219,7 +1219,7 @@ public class ParameterValidator {
 
 				List<Long> aListValue = (List<Long>) actualValue;
 				Long a1 = 0l, e1 = 0l;
-				if(expectedInfo.getValueType() != ParamValueType.INTEGER_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.INTEGER_LIST) {
 					List<Long> eListValue = (List<Long>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1231,7 +1231,7 @@ public class ParameterValidator {
 										+ " should be greater than equal to the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
 					Long eValue = (Long) expectedInfo.getEv();
 					
 					e1 = eValue == null ? 0 : eValue;
@@ -1257,7 +1257,7 @@ public class ParameterValidator {
 
 				List<Boolean> aListValue = (List<Boolean>) actualValue;
 				Boolean a1 = false, e1 = false;
-				if(expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.BOOLEAN_LIST) {
 					List<Boolean> eListValue = (List<Boolean>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1269,7 +1269,7 @@ public class ParameterValidator {
 										+ " should be greater than equal to the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				} else if(expectedInfo.getValueType() == ParamValueType.BOOLEAN) {
 					Boolean eValue = (Boolean) expectedInfo.getEv();
 					
 					e1 = eValue == null ? false : eValue;
@@ -1305,7 +1305,7 @@ public class ParameterValidator {
 
 				List<Double> aListValue = (List<Double>) actualValue;
 				Double a1 = 0d, e1 = 0d;
-				if(expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.DECIMAL_LIST) {
 					List<Double> eListValue = (List<Double>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1317,7 +1317,7 @@ public class ParameterValidator {
 										+ " should be greater than equal to the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
 					Double eValue = (Double) expectedInfo.getEv();
 					
 					e1 = eValue == null ? 0d : eValue;
@@ -1363,7 +1363,7 @@ public class ParameterValidator {
 
 				List<String> aListValue = (List<String>) actualValue;
 				String a1 = "", e1 = "";
-				if(expectedInfo.getValueType() != ParamValueType.STRING_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.STRING_LIST) {
 					List<String> eListValue = (List<String>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1375,7 +1375,7 @@ public class ParameterValidator {
 										+ " should be less than the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.STRING) {
+				} else if(expectedInfo.getValueType() == ParamValueType.STRING) {
 					String eValue = (String) expectedInfo.getEv();
 					
 					e1 = eValue == null ? "" : eValue;
@@ -1411,7 +1411,7 @@ public class ParameterValidator {
 
 				List<Long> aListValue = (List<Long>) actualValue;
 				Long a1 = 0l, e1 = 0l;
-				if(expectedInfo.getValueType() != ParamValueType.INTEGER_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.INTEGER_LIST) {
 					List<Long> eListValue = (List<Long>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1423,7 +1423,7 @@ public class ParameterValidator {
 										+ " should be less than the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
 					Long eValue = (Long) expectedInfo.getEv();
 					
 					e1 = eValue == null ? 0 : eValue;
@@ -1438,7 +1438,7 @@ public class ParameterValidator {
 				break;
 			}
 			case BOOLEAN: {
-				fail("Operator '>' is not supported for boolean value.");
+				fail("Operator '<' is not supported for boolean value.");
 
 				break;
 			}
@@ -1449,7 +1449,7 @@ public class ParameterValidator {
 
 				List<Boolean> aListValue = (List<Boolean>) actualValue;
 				Boolean a1 = false, e1 = false;
-				if(expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.BOOLEAN_LIST) {
 					List<Boolean> eListValue = (List<Boolean>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1461,7 +1461,7 @@ public class ParameterValidator {
 										+ " should be less than the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				} else if(expectedInfo.getValueType() == ParamValueType.BOOLEAN) {
 					Boolean eValue = (Boolean) expectedInfo.getEv();
 					
 					e1 = eValue == null ? false : eValue;
@@ -1496,7 +1496,7 @@ public class ParameterValidator {
 
 				List<Double> aListValue = (List<Double>) actualValue;
 				Double a1 = 0d, e1 = 0d;
-				if(expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.DECIMAL_LIST) {
 					List<Double> eListValue = (List<Double>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1508,7 +1508,7 @@ public class ParameterValidator {
 										+ " should be less than the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
 					Double eValue = (Double) expectedInfo.getEv();
 					
 					e1 = eValue == null ? 0d : eValue;
@@ -1554,7 +1554,7 @@ public class ParameterValidator {
 
 				List<String> aListValue = (List<String>) actualValue;
 				String a1 = "", e1 = "";
-				if(expectedInfo.getValueType() != ParamValueType.STRING_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.STRING_LIST) {
 					List<String> eListValue = (List<String>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1566,7 +1566,7 @@ public class ParameterValidator {
 										+ " should be less than equal to the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.STRING) {
+				} else if(expectedInfo.getValueType() == ParamValueType.STRING) {
 					String eValue = (String) expectedInfo.getEv();
 					
 					e1 = eValue == null ? "" : eValue;
@@ -1603,7 +1603,7 @@ public class ParameterValidator {
 
 				List<Long> aListValue = (List<Long>) actualValue;
 				Long a1 = 0l, e1 = 0l;
-				if(expectedInfo.getValueType() != ParamValueType.INTEGER_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.INTEGER_LIST) {
 					List<Long> eListValue = (List<Long>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1615,7 +1615,7 @@ public class ParameterValidator {
 										+ " should be less than equal to the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.INTEGER) {
+				} else if(expectedInfo.getValueType() == ParamValueType.INTEGER) {
 					Long eValue = (Long) expectedInfo.getEv();
 					
 					e1 = eValue == null ? 0 : eValue;
@@ -1630,7 +1630,7 @@ public class ParameterValidator {
 				break;
 			}
 			case BOOLEAN: {
-				fail("Operator '>' is not supported for boolean value.");
+				fail("Operator '<=' is not supported for boolean value.");
 
 				break;
 			}
@@ -1641,7 +1641,7 @@ public class ParameterValidator {
 
 				List<Boolean> aListValue = (List<Boolean>) actualValue;
 				Boolean a1 = false, e1 = false;
-				if(expectedInfo.getValueType() != ParamValueType.BOOLEAN_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.BOOLEAN_LIST) {
 					List<Boolean> eListValue = (List<Boolean>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1653,7 +1653,7 @@ public class ParameterValidator {
 										+ " should be less than equal to the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.BOOLEAN) {
+				} else if(expectedInfo.getValueType() == ParamValueType.BOOLEAN) {
 					Boolean eValue = (Boolean) expectedInfo.getEv();
 					
 					e1 = eValue == null ? false : eValue;
@@ -1689,7 +1689,7 @@ public class ParameterValidator {
 
 				List<Double> aListValue = (List<Double>) actualValue;
 				Double a1 = 0d, e1 = 0d;
-				if(expectedInfo.getValueType() != ParamValueType.DECIMAL_LIST) {
+				if(expectedInfo.getValueType() == ParamValueType.DECIMAL_LIST) {
 					List<Double> eListValue = (List<Double>) expectedInfo.getEv();
 	
 					validateParamValueAsOfExpectedLength(param.getPath(), actualValue, eListValue.size());
@@ -1701,7 +1701,7 @@ public class ParameterValidator {
 										+ " should be less than equal to the expected value. ActualValue: " + aListValue.get(i)
 										+ ", ExpectedValue: " + eListValue.get(i) + ".");
 					}
-				} else if(expectedInfo.getValueType() != ParamValueType.DECIMAL) {
+				} else if(expectedInfo.getValueType() == ParamValueType.DECIMAL) {
 					Double eValue = (Double) expectedInfo.getEv();
 					
 					e1 = eValue == null ? 0d : eValue;
