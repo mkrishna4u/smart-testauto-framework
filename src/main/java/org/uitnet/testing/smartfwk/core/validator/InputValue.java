@@ -126,6 +126,7 @@ public class InputValue {
 
 	public void setValue(Object value) {
 		this.value = value;
+		setValueType(null);
 	}
 
 	public String getLocationAsStr() {
