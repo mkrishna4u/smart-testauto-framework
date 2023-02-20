@@ -41,7 +41,7 @@ public enum WebBrowserType {
 
 	public static WebBrowserType valueOf2(String strType) {
 		for (WebBrowserType type1 : values()) {
-			if (type1.getType().equals(strType)) {
+			if (type1.getType().equalsIgnoreCase(strType) || type1.name().equalsIgnoreCase(strType)) {
 				return type1;
 			}
 		}

@@ -326,7 +326,8 @@ public class SmartToolkit {
 			
 			if(lines != null) {
 				for(String line : lines) {
-					if(line.contains("smart-testauto-framework-")) {
+					if(line.contains("smart-testauto-framework-") && line.contains("cucumber") 
+							&& line.contains("selenium") && line.contains(".jar")) {
 						classPath = line;
 						break;
 					}
@@ -375,7 +376,7 @@ public class SmartToolkit {
 				
 			}
 		}catch(Exception ex) {
-			Assert.fail("Failed to extract <smart-testauto-framework-x.x.x.jar> file into temp directory.");
+			Assert.fail("Failed to extract <smart-testauto-framework-x.x.x.jar> file into temp directory.", ex);
 		}
 	}
 	
