@@ -123,7 +123,7 @@ Official Connectors are given below:
 
 3. STAS Relational Database (i.e. Oracle, MySQL. MariaDB, PostGres etc.) connector: This is in-built in STAS. You do not need any 3rd party library. Only thing you need is Database Driver specific Maven Dependency.
 
-Example MongoDB Java Driver Maven Dependency:
+Example MySQL Database Java Driver Maven Dependency:
 
 	<dependency>
 		<groupId>mysql</groupId>
@@ -137,7 +137,7 @@ Also configure the specific connection settings in **test-config/apps-config/&lt
 	hibernate.connection.driver_class: com.mysql.jdbc.Driver
 	hibernate.connection.url: jdbc:mysql://localhost:3306/my-db
 
-Hibernate Dialect information for Database Connection: https://docs.jboss.org/hibernate/orm/5.6/userguide/html_single/Hibernate_User_Guide.html#database-dialect
+Hibernate Dialect information for different type of SQL Database Connection: https://docs.jboss.org/hibernate/orm/5.6/userguide/html_single/Hibernate_User_Guide.html#database-dialect
 
 # Questions and community support
 Please use the following link if you have any question and need of community support:
