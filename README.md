@@ -3,9 +3,11 @@
 
 **STAS** is a very powerful and the smart software testing automation tool that makes data driven End-to-End testing (UI, API, Database, Remote Machine Testing, Local Machine Testing) easy. Develop test scenarios for one environment and run the same scenarios on different environments without changing the test scenarios.
 
+**STAS** provides a way to write **human friendly automated test scenarios** that can be understood by non technical persons and can be easily maintained.
+
 **STAS** is based on **STAF (Smart Testing Automation Framework)** java library. STAF is the brain of STAS tool.
 
-**NOTE:** Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native application automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX.
+**NOTE:** Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native application automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX or you can use RemoteWebDriver.
 
 **NOTE:** Prefer to use "IntelliJ IDEA" code editor to configure STAS project. Install "Cucumber for Java" plugin in it. Import your STAS project in "IntelliJ IDEA" editor you can get step suggestions out of the way while you will write scenarios / scenario outlines in cucumber feature files under "cucumber-testcases/" directory (present under your project directory).
 
