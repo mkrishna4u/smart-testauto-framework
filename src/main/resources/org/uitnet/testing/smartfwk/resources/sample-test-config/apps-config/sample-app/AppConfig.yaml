@@ -42,7 +42,7 @@ appLoginSuccessPageValidatorClass: validators.<app-name>.AppLoginSuccessPageVali
 remoteWebDriverProviderClass:
 
 # Application Web Browser where all the test cases need to be executed. Applicable only for 'applicationType = web-app'
-# Supported Web Browsers: firefox, chrome, edge, opera, safari, internet-explorer, remote-web-driver-provider, not-applicable
+# Supported Web Browsers: firefox, chrome, edge, opera, safari, internet-explorer, not-applicable
 appWebBrowser: chrome
 enableBrowserExtensions: false
 # Browser window size (width x height)

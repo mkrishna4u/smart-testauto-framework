@@ -26,8 +26,7 @@ import org.testng.Assert;
  */
 public enum WebBrowserType {
 	firefox("firefox"), chrome("chrome"), edge("edge"), opera("opera"), safari("safari"),
-	internetExplorer("internet-explorer"), remoteWebDriverProvider("remote-web-driver-provider"),
-	notApplicable("not-applicable");
+	internetExplorer("internet-explorer"), notApplicable("not-applicable");
 
 	private String type;
 

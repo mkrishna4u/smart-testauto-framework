@@ -170,80 +170,177 @@ public class SmartAppDriver {
 	}
 
 	private void prepareWindowsNativeAppDriver() {
-		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
+		if(!StringUtil.isEmptyAfterTrim(appConfig.getRemoteWebDriverProviderClass())) {
+			RemoteWebDriver wdriver = null;
+			
+			try {
+				wdriver = appConfig.getRemoteWebDriverProvider().createRemoteWebDriver();
+			} catch (Exception e) {
+				Assert.fail(e.getMessage(), e);
+			}
+			
+			wdriver.manage().window().setPosition(new Point(0, 0));
+			wdriver.manage().window()
+					.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+							Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
+			if(shouldOpenURL) {
+				wdriver.navigate().to(appConfig.getAppLaunchUrl());
+			}
+			webDriver = wdriver;
+		} else {
+			AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
 
-		for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
-			capabilities.setCapability(entry.getKey(), entry.getValue());
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
+
+			for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
+				capabilities.setCapability(entry.getKey(), entry.getValue());
+			}
+
+			try {
+				webDriver = new WindowsDriver(new URI(webDriverCfg.getRemoteDriverURL()).toURL(),
+						capabilities);
+
+			} catch (Exception ex) {
+				Assert.fail("Failed to initialize windows driver.", ex);
+			}
 		}
-
-		try {
-			webDriver = new WindowsDriver(new URI(webDriverCfg.getRemoteDriverURL()).toURL(),
-					capabilities);
-
-		} catch (Exception ex) {
-			Assert.fail("Failed to initialize windows driver.", ex);
-		}
+		
 	}
 
 	private void prepareAndroidMobileAppDriver() {
-		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
-
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
-
-		for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
-			if ("app".equals(entry.getKey())
-					&& !(("" + entry.getValue()).startsWith("http:") || ("" + entry.getValue()).startsWith("https:"))) {
-				capabilities.setCapability(entry.getKey(), appConfig.getAppsConfigDir() + File.separator
-						+ appConfig.getAppName() + File.separator + entry.getValue());
-			} else {
-				capabilities.setCapability(entry.getKey(), entry.getValue());
+		if(!StringUtil.isEmptyAfterTrim(appConfig.getRemoteWebDriverProviderClass())) {
+			RemoteWebDriver wdriver = null;
+			
+			try {
+				wdriver = appConfig.getRemoteWebDriverProvider().createRemoteWebDriver();
+			} catch (Exception e) {
+				Assert.fail(e.getMessage(), e);
 			}
-		}
+			
+			wdriver.manage().window().setPosition(new Point(0, 0));
+			wdriver.manage().window()
+					.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+							Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 
-		try {
-
-			webDriver = new AndroidDriver(new URI(webDriverCfg.getRemoteDriverURL()).toURL(),
-					capabilities);
-
-		} catch (Exception ex) {
-			Assert.fail("Failed to initialize android driver.", ex);
+			if(shouldOpenURL) {
+				wdriver.navigate().to(appConfig.getAppLaunchUrl());
+			}
+			webDriver = wdriver;
+		} else {
+			AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
+	
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
+	
+			for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
+				if ("app".equals(entry.getKey())
+						&& !(("" + entry.getValue()).startsWith("http:") || ("" + entry.getValue()).startsWith("https:"))) {
+					capabilities.setCapability(entry.getKey(), appConfig.getAppsConfigDir() + File.separator
+							+ appConfig.getAppName() + File.separator + entry.getValue());
+				} else {
+					capabilities.setCapability(entry.getKey(), entry.getValue());
+				}
+			}
+	
+			try {
+	
+				webDriver = new AndroidDriver(new URI(webDriverCfg.getRemoteDriverURL()).toURL(),
+						capabilities);
+	
+			} catch (Exception ex) {
+				Assert.fail("Failed to initialize android driver.", ex);
+			}
 		}
 	}
 
 	private void prepareIosMobileAppDriver() {
-		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
+		if(!StringUtil.isEmptyAfterTrim(appConfig.getRemoteWebDriverProviderClass())) {
+			RemoteWebDriver wdriver = null;
+			
+			try {
+				wdriver = appConfig.getRemoteWebDriverProvider().createRemoteWebDriver();
+			} catch (Exception e) {
+				Assert.fail(e.getMessage(), e);
+			}
+			
+			wdriver.manage().window().setPosition(new Point(0, 0));
+			wdriver.manage().window()
+					.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+							Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
-
-		for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
-			capabilities.setCapability(entry.getKey(), entry.getValue());
+			if(shouldOpenURL) {
+				wdriver.navigate().to(appConfig.getAppLaunchUrl());
+			}
+			webDriver = wdriver;
+		} else {
+			AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
+	
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
+	
+			for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
+				capabilities.setCapability(entry.getKey(), entry.getValue());
+			}
+	
+			webDriver = new IOSDriver(capabilities);
 		}
-
-		webDriver = new IOSDriver(capabilities);
 	}
 
 	private void prepareMacNativeAppDriver() {
-		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
+		if(!StringUtil.isEmptyAfterTrim(appConfig.getRemoteWebDriverProviderClass())) {
+			RemoteWebDriver wdriver = null;
+			
+			try {
+				wdriver = appConfig.getRemoteWebDriverProvider().createRemoteWebDriver();
+			} catch (Exception e) {
+				Assert.fail(e.getMessage(), e);
+			}
+			
+			wdriver.manage().window().setPosition(new Point(0, 0));
+			wdriver.manage().window()
+					.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+							Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
 
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
-
-		for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
-			capabilities.setCapability(entry.getKey(), entry.getValue());
+			if(shouldOpenURL) {
+				wdriver.navigate().to(appConfig.getAppLaunchUrl());
+			}
+			webDriver = wdriver;
+		} else {
+			AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
+	
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
+	
+			for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
+				capabilities.setCapability(entry.getKey(), entry.getValue());
+			}
+	
+			webDriver = new Mac2Driver(capabilities);
 		}
-
-		webDriver = new Mac2Driver(capabilities);
 	}
 
 	private void prepareWebAppDriverForNonMobileApp() {
 		AppDriverConfig webDriverCfg = appConfig.getAppDriverConfig().getUpdatedProperties(overriddenDriverProps);
+		
 		Proxy proxy;
 		try {
+			if(!StringUtil.isEmptyAfterTrim(appConfig.getRemoteWebDriverProviderClass())) {
+				RemoteWebDriver wdriver = appConfig.getRemoteWebDriverProvider().createRemoteWebDriver();
+				wdriver.manage().window().setPosition(new Point(0, 0));
+				wdriver.manage().window()
+						.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+
+				if(shouldOpenURL) {
+					wdriver.navigate().to(appConfig.getAppLaunchUrl());
+				}
+				webDriver = wdriver;
+
+				return;
+			}
+			
 			switch (appConfig.getAppWebBrowser()) {
 			case firefox: {
 				System.setProperty(webDriverCfg.getDriverSystemPropertyName(), webDriverCfg.getDriverBinaryFilePath());
@@ -266,11 +363,15 @@ public class SmartAppDriver {
 
 				FirefoxOptions options = new FirefoxOptions().setProfile(firefoxProfile).setBinary(new FirefoxBinary());
 
-				options.setHeadless(webDriverCfg.isHeadless());
+				//options.setHeadless(webDriverCfg.isHeadless());
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());
 				options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
 				options.setLogLevel(FirefoxDriverLogLevel.fromLevel(webDriverCfg.getLogLevel()));
 				options.addArguments(webDriverCfg.getArguments());
+				
+				if(webDriverCfg.isHeadless() && !webDriverCfg.getArguments().contains("-headless")) {
+					options.addArguments("-headless");
+				}
 
 				for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
 					options.setCapability(entry.getKey(), entry.getValue());
@@ -315,10 +416,14 @@ public class SmartAppDriver {
 				System.setProperty(webDriverCfg.getDriverSystemPropertyName(), webDriverCfg.getDriverBinaryFilePath());
 
 				ChromeOptions options = new ChromeOptions();
-				options.setHeadless(webDriverCfg.isHeadless());
+				//options.setHeadless(webDriverCfg.isHeadless());
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());
 				options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
 				options.addArguments(webDriverCfg.getArguments());
+				
+			    if (webDriverCfg.isHeadless() && !webDriverCfg.getArguments().contains("--headless")) {
+			    	options.addArguments("--headless");
+			    }
 
 				if (appConfig.isEnableWebBrowserExtension()) {
 					options.addExtensions(webDriverCfg.getBrowserExtensionFiles());
@@ -402,11 +507,15 @@ public class SmartAppDriver {
 				EdgeDriverService service = EdgeDriverService.createDefaultService();
 
 				EdgeOptions options = new EdgeOptions();
-				options.setHeadless(webDriverCfg.isHeadless());
+				//options.setHeadless(webDriverCfg.isHeadless());
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());
 				options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
 				options.addArguments(webDriverCfg.getArguments());
 
+				if (webDriverCfg.isHeadless() && !webDriverCfg.getArguments().contains("--headless")) {
+			    	options.addArguments("--headless");
+			    }
+				
 				options.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
 
 				if (appConfig.isEnableWebBrowserExtension()) {
@@ -448,11 +557,15 @@ public class SmartAppDriver {
 				System.setProperty(webDriverCfg.getDriverSystemPropertyName(), webDriverCfg.getDriverBinaryFilePath());
 
 				ChromeOptions options = new ChromeOptions();
-				options.setHeadless(webDriverCfg.isHeadless());
+				//options.setHeadless(webDriverCfg.isHeadless());
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());
 				options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
 				options.addArguments(webDriverCfg.getArguments());
 
+				if (webDriverCfg.isHeadless() && !webDriverCfg.getArguments().contains("--headless")) {
+			    	options.addArguments("--headless");
+			    }
+				
 				if (appConfig.isEnableWebBrowserExtension()) {
 					options.addExtensions(webDriverCfg.getBrowserExtensionFiles());
 				}
@@ -533,19 +646,7 @@ public class SmartAppDriver {
 				webDriver = wdriver;
 				break;
 			}
-			case remoteWebDriverProvider: {
-				RemoteWebDriver wdriver = appConfig.getRemoteWebDriverProvider().createRemoteWebDriver();
-				wdriver.manage().window().setPosition(new Point(0, 0));
-				wdriver.manage().window()
-						.setSize(new Dimension(Double.valueOf(appConfig.getBrowserWindowSize().getWidth()).intValue(),
-								Double.valueOf(appConfig.getBrowserWindowSize().getHeight()).intValue()));
-
-				if(shouldOpenURL) {
-					wdriver.navigate().to(appConfig.getAppLaunchUrl());
-				}
-				webDriver = wdriver;
-				break;
-			}
+			
 			default:
 				throw new IllegalArgumentException(
 						"Web browser '" + appConfig.getAppWebBrowser().getType() + "' is not supported.");
