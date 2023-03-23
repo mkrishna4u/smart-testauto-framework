@@ -7,7 +7,7 @@
 
 **STAS** is based on **STAF (Smart Testing Automation Framework)** java library. STAF is the brain of STAS tool.
 
-**NOTE:** Appium version 8.1.1 or greater is not compatible with WinAppDriver (from microsoft) so currently Windows native application automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX or you can use RemoteWebDriver.
+**NOTE:** Appium version 8.1.1 or greater or Selenium 4.2 or Higher are not compatible with WinAppDriver (from microsoft) so currently Windows native application automation will not work using selenium mechanism but work using *SI page object classes that uses SikuliX or you can use RemoteWebDriver for windows native app that is compatible with Selenium 4+.
 
 **NOTE:** Prefer to use "IntelliJ IDEA" code editor to configure STAS project. Install "Cucumber for Java" plugin in it. Import your STAS project in "IntelliJ IDEA" editor you can get step suggestions out of the way while you will write scenarios / scenario outlines in cucumber feature files under "cucumber-testcases/" directory (present under your project directory).
 
@@ -39,30 +39,18 @@ This tool supports the **real environment** for software testing automation (Sim
 
 Using STAF software we can easily test the following functionality of the software applications:
 
-1.  **Web User Interface** running on different web browsers (like Chrome, Firefox etc.) on different platforms (like windows, mobile, mac, linux, android, iOS etc.)
-2.  **Native applications** like **Desktop applications** (like calculator), **Mobile applications** (like calculator)
-3.  **Visualization testing / Image recognition testing** (like image based testing using *SI object classes like ImageSI, ButtonSI, TextboxSI object classes etc.). NOTE: To perform visualization testing, application must be launched and visible on PC. Visualization testing can not be performed on headless web browsers.
-4.  Perform **Data Driven Testing (DDT)** on user interface against your relational database i.e. Oracle, MySQL, Postgres, MariaDB etc. Use **SmartDatabaseManager** class to perform CRUD operations on database. **SqlDatabaseActionHandler** can be registered with database profiles to perform CRUD operations on relational/SQL databases.
-5.  Perform **Data Driven Testing (DDT)** using Excel, CSV data, JSON, YAML and XML data files. Reads excel (.xlsx and .xls) files data using **ExcelFileReader** class. Reads CSV file data using **CSVFileReader** class.
+1. **Web User Interface** running on different web browsers (like Chrome, Firefox etc.) on different platforms (like windows, mobile, mac, linux, android, iOS etc.)
+2. **Native applications** like **Desktop applications** (like calculator), **Mobile applications** (like calculator)
+3. **Visualization testing / Image recognition testing** (like image based testing using *SI object classes like ImageSI, ButtonSI, TextboxSI object classes etc.). NOTE: To perform visualization testing, application must be launched and visible on PC. Visualization testing can not be performed on headless web browsers.
+4. Perform **Data Driven Testing (DDT)** on user interface against your relational database i.e. Oracle, MySQL, Postgres, MariaDB< MongoDB etc.
+5. Perform **Data Driven Testing (DDT)** using Excel, CSV data, JSON, YAML and XML data files.
 6. Perform **Behavior Driven Testing(BDT)** using Cucumber Gherkin feature files.
 7.  **API Testing (REST API)** using **SmartApiTestManager** **AbstractApiActionHandler** class. This class maintains sessions and supports customizable login(..) and logout() APIs. Create your own class that extends AbstractApiActionHandler class and use it to perform HTTP operations like GET, POST, PUT, DELETE etc. These api action handler class can be registered with ApiConfig.yaml file.
-8.  Read JSON data using **JsonDocumentReader**. It uses the JSON Path information available on https://github.com/json-path/JsonPath
-9. Validate JSON data using **JsonDocumentValidator** class. It uses the JSON Path information available on https://github.com/json-path/JsonPath
-10.  Read YAML data using **YamlDocumentReader**. It uses the JSON Path information available on https://github.com/json-path/JsonPath
-11. Validate YAML data using **YamlDocumentValidator** class. It uses the JSON Path information available on https://github.com/json-path/JsonPath
-12.  Read XML data using **XmlDocumentReader**. It uses the XML Path information available on https://www.w3.org/TR/1999/REC-xpath-19991116/
-13. Validate XML data using **XmlDocumentValidator** class. It uses the XML Path information available on https://www.w3.org/TR/1999/REC-xpath-19991116/
-14. **Configure multiple applications** in a single project and write test scenarios that involves communication among multiple applications and automate test steps in a simple way by adding less code.
-15. Support standard way of configuration for applications, application user profiles and application relational database profiles.
-16. Write scenarios and its definitions once for any platform and run the same scenarios and definitions on any other platforms for any of the software application without changing the scenario and the step definition (Note the behavior of the application on different platforms should be same but locator may change). In this case you can attach multiple locators (platform specific) to a single UI control (like textbox, buttons etc.).
-17. Use **SmartCucumberScenarioContext** cucumber CDI (Constructor Dependency Injection) class for UI, Api and Database test step definition.
-18. Platform specific sample driver configuration files (AppDriver.yaml) are present in the following directory **src/main/java/resources/org/uitnet/testing/smartfwk/resources/sample-test-config/app-drivers/** directory. Copy specific file in your application config directory like **test-config/apps-config/[app-name]/driver-configs** and also copy your application file like ?.app, ?.apk ?.exe, or ?.api etc. and config into AppDriver.yaml file. When you are specifying any path use the following system variable for project root directory: **${project.root.directory}** to avoid hardcoded path in yaml file.
-19. Use **TestDataBuilder** class to build randomized test data of any length that may include alphabets, numbers, special characters, newline, whitespaces, leading characters etc.
-20. Use **FieldValidator** class to validate the field value as per the expected value or criteria. Also **StringUtil** class is very handy to check the textual / string data.
-21. Use **HttResponseValidator** as part of API **HttpResponse** to validate the HTTP response. You can validate the contents of the files like any file .docx, .xlsx, .pptx, .pdf, .gif, .jpeg, .jpg, .png etc.. Many file formats are supported. Also you can validate the HTTP response payload using different validators like **JsonDocumentValidator**, **YamlDocumentValidator**, **XmlDocumentValidator** etc..
-22. Use **DownloadedFileValidator** class to validate the downloaded file (downloaded by web browser). If you want to validate the contents of any file (like .docx, .xlsx, .pptx, .pdf, .gif, .jpeg, .jpg, .png etc..) use **FileContentsValidator** class.
-23. Use **SmartRemoteMachineManager** class is used to talk to remote machines / servers using SSH to perform uploaded file verifications, execute remote command or download remote file etc.
-24. **Multiple environment support**, means same testcases can be executed on different environments like **development, acceptance, pre-production and different web browsers etc.** without changing the code. To do so create environment files in **test-config/apps-config/[app-name]/environments/** directory and also create the different **AppDriver-[env-name].yaml** (if using different app driver), different database profiles in **database-profiles/** (if different database connection required) and different **ApiConfig-[env-name].yaml** in **api-configs/** (if different parameters are used for different environment). During testcase execution time, specify the following system property in **mvn** command **"-Dapps.active.environment=[app-name1]:[environment-name],[app-name2]:[environment-name]"** to activate the environment for the applications configured in project.
+8. **Configure multiple applications** in a single project and write test scenarios that involves communication among multiple applications and automate test steps in a simple way by adding less code.
+9. Support standard way of configuration for applications, application user profiles and application relational database profiles.
+10. Write scenarios and its definitions once for any platform and run the same scenarios and definitions on any other platforms for any of the software application without changing the scenario and the step definition (Note the behavior of the application on different platforms should be same but locator may change). In this case you can attach multiple locators (platform specific) to a single UI control (like textbox, buttons etc.).
+11. Platform specific sample driver configuration files (AppDriver.yaml) are present in the following directory **src/main/java/resources/org/uitnet/testing/smartfwk/resources/sample-test-config/app-drivers/** directory. Copy specific file in your application config directory like **test-config/apps-config/[app-name]/driver-configs** and also copy your application file like ?.app, ?.apk ?.exe, or ?.api etc. and config into AppDriver.yaml file. When you are specifying any path use the following system variable for project root directory: **${project.root.directory}** to avoid hardcoded path in yaml file.
+12. **Multiple environment support**, means same testcases can be executed on different environments like **development, acceptance, pre-production and different web browsers etc.** without changing the code. To do so create environment files in **test-config/apps-config/[app-name]/environments/** directory and also create the different **AppDriver-[env-name].yaml** (if using different app driver), different database profiles in **database-profiles/** (if different database connection required) and different **ApiConfig-[env-name].yaml** in **api-configs/** (if different parameters are used for different environment). During testcase execution time, specify the following system property in **mvn** command **"-Dapps.active.environment=[app-name1]:[environment-name],[app-name2]:[environment-name]"** to activate the environment for the applications configured in project.
 
 This is also a **Configuration Driven Testing (CDT)** framework. Sample configurations are present here that can be used under ./test-config directory to configuration your project environment: 
 https://github.com/mkrishna4u/smart-testauto-framework/tree/main/src/main/resources/sample-config
@@ -149,6 +137,15 @@ Please use the following link if you have any question and need of community sup
 [https://github.com/mkrishna4u/smart-testauto-framework/discussions](https://github.com/mkrishna4u/smart-testauto-framework/discussions "STAS/STAF discussions")
 
 [https://gitter.im/Smart-TestAuto-Studio-STAS-STAF/community](https://gitter.im/Smart-TestAuto-Studio-STAS-STAF/community "Gitter Community - STAS / STAF")
+
+# Sample Scenario Using STAS
+It's simple to create the UI/API/DB E2E scenarios in Cucumber Gherkin language using STAS Standard Step Definitions. Sample is given below:
+
+![Sample Scenario using STAS](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/sample-scenario.jpg "Sample Scenario using STAS") 
+	
+For more infomation on scenario preparation, please refer the following link:
+
+[https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en/blob/main/docs/STAS-StepDefinitions-En-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en/blob/main/docs/STAS-StepDefinitions-En-TestDevelopersGuide.pdf "STAS Standard Cucumber Step Definitions (English) - Test Developer's Guide") 
 
 # License
 Apache License, 2.0
