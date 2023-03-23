@@ -11,6 +11,16 @@
 
 **NOTE:** Prefer to use "IntelliJ IDEA" code editor to configure STAS project. Install "Cucumber for Java" plugin in it. Import your STAS project in "IntelliJ IDEA" editor you can get step suggestions out of the way while you will write scenarios / scenario outlines in cucumber feature files under "cucumber-testcases/" directory (present under your project directory).
 
+# Sample Scenario Using STAS
+It's simple to create the UI/API/DB E2E scenarios in Cucumber Gherkin language using STAS Standard Step Definitions. Sample is given below:
+
+![Sample Scenario using STAS](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/sample-scenario.jpg "Sample Scenario using STAS") 
+	
+For more information on scenario preparation, please refer the following link:
+
+[https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en/blob/main/docs/STAS-StepDefinitions-En-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en/blob/main/docs/STAS-StepDefinitions-En-TestDevelopersGuide.pdf "STAS Standard Cucumber Step Definitions (English) - Test Developer's Guide") 
+
+
 # STAS Architecture & Documentation
 **STAS** is a well designed testing automation tool that increases the product quality amazingly with less effort and cost. The most important factor of this tool is the faster development of test scenarios and the easy maintenance of test scenarios with less effort which makes it powerful.
 
@@ -136,16 +146,6 @@ Please use the following link if you have any question and need of community sup
 
 [https://github.com/mkrishna4u/smart-testauto-framework/discussions](https://github.com/mkrishna4u/smart-testauto-framework/discussions "STAS/STAF discussions")
 
-[https://gitter.im/Smart-TestAuto-Studio-STAS-STAF/community](https://gitter.im/Smart-TestAuto-Studio-STAS-STAF/community "Gitter Community - STAS / STAF")
-
-# Sample Scenario Using STAS
-It's simple to create the UI/API/DB E2E scenarios in Cucumber Gherkin language using STAS Standard Step Definitions. Sample is given below:
-
-![Sample Scenario using STAS](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/sample-scenario.jpg "Sample Scenario using STAS") 
-	
-For more infomation on scenario preparation, please refer the following link:
-
-[https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en/blob/main/docs/STAS-StepDefinitions-En-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en/blob/main/docs/STAS-StepDefinitions-En-TestDevelopersGuide.pdf "STAS Standard Cucumber Step Definitions (English) - Test Developer's Guide") 
 
 # License
 Apache License, 2.0
