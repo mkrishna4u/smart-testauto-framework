@@ -24,9 +24,12 @@ import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.api.core.support.ScrollbarType;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
+
+import io.cucumber.java.PendingException;
 
 /**
  * 
@@ -114,6 +117,30 @@ public class PageScrollUtil {
 //				ta.moveTo(PointOption.point(new Point(elemX1, elemY1)));
 //				ta.release();
 //				ta.perform();
+			}
+		} catch (Exception | Error ex) {
+			// Do nothing
+		}
+	}
+	
+	public static void setScrollPointerForScrollableElement(SmartAppDriver appDriver, WebElement element, ScrollbarType scrollbarType, int numPixels) {
+		if (element == null) {
+			return;
+		}
+
+		try {
+			JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
+			if (appDriver.getAppType() == ApplicationType.web_app) {
+				//Rectangle rect = element.getRect();
+				if(scrollbarType == ScrollbarType.HORIZONTAL) {
+					jse.executeScript("arguments[0].scrollLeft=" + numPixels, element);
+				} else if(scrollbarType == ScrollbarType.VERTICAL) {
+					jse.executeScript("arguments[0].scrollTop=" + numPixels, element);
+				}
+				
+			} else if (appDriver.getTestPlatformType() == PlatformType.android_mobile
+					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
+				throw new PendingException("Scrolling is only supported for web application.");
 			}
 		} catch (Exception | Error ex) {
 			// Do nothing
