@@ -25,12 +25,12 @@
 
 	<groupId>org.uitnet.testing.smartfwk</groupId>
 	<artifactId>Smart-TestAuto-Studio</artifactId>
-	<version>6.0.9</version>
+	<version>6.0.10</version>
 	<packaging>jar</packaging>
 	<name>Smart Testing Automation Studio</name>
 	<description>
 		Smart Testing Automation Studio is a one platform used to perform 
-		End-to-End testing for the configured software applications. it hides
+		End-to-End testing for the configured software applications. It hides
 		all the complexities of the underlying softwares tools and provides easy
 		environment to develop automation testing scripts using your best 
 		suitable Java based code editor like Eclipse, Intellij IDEA etc. For more
@@ -40,14 +40,15 @@
 
 	<properties>
 	    <parallel.threads>1</parallel.threads>
-		<smart-testauto-framework.version>6.0.9</smart-testauto-framework.version>
-		<smart-testauto-cucumber-stepdefs-en.version>6.0.9</smart-testauto-cucumber-stepdefs-en.version>
-		<cucumber-reporting.version>5.7.4</cucumber-reporting.version>
-		<maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
+		<smart-testauto-framework.version>6.0.10</smart-testauto-framework.version>
+		<smart-testauto-cucumber-stepdefs-en.version>6.0.10</smart-testauto-cucumber-stepdefs-en.version>
+		<cucumber-reporting.version>5.7.5</cucumber-reporting.version>
+		
+		<maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
-		<maven.resources.plugin.version>3.3.0</maven.resources.plugin.version>
+		<maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
+		<maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>		
 		<maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
 	</properties>
 	
