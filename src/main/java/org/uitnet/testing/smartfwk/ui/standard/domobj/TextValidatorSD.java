@@ -29,7 +29,7 @@ import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
-import org.uitnet.testing.smartfwk.ui.core.objects.link.HyperlinkValidator;
+import org.uitnet.testing.smartfwk.ui.core.objects.text.TextValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.WebElementUtil;
 import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
@@ -39,10 +39,10 @@ import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
  * @author Madhav Krishna
  *
  */
-public class HyperlinkValidatorSD extends HyperlinkValidator {
+public class TextValidatorSD extends TextValidator {
 	protected DOMObjectValidator domObjValidator;
 
-	public HyperlinkValidatorSD(SmartAppDriver appDriver, HyperlinkSD uiObject, Region region) {
+	public TextValidatorSD(SmartAppDriver appDriver, TextSD uiObject, Region region) {
 		super(appDriver, uiObject, region);
 		domObjValidator = new DOMObjectValidator(appDriver,
 				new DOMObject(uiObject.getType(), uiObject.getDisplayName(), uiObject.getPlatformLocators()), region);
@@ -53,7 +53,7 @@ public class HyperlinkValidatorSD extends HyperlinkValidator {
 	}
 
 	@Override
-	public HyperlinkValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
+	public TextValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
 		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
 		return this;
 	}
@@ -69,79 +69,77 @@ public class HyperlinkValidatorSD extends HyperlinkValidator {
 	}
 
 	@Override
-	public HyperlinkValidatorSD click(int maxIterationsToLocateElements) {
+	public TextValidatorSD click(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
 	
 	@Override
-	public HyperlinkValidatorSD forceClick(int maxIterationsToLocateElements) {
+	public TextValidatorSD forceClick(int maxIterationsToLocateElements) {
 		domObjValidator.forceClick(maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public HyperlinkValidatorSD doubleClick(int maxIterationsToLocateElements) {
+	public TextValidatorSD doubleClick(int maxIterationsToLocateElements) {
 		domObjValidator.doubleClick(maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public HyperlinkValidatorSD rightClick(int maxIterationsToLocateElements) {
+	public TextValidatorSD rightClick(int maxIterationsToLocateElements) {
 		domObjValidator.rightClick(maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public HyperlinkValidatorSD clickAndHold(int maxIterationsToLocateElements) {
+	public TextValidatorSD clickAndHold(int maxIterationsToLocateElements) {
 		domObjValidator.clickAndHold(maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public HyperlinkValidatorSD release(int maxIterationsToLocateElements) {
+	public TextValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
 		return this;
 	}
 	
 	@Override
-	public HyperlinkValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+	public TextValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
 		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public HyperlinkValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public TextValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public HyperlinkValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public TextValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyUp(keys, maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public HyperlinkValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public TextValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyPressed(keys, maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public HyperlinkValidatorSD scrollElementOnViewport(ScrollbarSI scrollbar) {
+	public TextValidatorSD scrollElementOnViewport(ScrollbarSI scrollbar) {
 		domObjValidator.scrollElementOnViewport(scrollbar);
 		return this;
 	}
 
 	@Override
-	public HyperlinkValidatorSD validateName(String expectedValue, TextMatchMechanism validationMechanism,
-			int maxIterationsToLocateElements) {
+	public TextValidatorSD validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
 					String actualValue = WebElementUtil.getElementText(appDriver, domObjValidator.getUIObject(), 0);
-
 					validateTextValue(actualValue, expectedValue, validationMechanism);
 					return this;
 				} catch (Throwable th) {
@@ -159,7 +157,7 @@ public class HyperlinkValidatorSD extends HyperlinkValidator {
 	}
 
 	@Override
-	public String getName(int maxIterationsToLocateElements) {
+	public String getValue(int maxIterationsToLocateElements) {
 		WebElement webElem = domObjValidator.findElement(maxIterationsToLocateElements);
 		String value = webElem.getText();
 		return value;
@@ -181,7 +179,7 @@ public class HyperlinkValidatorSD extends HyperlinkValidator {
 	}
 	
 	@Override
-	public HyperlinkValidatorSD validateElementPresentWithinArea(AreaCoordinates coordinates,
+	public TextValidatorSD validateElementPresentWithinArea(AreaCoordinates coordinates,
 			int maxIterationsToLocateElements) {
 		domObjValidator.validateElementPresentWithinArea(coordinates, maxIterationsToLocateElements);
 		return this;

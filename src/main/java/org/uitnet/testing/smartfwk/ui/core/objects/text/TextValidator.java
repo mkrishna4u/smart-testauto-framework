@@ -15,26 +15,32 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.objects.scrollbar;
+package org.uitnet.testing.smartfwk.ui.core.objects.text;
 
 import org.sikuli.script.Region;
-import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
-import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
-import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
+import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
+import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public abstract class Scrollbar extends UIObject {
-	public Scrollbar(LocatorType locatorType, String displayName) {
-		super(locatorType, UIObjectType.scrollable, displayName);
+public abstract class TextValidator extends UIObjectValidator {
+	private Text label;
+
+	public TextValidator(SmartAppDriver appDriver, Text uiObject, Region region) {
+		super(appDriver, uiObject, region);
+		this.label = uiObject;
 	}
 
-	public abstract ScrollbarValidator getValidator(SmartAppDriver appDriver, Region region);
+	@Override
+	public Text getUIObject() {
+		return this.label;
+	}
 
-	public abstract ScrollbarValidator getValidator(SmartCucumberScenarioContext scenarioContext, Region region);
+	public abstract TextValidator validateValue(String expectedValue, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
+
+	public abstract String getValue(int maxIterationsToLocateElements);
 }

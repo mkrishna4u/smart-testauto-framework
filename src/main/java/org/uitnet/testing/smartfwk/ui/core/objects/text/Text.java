@@ -15,7 +15,7 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.objects.scrollbar;
+package org.uitnet.testing.smartfwk.ui.core.objects.text;
 
 import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
@@ -29,12 +29,12 @@ import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
  * @author Madhav Krishna
  *
  */
-public abstract class Scrollbar extends UIObject {
-	public Scrollbar(LocatorType locatorType, String displayName) {
-		super(locatorType, UIObjectType.scrollable, displayName);
+public abstract class Text extends UIObject {
+	public Text(LocatorType locatorType, String displayName) {
+		super(locatorType, UIObjectType.text, displayName);
 	}
 
-	public abstract ScrollbarValidator getValidator(SmartAppDriver appDriver, Region region);
+	public abstract TextValidator getValidator(SmartAppDriver appDriver, Region region);
 
-	public abstract ScrollbarValidator getValidator(SmartCucumberScenarioContext scenarioContext, Region region);
+	public abstract TextValidator getValidator(SmartCucumberScenarioContext scenarioContext, Region region);
 }

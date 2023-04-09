@@ -32,7 +32,7 @@ import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
-import org.uitnet.testing.smartfwk.ui.core.objects.label.LabelValidator;
+import org.uitnet.testing.smartfwk.ui.core.objects.text.TextValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
@@ -41,16 +41,16 @@ import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
  * @author Madhav Krishna
  *
  */
-public class LabelValidatorSI extends LabelValidator {
-	protected LabelSI labelObj;
+public class TextValidatorSI extends TextValidator {
+	protected TextSI textObj;
 
-	public LabelValidatorSI(SmartAppDriver appDriver, LabelSI uiObject, Region region) {
+	public TextValidatorSI(SmartAppDriver appDriver, TextSI uiObject, Region region) {
 		super(appDriver, uiObject, region);
-		this.labelObj = uiObject;
+		this.textObj = uiObject;
 	}
 
 	@Override
-	public LabelValidatorSI validateValue(String expectedName, TextMatchMechanism validationMechanism,
+	public TextValidatorSI validateValue(String expectedName, TextMatchMechanism validationMechanism,
 			int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		validateTextValue(match.text(), expectedName, validationMechanism);
@@ -74,133 +74,133 @@ public class LabelValidatorSI extends LabelValidator {
 	}
 
 	@Override
-	public LabelValidatorSI click(int maxIterationsToLocateElements) {
+	public TextValidatorSI click(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse click on Label '" + labelObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse click on Label '" + textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 	
 	@Override
-	public LabelValidatorSI forceClick(int maxIterationsToLocateElements) {
+	public TextValidatorSI forceClick(int maxIterationsToLocateElements) {
 		return click(maxIterationsToLocateElements);
 	}
 
-	public LabelValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public TextValidatorSI click(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse click on Label '" + labelObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse click on Label '" + textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 
 	@Override
-	public LabelValidatorSI doubleClick(int maxIterationsToLocateElements) {
+	public TextValidatorSI doubleClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.doubleClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse double click on Label '" + labelObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse double click on Label '" + textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 
-	public LabelValidatorSI doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public TextValidatorSI doubleClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse double click on Label '" + labelObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse double click on Label '" + textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 
 	@Override
-	public LabelValidatorSI rightClick(int maxIterationsToLocateElements) {
+	public TextValidatorSI rightClick(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.rightClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse right click on Label '" + labelObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse right click on Label '" + textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 
-	public LabelValidatorSI rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
+	public TextValidatorSI rightClick(ImageSection imageSection, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse right click on Label '" + labelObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse right click on Label '" + textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 
 	@Override
-	public LabelValidatorSI clickAndHold(int maxIterationsToLocateElements) {
+	public TextValidatorSI clickAndHold(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse clickAndHold on Label '" + labelObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse clickAndHold on Label '" + textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 
 	@Override
-	public LabelValidatorSI release(int maxIterationsToLocateElements) {
+	public TextValidatorSI release(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse clickAndHold on Label '" + labelObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse clickAndHold on Label '" + textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 	
 	@Override
-	public LabelValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
+	public TextValidatorSI mouseHoverOver(int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.mouseMove();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse hoverover on Label '" + labelObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse hoverover on Label '" + textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 
 	@Override
-	public LabelValidatorSI performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public TextValidatorSI performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyDown on Label '" + labelObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyDown on Label '" + textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 
 	@Override
-	public LabelValidatorSI performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public TextValidatorSI performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on Label '"
-					+ labelObj.getDisplayName() + "'.", th);
+					+ textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 
 	@Override
-	public LabelValidatorSI performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public TextValidatorSI performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		try {
 			Match match = findElement(maxIterationsToLocateElements);
 			match.click();
@@ -208,20 +208,20 @@ public class LabelValidatorSI extends LabelValidator {
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on Label '"
-					+ labelObj.getDisplayName() + "'.", th);
+					+ textObj.getDisplayName() + "'.", th);
 		}
 		return this;
 	}
 
 	@Override
 	@Deprecated
-	public LabelValidatorSI typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
+	public TextValidatorSI typeText(String text, NewTextLocation location, int maxIterationsToLocateElements) {
 		Assert.fail("typeText() API is not supported for Label element.");
 		return this;
 	}
 
 	@Override
-	public LabelValidatorSI scrollElementOnViewport(ScrollbarSI scrollbar) {
+	public TextValidatorSI scrollElementOnViewport(ScrollbarSI scrollbar) {
 		// TODO Auto-generated method stub
 		return this;
 	}
@@ -231,15 +231,15 @@ public class LabelValidatorSI extends LabelValidator {
 		Match match = null;
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
-				Region region = labelObj.getLabelImageLocation().getRegionOfImageObject(appDriver,
-						labelObj.getLabelImage(appDriver.getAppConfig().getTestPlatformType(),
+				Region region = textObj.getLabelImageLocation().getRegionOfImageObject(appDriver,
+						textObj.getLabelImage(appDriver.getAppConfig().getTestPlatformType(),
 								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
-				Assert.assertNotNull(region, "Failed to find Label '" + labelObj.getDisplayName() + "'.");
+				Assert.assertNotNull(region, "Failed to find Label '" + textObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
 			} catch (Throwable th) {
 				if (i == maxIterationsToLocateElements) {
-					Assert.fail("Unable to find Label '" + labelObj.getDisplayName() + "'. Reason timeout(waited for "
+					Assert.fail("Unable to find Label '" + textObj.getDisplayName() + "'. Reason timeout(waited for "
 							+ (maxIterationsToLocateElements * 2) + " seconds).", th);
 					break;
 				}
@@ -262,26 +262,26 @@ public class LabelValidatorSI extends LabelValidator {
 
 	@Override
 	public List<Match> findElements(int maxIterationsToLocateElements) {
-		Region r = labelObj.getLabelImageLocation().getRegion(appDriver);
+		Region r = textObj.getLabelImageLocation().getRegion(appDriver);
 
-		return new ImageObject(UIObjectType.label, labelObj.getDisplayName(),
-				labelObj.getLabelImage(appDriver.getAppConfig().getTestPlatformType(),
+		return new ImageObject(UIObjectType.label, textObj.getDisplayName(),
+				textObj.getLabelImage(appDriver.getAppConfig().getTestPlatformType(),
 						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()))
 				.getValidator(appDriver, r).findElements(maxIterationsToLocateElements);
 	}
 
-	public LabelValidatorSI dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
+	public TextValidatorSI dragAndDrop(ImageObject target, Region targetRegion, int maxIterationsToLocateElements) {
 		try {
 			Match sourceElem = findElement(maxIterationsToLocateElements);
 			Match targetElem = target.getValidator(appDriver, targetRegion).findElement(maxIterationsToLocateElements);
 
-			Assert.assertNotNull(sourceElem, "Failed to find Label '" + labelObj.getDisplayName() + "'.");
+			Assert.assertNotNull(sourceElem, "Failed to find Label '" + textObj.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
 
 			sourceElem.drag(targetElem);
 			sourceElem.dropAt(targetElem);
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform dragAndDrop from source '" + labelObj.getDisplayName() + "' to target '"
+			Assert.fail("Failed to perform dragAndDrop from source '" + textObj.getDisplayName() + "' to target '"
 					+ target.getDisplayName() + "'.", th);
 		}
 		return this;
@@ -304,12 +304,12 @@ public class LabelValidatorSI extends LabelValidator {
 	}
 	
 	@Override
-	public LabelValidatorSI validateElementPresentWithinArea(AreaCoordinates coordinates,
+	public TextValidatorSI validateElementPresentWithinArea(AreaCoordinates coordinates,
 			int maxIterationsToLocateElements) {
 		Match match = findElement(maxIterationsToLocateElements);
 		if(!(match.x >= coordinates.getX1() && match.y >= coordinates.getY1() &&  
 				(match.x + match.w) <= coordinates.getX2() && (match.y + match.h) <= coordinates.getY2())) {
-			Assert.fail("Element '" + labelObj.getDisplayName() + "' is not within the specified area [x1=" + coordinates.getX1() 
+			Assert.fail("Element '" + textObj.getDisplayName() + "' is not within the specified area [x1=" + coordinates.getX1() 
 			+ ", y1=" + coordinates.getY1() + ", x2=" + coordinates.getX2() + ", y2=" + coordinates.getY2() + "]."
 			+ " Actual Coordinates: [x1=" + match.x + ", y1=" + match.y + ", x2=" + (match.x  + match.w) 
 			+ ", y2=" + (match.y + match.h) + "].");

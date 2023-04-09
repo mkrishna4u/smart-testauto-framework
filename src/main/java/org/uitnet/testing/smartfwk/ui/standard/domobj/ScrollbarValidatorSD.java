@@ -24,12 +24,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Region;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.api.core.support.ScrollbarType;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
-import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonValidator;
+import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.ScrollbarValidator;
+import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
 import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
@@ -37,10 +39,10 @@ import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
  * @author Madhav Krishna
  *
  */
-public class RadioButtonValidatorSD extends RadioButtonValidator {
+public class ScrollbarValidatorSD extends ScrollbarValidator {
 	protected DOMObjectValidator domObjValidator;
 
-	public RadioButtonValidatorSD(SmartAppDriver appDriver, RadioButtonSD uiObject, Region region) {
+	public ScrollbarValidatorSD(SmartAppDriver appDriver, ScrollbarSD uiObject, Region region) {
 		super(appDriver, uiObject, region);
 		domObjValidator = new DOMObjectValidator(appDriver,
 				new DOMObject(uiObject.getType(), uiObject.getDisplayName(), uiObject.getPlatformLocators()), region);
@@ -51,7 +53,27 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 	}
 
 	@Override
-	public RadioButtonValidatorSD typeText(String textToType, NewTextLocation location, int maxIterationsToLocateElements) {
+	public boolean isDisabled(int maxIterationsToLocateElements) {
+		return domObjValidator.isDisabled(maxIterationsToLocateElements);
+	}
+
+	@Override
+	public ScrollbarValidatorSD validateDisabled(int maxIterationsToLocateElements) {
+		Assert.assertTrue(domObjValidator.isDisabled(maxIterationsToLocateElements),
+				"'" + uiObject.getDisplayName() + "' element is not disabled.");
+		return this;
+	}
+
+	@Override
+	public ScrollbarValidatorSD validateEnabled(int maxIterationsToLocateElements) {
+		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
+				"'" + uiObject.getDisplayName() + "' element is not enabled.");
+		return this;
+	}
+
+	@Override
+	public ScrollbarValidatorSD typeText(String textToType, NewTextLocation location,
+			int maxIterationsToLocateElements) {
 		domObjValidator.typeText(textToType, location, maxIterationsToLocateElements);
 		return this;
 	}
@@ -67,67 +89,67 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 	}
 
 	@Override
-	public RadioButtonValidatorSD click(int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD click(int maxIterationsToLocateElements) {
 		domObjValidator.click(maxIterationsToLocateElements);
 		return this;
 	}
-	
+
 	@Override
-	public RadioButtonValidatorSD forceClick(int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD forceClick(int maxIterationsToLocateElements) {
 		domObjValidator.forceClick(maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public RadioButtonValidatorSD doubleClick(int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD doubleClick(int maxIterationsToLocateElements) {
 		domObjValidator.doubleClick(maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public RadioButtonValidatorSD rightClick(int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD rightClick(int maxIterationsToLocateElements) {
 		domObjValidator.rightClick(maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public RadioButtonValidatorSD clickAndHold(int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD clickAndHold(int maxIterationsToLocateElements) {
 		domObjValidator.clickAndHold(maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public RadioButtonValidatorSD release(int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD release(int maxIterationsToLocateElements) {
 		domObjValidator.release(maxIterationsToLocateElements);
 		return this;
 	}
-	
+
 	@Override
-	public RadioButtonValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD mouseHoverOver(int maxIterationsToLocateElements) {
 		domObjValidator.mouseHoverOver(maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public RadioButtonValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD performKeyDown(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyDown(keys, maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public RadioButtonValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD performKeyUp(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyUp(keys, maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public RadioButtonValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD performKeyPressed(Keys keys, int maxIterationsToLocateElements) {
 		domObjValidator.performKeyPressed(keys, maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public RadioButtonValidatorSD scrollElementOnViewport(ScrollbarSI scrollbar) {
+	public ScrollbarValidatorSD scrollElementOnViewport(ScrollbarSI scrollbar) {
 		domObjValidator.scrollElementOnViewport(scrollbar);
 		return this;
 	}
@@ -148,22 +170,8 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 	}
 
 	@Override
-	public boolean isDisabled(int maxIterationsToLocateElements) {
-		return domObjValidator.isDisabled(maxIterationsToLocateElements);
-	}
-
-	@Override
-	public RadioButtonValidatorSD validateDisabled(int maxIterationsToLocateElements) {
-		Assert.assertTrue(domObjValidator.isDisabled(maxIterationsToLocateElements),
-				"'" + uiObject.getDisplayName() + "' element is not disabled.");
-		return this;
-	}
-
-	@Override
-	public RadioButtonValidatorSD validateEnabled(int maxIterationsToLocateElements) {
-		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
-				"'" + uiObject.getDisplayName() + "' element is not enabled.");
-		return this;
+	public Actions getNewSeleniumActions() {
+		return domObjValidator.getNewSeleniumActions();
 	}
 
 	@Override
@@ -172,48 +180,37 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 	}
 
 	@Override
-	public RadioButtonValidatorSD validateDisabledButNotReadonly(int maxIterationsToLocateElements) {
-		Assert.assertTrue(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
-				"'" + uiObject.getDisplayName() + "' element is not disabled.");
-		return this;
-	}
+	public ScrollbarValidatorSD setHorizontalThumbGripLocation(int numPixelsFromLeft, int maxIterationsToLocateElements) {
+		try {
+			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+				try {
+					WebElement elem = findElement(0);
+					PageScrollUtil.setScrollbarThumbgripLocation(appDriver, elem, ScrollbarType.HORIZONTAL,
+							numPixelsFromLeft);
+					return this;
+				} catch (Throwable th) {
+					if (i == maxIterationsToLocateElements) {
+						throw th;
+					}
+				}
+				appDriver.waitForSeconds(2);
+			}
+		} catch (Throwable th) {
+			Assert.fail("Failed to set location of horizontal scrollbar thumb grip using element '"
+					+ uiObject.getDisplayName() + "'.", th);
+		}
 
-	@Override
-	public RadioButtonValidatorSD validateEnabledButNotReadonly(int maxIterationsToLocateElements) {
-		Assert.assertFalse(domObjValidator.isDisabledButNotReadonly(maxIterationsToLocateElements),
-				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 		return this;
 	}
 	
 	@Override
-	public boolean isSelected(int maxIterationsToLocateElements) {
-		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
-			try {
-				WebElement webElem = findElement(0);
-				return webElem.isSelected();
-			} catch (Throwable th) {
-				if (i == maxIterationsToLocateElements) {
-					throw th;
-				}
-			}
-			appDriver.waitForSeconds(2);
-		}
-		
-		return false;
-	}
-
-	@Override
-	public RadioButtonValidatorSD select(int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD setHorizontalThumbGripLocation(double pctValueFromLeft, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
-					WebElement webElem = findElement(0);
-					webElem.click();
-					try {
-						validateSelected(maxIterationsToLocateElements);
-					} catch (Throwable th) {
-						Assert.fail("Failed to select radio button '" + uiObject.getDisplayName() + "'.");
-					}
+					WebElement elem = findElement(0);
+					PageScrollUtil.setScrollbarThumbgripLocation(appDriver, elem, ScrollbarType.HORIZONTAL,
+							pctValueFromLeft);
 					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
@@ -223,19 +220,21 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 				appDriver.waitForSeconds(2);
 			}
 		} catch (Throwable th) {
-			Assert.fail("Failed to select element '" + uiObject.getDisplayName() + "'.", th);
+			Assert.fail("Failed to set location of horizontal scrollbar thumb grip using element '"
+					+ uiObject.getDisplayName() + "'.", th);
 		}
+
 		return this;
 	}
 
 	@Override
-	public RadioButtonValidatorSD validateSelected(int maxIterationsToLocateElements) {
+	public ScrollbarValidatorSD setVerticalThumbGripLocation(int numPixelsFromTop, int maxIterationsToLocateElements) {
 		try {
 			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 				try {
-					WebElement webElem = findElement(0);
-					Assert.assertTrue(webElem.isSelected(),
-							"Radio button '" + uiObject.getDisplayName() + "' is not selected.");
+					WebElement elem = findElement(0);
+					PageScrollUtil.setScrollbarThumbgripLocation(appDriver, elem, ScrollbarType.VERTICAL,
+							numPixelsFromTop);
 					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
@@ -245,43 +244,41 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 				appDriver.waitForSeconds(2);
 			}
 		} catch (Throwable th) {
-			Assert.fail("Failed to validate element '" + uiObject.getDisplayName() + "' as selected.", th);
+			Assert.fail("Failed to set location of vertical scrollbar thumb grip using element '"
+					+ uiObject.getDisplayName() + "'.", th);
 		}
-		return this;
-	}
 
-	@Override
-	public RadioButtonValidatorSD validateNotSelected(int maxIterationsToLocateElements) {
-		try {
-			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
-				try {
-					WebElement webElem = findElement(0);
-					Assert.assertFalse(webElem.isSelected(),
-							"Radio button '" + uiObject.getDisplayName() + "' is selected.");
-					return this;
-				} catch (Throwable th) {
-					if (i == maxIterationsToLocateElements) {
-						throw th;
-					}
-				}
-				appDriver.waitForSeconds(2);
-			}
-		} catch (Throwable th) {
-			Assert.fail("Failed to validate element '" + uiObject.getDisplayName() + "' as not selected.", th);
-		}
 		return this;
 	}
 	
 	@Override
-	public RadioButtonValidatorSD validateElementPresentWithinArea(AreaCoordinates coordinates,
+	public ScrollbarValidatorSD validateElementPresentWithinArea(AreaCoordinates coordinates,
 			int maxIterationsToLocateElements) {
 		domObjValidator.validateElementPresentWithinArea(coordinates, maxIterationsToLocateElements);
 		return this;
 	}
 
 	@Override
-	public Actions getNewSeleniumActions() {
-		return domObjValidator.getNewSeleniumActions();
-	}
+	public ScrollbarValidatorSD setVerticalThumbGripLocation(double pctValueFromTop, int maxIterationsToLocateElements) {
+		try {
+			for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+				try {
+					WebElement elem = findElement(0);
+					PageScrollUtil.setScrollbarThumbgripLocation(appDriver, elem, ScrollbarType.VERTICAL,
+							pctValueFromTop);
+					return this;
+				} catch (Throwable th) {
+					if (i == maxIterationsToLocateElements) {
+						throw th;
+					}
+				}
+				appDriver.waitForSeconds(2);
+			}
+		} catch (Throwable th) {
+			Assert.fail("Failed to set location of vertical scrollbar thumb grip using element '"
+					+ uiObject.getDisplayName() + "'.", th);
+		}
 
+		return this;
+	}
 }

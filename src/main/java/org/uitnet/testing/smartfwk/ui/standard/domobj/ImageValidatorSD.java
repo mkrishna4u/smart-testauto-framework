@@ -24,11 +24,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Region;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.image.ImageValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
  * 
@@ -125,7 +126,7 @@ public class ImageValidatorSD extends ImageValidator {
 	}
 
 	@Override
-	public ImageValidatorSD scrollElementOnViewport(Scrollbar scrollbar) {
+	public ImageValidatorSD scrollElementOnViewport(ScrollbarSI scrollbar) {
 		domObjValidator.scrollElementOnViewport(scrollbar);
 		return this;
 	}
@@ -143,6 +144,13 @@ public class ImageValidatorSD extends ImageValidator {
 	@Override
 	public List<WebElement> findElements(int maxIterationsToLocateElements) {
 		return domObjValidator.findElements(maxIterationsToLocateElements);
+	}
+	
+	@Override
+	public ImageValidatorSD validateElementPresentWithinArea(AreaCoordinates coordinates,
+			int maxIterationsToLocateElements) {
+		domObjValidator.validateElementPresentWithinArea(coordinates, maxIterationsToLocateElements);
+		return this;
 	}
 	
 	@Override

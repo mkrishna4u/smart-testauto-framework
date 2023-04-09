@@ -26,8 +26,8 @@ import org.uitnet.testing.smartfwk.SmartCucumberScenarioContext;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.LocatorType;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.HorizontalScrollbar;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.VerticalScrollbar;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.HorizontalScrollbarSI;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.VerticalScrollbarSI;
 
 /**
  * This DataGrid does not work 1. If the whole table is not visible including
@@ -49,8 +49,8 @@ public class DataGridSI {
 	protected List<String> rowMarkerImages;
 	protected int numLeftFrozenColumns;
 	protected int numRightFrozenColumns;
-	protected VerticalScrollbar vScrollbar;
-	protected HorizontalScrollbar hScrollbar;
+	protected VerticalScrollbarSI vScrollbar;
+	protected HorizontalScrollbarSI hScrollbar;
 	protected int width;
 	protected int height;
 
@@ -170,20 +170,20 @@ public class DataGridSI {
 		return this;
 	}
 
-	public VerticalScrollbar getVScrollbar() {
+	public VerticalScrollbarSI getVScrollbar() {
 		return vScrollbar;
 	}
 
-	public DataGridSI setVScrollbar(VerticalScrollbar vScrollbar) {
+	public DataGridSI setVScrollbar(VerticalScrollbarSI vScrollbar) {
 		this.vScrollbar = vScrollbar;
 		return this;
 	}
 
-	public HorizontalScrollbar getHScrollbar() {
+	public HorizontalScrollbarSI getHScrollbar() {
 		return hScrollbar;
 	}
 
-	public DataGridSI setHScrollbar(HorizontalScrollbar hScrollbar) {
+	public DataGridSI setHScrollbar(HorizontalScrollbarSI hScrollbar) {
 		this.hScrollbar = hScrollbar;
 		return this;
 	}

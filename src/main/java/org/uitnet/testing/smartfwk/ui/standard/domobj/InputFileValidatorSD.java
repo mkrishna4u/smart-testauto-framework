@@ -26,6 +26,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
@@ -33,11 +34,11 @@ import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.file.InputFileValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.WebElementUtil;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
  * 
@@ -213,7 +214,7 @@ public class InputFileValidatorSD extends InputFileValidator {
 	}
 
 	@Override
-	public InputFileValidatorSD scrollElementOnViewport(Scrollbar scrollbar) {
+	public InputFileValidatorSD scrollElementOnViewport(ScrollbarSI scrollbar) {
 		domObjValidator.scrollElementOnViewport(scrollbar);
 		return this;
 	}
@@ -269,5 +270,12 @@ public class InputFileValidatorSD extends InputFileValidator {
 		if(waitTimeInSecondsAfterSelect > 0) {
 			appDriver.waitForSeconds(waitTimeInSecondsAfterSelect);
 		}
+	}
+	
+	@Override
+	public InputFileValidatorSD validateElementPresentWithinArea(AreaCoordinates coordinates,
+			int maxIterationsToLocateElements) {
+		domObjValidator.validateElementPresentWithinArea(coordinates, maxIterationsToLocateElements);
+		return this;
 	}
 }

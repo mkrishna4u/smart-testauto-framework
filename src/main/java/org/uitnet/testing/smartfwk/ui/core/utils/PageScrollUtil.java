@@ -123,7 +123,7 @@ public class PageScrollUtil {
 		}
 	}
 	
-	public static void setScrollPointerForScrollableElement(SmartAppDriver appDriver, WebElement element, ScrollbarType scrollbarType, int numPixels) {
+	public static void setScrollbarThumbgripLocation(SmartAppDriver appDriver, WebElement element, ScrollbarType scrollbarType, int numPixels) {
 		if (element == null) {
 			return;
 		}
@@ -135,6 +135,38 @@ public class PageScrollUtil {
 				if(scrollbarType == ScrollbarType.HORIZONTAL) {
 					jse.executeScript("arguments[0].scrollLeft=" + numPixels, element);
 				} else if(scrollbarType == ScrollbarType.VERTICAL) {
+					jse.executeScript("arguments[0].scrollTop=" + numPixels, element);
+				}
+				
+			} else if (appDriver.getTestPlatformType() == PlatformType.android_mobile
+					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
+				throw new PendingException("Scrolling is only supported for web application.");
+			}
+		} catch (Exception | Error ex) {
+			// Do nothing
+		}
+	}
+	
+	public static void setScrollbarThumbgripLocation(SmartAppDriver appDriver, WebElement element, ScrollbarType scrollbarType, double pctValue) {
+		if (element == null) {
+			return;
+		}
+
+		try {
+			JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
+			if (appDriver.getAppType() == ApplicationType.web_app) {
+				//Rectangle rect = element.getRect();
+				if(scrollbarType == ScrollbarType.HORIZONTAL) {
+					double scrollWidth = Double.parseDouble("" + jse.executeScript("return arguments[0].scrollWidth", element));
+					double clientWidth = Double.parseDouble("" + jse.executeScript("return arguments[0].clientWidth", element));
+					long numPixels = Double.valueOf((scrollWidth - clientWidth) * pctValue / 100).longValue();
+					System.out.println("SCROLLBAR: scrollWidth=" + scrollWidth + ", clientWidth=" + clientWidth + ", numPixels=" + numPixels);
+					jse.executeScript("arguments[0].scrollLeft=" + numPixels, element);
+				} else if(scrollbarType == ScrollbarType.VERTICAL) {
+					double scrollHeight = Double.parseDouble("" + jse.executeScript("return arguments[0].scrollHeight", element));
+					double clientHeight = Double.parseDouble("" + jse.executeScript("return arguments[0].clientHeight", element));
+					long numPixels = Double.valueOf((scrollHeight - clientHeight) * pctValue / 100).longValue();
+					System.out.println("SCROLLBAR: scrollHeight=" + scrollHeight + ", clientHeight=" + clientHeight + ", numPixels=" + numPixels);
 					jse.executeScript("arguments[0].scrollTop=" + numPixels, element);
 				}
 				

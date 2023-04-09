@@ -15,7 +15,7 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.objects.scrollbar;
+package org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar;
 
 import java.io.File;
 
@@ -31,8 +31,8 @@ import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
  * @author Madhav Krishna
  *
  */
-public class HorizontalScrollbar {
-	private static Logger logger = LoggerFactory.getLogger(HorizontalScrollbar.class);
+public class HorizontalScrollbarSI {
+	private static Logger logger = LoggerFactory.getLogger(HorizontalScrollbarSI.class);
 	protected String thumbGripLeftPartImage;
 	protected String thumbGripLeftPartImageFocused;
 	protected String thumbGripRightPartImage;
@@ -44,7 +44,7 @@ public class HorizontalScrollbar {
 	protected String leftScrollImageDisabled;
 	protected String rightScrollImageDisabled;
 
-	public HorizontalScrollbar(String thumbGripLeftPartImage, String thumbGripLeftPartImageFocused,
+	public HorizontalScrollbarSI(String thumbGripLeftPartImage, String thumbGripLeftPartImageFocused,
 			String thumbGripRightPartImage, String thumbGripRightPartImageFocused, String leftScrollImageEnabled,
 			String leftScrollImageEnabledFocused, String rightScrollImageEnabled, String rightScrollImageEnabledFocused,
 			String leftScrollImageDisabled, String rightScrollImageDisabled) {

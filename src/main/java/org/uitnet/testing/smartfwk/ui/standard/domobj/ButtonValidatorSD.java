@@ -25,13 +25,14 @@ import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.button.ButtonValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.WebElementUtil;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
  * 
@@ -147,7 +148,7 @@ public class ButtonValidatorSD extends ButtonValidator {
 	}
 
 	@Override
-	public ButtonValidatorSD scrollElementOnViewport(Scrollbar scrollbar) {
+	public ButtonValidatorSD scrollElementOnViewport(ScrollbarSI scrollbar) {
 		domObjValidator.scrollElementOnViewport(scrollbar);
 		return this;
 	}
@@ -192,6 +193,13 @@ public class ButtonValidatorSD extends ButtonValidator {
 	@Override
 	public Actions getNewSeleniumActions() {
 		return domObjValidator.getNewSeleniumActions();
+	}
+
+	@Override
+	public ButtonValidatorSD validateElementPresentWithinArea(AreaCoordinates coordinates,
+			int maxIterationsToLocateElements) {
+		domObjValidator.validateElementPresentWithinArea(coordinates, maxIterationsToLocateElements);
+		return this;
 	}
 
 }

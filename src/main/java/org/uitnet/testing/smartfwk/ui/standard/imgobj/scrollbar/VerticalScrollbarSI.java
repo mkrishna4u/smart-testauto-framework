@@ -15,7 +15,7 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.ui.core.objects.scrollbar;
+package org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar;
 
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
@@ -28,8 +28,8 @@ import org.testng.Assert;
  * @author Madhav Krishna
  *
  */
-public class VerticalScrollbar {
-	private static Logger logger = LoggerFactory.getLogger(VerticalScrollbar.class);
+public class VerticalScrollbarSI {
+	private static Logger logger = LoggerFactory.getLogger(VerticalScrollbarSI.class);
 	protected String thumbGripTopPartImage;
 	protected String thumbGripTopPartImageFocused;
 	protected String thumbGripBottomPartImage;
@@ -41,7 +41,7 @@ public class VerticalScrollbar {
 	protected String topScrollImageDisabled;
 	protected String bottomScrollImageDisabled;
 
-	public VerticalScrollbar(String thumbGripTopPartImage, String thumbGripTopPartImageFocused,
+	public VerticalScrollbarSI(String thumbGripTopPartImage, String thumbGripTopPartImageFocused,
 			String thumbGripBottomPartImage, String thumbGripBottomPartImageFocused, String topScrollImageEnabled,
 			String topScrollImageEnabledFocused, String bottomScrollImageEnabled,
 			String bottomScrollImageEnabledFocused, String topScrollImageDisabled, String bottomScrollImageDisabled) {

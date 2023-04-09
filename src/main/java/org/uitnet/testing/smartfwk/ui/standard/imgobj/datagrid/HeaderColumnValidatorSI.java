@@ -27,13 +27,14 @@ import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.button.ButtonValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
  * 
@@ -235,7 +236,7 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	}
 
 	@Override
-	public HeaderColumnValidatorSI scrollElementOnViewport(Scrollbar scrollbar) {
+	public HeaderColumnValidatorSI scrollElementOnViewport(ScrollbarSI scrollbar) {
 		// TODO Auto-generated method stub
 		return this;
 	}
@@ -326,5 +327,17 @@ public class HeaderColumnValidatorSI extends ButtonValidator {
 	public Actions getNewSeleniumActions() {
 		Assert.fail("getNewSeleniumActions() API is not supported by Button component.");
 		return null;
+	}
+
+	@Override
+	public HeaderColumnValidatorSI validateElementPresentWithinArea(AreaCoordinates coordinates,
+			int maxIterationsToLocateElements) {
+		Match match = findElement(maxIterationsToLocateElements);
+		if(!(match.x >= coordinates.getX1() && match.y >= coordinates.getY1() &&  
+				(match.x + match.w) <= coordinates.getX2() && (match.y + match.h) <= coordinates.getY2())) {
+			Assert.fail("Element '" + headerColObj.getDisplayName() + "' is not within the specified area [x1=" + coordinates.getX1() 
+			+ ", y1=" + coordinates.getY1() + ", x2=" + coordinates.getX2() + ", y2=" + coordinates.getY2() + "].");
+		}
+		return this;
 	}
 }

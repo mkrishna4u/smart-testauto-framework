@@ -25,13 +25,14 @@ import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.textarea.TextAreaValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.WebElementUtil;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
  * 
@@ -213,7 +214,7 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 	}
 
 	@Override
-	public TextAreaValidatorSD scrollElementOnViewport(Scrollbar scrollbar) {
+	public TextAreaValidatorSD scrollElementOnViewport(ScrollbarSI scrollbar) {
 		domObjValidator.scrollElementOnViewport(scrollbar);
 		return this;
 	}
@@ -237,6 +238,13 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 	@Override
 	public List<WebElement> findElements(int maxIterationsToLocateElements) {
 		return domObjValidator.findElements(maxIterationsToLocateElements);
+	}
+	
+	@Override
+	public TextAreaValidatorSD validateElementPresentWithinArea(AreaCoordinates coordinates,
+			int maxIterationsToLocateElements) {
+		domObjValidator.validateElementPresentWithinArea(coordinates, maxIterationsToLocateElements);
+		return this;
 	}
 
 	@Override

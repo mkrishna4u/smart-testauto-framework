@@ -42,9 +42,9 @@ import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.HorizontalScrollbar;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.VerticalScrollbar;
 import org.uitnet.testing.smartfwk.ui.core.utils.DataMatchUtil;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.HorizontalScrollbarSI;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.VerticalScrollbarSI;
 
 /**
  * 
@@ -145,7 +145,7 @@ public class DataGridValidatorSI {
 	 * @return row location where the primary key present. if null then primary key
 	 *         is not found.
 	 */
-	public RowLocation isRecordPresent(ItemList<SearchCell> primaryKey, VerticalScrollbar vScrollbar,
+	public RowLocation isRecordPresent(ItemList<SearchCell> primaryKey, VerticalScrollbarSI vScrollbar,
 			Region vScrollbarRegion, int numHops, int numHopIters) {
 		RowLocation rowLocation = null;
 		boolean scrollingEnd = false;
@@ -270,7 +270,7 @@ public class DataGridValidatorSI {
 	 * @return
 	 */
 	public List<List<String>> extractRecordsForVisibleColumns(int numRecords, ItemList<HeaderColumnSI> headerColumns,
-			VerticalScrollbar vScrollbar, Region vScrollbarRegion, int numHops, int numHopIters) {
+			VerticalScrollbarSI vScrollbar, Region vScrollbarRegion, int numHops, int numHopIters) {
 		List<List<String>> records = new LinkedList<List<String>>();
 		boolean scrollingEnd = false;
 
@@ -410,7 +410,7 @@ public class DataGridValidatorSI {
 	 *                            for the record.
 	 * @return the cell region
 	 */
-	public Region getCellRegion(HeaderColumnSI headerColumn, RowLocation rowLocation, HorizontalScrollbar hScrollbar,
+	public Region getCellRegion(HeaderColumnSI headerColumn, RowLocation rowLocation, HorizontalScrollbarSI hScrollbar,
 			int scrollStepsToLookup) {
 		Region headerRegion = Region.create(dataGridHeaderX1, dataGridHeaderY1, dataGridHeaderW, dataGridHeaderH);
 
@@ -447,7 +447,7 @@ public class DataGridValidatorSI {
 		return cellRegion;
 	}
 
-	public void validateCellValuePresent(SearchCell cellValue, RowLocation rowLocation, HorizontalScrollbar hScrollbar,
+	public void validateCellValuePresent(SearchCell cellValue, RowLocation rowLocation, HorizontalScrollbarSI hScrollbar,
 			int scrollStepsToLookup) {
 		Region headerRegion = Region.create(dataGridHeaderX1, dataGridHeaderY1, dataGridHeaderW, dataGridHeaderH);
 

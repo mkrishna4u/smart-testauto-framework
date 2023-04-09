@@ -24,6 +24,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -32,12 +33,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.utils.LocatorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.PageScrollUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.WebElementUtil;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 import com.google.common.base.Function;
 
@@ -248,7 +250,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	@Override
-	public DOMObjectValidator scrollElementOnViewport(Scrollbar scrollbar) {
+	public DOMObjectValidator scrollElementOnViewport(ScrollbarSI scrollbar) {
 		if (scrollbar == null) {
 			return this;
 		}
@@ -835,5 +837,22 @@ public class DOMObjectValidator extends UIObjectValidator {
 				}
 			}
 		}
+	}
+
+	@Override
+	public DOMObjectValidator validateElementPresentWithinArea(AreaCoordinates coordinates,
+			int maxIterationsToLocateElements) {
+		WebElement webElem = findElement(maxIterationsToLocateElements);
+		Rectangle rect = webElem.getRect();
+		
+		if(!(rect.x >= coordinates.getX1() && rect.y >= coordinates.getY1() &&  
+				(rect.x + rect.getWidth()) <= coordinates.getX2() && (rect.y + rect.getHeight()) <= coordinates.getY2())) {
+			Assert.fail("Element '" + domObject.getDisplayName() + "' is not within the specified area [x1=" + coordinates.getX1() 
+			+ ", y1=" + coordinates.getY1() + ", x2=" + coordinates.getX2() + ", y2=" + coordinates.getY2() + "]."
+			+ " Actual Coordinates: [x1=" + rect.x + ", y1=" + rect.y + ", x2=" + (rect.x  + rect.width) 
+			+ ", y2=" + (rect.y + rect.height) + "].");
+		}
+		
+		return this;
 	}
 }

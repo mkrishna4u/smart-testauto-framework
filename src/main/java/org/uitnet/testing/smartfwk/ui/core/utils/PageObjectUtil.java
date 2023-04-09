@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.sikuli.script.Region;
@@ -36,6 +37,7 @@ import org.uitnet.testing.smartfwk.core.validator.InputValueAction;
 import org.uitnet.testing.smartfwk.core.validator.InputValueType;
 import org.uitnet.testing.smartfwk.core.validator.ParamPath;
 import org.uitnet.testing.smartfwk.core.validator.ParamValueType;
+import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.FieldValue;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObjectValidator;
@@ -51,16 +53,19 @@ import org.uitnet.testing.smartfwk.ui.core.objects.listbox.ListBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.multi_state.MultiStateElementValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonGroupValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonValidator;
+import org.uitnet.testing.smartfwk.ui.core.objects.text.TextValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.textarea.TextAreaValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.textbox.TextBoxValidator;
 import org.uitnet.testing.smartfwk.ui.standard.domobj.ButtonValidatorSD;
 import org.uitnet.testing.smartfwk.ui.standard.domobj.HyperlinkValidatorSD;
 import org.uitnet.testing.smartfwk.ui.standard.domobj.ImageValidatorSD;
 import org.uitnet.testing.smartfwk.ui.standard.domobj.LabelValidatorSD;
+import org.uitnet.testing.smartfwk.ui.standard.domobj.TextValidatorSD;
 import org.uitnet.testing.smartfwk.ui.standard.imgobj.ButtonValidatorSI;
 import org.uitnet.testing.smartfwk.ui.standard.imgobj.HyperlinkValidatorSI;
 import org.uitnet.testing.smartfwk.ui.standard.imgobj.ImageValidatorSI;
 import org.uitnet.testing.smartfwk.ui.standard.imgobj.LabelValidatorSI;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.TextValidatorSI;
 import org.uitnet.testing.smartfwk.validator.ParameterValidator;
 
 import com.jayway.jsonpath.DocumentContext;
@@ -138,7 +143,7 @@ public class PageObjectUtil {
 			value = f.get(clazz);
 		} catch (Exception ex) {
 			Assert.fail("Failed to load the page object '" + poInfo.getPoClassName() + "." + poInfo.getPoClassFieldName()
-					+ "'. Reason: " + ex.getLocalizedMessage(), ex);
+					+ "'. Reason: " + (ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage()), ex);
 		}
 		return new FieldValue(f, value);
 	}
@@ -153,7 +158,7 @@ public class PageObjectUtil {
 			validatorObj = method.invoke(fv.getValue(), scenarioContext, null);
 		} catch (Exception ex) {
 			Assert.fail("Failed to get validator for the page object '" + poInfo.getPoClassName() + "."
-					+ poInfo.getPoClassFieldName() + "'. Reason: " + ex.getLocalizedMessage(), ex);
+					+ poInfo.getPoClassFieldName() + "'. Reason: " + (ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage()), ex);
 		}
 		return validatorObj;
 	}
@@ -179,7 +184,7 @@ public class PageObjectUtil {
 			}
 		} catch (Exception | Error ex) {
 			Assert.fail("'" + methodName + "' operation is failed for page object '" + poInfo.getPoClassName() + "."
-					+ poInfo.getPoClassFieldName() + "'. Reason: " + ex.getLocalizedMessage(), ex);
+					+ poInfo.getPoClassFieldName() + "'. Reason: " + (ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage()), ex);
 		}
 		return null;
 	}
@@ -295,6 +300,24 @@ public class PageObjectUtil {
 				ParameterValidator.validateParamValueAsExpectedInfo(true, fieldInfo, avalue, operator, expectedInfo);
 			} else if(validator instanceof LabelValidatorSI) {
 				LabelValidatorSI v = (LabelValidatorSI) validator;
+				v.validateVisible(poInfo.getMaxIterationsToLocateElements());
+			} else {
+				Assert.fail("The following validator is not supported: " + validator);
+			}
+		} else if(poValidator instanceof TextValidator) {
+			TextValidator validator = (TextValidator) poValidator;
+			String avalue = "";
+			if(validator instanceof TextValidatorSD) {
+				TextValidatorSD v = (TextValidatorSD) validator;
+				if(StringUtil.isEmptyAfterTrim(poInfo.getPageObject().getAttrName())) {
+					avalue = WebElementUtil.getElementText(scenarioContext.getActiveAppDriver(), v.getDOMObjectValidator().getUIObject(), poInfo.getMaxIterationsToLocateElements());
+				} else {
+					avalue = v.getDOMObjectValidator().getAttributeValue(avalue, poInfo.getMaxIterationsToLocateElements());
+				}
+				ParamPath fieldInfo = new ParamPath(validator.getUIObject().getDisplayName(), ParamValueType.STRING.getType());
+				ParameterValidator.validateParamValueAsExpectedInfo(true, fieldInfo, avalue, operator, expectedInfo);
+			} else if(validator instanceof TextValidatorSI) {
+				TextValidatorSI v = (TextValidatorSI) validator;
 				v.validateVisible(poInfo.getMaxIterationsToLocateElements());
 			} else {
 				Assert.fail("The following validator is not supported: " + validator);
@@ -624,6 +647,30 @@ public class PageObjectUtil {
 			} else {
 				Assert.fail("'" + inputValue.getAction() + "' is not supported on Label component.");
 			}
+		} else if(poValidator instanceof TextValidator) {
+			TextValidator validator = (TextValidator) poValidator;
+			if(inputValue.getAction() == InputValueAction.COMMAND_KEYS) {
+				List<String> cmdKeys = (List<String>)inputValue.getValue();
+				if(cmdKeys != null && !cmdKeys.isEmpty()) {
+					String[] keysArr = prepareKeysChord(cmdKeys);
+					validator.sendCommandKeys(poInfo.getMaxIterationsToLocateElements(), keysArr);
+				} else {
+					Assert.fail("No command key found to perform operation.");
+				}
+			} else if(inputValue.getAction() == InputValueAction.MOUSE_CLICK) {
+				validator.click(poInfo.getMaxIterationsToLocateElements());
+			} else if(inputValue.getAction() == InputValueAction.MOUSE_DOUBLECLICK) {
+				validator.doubleClick(poInfo.getMaxIterationsToLocateElements());
+			} else if(inputValue.getAction() == InputValueAction.MOUSE_DRAG_DROP) {
+				Assert.assertNotNull(inputValue.getToPo(), "For Drag-And-Drop operation 'toPo' property must be specified.");
+				PageObjectInfo toPoInfo = getPageObjectInfo(inputValue.getToPo());
+				UIObjectValidator toValidator = (UIObjectValidator) getPageObjectValidator(toPoInfo, scenarioContext);
+				WebElement fromElem = (WebElement) validator.findElement(poInfo.getMaxIterationsToLocateElements());
+				WebElement toElem = (WebElement) toValidator.findElement(poInfo.getMaxIterationsToLocateElements());
+				DragAndDropUtil.dragAndDropElement(fromElem, toElem, scenarioContext.getActiveAppDriver());
+			} else {
+				Assert.fail("'" + inputValue.getAction() + "' is not supported on Label component.");
+			}
 		} else if(poValidator instanceof ComboBoxValidator) {
 			ComboBoxValidator validator = (ComboBoxValidator) poValidator;
 			if(inputValue.getAction() == InputValueAction.CHECK || inputValue.getAction() == InputValueAction.SELECT) {
@@ -761,6 +808,24 @@ public class PageObjectUtil {
 		if(inputValue.getWaitTimeInMsAfterOp() > 0) {
 			scenarioContext.waitForSeconds(inputValue.getWaitTimeInMsAfterOp());
 		}
+	}
+	
+	public static Object setJavascriptParamValueOfElement(SmartAppDriver appDriver, WebElement element, String paramName, String value) {
+		if (appDriver.getScrollElementToViewportHandler() != null) {
+			appDriver.getScrollElementToViewportHandler().handle(appDriver, element);
+		}
+
+		JavascriptExecutor executor = (JavascriptExecutor)appDriver.getWebDriver();
+		return executor.executeScript("arguments[0]." + paramName + "=" + value + ";", element);
+	}
+	
+	public static Object executeJavascriptFunctionOfElement(SmartAppDriver appDriver, WebElement element, String functionWithArgs) {
+		if (appDriver.getScrollElementToViewportHandler() != null) {
+			appDriver.getScrollElementToViewportHandler().handle(appDriver, element);
+		}
+
+		JavascriptExecutor executor = (JavascriptExecutor)appDriver.getWebDriver();
+		return executor.executeScript("arguments[0]." + functionWithArgs + ";", element);
 	}
 	
 	public static String[] prepareKeysChord(List<String> keyList) {

@@ -26,14 +26,15 @@ import org.sikuli.script.Key;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
 import org.uitnet.testing.smartfwk.ui.core.events.InputEvent;
 import org.uitnet.testing.smartfwk.ui.core.events.InputEventType;
 import org.uitnet.testing.smartfwk.ui.core.events.KeyboardEvent;
 import org.uitnet.testing.smartfwk.ui.core.events.MouseEvent;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.DataMatchUtil;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
  * 
@@ -268,7 +269,7 @@ public abstract class UIObjectValidator {
 
 	public abstract UIObjectValidator typeText(String text, NewTextLocation location, int maxIterationsToLocateElements);
 
-	public abstract UIObjectValidator scrollElementOnViewport(Scrollbar scrollbar);
+	public abstract UIObjectValidator scrollElementOnViewport(ScrollbarSI scrollbar);
 
 	public abstract Object findElement(int maxIterationsToLocateElements);
 
@@ -277,4 +278,6 @@ public abstract class UIObjectValidator {
 	public abstract Object findElements(int maxIterationsToLocateElements);
 
 	public abstract Actions getNewSeleniumActions();
+	
+	public abstract UIObjectValidator validateElementPresentWithinArea(AreaCoordinates coordinates, int maxIterationsToLocateElements);
 }

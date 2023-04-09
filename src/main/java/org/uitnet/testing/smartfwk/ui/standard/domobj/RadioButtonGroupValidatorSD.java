@@ -27,12 +27,13 @@ import org.openqa.selenium.interactions.Actions;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemMap;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.DOMObjectValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.radio.RadioButtonGroupValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
  * 
@@ -129,7 +130,7 @@ public class RadioButtonGroupValidatorSD extends RadioButtonGroupValidator {
 	}
 
 	@Override
-	public RadioButtonGroupValidatorSD scrollElementOnViewport(Scrollbar scrollbar) {
+	public RadioButtonGroupValidatorSD scrollElementOnViewport(ScrollbarSI scrollbar) {
 		domObjValidator.scrollElementOnViewport(scrollbar);
 		return this;
 	}
@@ -310,6 +311,13 @@ public class RadioButtonGroupValidatorSD extends RadioButtonGroupValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public RadioButtonGroupValidatorSD validateElementPresentWithinArea(AreaCoordinates coordinates,
+			int maxIterationsToLocateElements) {
+		domObjValidator.validateElementPresentWithinArea(coordinates, maxIterationsToLocateElements);
+		return this;
+	}
 
 	@Override
 	public Actions getNewSeleniumActions() {
@@ -317,7 +325,7 @@ public class RadioButtonGroupValidatorSD extends RadioButtonGroupValidator {
 	}
 
 	@Override
-	public RadioButtonGroupValidator validateNoOptionsAreSelected(int maxIterationsToLocateElements) {
+	public RadioButtonGroupValidatorSD validateNoOptionsAreSelected(int maxIterationsToLocateElements) {
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				List<WebElement> webElems = findElements(0);

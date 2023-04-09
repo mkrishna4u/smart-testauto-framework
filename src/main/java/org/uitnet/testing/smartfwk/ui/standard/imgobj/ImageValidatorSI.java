@@ -27,12 +27,13 @@ import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.image.ImageValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
  * 
@@ -206,7 +207,7 @@ public class ImageValidatorSI extends ImageValidator {
 	}
 
 	@Override
-	public ImageValidatorSI scrollElementOnViewport(Scrollbar scrollbar) {
+	public ImageValidatorSI scrollElementOnViewport(ScrollbarSI scrollbar) {
 		// TODO Auto-generated method stub
 		return this;
 	}
@@ -286,6 +287,20 @@ public class ImageValidatorSI extends ImageValidator {
 			return imageMatch.getCenter();
 		}
 		return null;
+	}
+	
+	@Override
+	public ImageValidatorSI validateElementPresentWithinArea(AreaCoordinates coordinates,
+			int maxIterationsToLocateElements) {
+		Match match = findElement(maxIterationsToLocateElements);
+		if(!(match.x >= coordinates.getX1() && match.y >= coordinates.getY1() &&  
+				(match.x + match.w) <= coordinates.getX2() && (match.y + match.h) <= coordinates.getY2())) {
+			Assert.fail("Element '" + imageObj.getDisplayName() + "' is not within the specified area [x1=" + coordinates.getX1() 
+			+ ", y1=" + coordinates.getY1() + ", x2=" + coordinates.getX2() + ", y2=" + coordinates.getY2() + "]."
+			+ " Actual Coordinates: [x1=" + match.x + ", y1=" + match.y + ", x2=" + (match.x  + match.w) 
+			+ ", y2=" + (match.y + match.h) + "].");
+		}
+		return this;
 	}
 
 	@Override

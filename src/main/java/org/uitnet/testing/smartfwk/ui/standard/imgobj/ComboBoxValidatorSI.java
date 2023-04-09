@@ -31,6 +31,7 @@ import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.commons.AreaCoordinates;
 import org.uitnet.testing.smartfwk.ui.core.commons.ImageSection;
 import org.uitnet.testing.smartfwk.ui.core.commons.ItemList;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
@@ -38,9 +39,9 @@ import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.objects.ImageObject;
 import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.combobox.ComboBoxValidator;
-import org.uitnet.testing.smartfwk.ui.core.objects.scrollbar.Scrollbar;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
+import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
  * 
@@ -244,7 +245,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	}
 
 	@Override
-	public ComboBoxValidatorSI scrollElementOnViewport(Scrollbar scrollbar) {
+	public ComboBoxValidatorSI scrollElementOnViewport(ScrollbarSI scrollbar) {
 		// TODO
 		return this;
 	}
@@ -693,5 +694,19 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	public List<String> getAvailableItems(int maxIterationsToLocateElements) {
 		Assert.fail("getAvailableItems() API is not supported by ComboBoxSI component.");
 		return null;
+	}
+	
+	@Override
+	public ComboBoxValidatorSI validateElementPresentWithinArea(AreaCoordinates coordinates,
+			int maxIterationsToLocateElements) {
+		Match match = findElement(maxIterationsToLocateElements);
+		if(!(match.x >= coordinates.getX1() && match.y >= coordinates.getY1() &&  
+				(match.x + match.w) <= coordinates.getX2() && (match.y + match.h) <= coordinates.getY2())) {
+			Assert.fail("Element '" + comboBoxObj.getDisplayName() + "' is not within the specified area [x1=" + coordinates.getX1() 
+			+ ", y1=" + coordinates.getY1() + ", x2=" + coordinates.getX2() + ", y2=" + coordinates.getY2() + "]."
+			+ " Actual Coordinates: [x1=" + match.x + ", y1=" + match.y + ", x2=" + (match.x  + match.w) 
+			+ ", y2=" + (match.y + match.h) + "].");
+		}
+		return this;
 	}
 }
