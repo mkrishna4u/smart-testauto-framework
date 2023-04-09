@@ -1,6 +1,7 @@
 package validators.<app-name>;
 
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
+import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginSuccessPageValidator;
 
 import io.cucumber.java.PendingException;
@@ -23,27 +24,36 @@ public class AppLoginSuccessPageValidator extends LoginSuccessPageValidator {
 		//TODO: Add code to logout from UI application.
 		//The below code is just sample code. Correct it as per your application.
 		
-		//LoginSuccessPO.Button_Logout.getValidator(appDriver, null).click(2);
-		throw new PendingException("Please implement tryLogout() method in '" + this.getClass() + "' class.");
+		AppConfig appConfig = appDriver.getAppConfig();
+		if(appConfig.getAppLoginRequired()) {
+			LoginSuccessPO.Button_Logout.getValidator(appDriver, null).click(2);
+		} else {
+			// do nothing.
+		}
 	}
 
 	@Override
 	protected void validateInfo(String activeUserProfileName) {
 		//TODO: Add code to check after successful login, the home page / main dashboard is visible.
 		//The below code is just sample code. Correct it as per your application.
+		AppConfig appConfig = appDriver.getAppConfig();
+		if(appConfig.getAppLoginRequired()) {
+			LoginSuccessPO.Label_UniqueElement.getValidator(appDriver, null).validateVisible(2);
+		} else {
+			// do nothing.
+		}
 		
-		//LoginSuccessPO.Label_UniqueElement.getValidator(appDriver, null).validateVisible(2);
-		
-		throw new PendingException("Please implement validateInfo() method in '" + this.getClass() + "' class.");
 	}
 
 	@Override
 	protected boolean checkLoginSuccessPageVisible(String activeUserProfileName) {
 		//TODO: Add code here to to return true when the home page / main dashboard is visible else return false.
 		//The below code is just sample code. Correct it as per your application.
-		
-		//return LoginSuccessPO.Label_UniqueElement.getValidator(appDriver, null).isVisible(2);
-
-		throw new PendingException("Please implement checkLoginSuccessPageVisible() method in '" + this.getClass() + "' class.");
+		AppConfig appConfig = appDriver.getAppConfig();
+		if(appConfig.getAppLoginRequired()) {
+			return LoginSuccessPO.Label_UniqueElement.getValidator(appDriver, null).isVisible(2);
+		} else {
+			return true;
+		}
 	}
 }

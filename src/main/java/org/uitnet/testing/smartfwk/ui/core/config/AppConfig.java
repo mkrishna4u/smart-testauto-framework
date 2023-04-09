@@ -49,6 +49,7 @@ public class AppConfig {
 	private PlatformType testPlatformType;
 	private String appsConfigDir;
 	private String appLaunchUrl;
+	private boolean appLoginRequired;
 	private String appLoginPageValidatorClass;
 	private String appLoginSuccessPageValidatorClass;
 	private String remoteWebDriverProviderClass;
@@ -140,6 +141,13 @@ public class AppConfig {
 			}
 		} else {
 			appLaunchUrl = appLaunchUrl.trim();
+		}
+		
+		propValue = JsonYamlUtil.readNoException("$.appLoginRequired", String.class, appConfigDocContext, envAppConfigDocContext);
+		if (propValue == null || "".equals(propValue.trim())) {
+			appLoginRequired = true;
+		} else {
+			appLoginRequired = Boolean.valueOf(propValue);
 		}
 
 		propValue = JsonYamlUtil.readNoException("$.appWebBrowser", String.class, appConfigDocContext, envAppConfigDocContext);
@@ -509,6 +517,10 @@ public class AppConfig {
 	
 	public Collection<DatabaseProfile> getDatabaseProfiles() {
 		return dbProfiles.values();
+	}
+	
+	public boolean getAppLoginRequired() {
+		return appLoginRequired;
 	}
 	
 	

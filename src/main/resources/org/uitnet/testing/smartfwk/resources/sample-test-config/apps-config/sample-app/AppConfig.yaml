@@ -32,6 +32,9 @@ testPlatformType: windows
 # And for web-app it will contain the web URL that will be used to launch application on web browser.
 appLaunchURL: 
 
+# appLoginRequired required: valid values: true, false
+appLoginRequired: true
+
 # Login Validator
 appLoginPageValidatorClass: validators.<app-name>.AppLoginPageValidator
 
