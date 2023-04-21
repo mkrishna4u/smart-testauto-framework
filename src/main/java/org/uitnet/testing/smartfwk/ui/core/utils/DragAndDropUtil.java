@@ -35,13 +35,13 @@ public class DragAndDropUtil {
 	
 	public static void dragAndDropElement(WebElement sourceElement, WebElement targetElement, SmartAppDriver appDriver) {
 		Actions action = new Actions(appDriver.getWebDriver());
-		action.dragAndDrop(sourceElement, targetElement).build().perform();	
+		action.dragAndDrop(sourceElement, targetElement).perform();	
 	}
 	
 	public static void dragAndDropElements(List<WebElement> sourceElements, WebElement targetElement, SmartAppDriver appDriver) {
 		for(WebElement webElem : sourceElements) {
 			Actions action = new Actions(appDriver.getWebDriver());
-			action.dragAndDrop(webElem, targetElement).build().perform();	
+			action.dragAndDrop(webElem, targetElement).perform();	
 		}
 	}
 	

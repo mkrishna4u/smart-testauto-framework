@@ -553,10 +553,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 					Actions webActions = new Actions(appDriver.getWebDriver());
 					if(OSDetectorUtil.getHostPlatform() == PlatformType.mac || OSDetectorUtil.getHostPlatform() == PlatformType.ios_mobile) {
-						webActions.sendKeys(Keys.chord(Keys.COMMAND, "a")).sendKeys(Keys.chord(Keys.COMMAND, "v")).build()
+						webActions.sendKeys(Keys.chord(Keys.COMMAND, "a")).sendKeys(Keys.chord(Keys.COMMAND, "v"))
 						.perform();
 					} else {
-						webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "v")).build()
+						webActions.sendKeys(Keys.chord(Keys.CONTROL, "a")).sendKeys(Keys.chord(Keys.CONTROL, "v"))
 						.perform();
 					}
 					
@@ -713,7 +713,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			try {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
 				Actions actions = new Actions(appDriver.getWebDriver());
-				actions.keyDown(webElem, keys).build().perform();
+				actions.keyDown(webElem, keys).perform();
 				break;
 			} catch (WebDriverException ex) {
 				appDriver.waitForSeconds(2);
@@ -727,7 +727,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			try {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
 				Actions actions = new Actions(appDriver.getWebDriver());
-				actions.keyUp(webElem, keys).build().perform();
+				actions.keyUp(webElem, keys).perform();
 				break;
 			} catch (WebDriverException ex) {
 				appDriver.waitForSeconds(2);
@@ -741,7 +741,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 			try {
 				WebElement webElem = findElement(maxIterationsToLocateElements);
 				Actions actions = new Actions(appDriver.getWebDriver());
-				actions.keyDown(webElem, keys).keyUp(webElem, keys).build().perform();
+				actions.keyDown(webElem, keys).keyUp(webElem, keys).perform();
 				break;
 			} catch (WebDriverException ex) {
 				appDriver.waitForSeconds(2);
@@ -824,15 +824,15 @@ public class DOMObjectValidator extends UIObjectValidator {
 		Actions actions;
 		if(typeSpeedInMspc < 1) {
 			actions = new Actions(appDriver.getWebDriver());
-			actions.sendKeys(webElem, textToType).build().perform();
+			actions.sendKeys(webElem, textToType).perform();
 		} else {
 			if(textToType != null) {
 				for(int ci = 0; ci < textToType.length(); ci++) {
 					actions = new Actions(appDriver.getWebDriver());
 					if(ci == 0) {
-						actions.sendKeys(webElem, "" + textToType.charAt(ci)).build().perform();
+						actions.sendKeys(webElem, "" + textToType.charAt(ci)).perform();
 					} else {
-						actions.pause(typeSpeedInMspc).sendKeys(webElem, "" + textToType.charAt(ci)).build().perform();
+						actions.pause(typeSpeedInMspc).sendKeys(webElem, "" + textToType.charAt(ci)).perform();
 					}
 				}
 			}

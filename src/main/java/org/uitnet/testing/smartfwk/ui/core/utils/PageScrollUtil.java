@@ -306,10 +306,7 @@ public class PageScrollUtil {
 		}
 
 		Actions action = new Actions(appDriver.getWebDriver());
-		action.moveToElement(element).perform();
-		
-		action = new Actions(appDriver.getWebDriver());
-		action.click().perform();
+		action.moveToElement(element).click(element).perform();
 	}
 	
 	public static void mouseForceClick(SmartAppDriver appDriver, WebElement element) {
@@ -327,7 +324,7 @@ public class PageScrollUtil {
 		}
 
 		Actions action = new Actions(appDriver.getWebDriver());
-		action.moveToElement(element).doubleClick().perform();
+		action.moveToElement(element).doubleClick(element).perform();
 	}
 
 	public static void mouseContextClick(SmartAppDriver appDriver, WebElement element) {
@@ -336,7 +333,7 @@ public class PageScrollUtil {
 		}
 
 		Actions action = new Actions(appDriver.getWebDriver());
-		action.moveToElement(element).contextClick().perform();
+		action.moveToElement(element).contextClick(element).perform();
 	}
 
 	public static void mouseClickAndHold(SmartAppDriver appDriver, WebElement element) {
@@ -345,7 +342,7 @@ public class PageScrollUtil {
 		}
 
 		Actions action = new Actions(appDriver.getWebDriver());
-		action.moveToElement(element).clickAndHold().perform();
+		action.moveToElement(element).clickAndHold(element).perform();
 	}
 
 	public static void mouseRelease(SmartAppDriver appDriver, WebElement element) {
@@ -354,7 +351,7 @@ public class PageScrollUtil {
 		}
 
 		Actions action = new Actions(appDriver.getWebDriver());
-		action.moveToElement(element).release().perform();
+		action.moveToElement(element).release(element).perform();
 	}
 
 	public static void mouseDragAndDrop(SmartAppDriver appDriver, WebElement source, WebElement target) {
