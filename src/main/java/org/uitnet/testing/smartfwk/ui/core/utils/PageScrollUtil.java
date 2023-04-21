@@ -306,7 +306,10 @@ public class PageScrollUtil {
 		}
 
 		Actions action = new Actions(appDriver.getWebDriver());
-		action.moveToElement(element).click().perform();
+		action.moveToElement(element).perform();
+		
+		action = new Actions(appDriver.getWebDriver());
+		action.click().perform();
 	}
 	
 	public static void mouseForceClick(SmartAppDriver appDriver, WebElement element) {
