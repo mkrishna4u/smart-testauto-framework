@@ -19,6 +19,6 @@
 ###############################################################################
 clear
 
-echo "DEGREE OF PARALLISM = 1"
+echo "PARALLEL_THREADS = 1"
 
 ./set-env.sh && mvn clean verify -Dcucumber.filter.tags="@Sequential and not @Pending" -Dparallel.threads=1

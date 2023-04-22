@@ -20,10 +20,17 @@
 clear
 
 num_threads=1
-if [ "$1" != "" ]; then
-  num_threads=$1
+if [ "$2" != "" ]; then
+  num_threads=$2
+fi
+
+tags="$1"
+if [ "$tags" != "" ]; then
+  tags="($tags) and not @Pending"
+else
+  echo ERROR: No tags found.
 fi
 
 echo "PARALLEL_THREADS = $num_threads"
-
-./set-env.sh && mvn clean verify -Dcucumber.filter.tags="@RegressionTest and not @Pending" -Dparallel.threads=$num_threads
+echo "Executing: Tags=$tags"
+./set-env.sh && mvn clean verify -Dcucumber.filter.tags="$tags" -Dparallel.threads=$num_threads

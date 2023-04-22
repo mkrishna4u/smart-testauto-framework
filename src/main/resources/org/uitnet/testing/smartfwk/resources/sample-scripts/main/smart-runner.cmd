@@ -33,6 +33,8 @@ if "%1"=="run-regression-tests" (
   call scripts\windows\runSequentialTests.cmd %2
 ) else if "%1"=="run-temp-scenarios" (
   call scripts\windows\runTempScenarios.cmd %2
+) else if "%1"=="run-tags" (
+  call scripts\windows\runTags.cmd %2 %3
 ) else if "%1"=="start-debug-server" (
   call scripts\windows\startDebugServerForTempScenarios.cmd %2
 ) else if "%1"=="find-all-missing-stepdefs" (
@@ -51,6 +53,7 @@ if "%1"=="run-regression-tests" (
   echo     run-sanity-tests ^<num-parallel-threads^>
   echo     run-sequential-tests
   echo     run-temp-scenarios ^<num-parallel-threads^>
+  echo     run-tags ^<tags^> ^<num-parallel-threads^>
   echo     start-debug-server ^<num-parallel-threads^>
   echo     find-all-missing-stepdefs
   echo     find-missing-stepdefs-for-temp-scenarios
