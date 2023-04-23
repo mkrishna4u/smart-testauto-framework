@@ -18,7 +18,7 @@ REM #
 REM # Author - Madhav Krishna
 REM ###############################################################################
 cls
-REM call set-env.cmd
+call set-env.cmd
 
 set num_threads=1
 if NOT "%2"=="" (
