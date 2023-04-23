@@ -41,21 +41,25 @@ public class PageScrollUtil {
 	public static void scrollToTopLeftPage(SmartAppDriver appDriver) {
 		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(0, 0);");
+		checkAndWaitForWindowScrollingToFinish(appDriver, 4);
 	}
 
 	public static void scrollToTopRightPage(SmartAppDriver appDriver) {
 		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(window.innerWidth, 0);");
+		checkAndWaitForWindowScrollingToFinish(appDriver, 4);
 	}
 
 	public static void scrollToBottomLeftPage(SmartAppDriver appDriver) {
 		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(0, window.innerHeight);");
+		checkAndWaitForWindowScrollingToFinish(appDriver, 4);
 	}
 
 	public static void scrollToBottomRightPage(SmartAppDriver appDriver) {
 		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
 		jse.executeScript("window.scrollTo(window.innerWidth, window.innerHeight);");
+		checkAndWaitForWindowScrollingToFinish(appDriver, 4);
 	}
 
 	public static boolean isElementInViewport(SmartAppDriver appDriver, WebElement element) {
@@ -95,24 +99,7 @@ public class PageScrollUtil {
 				int elemX1 = rect.getX() >= 0 ? rect.getX() - 20 : rect.getX();
 				int elemY1 = rect.getY() >= 0 ? rect.getY() - 20 : rect.getY();
 				jse.executeScript("window.scrollTo(" + elemX1 + ", " + elemY1 + ");");
-				double lastScrollX = Double.valueOf("" + jse.executeScript("return window.scrollX;"));
-				double lastScrollY = Double.valueOf("" + jse.executeScript("return window.scrollY;"));
-				
-				for(int i = 1; i <= 40; i++) {
-					appDriver.waitForMilliSeconds(100);
-					try {
-						double currScrollX = Double.valueOf("" + jse.executeScript("return window.scrollX;"));
-						double currScrollY = Double.valueOf("" + jse.executeScript("return window.scrollY;"));
-						if(lastScrollX != currScrollX || lastScrollY != currScrollY) {
-							lastScrollX = currScrollX;
-							lastScrollY = currScrollY;
-						} else {
-							break;
-						}
-					} catch(Throwable th) {
-						// do nothing
-					}
-				}
+				checkAndWaitForWindowScrollingToFinish(appDriver, 4);
 			} else if (appDriver.getTestPlatformType() == PlatformType.android_mobile
 					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
 //				locatableElem.getCoordinates().inViewPort();
@@ -141,6 +128,29 @@ public class PageScrollUtil {
 		}
 	}
 	
+	public static void checkAndWaitForWindowScrollingToFinish(SmartAppDriver appDriver, int maxTimeToWaitInSeconds) {
+		JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
+		double lastScrollX = Double.valueOf("" + jse.executeScript("return window.scrollX;"));
+		double lastScrollY = Double.valueOf("" + jse.executeScript("return window.scrollY;"));
+		int perItrWaitTimeInMillis = 100;
+		int iterations = (maxTimeToWaitInSeconds*1000) / perItrWaitTimeInMillis;		
+		for(int i = 1; i <= iterations; i++) {
+			appDriver.waitForMilliSeconds(perItrWaitTimeInMillis);
+			try {
+				double currScrollX = Double.valueOf("" + jse.executeScript("return window.scrollX;"));
+				double currScrollY = Double.valueOf("" + jse.executeScript("return window.scrollY;"));
+				if(lastScrollX != currScrollX || lastScrollY != currScrollY) {
+					lastScrollX = currScrollX;
+					lastScrollY = currScrollY;
+				} else {
+					break;
+				}
+			} catch(Throwable th) {
+				// do nothing
+			}
+		}
+	}
+	
 	public static void setScrollbarThumbgripLocation(SmartAppDriver appDriver, WebElement element, ScrollbarType scrollbarType, int numPixels) {
 		if (element == null) {
 			return;
@@ -155,7 +165,7 @@ public class PageScrollUtil {
 				} else if(scrollbarType == ScrollbarType.VERTICAL) {
 					jse.executeScript("arguments[0].scrollTop=" + numPixels, element);
 				}
-				
+				checkAndWaitForWindowScrollingToFinish(appDriver, 4);
 			} else if (appDriver.getTestPlatformType() == PlatformType.android_mobile
 					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
 				throw new PendingException("Scrolling is only supported for web application.");
@@ -187,7 +197,7 @@ public class PageScrollUtil {
 					System.out.println("SCROLLBAR: scrollHeight=" + scrollHeight + ", clientHeight=" + clientHeight + ", numPixels=" + numPixels);
 					jse.executeScript("arguments[0].scrollTop=" + numPixels, element);
 				}
-				
+				checkAndWaitForWindowScrollingToFinish(appDriver, 4);
 			} else if (appDriver.getTestPlatformType() == PlatformType.android_mobile
 					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
 				throw new PendingException("Scrolling is only supported for web application.");
