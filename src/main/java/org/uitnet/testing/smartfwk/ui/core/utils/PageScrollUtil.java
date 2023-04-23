@@ -95,6 +95,24 @@ public class PageScrollUtil {
 				int elemX1 = rect.getX() >= 0 ? rect.getX() - 20 : rect.getX();
 				int elemY1 = rect.getY() >= 0 ? rect.getY() - 20 : rect.getY();
 				jse.executeScript("window.scrollTo(" + elemX1 + ", " + elemY1 + ");");
+				double lastScrollX = Double.valueOf("" + jse.executeScript("return window.scrollX;"));
+				double lastScrollY = Double.valueOf("" + jse.executeScript("return window.scrollY;"));
+				
+				for(int i = 1; i <= 40; i++) {
+					appDriver.waitForMilliSeconds(100);
+					try {
+						double currScrollX = Double.valueOf("" + jse.executeScript("return window.scrollX;"));
+						double currScrollY = Double.valueOf("" + jse.executeScript("return window.scrollY;"));
+						if(lastScrollX != currScrollX || lastScrollY != currScrollY) {
+							lastScrollX = currScrollX;
+							lastScrollY = currScrollY;
+						} else {
+							break;
+						}
+					} catch(Throwable th) {
+						// do nothing
+					}
+				}
 			} else if (appDriver.getTestPlatformType() == PlatformType.android_mobile
 					|| appDriver.getTestPlatformType() == PlatformType.ios_mobile) {
 //				locatableElem.getCoordinates().inViewPort();
