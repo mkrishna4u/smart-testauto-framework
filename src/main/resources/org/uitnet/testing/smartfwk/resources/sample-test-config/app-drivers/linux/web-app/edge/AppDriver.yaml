@@ -34,7 +34,7 @@ driverCapabilities:
 # Configure WebDriver experimental options as child to experimentalOptions:
 experimentalOptions:
   prefs:
-    download.default_directory: '${project.root.directory}/test-data/downloads'
+    download.default_directory: '${project.root.directory}/test-results/downloads'
   
 # Configure Browser extensions(for debugging purpose). Files should be stored in <driver>/extensions path. 
 # Key starts with <Extn-Name>: <Extn-filename>

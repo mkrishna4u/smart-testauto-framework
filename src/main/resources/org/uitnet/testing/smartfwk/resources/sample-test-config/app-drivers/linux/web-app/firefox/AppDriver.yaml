@@ -54,7 +54,7 @@ browserExtensions:
 # Configure WebDriver preferences as child to browserPreferences:
 browserPreferences:
   browser.download.folderList: 2
-  browser.download.dir: '${project.root.directory}/test-data/downloads'
+  browser.download.dir: '${project.root.directory}/test-results/downloads'
   browser.helperApps.alwaysAsk.force: false
   browser.helperApps.neverAsk.saveToDisk: '*'
   pdfjs.disabled: true

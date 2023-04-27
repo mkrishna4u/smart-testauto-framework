@@ -36,7 +36,7 @@ driverCapabilities:
 experimentalOptions:
   w3c: true
   prefs:
-    download.default_directory: '${project.root.directory}/test-data/downloads'
+    download.default_directory: '${project.root.directory}/test-results/downloads'
     download.directory_upgrade: true
   
 # Configure Browser extensions(for debugging purpose). Files should be stored in <driver>/extensions path. 
