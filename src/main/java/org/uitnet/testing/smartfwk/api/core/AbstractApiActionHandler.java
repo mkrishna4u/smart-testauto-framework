@@ -147,9 +147,18 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 			String cookie = null;
 			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
 				if (cookie == null) {
-					cookie = kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = kv.getKey();
+					} else {
+						cookie = kv.getKey() + "=" + kv.getValue();
+					}
+					
 				} else {
-					cookie = kv + ";" + kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = cookie + ";" + kv.getKey();
+					} else {
+						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+					}
 				}
 			}
 
@@ -190,9 +199,18 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 			String cookie = null;
 			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
 				if (cookie == null) {
-					cookie = kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = kv.getKey();
+					} else {
+						cookie = kv.getKey() + "=" + kv.getValue();
+					}
+					
 				} else {
-					cookie = kv + ";" + kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = cookie + ";" + kv.getKey();
+					} else {
+						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+					}
 				}
 			}
 
@@ -229,9 +247,18 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 			String cookie = null;
 			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
 				if (cookie == null) {
-					cookie = kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = kv.getKey();
+					} else {
+						cookie = kv.getKey() + "=" + kv.getValue();
+					}
+					
 				} else {
-					cookie = kv + ";" + kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = cookie + ";" + kv.getKey();
+					} else {
+						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+					}
 				}
 			}
 
@@ -277,9 +304,18 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 			String cookie = null;
 			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
 				if (cookie == null) {
-					cookie = kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = kv.getKey();
+					} else {
+						cookie = kv.getKey() + "=" + kv.getValue();
+					}
+					
 				} else {
-					cookie = kv + ";" + kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = cookie + ";" + kv.getKey();
+					} else {
+						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+					}
 				}
 			}
 
@@ -324,9 +360,18 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 			String cookie = null;
 			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
 				if (cookie == null) {
-					cookie = kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = kv.getKey();
+					} else {
+						cookie = kv.getKey() + "=" + kv.getValue();
+					}
+					
 				} else {
-					cookie = kv + ";" + kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = cookie + ";" + kv.getKey();
+					} else {
+						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+					}
 				}
 			}
 
@@ -393,9 +438,18 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 			String cookie = null;
 			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
 				if (cookie == null) {
-					cookie = kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = kv.getKey();
+					} else {
+						cookie = kv.getKey() + "=" + kv.getValue();
+					}
+					
 				} else {
-					cookie = kv + ";" + kv.getKey() + "=" + kv.getValue();
+					if(kv.getValue() == null) {
+						cookie = cookie + ";" + kv.getKey();
+					} else {
+						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+					}
 				}
 			}
 

@@ -38,10 +38,10 @@ public class HttpRequest {
 	}
 
 	public HttpRequest(Map<String, String> headers, String payload, String payloadType, String responseContentType) {
-		headers = new LinkedHashMap<>();
-		headers.putAll(headers);
-		headers.put("Content-Type", payloadType);
-		headers.put("Accept", responseContentType);
+		this.headers = new LinkedHashMap<>();
+		this.headers.putAll(headers);
+		this.headers.put("Content-Type", payloadType);
+		this.headers.put("Accept", responseContentType);
 		this.payload = payload;
 	}
 
