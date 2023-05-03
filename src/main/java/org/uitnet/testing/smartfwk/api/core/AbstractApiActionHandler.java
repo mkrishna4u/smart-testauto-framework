@@ -155,9 +155,9 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 					
 				} else {
 					if(kv.getValue() == null) {
-						cookie = cookie + ";" + kv.getKey();
+						cookie = cookie + "; " + kv.getKey();
 					} else {
-						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
 					}
 				}
 			}
@@ -207,9 +207,9 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 					
 				} else {
 					if(kv.getValue() == null) {
-						cookie = cookie + ";" + kv.getKey();
+						cookie = cookie + "; " + kv.getKey();
 					} else {
-						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
 					}
 				}
 			}
@@ -255,9 +255,9 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 					
 				} else {
 					if(kv.getValue() == null) {
-						cookie = cookie + ";" + kv.getKey();
+						cookie = cookie + "; " + kv.getKey();
 					} else {
-						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
 					}
 				}
 			}
@@ -312,9 +312,9 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 					
 				} else {
 					if(kv.getValue() == null) {
-						cookie = cookie + ";" + kv.getKey();
+						cookie = cookie + "; " + kv.getKey();
 					} else {
-						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
 					}
 				}
 			}
@@ -368,9 +368,9 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 					
 				} else {
 					if(kv.getValue() == null) {
-						cookie = cookie + ";" + kv.getKey();
+						cookie = cookie + "; " + kv.getKey();
 					} else {
-						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
 					}
 				}
 			}
@@ -446,9 +446,9 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 					
 				} else {
 					if(kv.getValue() == null) {
-						cookie = cookie + ";" + kv.getKey();
+						cookie = cookie + "; " + kv.getKey();
 					} else {
-						cookie = cookie + ";" + kv.getKey() + "=" + kv.getValue();
+						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
 					}
 				}
 			}
