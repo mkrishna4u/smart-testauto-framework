@@ -437,6 +437,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 	}
 	
 	protected String prepareRequestCookieFromHttpSession() {
+		if(session == null) { return null; }
 		String cookie = null;
 		for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
 			if (cookie == null) {
@@ -459,7 +460,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 	}
 	
 	protected void checkAndSetSessionCookie(HttpResponse httpResponse) {
-		if(httpResponse == null) {
+		if(httpResponse == null || session == null) {
 			return;
 		}
 		
