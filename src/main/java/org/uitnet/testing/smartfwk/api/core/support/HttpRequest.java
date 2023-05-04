@@ -99,4 +99,13 @@ public class HttpRequest {
 		
 		return this;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("\nheaders: " + headers)
+		.append("\npayload: " + payload);
+		
+		return builder.toString();
+	}
 }

@@ -86,4 +86,16 @@ public class MultipartData {
 	public void setFileContents(byte[] fileContents) {
 		this.fileContents = fileContents;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("\nname: " + name)
+		.append("\ncontentType: " + contentType)
+		.append("\nfileName: " + fileName)
+		.append("\nfilePath: " + filePath)
+		.append("\nfileContents: " + fileContents);
+		
+		return builder.toString();
+	}
 }

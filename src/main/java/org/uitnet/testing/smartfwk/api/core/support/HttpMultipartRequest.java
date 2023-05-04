@@ -17,8 +17,10 @@
  */
 package org.uitnet.testing.smartfwk.api.core.support;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -27,12 +29,13 @@ import java.util.List;
  */
 public class HttpMultipartRequest {
 	private List<MultipartData> parts;
-	private String responseContentType;
-	private String contentType;
+	private Map<String, String> headers;
 
 	public HttpMultipartRequest() {
-		contentType = "multipart/form-data";
 		parts = new LinkedList<>();
+		headers = new LinkedHashMap<>();
+		headers.put("Content-Type", MediaType.MULTIPART_FORM_DATA);
+		headers.put("Accept", MediaType.APPLICATION_JSON);
 	}
 
 	public List<MultipartData> getParts() {
@@ -44,20 +47,48 @@ public class HttpMultipartRequest {
 		return this;
 	}
 
+	public String getHeader(String name) {
+		for(Map.Entry<String, String> e : headers.entrySet()) {
+			if(e.getKey().toUpperCase().equals(name.toUpperCase())) {
+				return e.getValue();
+			}
+		};
+		return null;
+	}
+
+	public Map<String, String> getHeaders() {
+		return headers;
+	}
+
+	public HttpMultipartRequest setHeaders(Map<String, String> headers) {
+		this.headers = headers;
+		return this;
+	}
+	
 	public String getResponseContentType() {
-		return responseContentType;
+		return headers.get("Accept");
 	}
 
 	public HttpMultipartRequest setResponseContentType(String responseContentType) {
-		this.responseContentType = responseContentType;
+		headers.put("Accept", responseContentType);
 		return this;
 	}
 
 	public String getContentType() {
-		return contentType;
+		return headers.get("Content-Type");
 	}
 
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
+	public HttpMultipartRequest setContentType(String contentType) {
+		headers.put("Content-Type", contentType);
+		return this;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("\nheaders: " + headers)
+		.append("\nparts: " + parts);
+		
+		return builder.toString();
 	}
 }

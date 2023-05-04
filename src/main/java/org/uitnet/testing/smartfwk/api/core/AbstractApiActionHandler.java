@@ -144,23 +144,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		// Add cookies
 		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = null;
-			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
-				if (cookie == null) {
-					if(kv.getValue() == null) {
-						cookie = kv.getKey();
-					} else {
-						cookie = kv.getKey() + "=" + kv.getValue();
-					}
-					
-				} else {
-					if(kv.getValue() == null) {
-						cookie = cookie + "; " + kv.getKey();
-					} else {
-						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
-					}
-				}
-			}
+			String cookie = prepareRequestCookieFromHttpSession();
 
 			if (cookie != null) {
 				requestBuilder.addHeader("Cookie", cookie);
@@ -196,23 +180,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		// Add cookies
 		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = null;
-			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
-				if (cookie == null) {
-					if(kv.getValue() == null) {
-						cookie = kv.getKey();
-					} else {
-						cookie = kv.getKey() + "=" + kv.getValue();
-					}
-					
-				} else {
-					if(kv.getValue() == null) {
-						cookie = cookie + "; " + kv.getKey();
-					} else {
-						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
-					}
-				}
-			}
+			String cookie = prepareRequestCookieFromHttpSession();
 
 			if (cookie != null) {
 				requestBuilder.addHeader("Cookie", cookie);
@@ -244,23 +212,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		// Add cookies
 		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = null;
-			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
-				if (cookie == null) {
-					if(kv.getValue() == null) {
-						cookie = kv.getKey();
-					} else {
-						cookie = kv.getKey() + "=" + kv.getValue();
-					}
-					
-				} else {
-					if(kv.getValue() == null) {
-						cookie = cookie + "; " + kv.getKey();
-					} else {
-						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
-					}
-				}
-			}
+			String cookie = prepareRequestCookieFromHttpSession();
 
 			if (cookie != null) {
 				requestBuilder.addHeader("Cookie", cookie);
@@ -301,23 +253,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		// Add cookies
 		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = null;
-			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
-				if (cookie == null) {
-					if(kv.getValue() == null) {
-						cookie = kv.getKey();
-					} else {
-						cookie = kv.getKey() + "=" + kv.getValue();
-					}
-					
-				} else {
-					if(kv.getValue() == null) {
-						cookie = cookie + "; " + kv.getKey();
-					} else {
-						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
-					}
-				}
-			}
+			String cookie = prepareRequestCookieFromHttpSession();
 
 			if (cookie != null) {
 				requestBuilder.addHeader("Cookie", cookie);
@@ -357,23 +293,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		// Add cookies
 		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = null;
-			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
-				if (cookie == null) {
-					if(kv.getValue() == null) {
-						cookie = kv.getKey();
-					} else {
-						cookie = kv.getKey() + "=" + kv.getValue();
-					}
-					
-				} else {
-					if(kv.getValue() == null) {
-						cookie = cookie + "; " + kv.getKey();
-					} else {
-						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
-					}
-				}
-			}
+			String cookie = prepareRequestCookieFromHttpSession();
 
 			if (cookie != null) {
 				requestBuilder.addHeader("Cookie", cookie);
@@ -435,36 +355,22 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		// Add cookies
 		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = null;
-			for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
-				if (cookie == null) {
-					if(kv.getValue() == null) {
-						cookie = kv.getKey();
-					} else {
-						cookie = kv.getKey() + "=" + kv.getValue();
-					}
-					
-				} else {
-					if(kv.getValue() == null) {
-						cookie = cookie + "; " + kv.getKey();
-					} else {
-						cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
-					}
-				}
-			}
+			String cookie = prepareRequestCookieFromHttpSession();
 
 			if (cookie != null) {
 				requestBuilder.addHeader("Cookie", cookie);
 			}
 		}
 
+		for(Map.Entry<String, String> param : request.getHeaders().entrySet()) {
+			requestBuilder.addHeader(param.getKey(), request.getContentType());
+		}
+		
 		if (StringUtil.isEmptyAfterTrim(request.getResponseContentType().trim())) {
 			requestBuilder.removeHeader("Accept");
 		} else {
 			requestBuilder.addHeader("Accept", request.getResponseContentType());
 		}
-
-		requestBuilder.addHeader("Content-Type", request.getContentType());
 
 		return prepareResponse(client, requestBuilder, request.getResponseContentType() != null, targetURL);
 	}
@@ -513,6 +419,8 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 					httpResponse.setPayload(body.string());
 				}
 			}
+			
+			checkAndSetSessionCookie(httpResponse);
 
 		} catch (Exception ex) {
 			httpResponse.setCode(400);
@@ -526,6 +434,57 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		}
 
 		return httpResponse;
+	}
+	
+	protected String prepareRequestCookieFromHttpSession() {
+		String cookie = null;
+		for (Map.Entry<String, String> kv : session.getCookies().entrySet()) {
+			if (cookie == null) {
+				if(kv.getValue() == null) {
+					cookie = kv.getKey();
+				} else {
+					cookie = kv.getKey() + "=" + kv.getValue();
+				}
+				
+			} else {
+				if(kv.getValue() == null) {
+					cookie = cookie + "; " + kv.getKey();
+				} else {
+					cookie = cookie + "; " + kv.getKey() + "=" + kv.getValue();
+				}
+			}
+		}
+		
+		return cookie;
+	}
+	
+	protected void checkAndSetSessionCookie(HttpResponse httpResponse) {
+		if(httpResponse == null) {
+			return;
+		}
+		
+		String cookiesStr = httpResponse.getHeader("Set-Cookie");
+		if(StringUtil.isEmptyAfterTrim(cookiesStr)) {
+			return;
+		}
+		
+		String[] cookies =  cookiesStr.split(";");
+		String[] kvPair;
+		String temp = "";
+		for(String cookie: cookies) {
+			kvPair = cookie.split("=");			
+			if(kvPair.length == 1) {
+				session.addCookie(kvPair[0].trim(), null);
+			} else if(kvPair.length == 2) {
+				session.addCookie(kvPair[0].trim(), kvPair[1]);
+			} else {
+				temp = "";
+				for(int i = 1; i < kvPair.length; i++) {
+					temp = temp + kvPair[i];
+				}
+				session.addCookie(kvPair[0].trim(), temp);
+			}
+		}
 	}
 
 	protected boolean isSessionExpired() {

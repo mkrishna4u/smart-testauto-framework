@@ -67,6 +67,7 @@ public class HttpResponse {
 	}
 	
 	public String getHeader(String name) {
+		if(headers == null) { return null; }
 		for(Map.Entry<String, String> e : headers.entrySet()) {
 			if(e.getKey().toUpperCase().equals(name.toUpperCase())) {
 				return e.getValue();
@@ -105,5 +106,17 @@ public class HttpResponse {
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("\ncode: " + code)
+		.append("\nmessage: " + message)
+		.append("\nheaders: " + headers)
+		.append("\nfilePath: " + filePath)
+		.append("\npayload: " + payload);
+		
+		return builder.toString();
 	}
 }
