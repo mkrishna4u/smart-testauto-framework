@@ -79,14 +79,23 @@ public class JsonDocumentReader {
 		}
 	}
 	
+	public JsonDocumentReader() {
+		try {
+			init();			
+		} catch (Exception ex) {
+			Assert.fail("Failed to initialize JSON document reader.", ex);
+		}
+	}
+	
 	public DocumentContext prepareDocumentContext(Object obj) {
 		try {
 			ObjectMapper objectMapper = createObjectMapper();
 			JacksonJsonProvider provider = new JacksonJsonProvider(objectMapper);
-			return JsonPath.using(Configuration.builder().jsonProvider(provider).build())
+			jsonDocCtx = JsonPath.using(Configuration.builder().jsonProvider(provider).build())
 					.parse(createObjectMapper().writeValueAsString(obj));
+			return jsonDocCtx;
 		} catch (Exception ex) {
-			Assert.fail("Failed to covert object into DocumentContext.", ex);
+			Assert.fail("Failed to convert object into DocumentContext.", ex);
 		}
 		return null;
 	}

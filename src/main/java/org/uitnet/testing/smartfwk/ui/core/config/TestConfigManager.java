@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.sikuli.script.Screen;
 import org.testng.Assert;
+import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
 import org.uitnet.testing.smartfwk.api.core.reader.YamlDocumentReader;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
@@ -36,6 +37,8 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.TypeRef;
 
 /**
+ * 
+ * NOTE: DON'T forget to update prepareAndSetJsonContext() method when you add new property in this class.
  * 
  * @author Madhav Krishna
  *
@@ -67,10 +70,14 @@ public class TestConfigManager {
 	
 	private String downloadLocation;
 	private boolean useDefaultStepDefsHooks;
+	private DocumentContext jsonContext;
 
 	private TestConfigManager() {
 		init();
 		initSikuliSettings();
+		
+		// This should be the last line
+		prepareAndSetJsonContext();
 	}
 
 	public static TestConfigManager getInstance() {
@@ -315,4 +322,33 @@ public class TestConfigManager {
 		return useDefaultStepDefsHooks;
 	}
 
+	public DocumentContext getJsonContext() {
+		return jsonContext;
+	}
+	
+	private void prepareAndSetJsonContext() {
+		SmartTestConfigContext context = new SmartTestConfigContext();
+		try {
+			context.setAppsConfigDir(appsConfigDir);
+			context.setAppNames(appNames);
+			context.setCucumberTestcasesDir(cucumberTestcasesDir);
+			context.setAppScreenCaptureDir(appScreenCaptureDir);
+			context.setHtmlReportsDir(htmlReportsDir);
+			context.setSikuliConfigDir(sikuliConfigDir);
+			context.setHostPlatformType(hostPlatformType);
+			context.setParallelMode(parallelMode);
+			context.setParallelThreads(parallelThreads);
+			context.setPreferDriverScreenshots(preferDriverScreenshots);
+			context.setEmbedScreenshotsInTestReport(embedScreenshotsInTestReport);
+			context.setAppConfigs(appConfigs);
+			context.setAdditionalProps(additionalProps);
+			context.setSikuliSettings(sikuliSettings);
+			
+			JsonDocumentReader r = new JsonDocumentReader();
+			this.jsonContext = r.prepareDocumentContext(context);
+			
+		} catch(Exception ex) {
+			Assert.fail("Failed to initialize JSON configuration context.", ex);
+		}
+	}
 }

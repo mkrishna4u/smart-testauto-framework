@@ -35,6 +35,7 @@ import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.ScreenCaptureUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.TypeRef;
 
@@ -506,17 +507,31 @@ public class AppConfig {
 				+ "' in application '" + appName + "' AppConfig.yaml file.");
 		return clazz.cast(additionalProps.get(propName));
 	}
+	
+	public Map<String, Object> getAdditionalProps() {
+		return additionalProps;
+	}
 
 	public EnvironmentConfig getEnvironmentConfig() {
 		return environmentConfig;
 	}
 	
+	@JsonIgnore
 	public Collection<UserProfile> getUserProfiles() {
 		return userProfiles.values();
 	}
 	
+	public Map<String, UserProfile> getUserProfilesMap() {
+		return userProfiles;
+	}
+	
+	@JsonIgnore
 	public Collection<DatabaseProfile> getDatabaseProfiles() {
 		return dbProfiles.values();
+	}
+	
+	public Map<String, DatabaseProfile> getDatabaseProfilesMap() {
+		return dbProfiles;
 	}
 	
 	public boolean getAppLoginRequired() {

@@ -18,11 +18,13 @@
 package org.uitnet.testing.smartfwk.remote_machine;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.TypeRef;
 
@@ -54,8 +56,19 @@ public class RemoteMachinesConfig {
 		return configFilePath;
 	}
 
+	@JsonIgnore
 	public List<RemoteMachineConfig> getRemoteMachines() {
 		return remoteMachines;
+	}
+	
+	public Map<String, RemoteMachineConfig> getRemoteMachinesMap() {
+		Map<String, RemoteMachineConfig> map = new LinkedHashMap<>();
+		if(remoteMachines == null) { return map; }
+		for(RemoteMachineConfig entry : remoteMachines) {
+			if(entry.getName() == null) { continue; }
+			map.put(entry.getName(), entry);
+		}
+		return map;
 	}
 
 	public RemoteMachineConfig getRemoteMachine(String name) {

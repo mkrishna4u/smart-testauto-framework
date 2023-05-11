@@ -18,11 +18,13 @@
 package org.uitnet.testing.smartfwk.ui.core.config;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.TypeRef;
 
@@ -54,8 +56,19 @@ public class ApiConfig {
 		return apiConfigFilePath;
 	}
 
+	@JsonIgnore
 	public List<ApiTargetServer> getTargetServers() {
 		return targetServers;
+	}
+	
+	public Map<String, ApiTargetServer> getTargetServersMap() {
+		Map<String, ApiTargetServer> map = new LinkedHashMap<>();
+		if(targetServers == null) { return map; }
+		for(ApiTargetServer entry : targetServers) {
+			if(entry.getName() == null) { continue; }
+			map.put(entry.getName(), entry);
+		}
+		return map;
 	}
 
 	public ApiTargetServer getTargetServer(String name) {
@@ -73,6 +86,10 @@ public class ApiConfig {
 		Assert.fail("API target server '" + name + "' is not configured with application '" + appName
 				+ "'. You can configure in '" + apiConfigFilePath + "' file.");
 		return null;
+	}
+	
+	public Map<String, Object> getAdditionalProps() {
+		return additionalProps;
 	}
 
 	public <T> T getAdditionalPropertyValue(String propName, Class<T> clazz) {
