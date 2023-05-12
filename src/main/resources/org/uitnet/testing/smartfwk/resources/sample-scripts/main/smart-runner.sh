@@ -33,6 +33,8 @@ elif [ "$1" == "run-temp-scenarios" ]; then
 ./scripts/unix/runTempScenarios.sh $2
 elif [ "$1" == "run-tags" ]; then
 ./scripts/unix/runTags.sh "$2" $3
+elif [ "$1" == "run-tags-for-env" ]; then
+./scripts/unix/runTagsForEnv.sh "$2" "$3" $4
 elif [ "$1" == "start-debug-server" ]; then
 ./scripts/unix/startDebugServerForTempScenarios.sh $2
 elif [ "$1" == "find-all-missing-stepdefs" ]; then
@@ -51,7 +53,8 @@ else
   echo "    run-sanity-tests <num-parallel-threads>"
   echo "    run-sequential-tests"
   echo "    run-temp-scenarios <num-parallel-threads>"
-  echo "    run-tags <tags> <num-parallel-threads>"
+  echo "    run-tags \"<tags>\" <num-parallel-threads>"
+  echo "    run-tags-for-env \"<tags>\" \"<apps-environment>\" <num-parallel-threads>"
   echo "    start-debug-server <num-parallel-threads>"
   echo "    find-all-missing-stepdefs"
   echo "    find-missing-stepdefs-for-temp-scenarios"

@@ -21,8 +21,13 @@ cls
 REM call set-env.cmd
 
 set num_threads=1
+if NOT "%3"=="" (
+  set num_threads=%3
+)
+
+set env_name=""
 if NOT "%2"=="" (
-  set num_threads=%2
+  set env_name=%2
 )
 
 set tags=%~1
@@ -37,7 +42,8 @@ if NOT "%tags%"=="" (
 
 echo PARALLEL_THREADS = %num_threads%
 echo Executing: Tags=%tags2%
-mvn clean verify -Dcucumber.filter.tags=%tags2% -Dparallel.threads=%num_threads%
+echo Environment: %env_name%
+mvn clean verify -Dcucumber.filter.tags=%tags2% -Dapps.active.environment=%env_name% -Dparallel.threads=%num_threads%
 
 
 
