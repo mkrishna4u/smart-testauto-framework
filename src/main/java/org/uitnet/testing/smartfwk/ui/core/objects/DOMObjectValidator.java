@@ -355,6 +355,25 @@ public class DOMObjectValidator extends UIObjectValidator {
 		return elemDisabled;
 	}
 	
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		boolean elemEnabled = false;
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+			try {
+				if (!WebElementUtil.isElementDisabled(appDriver, domObject)) {
+					elemEnabled = true;
+					break;
+				}
+				Assert.fail();
+			} catch (Throwable th) {
+				if (i == maxIterationsToLocateElements) {
+					break;
+				}
+			}
+			appDriver.waitForSeconds(2);
+		}
+		return elemEnabled;
+	}
+	
 	public boolean isDisabledButNotReadonly(int maxIterationsToLocateElements) {
 		boolean elemDisabled = false;
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {

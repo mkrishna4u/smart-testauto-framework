@@ -66,7 +66,7 @@ public class ButtonValidatorSD extends ButtonValidator {
 
 	@Override
 	public ButtonValidatorSD validateEnabled(int maxIterationsToLocateElements) {
-		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
+		Assert.assertTrue(domObjValidator.isEnabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 		return this;
 	}

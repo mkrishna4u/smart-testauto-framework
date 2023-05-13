@@ -223,7 +223,7 @@ public class MultiStateElementValidatorSD extends MultiStateElementValidator {
 
 	@Override
 	public MultiStateElementValidatorSD validateEnabled(int maxIterationsToLocateElements) {
-		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
+		Assert.assertTrue(domObjValidator.isEnabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 		return this;
 	}

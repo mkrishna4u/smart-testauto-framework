@@ -161,7 +161,7 @@ public class RadioButtonValidatorSD extends RadioButtonValidator {
 
 	@Override
 	public RadioButtonValidatorSD validateEnabled(int maxIterationsToLocateElements) {
-		Assert.assertFalse(domObjValidator.isDisabled(maxIterationsToLocateElements),
+		Assert.assertTrue(domObjValidator.isEnabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not enabled.");
 		return this;
 	}
