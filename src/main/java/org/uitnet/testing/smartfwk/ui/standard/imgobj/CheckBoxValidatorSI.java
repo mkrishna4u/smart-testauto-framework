@@ -344,6 +344,13 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 
 	@Override
 	@Deprecated
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		Assert.fail("isEnabled() API is not supported by CheckBox component.");
+		return false;
+	}
+
+	@Override
+	@Deprecated
 	public CheckBoxValidatorSI validateDisabled(int maxIterationsToLocateElements) {
 		Assert.fail("validateDisabled() is not supported for CheckBox component.");
 		return this;

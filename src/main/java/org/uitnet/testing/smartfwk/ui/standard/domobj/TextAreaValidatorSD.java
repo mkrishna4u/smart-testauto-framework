@@ -58,6 +58,11 @@ public class TextAreaValidatorSD extends TextAreaValidator {
 	}
 
 	@Override
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		return domObjValidator.isEnabled(maxIterationsToLocateElements);
+	}
+
+	@Override
 	public TextAreaValidatorSD validateDisabled(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");

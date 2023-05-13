@@ -329,6 +329,13 @@ public class ButtonValidatorSI extends ButtonValidator {
 		Assert.fail("isDisabled() API is not supported by Button component.");
 		return false;
 	}
+	
+	@Override
+	@Deprecated
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		Assert.fail("isEnabled() API is not supported by Button component.");
+		return false;
+	}
 
 	@Override
 	@Deprecated

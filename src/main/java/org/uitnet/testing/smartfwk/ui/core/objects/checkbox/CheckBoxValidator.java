@@ -50,6 +50,8 @@ public abstract class CheckBoxValidator extends UIObjectValidator {
 	public abstract CheckBoxValidator uncheckAndValidateUnchecked(int maxIterationsToLocateElements);
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
+	
+	public abstract boolean isEnabled(int maxIterationsToLocateElements);
 
 	public abstract CheckBoxValidator validateDisabled(int maxIterationsToLocateElements);
 

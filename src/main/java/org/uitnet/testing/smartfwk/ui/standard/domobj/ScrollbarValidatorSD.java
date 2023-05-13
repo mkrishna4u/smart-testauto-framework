@@ -58,6 +58,11 @@ public class ScrollbarValidatorSD extends ScrollbarValidator {
 	}
 
 	@Override
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		return domObjValidator.isEnabled(maxIterationsToLocateElements);
+	}
+
+	@Override
 	public ScrollbarValidatorSD validateDisabled(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");

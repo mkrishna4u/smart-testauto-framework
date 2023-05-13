@@ -395,6 +395,13 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 
 	@Override
 	@Deprecated
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		Assert.fail("isEnabled() API is not supported by TextBox component.");
+		return false;
+	}
+
+	@Override
+	@Deprecated
 	public boolean isReadonly(int maxIterationsToLocateElements) {
 		Assert.fail("isDisabled() API is not supported by TextBox component.");
 		return false;

@@ -43,6 +43,8 @@ public abstract class TextBoxValidator extends UIObjectValidator {
 	}
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
+	
+	public abstract boolean isEnabled(int maxIterationsToLocateElements);
 
 	public abstract TextBoxValidator validateDisabled(int maxIterationsToLocateElements);
 

@@ -60,6 +60,13 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 	public boolean isDisabled(int maxIterationsToLocateElements) {
 		return domObjValidator.isDisabled(maxIterationsToLocateElements);
 	}
+	
+
+	@Override
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		return domObjValidator.isEnabled(maxIterationsToLocateElements);
+	}
+
 
 	@Override
 	public ComboBoxValidatorSD validateDisabled(int maxIterationsToLocateElements) {

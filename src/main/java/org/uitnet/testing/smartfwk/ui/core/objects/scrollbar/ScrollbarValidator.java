@@ -41,6 +41,8 @@ public abstract class ScrollbarValidator extends UIObjectValidator {
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
 
+	public abstract boolean isEnabled(int maxIterationsToLocateElements);
+
 	public abstract ScrollbarValidator validateDisabled(int maxIterationsToLocateElements);
 
 	public abstract ScrollbarValidator validateEnabled(int maxIterationsToLocateElements);

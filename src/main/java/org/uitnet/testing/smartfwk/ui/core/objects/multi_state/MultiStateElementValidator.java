@@ -47,6 +47,8 @@ public abstract class MultiStateElementValidator extends UIObjectValidator {
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
 
+	public abstract boolean isEnabled(int maxIterationsToLocateElements);
+
 	public abstract MultiStateElementValidator validateDisabled(int maxIterationsToLocateElements);
 
 	public abstract MultiStateElementValidator validateEnabled(int maxIterationsToLocateElements);

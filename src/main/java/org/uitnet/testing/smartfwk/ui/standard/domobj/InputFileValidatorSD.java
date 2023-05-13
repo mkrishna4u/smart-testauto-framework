@@ -62,6 +62,12 @@ public class InputFileValidatorSD extends InputFileValidator {
 	public boolean isDisabled(int maxIterationsToLocateElements) {
 		return domObjValidator.isDisabled(maxIterationsToLocateElements);
 	}
+	
+
+	@Override
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		return domObjValidator.isEnabled(maxIterationsToLocateElements);
+	}
 
 	@Override
 	public InputFileValidatorSD validateDisabled(int maxIterationsToLocateElements) {

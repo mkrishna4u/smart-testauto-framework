@@ -555,6 +555,13 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 
 	@Override
 	@Deprecated
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		Assert.fail("isEnabled() API is not supported by ListBox component.");
+		return false;
+	}
+
+	@Override
+	@Deprecated
 	public Actions getNewSeleniumActions() {
 		Assert.fail("getNewSeleniumActions() API is not supported by ListBox component.");
 		return null;

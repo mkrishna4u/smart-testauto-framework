@@ -626,6 +626,13 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 
 	@Override
 	@Deprecated
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		Assert.fail("isEnabled() API is not supported by ComboBoxSI component.");
+		return false;
+	}
+
+	@Override
+	@Deprecated
 	public Actions getNewSeleniumActions() {
 		Assert.fail("getNewSeleniumActions() API is not supported by ComboBoxSI component.");
 		return null;

@@ -44,6 +44,8 @@ public abstract class ComboBoxValidator extends UIObjectValidator {
 	}
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
+	
+	public abstract boolean isEnabled(int maxIterationsToLocateElements);
 
 	public abstract ComboBoxValidator validateDisabled(int maxIterationsToLocateElements);
 

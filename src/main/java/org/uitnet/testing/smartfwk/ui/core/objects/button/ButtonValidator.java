@@ -43,6 +43,8 @@ public abstract class ButtonValidator extends UIObjectValidator {
 	public abstract ButtonValidator validateName(String expectedName, TextMatchMechanism validationMechanism, int maxIterationsToLocateElements);
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
+	
+	public abstract boolean isEnabled(int maxIterationsToLocateElements);
 
 	public abstract ButtonValidator validateDisabled(int maxIterationsToLocateElements);
 

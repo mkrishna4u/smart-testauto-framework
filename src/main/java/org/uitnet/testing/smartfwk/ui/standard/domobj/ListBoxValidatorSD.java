@@ -62,6 +62,11 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 	}
 
 	@Override
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		return domObjValidator.isEnabled(maxIterationsToLocateElements);
+	}
+
+	@Override
 	public ListBoxValidatorSD validateDisabled(int maxIterationsToLocateElements) {
 		Assert.assertTrue(domObjValidator.isDisabled(maxIterationsToLocateElements),
 				"'" + uiObject.getDisplayName() + "' element is not disabled.");

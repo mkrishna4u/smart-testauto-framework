@@ -45,6 +45,8 @@ public abstract class ListBoxValidator extends UIObjectValidator {
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
 
+	public abstract boolean isEnabled(int maxIterationsToLocateElements);
+
 	public abstract ListBoxValidator validateDisabled(int maxIterationsToLocateElements);
 
 	public abstract ListBoxValidator validateEnabled(int maxIterationsToLocateElements);

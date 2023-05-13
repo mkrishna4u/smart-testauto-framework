@@ -45,6 +45,8 @@ public abstract class InputFileValidator extends UIObjectValidator {
 
 	public abstract boolean isDisabled(int maxIterationsToLocateElements);
 
+	public abstract boolean isEnabled(int maxIterationsToLocateElements);
+
 	public abstract InputFileValidator validateDisabled(int maxIterationsToLocateElements);
 
 	public abstract InputFileValidator validateEnabled(int maxIterationsToLocateElements);

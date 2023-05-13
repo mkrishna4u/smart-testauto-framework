@@ -223,6 +223,12 @@ public class MultiStateElementValidatorSD extends MultiStateElementValidator {
 	public boolean isDisabled(int maxIterationsToLocateElements) {
 		return domObjValidator.isDisabled(maxIterationsToLocateElements);
 	}
+	
+
+	@Override
+	public boolean isEnabled(int maxIterationsToLocateElements) {
+		return domObjValidator.isEnabled(maxIterationsToLocateElements);
+	}
 
 	@Override
 	public MultiStateElementValidatorSD validateDisabled(int maxIterationsToLocateElements) {
