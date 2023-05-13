@@ -40,8 +40,12 @@ public abstract class MultiStateElementValidator extends UIObjectValidator {
 	}
 
 	public abstract boolean isStateSelected(String state, int maxIterationsToLocateElements);
+	
+	public abstract boolean isStateNotSelected(String state, int maxIterationsToLocateElements);
 
 	public abstract MultiStateElementValidator validateStateSelected(String state, int maxIterationsToLocateElements);
+	
+	public abstract MultiStateElementValidator validateStateNotSelected(String state, int maxIterationsToLocateElements);
 
 	public abstract MultiStateElementValidator selectState(String state, int maxIterationsToLocateElements);
 

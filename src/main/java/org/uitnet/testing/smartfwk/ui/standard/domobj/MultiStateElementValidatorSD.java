@@ -185,6 +185,28 @@ public class MultiStateElementValidatorSD extends MultiStateElementValidator {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean isStateNotSelected(String state, int maxIterationsToLocateElements) {
+		validateStateIsValid(state);
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+			try {
+				WebElement webElem = findElement(0);
+				String attrValue = webElem.getAttribute("value");
+				if (!(webElem != null && StringUtil.containsText(attrValue, state))) {
+					return true;
+				} else {
+					Assert.fail("");
+				}
+			} catch (Throwable th) {
+				if (i == maxIterationsToLocateElements) {
+					// do nothing
+				}
+			}
+			appDriver.waitForSeconds(2);
+		}
+		return false;
+	}
 
 	@Override
 	public MultiStateElementValidatorSD validateStateSelected(String state, int maxIterationsToLocateElements) {
@@ -193,10 +215,18 @@ public class MultiStateElementValidatorSD extends MultiStateElementValidator {
 		}
 		return this;
 	}
+	
+	@Override
+	public MultiStateElementValidatorSD validateStateNotSelected(String state, int maxIterationsToLocateElements) {
+		if (!isStateNotSelected(state, maxIterationsToLocateElements)) {
+			Assert.fail("Failed to validate '" + state + "' state as not selected for element '" + uiObject.getDisplayName() + "'.");
+		}
+		return this;
+	}
 
 	@Override
 	public MultiStateElementValidatorSD selectState(String state, int maxIterationsToLocateElements) {
-		if (!isStateSelected(state, maxIterationsToLocateElements)) {
+		if (isStateNotSelected(state, maxIterationsToLocateElements)) {
 			WebElement webElem = findElement(0);
 			webElem.click();
 		}
