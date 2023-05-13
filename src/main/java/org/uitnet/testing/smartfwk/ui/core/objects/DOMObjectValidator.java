@@ -287,6 +287,36 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 		return elemPresent;
 	}
+	
+	/**
+	 * Return true only if first element is not present.
+	 * 
+	 * @param maxIterationsToLocateElements
+	 * @return
+	 */
+	@Override
+	public boolean isNotPresent(int maxIterationsToLocateElements) {
+		boolean elemNotPresent = false;
+		WebElement webElem = null;
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+			try {
+				webElem = LocatorUtil.findWebElement(appDriver.getWebDriver(),
+						domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
+								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
+				if (webElem == null) {
+					elemNotPresent = true;
+					break;
+				}
+				Assert.fail();
+			} catch (Throwable th) {
+				if (i == maxIterationsToLocateElements) {
+					break;
+				}
+			}
+			appDriver.waitForSeconds(2);
+		}
+		return elemNotPresent;
+	}
 
 	/**
 	 * Return true only if element is visible.
@@ -313,6 +343,31 @@ public class DOMObjectValidator extends UIObjectValidator {
 			appDriver.waitForSeconds(2);
 		}
 		return elemVisible;
+	}
+	
+	/**
+	 * Returns true when the element is hidden.
+	 * 
+	 */
+	@Override
+	public boolean isHidden(int maxIterationsToLocateElements) {
+		boolean elemHidden = false;
+		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
+			try {
+				if (!WebElementUtil.isElementVisible(appDriver, domObject)) {
+					elemHidden = true;
+					break;
+				}
+
+				Assert.fail();
+			} catch (Throwable th) {
+				if (i == maxIterationsToLocateElements) {
+					break;
+				}
+			}
+			appDriver.waitForSeconds(2);
+		}
+		return elemHidden;
 	}
 
 	public boolean isReadonly(int maxIterationsToLocateElements) {

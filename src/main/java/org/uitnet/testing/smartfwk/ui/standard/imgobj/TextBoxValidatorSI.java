@@ -74,8 +74,19 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 	}
 
 	@Override
+	public boolean isNotPresent(int maxIterationsToLocateElements) {
+		Match m = findElementNoException(maxIterationsToLocateElements);
+		return (m == null);
+	}
+	
+	@Override
 	public boolean isVisible(int maxIterationsToLocateElements) {
 		return isPresent(maxIterationsToLocateElements);
+	}
+
+	@Override
+	public boolean isHidden(int maxIterationsToLocateElements) {
+		return isHidden(maxIterationsToLocateElements);
 	}
 
 	@Override

@@ -160,6 +160,22 @@ public class ImageObjectValidator extends UIObjectValidator {
 	}
 
 	/**
+	 * Return true only if first element is not present.
+	 * 
+	 * @param maxIterationsToLocateElements
+	 * @return
+	 */
+	public boolean isNotPresent(int maxIterationsToLocateElements) {
+		boolean elemNotPresent = false;
+		Match match = null;
+		match = findElementNoException(maxIterationsToLocateElements);
+		if (match == null) {
+			elemNotPresent = true;
+		}
+		return elemNotPresent;
+	}
+	
+	/**
 	 * Return true only if first element is present but it might not be visible.
 	 * 
 	 * @param maxIterationsToLocateElements
@@ -183,6 +199,16 @@ public class ImageObjectValidator extends UIObjectValidator {
 	 */
 	public boolean isVisible(int maxIterationsToLocateElements) {
 		return isPresent(maxIterationsToLocateElements);
+	}
+	
+	/**
+	 * Return true only if first element is hidden.
+	 * 
+	 * @param maxIterationsToLocateElements
+	 * @return
+	 */
+	public boolean isHidden(int maxIterationsToLocateElements) {
+		return isNotPresent(maxIterationsToLocateElements);
 	}
 
 	public ImageObjectValidator click(int maxIterationsToLocateElements) {

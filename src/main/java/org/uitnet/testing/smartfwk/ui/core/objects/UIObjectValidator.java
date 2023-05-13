@@ -78,7 +78,7 @@ public abstract class UIObjectValidator {
 	}
 
 	public UIObjectValidator validateNotPresent(int maxIterationsToLocateElements) {
-		Assert.assertTrue(!isPresent(maxIterationsToLocateElements),
+		Assert.assertTrue(isNotPresent(maxIterationsToLocateElements),
 				"Element '" + uiObject.getDisplayName() + "' is already present.");
 		return this;
 	}
@@ -232,20 +232,24 @@ public abstract class UIObjectValidator {
 	}
 
 	public UIObjectValidator validateNotVisible(int maxIterationsToLocateElements) {
-		Assert.assertFalse(isVisible(maxIterationsToLocateElements),
+		Assert.assertTrue(isHidden(maxIterationsToLocateElements),
 				"Element '" + uiObject.getDisplayName() + "' is visible.");
 		return this;
 	}
 
 	public UIObjectValidator validateHidden(int maxIterationsToLocateElements) {
-		Assert.assertFalse(isVisible(maxIterationsToLocateElements),
+		Assert.assertTrue(isHidden(maxIterationsToLocateElements),
 				"Element '" + uiObject.getDisplayName() + "' is visible.");
 		return this;
 	}
 
 	public abstract boolean isPresent(int maxIterationsToLocateElements);
+	
+	public abstract boolean isNotPresent(int maxIterationsToLocateElements);
 
 	public abstract boolean isVisible(int maxIterationsToLocateElements);
+	
+	public abstract boolean isHidden(int maxIterationsToLocateElements);
 
 	public abstract UIObjectValidator click(int maxIterationsToLocateElements);
 	

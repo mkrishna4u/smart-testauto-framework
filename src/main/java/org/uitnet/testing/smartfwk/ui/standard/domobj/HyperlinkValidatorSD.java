@@ -64,8 +64,18 @@ public class HyperlinkValidatorSD extends HyperlinkValidator {
 	}
 
 	@Override
+	public boolean isNotPresent(int maxIterationsToLocateElements) {
+		return domObjValidator.isNotPresent(maxIterationsToLocateElements);
+	}
+
+	@Override
 	public boolean isVisible(int maxIterationsToLocateElements) {
 		return domObjValidator.isVisible(maxIterationsToLocateElements);
+	}
+	
+	@Override
+	public boolean isHidden(int maxIterationsToLocateElements) {
+		return domObjValidator.isHidden(maxIterationsToLocateElements);
 	}
 
 	@Override

@@ -181,6 +181,9 @@ public class SmartToolkit {
 					}
 					
 					break;
+				case "--upgrade-scripts":
+					executer.upgradeScripts();
+					break;
 				case "--install-appium-server":
 					executer.installAppiumServer();
 					break;
@@ -279,6 +282,9 @@ public class SmartToolkit {
 //				},
 //				"Used to add remote machine in the existing remote-machine config file for the configured application."
 //				+ " If Remote machine file does not exist then it will configure the one."));
+		toolkitCommands.put("--upgrade-scripts", new SmartToolkitCommand("--upgrade-scripts",
+				new CommandArgument[] { },
+				"Used to upgrade the windows and unix scripts used by STAS."));
 		
 		toolkitCommands.put("--install-appium-server", new SmartToolkitCommand("--install-appium-server",
 				new CommandArgument[] { },

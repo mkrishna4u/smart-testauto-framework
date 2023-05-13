@@ -18,6 +18,8 @@
 package org.uitnet.testing.smartfwk.toolkit;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -276,6 +278,33 @@ public class SmartToolkitCommandExecuter {
 		
 		System.out.println("NOTE: If you do not change any '" + baseDir + "test-config/apps-config/<App-Name>/environments/" + envName 
 				+ ".yaml' file then during runtime, it will pick default information from AppConfig.yaml file for that application.");
+	}
+	
+	public void upgradeScripts() {
+		String baseDir = Locations.getProjectRootDir() + File.separator;
+		String scriptsDir = baseDir + "scripts";
+		String baseTempDir = baseDir + "temp/org/uitnet/testing/smartfwk/resources/";
+		
+		// copy script files to backup folder
+		String backupDir = baseDir + File.separator + "upgrade-backup" + File.separator + getTimestampAsString();
+		LocalMachineFileSystem.copyDirectoryRecursively(scriptsDir + "/unix", backupDir + "/scripts/unix", true);
+		LocalMachineFileSystem.copyDirectoryRecursively(scriptsDir + "/windows", backupDir + "/scripts/windows", true);
+		LocalMachineFileSystem.copyFileWithOverwrite(baseDir + "/smart-runner.cmd", backupDir + "/scripts", "smart-runner.cmd", false);
+		LocalMachineFileSystem.copyFileWithOverwrite(baseDir + "/smart-runner.sh", backupDir + "/scripts", "smart-runner.sh", false);
+		
+		// upgrade scripts to latest scripts
+		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-scripts/unix", scriptsDir + "/unix", false);
+		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-scripts/windows", scriptsDir + "/windows", false);
+		
+		LocalMachineFileSystem.copyFileWithOverwrite(baseTempDir + "sample-scripts/main/smart-runner.sh", baseDir, "smart-runner.sh", false);
+		LocalMachineFileSystem.copyFileWithOverwrite(baseTempDir + "sample-scripts/main/smart-runner.cmd", baseDir, "smart-runner.cmd", false);
+		
+		System.out.println("\nNOTE: set-env.sh and set-env.cmd files are not upgraded. Please change it manually if there is any change.");
+	}
+	
+	private String getTimestampAsString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd-HHmmss");
+		return sdf.format(Calendar.getInstance().getTime());
 	}
 	
 	public void installAppiumServer() {
