@@ -33,10 +33,12 @@ import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.UserProfile;
+import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.handler.ScrollElementToViewportHandler;
 import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginPageValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginSuccessPageValidator;
 import org.uitnet.testing.smartfwk.ui.core.utils.ScreenCaptureUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 import com.jayway.jsonpath.DocumentContext;
 
@@ -149,14 +151,18 @@ public abstract class AbstractAppConnector {
 		LoginPageValidator loginPageValidator = createNewLoginPageValidator();
 		LoginSuccessPageValidator loginSuccessPageValidator = createNewLoginSuccessPageValidator();
 
-		if (loginPageValidator.isLoginPageVisible(userProfileName)) {
+		if(DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(userProfileName)) {
 			appDriver.openAppIfNotOpened(userProfileName);
-			loginPageValidator.login(userProfileName);
-			loginSuccessPageValidator.validate(userProfileName);
-		} else if (!loginSuccessPageValidator.isLoginSuccessPageVisible(userProfileName)) {
-			appDriver.openAppIfNotOpened(userProfileName);
-			loginPageValidator.login(userProfileName);
-			loginSuccessPageValidator.validate(userProfileName);
+		} else {
+			if (loginPageValidator.isLoginPageVisible(userProfileName)) {
+				appDriver.openAppIfNotOpened(userProfileName);
+				loginPageValidator.login(userProfileName);
+				loginSuccessPageValidator.validate(userProfileName);
+			} else if (!loginSuccessPageValidator.isLoginSuccessPageVisible(userProfileName)) {
+				appDriver.openAppIfNotOpened(userProfileName);
+				loginPageValidator.login(userProfileName);
+				loginSuccessPageValidator.validate(userProfileName);
+			}
 		}
 		return this.appDriver;
 	}
@@ -203,7 +209,8 @@ public abstract class AbstractAppConnector {
 		LoginPageValidator loginPageValidator = createNewLoginPageValidator();
 		LoginSuccessPageValidator loginSuccessPageValidator = createNewLoginSuccessPageValidator();
 
-		if (loginSuccessPageValidator.isLoginSuccessPageVisible(activeUserProfileName)) {
+		if (!StringUtil.isEmptyAfterTrim(activeUserProfileName) &&
+				loginSuccessPageValidator.isLoginSuccessPageVisible(activeUserProfileName)) {
 			loginSuccessPageValidator.logout(activeUserProfileName);
 			loginPageValidator.validate(activeUserProfileName);
 		}

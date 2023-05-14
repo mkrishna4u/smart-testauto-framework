@@ -47,6 +47,7 @@ public abstract class LoginPageValidator {
 	}
 
 	public void validate(String activeUserProfileName) {
+		if(appDriver != null && !appDriver.shouldOpenURL()) { return; }
 		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
 			Assert.assertNotNull(appDriver, "AppDriver instance is null. Please set before using this API.");
 			validateInfo(activeUserProfileName);
@@ -54,12 +55,14 @@ public abstract class LoginPageValidator {
 	}
 
 	public void login(String activeUserProfileName) {
+		if(appDriver != null && !appDriver.shouldOpenURL()) { return; }
 		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
 			tryLogin(activeUserProfileName);
 		}
 	}
 
 	public boolean isLoginPageVisible(String activeUserProfileName) {
+		if(appDriver != null && !appDriver.shouldOpenURL()) { return false; }
 		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
 			Assert.assertNotNull(appDriver, "AppDriver instance is null. Please set before using this API.");
 			return checkLoginPageVisible(activeUserProfileName);

@@ -758,6 +758,10 @@ public class SmartAppDriver {
 			ex.printStackTrace();
 		}
 	}
+	
+	public boolean shouldOpenURL() {
+		return this.shouldOpenURL;
+	}
 
 	/**
 	 * Refreshes the web browser.

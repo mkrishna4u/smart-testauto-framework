@@ -26,9 +26,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureQuery;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.StoredProcedureQuery;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -65,6 +66,12 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 		Configuration hibernateCfg = new Configuration().addProperties(dbProps);
 
 		SessionFactory hibernateSessionFactory = hibernateCfg.buildSessionFactory();
+		
+		try {
+			TimeUnit.SECONDS.wait(5);
+		} catch(Exception ex) {
+			
+		}
 
 		DatabaseConnection connection = new DatabaseConnection(hibernateSessionFactory);
 		return connection;
@@ -85,10 +92,9 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 			String searchStatement) {
 		Session hibSession = null;
 		try {
-			Thread.sleep(5000);
 			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 
-			NativeQuery<?> sqlQuery = hibSession.createSQLQuery(searchStatement);
+			NativeQuery<?> sqlQuery = hibSession.createNativeQuery(searchStatement);
 			List<?> foundRecords = sqlQuery.list();
 			return JsonYamlUtil.convertObjectToJsonString(foundRecords);
 		} catch (Exception ex) {
@@ -112,7 +118,7 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 			txn = hibSession.beginTransaction();
 
-			NativeQuery<?> sqlQuery = hibSession.createSQLQuery(updateStatement);
+			NativeQuery<?> sqlQuery = hibSession.createNativeQuery(updateStatement);
 			sqlQuery.executeUpdate();
 
 			txn.commit();
@@ -140,7 +146,7 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 			txn = hibSession.beginTransaction();
 
-			NativeQuery<?> sqlQuery = hibSession.createSQLQuery(deleteStatement);
+			NativeQuery<?> sqlQuery = hibSession.createNativeQuery(deleteStatement);
 			sqlQuery.executeUpdate();
 
 			txn.commit();
@@ -168,7 +174,7 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 			txn = hibSession.beginTransaction();
 
-			NativeQuery<?> sqlQuery = hibSession.createSQLQuery(insertStatement);
+			NativeQuery<?> sqlQuery = hibSession.createNativeQuery(insertStatement);
 			sqlQuery.executeUpdate();
 
 			txn.commit();
@@ -199,7 +205,7 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 
 			NativeQuery<?> sqlQuery = null;
 			for (String stmt : insertStatements) {
-				sqlQuery = hibSession.createSQLQuery(stmt);
+				sqlQuery = hibSession.createNativeQuery(stmt);
 				sqlQuery.executeUpdate();
 			}
 
@@ -228,7 +234,7 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 			hibSession.setJdbcBatchSize(100);
 
 			NativeQuery<?> sqlQuery = null;
-			sqlQuery = hibSession.createSQLQuery(createStatement);
+			sqlQuery = hibSession.createNativeQuery(createStatement);
 			sqlQuery.executeUpdate();
 
 			txn.commit();
@@ -257,7 +263,7 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 			hibSession.setJdbcBatchSize(100);
 
 			NativeQuery<?> sqlQuery = null;
-			sqlQuery = hibSession.createSQLQuery(dropStatement);
+			sqlQuery = hibSession.createNativeQuery(dropStatement);
 			sqlQuery.executeUpdate();
 
 			txn.commit();
@@ -279,7 +285,6 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 	protected String executeFunctionReturnAsJson(String functionName, ReturnType returnType, Object... args) {
 		Session hibSession = null;
 		try {
-			Thread.sleep(5000);
 			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 			String driverClazz = activeDatabaseProfile.getAdditionalPropertyValue("hibernate.connection.driver_class", String.class);
 			NativeQuery<?> query = null;
@@ -315,7 +320,6 @@ public class SqlDatabaseActionHandler extends AbstractDatabaseActionHandler {
 	protected String executeProcedureReturnAsJson(String procedureName, MethodArg<?>... args) {
 		Session hibSession = null;
 		try {
-			Thread.sleep(5000);
 			hibSession = ((SessionFactory)connection.getConnection()).openSession();
 			StoredProcedureQuery query = null;
 			query = hibSession.createStoredProcedureQuery(procedureName);

@@ -60,6 +60,7 @@ public abstract class LoginSuccessPageValidator {
 	}
 
 	public void validate(String activeUserProfileName) {
+		if(appDriver != null && !appDriver.shouldOpenURL()) { return; }
 		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
 			Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
 			validateInfo(activeUserProfileName);
@@ -67,6 +68,7 @@ public abstract class LoginSuccessPageValidator {
 	}
 
 	public void logout(String activeUserProfileName) {
+		if(appDriver != null && !appDriver.shouldOpenURL()) { return; }
 		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
 			Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
 			tryLogout(activeUserProfileName);
@@ -74,6 +76,7 @@ public abstract class LoginSuccessPageValidator {
 	}
 
 	public boolean isLoginSuccessPageVisible(String activeUserProfileName) {
+		if(appDriver != null && !appDriver.shouldOpenURL()) { return false; }
 		if(!DefaultInfo.DEFAULT_USER_PROFILE_NAME.equals(activeUserProfileName)) {
 			Assert.assertNotNull(appDriver, "WebappDriver instance is null. Please set before using this API.");
 			return checkLoginSuccessPageVisible(activeUserProfileName);
