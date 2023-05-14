@@ -239,6 +239,7 @@ public class WebElementUtil {
 								appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 				
 				text = getInputTextValue(appDriver, webElem);
+				break;
 			} catch (Throwable th) {
 				if (i == maxIterationsToLocateElements) {
 					throw th;
