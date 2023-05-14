@@ -41,7 +41,7 @@
 	<properties>
 	    <parallel.threads>1</parallel.threads>
 		<smart-testauto-framework.version>6.0.13</smart-testauto-framework.version>
-		<smart-testauto-cucumber-stepdefs-en.version>6.0.13</smart-testauto-cucumber-stepdefs-en.version>
+		<smart-testauto-cucumber-stepdefs-en.version>6.0.14</smart-testauto-cucumber-stepdefs-en.version>
 		<cucumber-reporting.version>5.7.5</cucumber-reporting.version>
 		
 		<maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
