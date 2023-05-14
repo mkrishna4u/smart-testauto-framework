@@ -217,6 +217,7 @@ public class WebElementUtil {
 						text = webElem.getText();
 					}
 				}
+				break;
 			} catch (Throwable th) {
 				if (i == maxIterationsToLocateElements) {
 					throw th;
