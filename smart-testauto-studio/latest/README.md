@@ -93,7 +93,7 @@ To find the standard step definitions supported by the STAS tool, please visit [
 
 	stepdefs,org.uitnet.testing.smartfwk.core.stepdefs.en
 	
-We have different type of standard step definitions files using that you can automate any scenario. For more information, please refer **TBD** document. High level overview is given below:
+We have different type of standard step definitions files using that you can automate any scenario. For more information, please refer **https://github.com/mkrishna4u/smart-testauto-cucumber-stepdefs-en/tree/main/src/main/java/org/uitnet/testing/smartfwk/core/stepdefs/en** URL to see the details of step definitions. High level overview is given below:
 1.  **SmartStepDefs:** This is a main hook file that defines the @Before and @After methods definition that used to run before each scenario and after each scenario completion respectively.
 2. **SmartUiBasicAppOperationsStepDefs:** This defines basic UI operations to perform operations on UI like connect to UI application using specified user profile. User profiles are configured in test-config/apps-config/ directory to its specific app. Also it contains step definitions related to opening URL, take screenshot etc.
 3. **SmartUiFormElementOperationsStepDefs:** This defines the UI operations like operations on the form elements / page objects like enter the information on page elements, type text on textbox or textarea, extract information from the element, verify information of the elements (i.e. visibility of the element, default information of the element) etc.
@@ -113,6 +113,13 @@ We have different type of standard step definitions files using that you can aut
 17.  **SmartXmlDataManagementStepDefs:** This defines step definitions to read and verify the contents of XML File or data. It also defines the steps to update the XML data.
 18.  **SmartTextualDataManagementStepDefs:** This defines step definitions to read and verify the contents of text File or data.
 19.  **SmartVariableManagementStepDefs:** This defines step definitions to read and verify the contents of the variables.
+20.	**SmartConditionManagementStepDefs:** This defines the steps to add conditional blocks in scenario to run some steps conditionality. You can also be able to clear the condition.  Refer section 6.6-Cucumber feature file: Run steps conditionally for details on conditional block.
+21.	**SmartDataGeneratorStepDefs:** This defines the steps to auto generate the text data based on the inputs provided. This helps in reducing the hardcoded data in steps.
+22.	**SmartMethodOperationsStepDefs:** This defines the steps to call any method of any class to perform specific operation.
+23.	**SmartUiJavascriptOperationsStepDefs:** This defines the steps to perform javascript operations on the page elements like executing a function i.e. focus(), blur() and setting the property scrollLeft, scrollTop etc.
+24.	**SmartDateAndTimeManipulationStepDefs:** This defined the steps to perform manipulation on the date and time (timestamp) data. Also you can be able to retrieve the system local timestamp in specific format and timezone.
+25.	**SmartAppRuntimeConfigurationStepDefs:** This defines the steps to read STAS runtime configuration parameters value like you can get any parameter information from the STAS Configuration file like testPlatformType, applicationType, appWebBrowser etc. so that tester’s can use these configuration parameters value in Test Scenarios to manage scenarios better. 
+
 	
 ## How does STAS tool work?
 Using the smart step definition (specified above) you can automate 
