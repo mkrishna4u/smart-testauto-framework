@@ -4,7 +4,7 @@ sessionExpiryDurationInSeconds: 1800
 
 # Define additional properties here under additionalProps element as child element.
 additionalProps: 
-  hibernate.dialect: org.hibernate.dialect.Oracle10gDialect
+  hibernate.dialect: org.hibernate.dialect.Oracle12cDialect
   hibernate.connection.driver_class: oracle.jdbc.driver.OracleDriver
   hibernate.connection.url: jdbc:oracle:thin:@db-host-ipaddress:1522:oracle-sid
   hibernate.connection.username: Test
