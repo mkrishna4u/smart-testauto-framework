@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -84,6 +86,7 @@ public class ExcelFileReader {
 				isEmptyRow = false;
 				cellValues = new ArrayList<>();
 				for (Cell cell : row) {
+					cellValue = "";
 					switch (cell.getCellType()) {
 					case STRING:
 					case BLANK:
@@ -97,13 +100,13 @@ public class ExcelFileReader {
 						break;
 					case FORMULA:
 						try {
-							cellValue = "" + cell.getStringCellValue();
-						} catch (Exception e) {
-							try {
-								cellValue = "" + cell.getNumericCellValue();
-							} catch (Exception e2) {
-								cellValue = "" + cell.getCellFormula();
+							FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+							CellValue cv = evaluator.evaluate(cell);
+							if(cv != null) {
+								cellValue = "" + cv.formatAsString();
 							}
+						} catch (Exception e) {
+							cellValue = "" + cell.getCellFormula();
 						}
 						break;
 					default:
@@ -173,10 +176,11 @@ public class ExcelFileReader {
 		}
 	}
 
-//	public static void main(String[] args) {
+	public static void main(String[] args) {
 //		Table table = ExcelFileReader.getSheetData("test-data/usa-states.xlsx", "usa-states");
+//		Table table = ExcelFileReader.getSheetData("test-data/stats-data.xlsx", "stats-data");
 //
 //		System.out.println(table);
 //		System.out.println(table.getRow(1).getCulumnNumericPart("State Code"));
-//	}
+	}
 }

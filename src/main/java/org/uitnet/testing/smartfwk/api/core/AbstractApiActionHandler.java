@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -124,8 +125,45 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 	public String getActiveProfileName() {
 		return activeProfileName;
 	}
+	
+	protected Map<String, String> prepareRequestHeaders(okhttp3.Request.Builder requestBuilder, Map<String, String> headers) {
+		Map<String, String> headers2 = new LinkedHashMap<>();
+		
+		// Add headers
+		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
+			headers2.putAll(session.getParams());
+		}
+		
+		if(headers != null && headers.size() > 0) {
+			headers2.putAll(headers);
+		}
 
-	public HttpResponse httpGet(String relativeUrl, String responseContentType, Integer connectTimeoutInSeconds,
+		// Add cookies
+		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
+			String cookie = prepareRequestCookieFromHttpSession();
+
+			if (cookie != null) {
+				requestBuilder.addHeader("Cookie", cookie);
+				headers2.put("Cookie", cookie);
+			}
+		}
+		
+		for(Map.Entry<String, String> header : headers2.entrySet()) {
+			if(StringUtil.isEmptyAfterTrim(header.getKey()) || "Cookie".equals(header.getKey())) {
+				continue;
+			}
+			
+			if(StringUtil.isEmptyAfterTrim(header.getValue())) {
+				requestBuilder.removeHeader(header.getKey());
+			} else {
+				requestBuilder.addHeader(header.getKey(), header.getValue());
+			}
+		}
+		
+		return headers2;
+	}
+
+	public HttpResponse httpGet(String relativeUrl, Map<String, String> headers, Integer connectTimeoutInSeconds,
 			Integer readTimeoutInSeconds) {
 		OkHttpClient client = new OkHttpClient.Builder()
 				.readTimeout(readTimeoutInSeconds == null ? 60 : readTimeoutInSeconds, TimeUnit.SECONDS)
@@ -135,33 +173,15 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		String targetURL = baseURL + "/" + relativeUrl;
 		okhttp3.Request.Builder requestBuilder = new Request.Builder().get().url(targetURL);
 
-		// Add headers
-		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
-			for (Map.Entry<String, String> kv : session.getParams().entrySet()) {
-				requestBuilder.addHeader(kv.getKey(), kv.getValue());
-			}
-		}
-
-		// Add cookies
-		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = prepareRequestCookieFromHttpSession();
-
-			if (cookie != null) {
-				requestBuilder.addHeader("Cookie", cookie);
-			}
-		}
-
-		requestBuilder.removeHeader("Content-Type");
-		if (responseContentType == null || "".equals(responseContentType.trim())) {
-			requestBuilder.removeHeader("Accept");
-		} else {
-			requestBuilder.addHeader("Accept", responseContentType);
-		}
-
+		Map<String, String> headers2 = prepareRequestHeaders(requestBuilder, headers);
+		
+		String responseContentType = headers2.get("Accept");
 		return prepareResponse(client, requestBuilder, responseContentType != null, targetURL);
 	}
 	
-	public HttpResponse httpHead(String relativeUrl, Integer connectTimeoutInSeconds,
+	
+	
+	public HttpResponse httpHead(String relativeUrl, Map<String, String> headers, Integer connectTimeoutInSeconds,
 			Integer readTimeoutInSeconds) {
 		OkHttpClient client = new OkHttpClient.Builder()
 				.readTimeout(readTimeoutInSeconds == null ? 60 : readTimeoutInSeconds, TimeUnit.SECONDS)
@@ -171,29 +191,12 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		String targetURL = baseURL + "/" + relativeUrl;
 		okhttp3.Request.Builder requestBuilder = new Request.Builder().head().url(targetURL);
 
-		// Add headers
-		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
-			for (Map.Entry<String, String> kv : session.getParams().entrySet()) {
-				requestBuilder.addHeader(kv.getKey(), kv.getValue());
-			}
-		}
-
-		// Add cookies
-		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = prepareRequestCookieFromHttpSession();
-
-			if (cookie != null) {
-				requestBuilder.addHeader("Cookie", cookie);
-			}
-		}
-
-		requestBuilder.removeHeader("Content-Type");
-		requestBuilder.removeHeader("Accept");
+		prepareRequestHeaders(requestBuilder, headers);
 		
 		return prepareResponse(client, requestBuilder, false, targetURL);
 	}
 
-	public HttpResponse httpDelete(String relativeUrl, String responseContentType, Integer connectTimeoutInSeconds,
+	public HttpResponse httpDelete(String relativeUrl, Map<String, String> headers, Integer connectTimeoutInSeconds,
 			Integer readTimeoutInSeconds) {
 		OkHttpClient client = new OkHttpClient.Builder()
 				.readTimeout(readTimeoutInSeconds == null ? 60 : readTimeoutInSeconds, TimeUnit.SECONDS)
@@ -203,28 +206,9 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		String targetURL = baseURL + "/" + relativeUrl;
 		okhttp3.Request.Builder requestBuilder = new Request.Builder().delete().url(targetURL);
 
-		// Add headers
-		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
-			for (Map.Entry<String, String> kv : session.getParams().entrySet()) {
-				requestBuilder.addHeader(kv.getKey(), kv.getValue());
-			}
-		}
-
-		// Add cookies
-		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = prepareRequestCookieFromHttpSession();
-
-			if (cookie != null) {
-				requestBuilder.addHeader("Cookie", cookie);
-			}
-		}
-
-		requestBuilder.removeHeader("Content-Type");
-		if (responseContentType == null || "".equals(responseContentType.trim())) {
-			requestBuilder.removeHeader("Accept");
-		} else {
-			requestBuilder.addHeader("Accept", responseContentType);
-		}
+		Map<String, String> headers2 = prepareRequestHeaders(requestBuilder, headers);
+		
+		String responseContentType = headers2.get("Accept");
 
 		return prepareResponse(client, requestBuilder, responseContentType != null, targetURL);
 	}
@@ -240,31 +224,8 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		okhttp3.Request.Builder requestBuilder = new Request.Builder()
 				.post(RequestBody.create(request.getPayload(), MediaType.parse(request.getPayloadType())))
 				.url(targetURL);
-
-		// Add headers
-		if(!StringUtil.isEmptyAfterTrim(request.getPayloadType())) {
-			requestBuilder.addHeader("Content-Type", request.getPayloadType());
-		}
-		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
-			for (Map.Entry<String, String> kv : session.getParams().entrySet()) {
-				requestBuilder.addHeader(kv.getKey(), kv.getValue());
-			}
-		}
-
-		// Add cookies
-		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = prepareRequestCookieFromHttpSession();
-
-			if (cookie != null) {
-				requestBuilder.addHeader("Cookie", cookie);
-			}
-		}
-
-		if (StringUtil.isEmptyAfterTrim(request.getResponseContentType().trim())) {
-			requestBuilder.removeHeader("Accept");
-		} else {
-			requestBuilder.addHeader("Accept", request.getResponseContentType());
-		}
+		
+		prepareRequestHeaders(requestBuilder, request.getHeaders());
 
 		return prepareResponse(client, requestBuilder, request.getResponseContentType() != null, targetURL);
 	}
@@ -281,30 +242,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 				.put(RequestBody.create(request.getPayload(), MediaType.parse(request.getPayloadType())))
 				.url(targetURL);
 
-		// Add headers
-		if(!StringUtil.isEmptyAfterTrim(request.getPayloadType())) {
-			requestBuilder.addHeader("Content-Type", request.getPayloadType());
-		}
-		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
-			for (Map.Entry<String, String> kv : session.getParams().entrySet()) {
-				requestBuilder.addHeader(kv.getKey(), kv.getValue());
-			}
-		}
-
-		// Add cookies
-		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = prepareRequestCookieFromHttpSession();
-
-			if (cookie != null) {
-				requestBuilder.addHeader("Cookie", cookie);
-			}
-		}
-
-		if (StringUtil.isEmptyAfterTrim(request.getResponseContentType().trim())) {
-			requestBuilder.removeHeader("Accept");
-		} else {
-			requestBuilder.addHeader("Accept", request.getResponseContentType());
-		}
+		prepareRequestHeaders(requestBuilder, request.getHeaders());
 
 		return prepareResponse(client, requestBuilder, request.getResponseContentType() != null, targetURL);
 	}
@@ -346,31 +284,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 					.url(targetURL);
 		}
 
-		// Add headers
-		if (session != null && session.getParams() != null && session.getParams().size() > 0) {
-			for (Map.Entry<String, String> kv : session.getParams().entrySet()) {
-				requestBuilder.addHeader(kv.getKey(), kv.getValue());
-			}
-		}
-
-		// Add cookies
-		if (session != null && session.getCookies() != null && session.getCookies().size() > 0) {
-			String cookie = prepareRequestCookieFromHttpSession();
-
-			if (cookie != null) {
-				requestBuilder.addHeader("Cookie", cookie);
-			}
-		}
-
-		for(Map.Entry<String, String> param : request.getHeaders().entrySet()) {
-			requestBuilder.addHeader(param.getKey(), request.getContentType());
-		}
-		
-		if (StringUtil.isEmptyAfterTrim(request.getResponseContentType().trim())) {
-			requestBuilder.removeHeader("Accept");
-		} else {
-			requestBuilder.addHeader("Accept", request.getResponseContentType());
-		}
+		prepareRequestHeaders(requestBuilder, request.getHeaders());
 
 		return prepareResponse(client, requestBuilder, request.getResponseContentType() != null, targetURL);
 	}

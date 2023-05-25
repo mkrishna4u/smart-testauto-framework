@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.csv.CSVFormat.Builder;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.csv.DuplicateHeaderMode;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.file.reader.support.Table;
@@ -47,7 +48,7 @@ public class CSVFileReader {
 		Table table = new Table(extractFileName(filePath));
 		List<String> row;
 		try (Reader fileReader = new FileReader(filePath)) {
-			Iterable<CSVRecord> records = Builder.create().setAllowDuplicateHeaderNames(true).setQuote(quoteChar)
+			Iterable<CSVRecord> records = Builder.create().setDuplicateHeaderMode(DuplicateHeaderMode.ALLOW_ALL).setQuote(quoteChar)
 					.setDelimiter(delimiter).setIgnoreEmptyLines(false).setIgnoreSurroundingSpaces(true).build().parse(fileReader);
 			
 			int rowCounter = 0;
@@ -56,8 +57,7 @@ public class CSVFileReader {
 				row = new ArrayList<>();
 
 				if (record.size() == 1) {
-					if ((table.getColumnNames().size() < 1 && "".equals(record.get(0).trim()))
-							|| (table.getColumnNames().size() > 0)) {
+					if ("".equals(record.get(0).trim())) {
 						rowCounter++;
 						continue;
 					}
@@ -107,6 +107,9 @@ public class CSVFileReader {
 	}
 
 //	public static void main(String[] args) {
+//		Table table = CSVFileReader.getData("test-data/single-column.csv");
+//		System.out.println(table);
+//		
 //		Table table = CSVFileReader.getData("test-data/usa-states.csv");
 //
 //		System.out.println(table);
@@ -116,7 +119,7 @@ public class CSVFileReader {
 //				.and()
 //				.condition(new Condition("State Abbr", Operator.ne, "MK"))
 //				);
-		
+//		
 //		List<TableRow> filteredRows = table.getRows(new RowFilter()
 //				.condition(new Condition("State Code", Operator.dontStartsWith, "R"))
 //				.and()
