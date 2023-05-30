@@ -15,26 +15,17 @@
  * limitations under the License.
  * 
  */
-package org.uitnet.testing.smartfwk.api.core.support;
+package org.uitnet.testing.smartfwk.messaging;
+
+import org.uitnet.testing.smartfwk.ui.core.config.MessageHandlerTargetConfig;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public interface MediaType {
-	String APPLICATION_JSON = "application/json";
-	String APPLICATION_XML = "application/xml";
-	String APPLICATION_OCTET_STREAM = "application/octet-stream";
-	String APPLICATION_PDF = "application/pdf";
-	String IMAGE_GIF = "image/gif";
-	String IMAGE_PNG = "image/png";
-	String IMAGE_JPEG = "image/jpeg";
-	String TEXT_HTML = "text/html";
-	String TEXT_XML = "text/xml";
-	String TEXT_PLAIN = "text/plain";
-	String MULTIPART_MIXED = "multipart/mixed";
-	String MULTIPART_FORM_DATA = "multipart/form-data";
-	String ALL = "*/*";	
-	String ANY = "*/*";	
+public interface MessagingConnectionProvider {
+	void connectToSender(MessageHandlerTargetConfig messageHandlerTargetConfig) throws Exception;
+	void startReceiver(MessageHandlerTargetConfig messageHandlerTargetConfig) throws Exception;
+	void disconnect();
 }
