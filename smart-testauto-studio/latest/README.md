@@ -78,6 +78,17 @@ E. **@Failed:** Apply this tag on cucumber scenario / scenario outline to mark t
 
 F. **@Pending:** Apply this tag on cucumber scenario / scenario outline to mark that scenario as Pending scenario. Pending scenario means that it is not implemented and do not run. When we use any command given above, it will not include scenarios that are marked @Pending.
 
+## Run multiple tags using STAS
+To run multiple tags using STAS, use the following command:
+
+	> smart-runner run-tags "@Tag1 or @Tag2 or @Tag3" 5
+	
+	Where 5 is the degree of parallism.
+	
+Similarly, to run multiple tags on different environment, use the following command:
+	
+	> smart-runner run-tags-for-env "@Tag1 or @Tag2 or @Tag3" "AppName1:EnvNameForApp1,AppName2:EnvNameForApp2" 5
+
 ## Find missing step definitions
 To find the missing step definitions for the scenarios that are marked as **@TempScenario** in cucumber feature file. Use the following command:
 
