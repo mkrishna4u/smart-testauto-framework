@@ -1,5 +1,5 @@
 # Smart TestAuto Studio (STAS)
-<<i>A smart power of testing automation - bye bye to programming</i>>
+<<i>A smart power of testing automation - bye bye to programming</i>> - Codeless / Low Code / AI Driven
 
 **STAS** is a very powerful and the smart software testing automation tool that makes data driven End-to-End testing (UI, API, Database, Remote Machine Testing, Local Machine Testing) easy. Develop test scenarios for one environment and run the same scenarios on different environments without changing the test scenarios.
 
