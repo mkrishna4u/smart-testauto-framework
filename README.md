@@ -105,7 +105,7 @@ This framework removes the complexity of all other software tools and provides a
 # How to start with this framework tool
 To start with this framework / STAS tool is as easy as could be. 
 
-**Download STAS (smart-testauto-studio.zip) from link:** [https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.0.13](https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.0.13 "STAS 6.0.13") 
+**Download STAS (smart-testauto-studio.zip) from link:** [https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.0.15](https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.0.15 "STAS 6.0.15") 
 
 Please refer the link below to understand STAS tool functionality and how to use it:
 
