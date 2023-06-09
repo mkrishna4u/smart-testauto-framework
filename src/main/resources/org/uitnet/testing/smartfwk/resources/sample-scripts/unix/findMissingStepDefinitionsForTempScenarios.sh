@@ -17,4 +17,4 @@
 # Author - Madhav Krishna
 ###############################################################################
 clear
-./set-env.sh && mvn clean test -Dcucumber.filter.tags="@TempScenario and not @Pending" -Dcucumber.execution.dry-run=true
+mvn clean test -Dcucumber.filter.tags="@TempScenario and not @Pending" -Dcucumber.execution.dry-run=true

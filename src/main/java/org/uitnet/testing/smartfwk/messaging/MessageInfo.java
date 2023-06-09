@@ -19,8 +19,6 @@ package org.uitnet.testing.smartfwk.messaging;
 
 import java.util.Calendar;
 
-import org.uitnet.testing.smartfwk.api.core.support.MediaType;
-
 /**
  * 
  * @author Madhav Krishna
@@ -30,7 +28,8 @@ public class MessageInfo {
 	private long logTime;
 	private String hostNameOrIpAddress;
 	private int port;
-	private MediaType contentType;
+	private MessageContentType contentType;
+	private String otherContentType;
 	private String fileName;
 	private Object message;
 	
@@ -62,12 +61,20 @@ public class MessageInfo {
 		this.port = port;
 	}
 
-	public MediaType getContentType() {
+	public MessageContentType getContentType() {
 		return contentType;
 	}
 
-	public void setContentType(MediaType contentType) {
+	public void setContentType(MessageContentType contentType) {
 		this.contentType = contentType;
+	}
+
+	public String getOtherContentType() {
+		return otherContentType;
+	}
+
+	public void setOtherContentType(String otherContentType) {
+		this.otherContentType = otherContentType;
 	}
 
 	public String getFileName() {

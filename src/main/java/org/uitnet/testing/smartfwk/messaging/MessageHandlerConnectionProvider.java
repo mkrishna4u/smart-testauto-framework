@@ -17,11 +17,15 @@
  */
 package org.uitnet.testing.smartfwk.messaging;
 
+import org.uitnet.testing.smartfwk.ui.core.config.MessageHandlerTargetConfig;
+
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public interface MessageReceiver extends Runnable {
-	void notifyMessageReceived(MessageInfo message);
+public interface MessageHandlerConnectionProvider {
+	void connectToSender(MessageHandlerTargetConfig messageHandlerTargetConfig) throws Exception;
+	void startReceiver(MessageHandlerTargetConfig messageHandlerTargetConfig) throws Exception;
+	void disconnect();
 }

@@ -26,4 +26,4 @@ fi
 
 echo "PARALLEL_THREADS = $num_threads"
 
-./set-env.sh && mvn clean verify -Dcucumber.filter.tags="@Failed and not @Pending" -Dparallel.threads=$num_threads
+mvn clean verify -Dcucumber.filter.tags="@Failed and not @Pending" -Dparallel.threads=$num_threads

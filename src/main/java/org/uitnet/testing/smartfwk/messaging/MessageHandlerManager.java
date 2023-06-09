@@ -22,6 +22,8 @@ package org.uitnet.testing.smartfwk.messaging;
  * @author Madhav Krishna
  *
  */
-public class MessagingConnection {
-
+public interface MessageHandlerManager {
+	MessageHandlerConnectionProvider getConnectionProvider(String handlerName);
+	AbstractMessageHandler getMessageHandler(String handlerName);
+	void deregisterAll();
 }

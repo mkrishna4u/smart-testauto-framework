@@ -27,4 +27,4 @@ fi
 
 echo "PARALLEL_THREADS = $num_threads"
 
-./set-env.sh &&  mvn clean verify -Dcucumber.filter.tags="@TempScenario and not @Pending" -Dmaven.surefire.debug=true -Dparallel.threads=$num_threads
+mvn clean verify -Dcucumber.filter.tags="@TempScenario and not @Pending" -Dmaven.surefire.debug=true -Dparallel.threads=$num_threads

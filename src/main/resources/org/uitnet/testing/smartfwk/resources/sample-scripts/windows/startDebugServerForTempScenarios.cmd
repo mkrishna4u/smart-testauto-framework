@@ -19,7 +19,7 @@ REM # Author - Madhav Krishna
 REM ###############################################################################
 # Debug server will get started at localhost port 5005.
 cls
-call set-env.cmd
+REM call set-env.cmd
 
 set num_threads=1
 if NOT "%1"=="" (

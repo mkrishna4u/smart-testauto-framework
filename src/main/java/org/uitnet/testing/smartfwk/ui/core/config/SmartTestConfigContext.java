@@ -44,8 +44,16 @@ public class SmartTestConfigContext {
 
 	private Map<String, Object> additionalProps;
 
+	private String downloadLocation;
+	private boolean useDefaultStepDefsHooks;
+
 	private SikuliSettings sikuliSettings;
-	
+	private Map<String, MessageHandlerTargetConfig> messageHandlers;
+
+	public SmartTestConfigContext() {
+
+	}
+
 	public String getAppsConfigDir() {
 		return appsConfigDir;
 	}
@@ -162,6 +170,14 @@ public class SmartTestConfigContext {
 		return sikuliSettings;
 	}
 
+	public Map<String, MessageHandlerTargetConfig> getMessageHandlers() {
+		return messageHandlers;
+	}
+
+	public void setMessageHandlers(Map<String, MessageHandlerTargetConfig> messageHandlers) {
+		this.messageHandlers = messageHandlers;
+	}
+
 	public void setSikuliSettings(SikuliSettings sikuliSettings) {
 		this.sikuliSettings = sikuliSettings;
 	}
@@ -182,10 +198,4 @@ public class SmartTestConfigContext {
 		this.useDefaultStepDefsHooks = useDefaultStepDefsHooks;
 	}
 
-	private String downloadLocation;
-	private boolean useDefaultStepDefsHooks;
-	
-	public SmartTestConfigContext() {
-		
-	}
 }

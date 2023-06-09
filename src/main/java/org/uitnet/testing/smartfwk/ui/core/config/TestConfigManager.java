@@ -32,6 +32,7 @@ import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.TypeRef;
@@ -70,6 +71,9 @@ public class TestConfigManager {
 	
 	private String downloadLocation;
 	private boolean useDefaultStepDefsHooks;
+	
+	private MessageHandlersConfig messageHandlersConfig;
+	
 	private DocumentContext jsonContext;
 
 	private TestConfigManager() {
@@ -109,6 +113,7 @@ public class TestConfigManager {
 
 			initTestConfig(reader.getDocumentContext());
 			initAppConfigs();
+			initMessageHandlersConfig();
 		} catch (Exception ex) {
 			Assert.fail("Failed to read property file - " + TEST_CONFIG_FILE_PATH + ". Going to exit...", ex);
 			System.exit(1);
@@ -219,6 +224,28 @@ public class TestConfigManager {
 			System.exit(1);
 		}
 	}
+	
+	private void initMessageHandlersConfig() {
+		String messageHandlersFileName = System.getProperty("message-handlers-filename");
+		String filePath = Locations.getProjectRootDir() + File.separator + "message-handlers";
+		if(!StringUtil.isEmptyAfterTrim(messageHandlersFileName)) {
+			filePath = filePath + File.separator + "MessageHandlers.yaml";
+		} else {
+			filePath = filePath + File.separator + messageHandlersFileName.trim();
+		}
+		
+		try {
+			File f = new File(filePath);
+			if(!f.exists()) { return; }
+			YamlDocumentReader yamlDocReader = new YamlDocumentReader(f, true);
+			messageHandlersConfig = yamlDocReader.readValueAsObject("$", MessageHandlersConfig.class);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			Assert.fail(
+					"Error in loading MessageHandlers.yaml file. Going to exit...", ex);
+			System.exit(1);
+		}
+	}
 
 	private AppConfig createDefaultAppConfig(String appsConfigDir) {
 		String defaultConfig = "applicationName: " + DefaultInfo.DEFAULT_APP_NAME + "\n" + "applicationType: "
@@ -322,6 +349,10 @@ public class TestConfigManager {
 		return useDefaultStepDefsHooks;
 	}
 
+	public MessageHandlersConfig getMessageHandlersConfig() {
+		return messageHandlersConfig;
+	}
+
 	public DocumentContext getJsonContext() {
 		return jsonContext;
 	}
@@ -343,6 +374,9 @@ public class TestConfigManager {
 			context.setAppConfigs(appConfigs);
 			context.setAdditionalProps(additionalProps);
 			context.setSikuliSettings(sikuliSettings);
+			if(messageHandlersConfig != null) {
+				context.setMessageHandlers(messageHandlersConfig.getTargetsAsMap());
+			}
 			
 			JsonDocumentReader r = new JsonDocumentReader();
 			this.jsonContext = r.prepareDocumentContext(context);

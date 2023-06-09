@@ -39,4 +39,4 @@ fi
 echo "PARALLEL_THREADS = $num_threads"
 echo "Executing: Tags=$tags"
 echo "Environment: $env_name"
-./set-env.sh && mvn clean verify -Dcucumber.filter.tags="$tags" -Dapps.active.environment="$env_name" -Dparallel.threads=$num_threads
+mvn clean verify -Dcucumber.filter.tags="$tags" -Dapps.active.environment="$env_name" -Dparallel.threads=$num_threads

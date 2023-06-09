@@ -33,4 +33,4 @@ fi
 
 echo "PARALLEL_THREADS = $num_threads"
 echo "Executing: Tags=$tags"
-./set-env.sh && mvn clean verify -Dcucumber.filter.tags="$tags" -Dparallel.threads=$num_threads
+mvn clean verify -Dcucumber.filter.tags="$tags" -Dparallel.threads=$num_threads

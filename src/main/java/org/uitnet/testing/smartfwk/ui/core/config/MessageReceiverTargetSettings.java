@@ -19,6 +19,8 @@ package org.uitnet.testing.smartfwk.ui.core.config;
 
 import java.util.Map;
 
+import org.uitnet.testing.smartfwk.messaging.MessageContentType;
+
 /**
  * 
  * @author Madhav Krishna
@@ -28,6 +30,8 @@ public class MessageReceiverTargetSettings {
 	private Integer listenerPort;
 	private String topicName;
 	private String queueName;
+	private MessageContentType contentType;
+	private String otherContentType;
 	private Map<String, Object> additionalProps;
 	
 	public MessageReceiverTargetSettings() {
@@ -56,6 +60,22 @@ public class MessageReceiverTargetSettings {
 
 	public void setQueueName(String queueName) {
 		this.queueName = queueName;
+	}
+
+	public MessageContentType getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = MessageContentType.valueOf2(contentType);
+	}
+
+	public String getOtherContentType() {
+		return otherContentType;
+	}
+
+	public void setOtherContentType(String otherContentType) {
+		this.otherContentType = otherContentType;
 	}
 
 	public Map<String, Object> getAdditionalProps() {

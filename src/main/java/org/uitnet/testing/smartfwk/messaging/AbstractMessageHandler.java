@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
@@ -34,64 +36,97 @@ import com.jayway.jsonpath.DocumentContext;
  * @author Madhav Krishna
  *
  */
-public abstract class AbstractMessagingHandler implements MessageSender, MessageReceiver, MessagingConnectionProvider {
+public abstract class AbstractMessageHandler
+		implements MessageSender, MessageReceiver, MessageHandlerConnectionProvider {
 	// Key: bucketName, Value: messages in bucket
 	protected Map<String, List<DocumentContext>> bucketMessagesMap;
 	protected MessageHandlerTargetConfig messageHandlerTargetConfig;
-	
-	public AbstractMessagingHandler(MessageHandlerTargetConfig messageHandlerTargetConfig) {
+	protected MessageHandlerManager messageHandlerManager;
+	protected ExecutorService receiverExecutorService;
+
+	public AbstractMessageHandler(MessageHandlerTargetConfig messageHandlerTargetConfig) {
 		this.messageHandlerTargetConfig = messageHandlerTargetConfig;
 		this.bucketMessagesMap = new ConcurrentHashMap<>();
 	}
-	
+
 	public void start() {
 		try {
 			connectToSender(messageHandlerTargetConfig);
-			startReceiver(messageHandlerTargetConfig);
-		} catch(Exception ex) {
-			Assert.fail("Failed to start '" + messageHandlerTargetConfig.getName() + "' messaging handler.", ex);
+			startReceiverInNewThread(messageHandlerTargetConfig);
+		} catch (Exception ex) {
+			Assert.fail("Failed to start '" + messageHandlerTargetConfig.getName() + "' message handler.", ex);
 		}
 	}
 	
+	@Override
+	public void run() {
+		try {
+			startReceiver(messageHandlerTargetConfig);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public MessageHandlerTargetConfig getMessageHandlerTargetConfig() {
+		return this.messageHandlerTargetConfig;
+	}
+	
+	protected void startReceiverInNewThread(MessageHandlerTargetConfig messageHandlerTargetConfig) throws Exception {
+		receiverExecutorService = Executors.newSingleThreadExecutor();
+		receiverExecutorService.execute(this);
+	}
+
 	public void startMessageRecorder(String bucketName) {
 		List<DocumentContext> messages = new LinkedList<DocumentContext>();
 		bucketMessagesMap.put(bucketName, messages);
 	}
-	
+
 	public void stopMessageRecorder(String bucketName) {
 		bucketMessagesMap.remove(bucketName);
 	}
-	
+
 	public List<DocumentContext> getRecordedMessages(String bucketName) {
 		return bucketMessagesMap.get(bucketName);
 	}
-	
+
+	/**
+	 * This method must be called by child class on message receiving to notify message handler.
+	 */
 	@Override
 	public void notifyMessageReceived(MessageInfo message) {
-		if(message == null) {
+		if (message == null) {
 			return;
 		}
-		
+
 		Set<String> keySet = bucketMessagesMap.keySet();
-		if(keySet.size() > 0) {
+		if (keySet.size() > 0) {
 			JsonDocumentReader jsonDocReader = new JsonDocumentReader();
 			DocumentContext msgAsJson = jsonDocReader.prepareDocumentContext(message);
 			List<DocumentContext> messageList = null;
-			for(String key : keySet) {
+			for (String key : keySet) {
 				messageList = bucketMessagesMap.get(key);
-				if(messageList == null) {
+				if (messageList == null) {
 					continue;
 				}
 				messageList.add(msgAsJson);
 			}
 		}
 	}
-	
+
+	public void setMessageHandlerManager(MessageHandlerManager messageHandlerManager) {
+		if(this.messageHandlerManager == null) {
+			this.messageHandlerManager = messageHandlerManager;
+		}
+	}
+
 	public void close() {
 		try {
 			disconnect();
-		} catch(Exception ex) {
-			Assert.fail("Failed to disconnect '" + messageHandlerTargetConfig.getName() + "' message reciever.", ex);
+			if(receiverExecutorService != null && !(receiverExecutorService.isShutdown() || receiverExecutorService.isTerminated())) {
+				receiverExecutorService.shutdownNow();
+			}
+		} catch (Exception ex) {
+			Assert.fail("Failed to disconnect '" + messageHandlerTargetConfig.getName() + "' message handler.", ex);
 		}
 	}
 }

@@ -17,10 +17,14 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.config;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.TypeRef;
+import org.testng.Assert;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -30,16 +34,36 @@ import com.jayway.jsonpath.TypeRef;
 public class MessageHandlersConfig {
 	private List<MessageHandlerTargetConfig> targets;
 	
-	public MessageHandlersConfig(DocumentContext yamlDoc) {
-		this.targets = yamlDoc.read("$.targets", new TypeRef<List<MessageHandlerTargetConfig>>() {
-		});
+	public MessageHandlersConfig() {
+		// do nothing
 	}
 
+	@JsonIgnore
 	public List<MessageHandlerTargetConfig> getTargets() {
 		return targets;
 	}
 
 	public void setTargets(List<MessageHandlerTargetConfig> targets) {
 		this.targets = targets;
+	}
+	
+	public Map<String, MessageHandlerTargetConfig> getTargetsAsMap() {
+		Map<String, MessageHandlerTargetConfig> targetsAsMap = new LinkedHashMap<>();
+		if(targets == null || targets.size() == 0) {
+			return targetsAsMap;
+		}
+		
+		for(MessageHandlerTargetConfig target : targets) {
+			if(StringUtil.isEmptyAfterTrim(target.getName())) {
+				continue;
+			}
+			
+			if(targetsAsMap.containsKey(target.getName())) {
+				Assert.fail("Message handler name should be unique. Duplicate MessageHandler = " + target.getName() + ".");
+			}
+			targetsAsMap.put(target.getName(), target);
+		}
+		
+		return targetsAsMap;
 	}
 }

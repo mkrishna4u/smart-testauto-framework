@@ -18,4 +18,4 @@
 # Author - Madhav Krishna
 ###############################################################################
 clear
-./set-env.sh && mvn clean test -Dcucumber.filter.tags="not @Pending" -Dcucumber.execution.dry-run=true
+mvn clean test -Dcucumber.filter.tags="not @Pending" -Dcucumber.execution.dry-run=true

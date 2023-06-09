@@ -27,7 +27,8 @@ import java.util.Map;
 public class MessageHandlerTargetConfig {
 	private String name;
 	private String hostOrIpAddress;
-	private String actionHandlerClass;
+	private String url;
+	private String messageHandlerClass;
 	private MessageSenderTargetSettings senderTargetSettings;
 	private MessageReceiverTargetSettings receiverTargetSettings;
 	private Map<String, Object> additionalProps;
@@ -52,12 +53,20 @@ public class MessageHandlerTargetConfig {
 		this.hostOrIpAddress = hostOrIpAddress;
 	}
 
-	public String getActionHandlerClass() {
-		return actionHandlerClass;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setActionHandlerClass(String actionHandlerClass) {
-		this.actionHandlerClass = actionHandlerClass;
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getMessageHandlerClass() {
+		return messageHandlerClass;
+	}
+
+	public void setMessageHandlerClass(String messageHandlerClass) {
+		this.messageHandlerClass = messageHandlerClass;
 	}
 
 	public MessageSenderTargetSettings getSenderTargetSettings() {

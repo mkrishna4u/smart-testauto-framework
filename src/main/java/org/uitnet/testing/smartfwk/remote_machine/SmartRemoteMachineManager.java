@@ -40,7 +40,7 @@ public class SmartRemoteMachineManager implements RemoteMachineManager {
 	private Map<String, AbstractRemoteMachineActionHandler> actionHandlers;
 
 	// Key: appName:remoteMachineName:userProfileName, Value:
-	// ApiAuthenticationProvider
+	// RemoteMachineConnectionProvider
 	private Map<String, RemoteMachineConnectionProvider> connectionProviders;
 
 	private SmartRemoteMachineManager() {

@@ -18,4 +18,4 @@
 # Author - Madhav Krishna
 ###############################################################################
 clear
-./set-env.sh && mvn verify -DskipTests=true
+mvn verify -DskipTests=true

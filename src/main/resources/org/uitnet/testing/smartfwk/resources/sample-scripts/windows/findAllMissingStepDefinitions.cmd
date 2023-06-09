@@ -18,5 +18,5 @@ REM #
 REM # Author - Madhav Krishna
 REM ###############################################################################
 cls
-call set-env.cmd
+REM call set-env.cmd
 mvn clean test -Dcucumber.filter.tags="not @Pending" -Dcucumber.execution.dry-run=true
