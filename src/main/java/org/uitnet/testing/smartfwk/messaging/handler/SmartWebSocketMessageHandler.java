@@ -17,14 +17,18 @@
  */
 package org.uitnet.testing.smartfwk.messaging.handler;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
 import org.uitnet.testing.smartfwk.messaging.AbstractMessageHandler;
 import org.uitnet.testing.smartfwk.messaging.MessageContentType;
+import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.config.MessageHandlerTargetConfig;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -32,7 +36,7 @@ import okhttp3.WebSocket;
 import okio.ByteString;
 
 /**
- * Used to send and receive messages on web sockets.
+ * Used to send and receive messages to and from web sockets.
  * 
  * @author Madhav Krishna
  *
@@ -51,10 +55,13 @@ public class SmartWebSocketMessageHandler extends AbstractMessageHandler {
 		if(contentType == MessageContentType.BYTE_ARRAY || contentType == MessageContentType.OTHER) {
 			ByteString bs = new ByteString((byte[])message);
 			webSocket.send(bs);
-		} if(contentType == MessageContentType.FILE) {
-			byte[] fbytes = Files.readAllBytes(Path.of("" + message));
+		} else if(contentType == MessageContentType.BINARY_FILE) {
+			byte[] fbytes = Files.readAllBytes(Path.of(Locations.getProjectRootDir() + File.separator + message));
 			ByteString bs = new ByteString(fbytes);
 			webSocket.send(bs);
+		} else if(contentType == MessageContentType.TEXT_FILE) {
+			String fileContents = Files.readString(Path.of(Locations.getProjectRootDir() + File.separator + message));
+			webSocket.send(fileContents);
 		} else {
 			webSocket.send("" + message);
 		}
@@ -62,6 +69,8 @@ public class SmartWebSocketMessageHandler extends AbstractMessageHandler {
 		System.out.println("Message sent using '" + messageHandlerTargetConfig.getName() + "' message handler.");
 	}
 
+	//TODO: pending code
+	@SuppressWarnings("unchecked")
 	@Override
 	public void connectToSender(MessageHandlerTargetConfig messageHandlerTargetConfig) throws Exception {
 		httpClient = new OkHttpClient();
@@ -80,9 +89,14 @@ public class SmartWebSocketMessageHandler extends AbstractMessageHandler {
 			
 			String method = "" +  authParams.get("method");
 			String body = "" +  authParams.get("body");
+			MediaType mediaType = MediaType.parse("" +  authParams.get("mediaType"));
 			
+			RequestBody reqBody = RequestBody.Companion.create(body, mediaType);
+			authRequestBuilder.method(method, reqBody);
 			
-			authRequestBuilder.method(body, null);
+			String username = "" +  authParams.get("username");
+			String password = "" +  authParams.get("password");
+			
 			
 			Map<String, String> headers = (Map<String, String>) authParams.get("headers");
 			if(headers != null && headers.size() > 0) {
@@ -102,7 +116,7 @@ public class SmartWebSocketMessageHandler extends AbstractMessageHandler {
 
 	@Override
 	public void startReceiver(MessageHandlerTargetConfig messageHandlerTargetConfig) throws Exception {
-		// Do not do anything.
+		// Do not do anything. its already started into connectToSender() method.
 	}
 
 	@Override

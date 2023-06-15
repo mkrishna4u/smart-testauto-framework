@@ -26,7 +26,8 @@ import org.testng.Assert;
  */
 public enum MessageContentType {
 	JSON("json"), XML("xml"), BOOLEAN("boolean"), NUMERIC("numeric"), 
-	DECIMAL("decimal"), STRING("string"), FILE("file"), BYTE_ARRAY("byte_array"), OTHER("other");
+	DECIMAL("decimal"), STRING("string"), BINARY_FILE("binary_file"), 
+	TEXT_FILE("text_file"), BYTE_ARRAY("byte_array"), OTHER("other");
 	
 	private String type;
 

@@ -30,6 +30,7 @@ import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
 import org.uitnet.testing.smartfwk.ui.core.config.MessageHandlerTargetConfig;
 
 import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.TypeRef;
 
 /**
  * 
@@ -87,6 +88,27 @@ public abstract class AbstractMessageHandler
 
 	public List<DocumentContext> getRecordedMessages(String bucketName) {
 		return bucketMessagesMap.get(bucketName);
+	}
+	
+	public DocumentContext getRecordedMessagesAsJsonObject(String bucketName) {
+		List<DocumentContext> messages =  bucketMessagesMap.get(bucketName);
+		
+		JsonDocumentReader jsonReader = new JsonDocumentReader();
+		List<Map<String, Object>> rootDoc = new LinkedList<>();
+		DocumentContext rootJsonContext = jsonReader.prepareDocumentContext(rootDoc);
+		
+		if(messages == null || messages.isEmpty()) {
+			return rootJsonContext;
+		}
+		
+		TypeRef<Map<String, Object>> mapRef = null;
+		for(DocumentContext m : messages) {
+			mapRef = new TypeRef<Map<String,Object>>() {};
+			Map<String, Object> jsonAsMap = m.read("$", mapRef);
+			rootJsonContext.add("$", jsonAsMap);
+		}
+		
+		return rootJsonContext;
 	}
 
 	/**
