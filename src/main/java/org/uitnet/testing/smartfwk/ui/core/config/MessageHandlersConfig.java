@@ -25,6 +25,8 @@ import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.TypeRef;
 
 /**
  * 
@@ -34,17 +36,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class MessageHandlersConfig {
 	private List<MessageHandlerTargetConfig> targets;
 	
-	public MessageHandlersConfig() {
-		// do nothing
+	public MessageHandlersConfig(DocumentContext messageHandlersDocCtx) {
+		this.targets = messageHandlersDocCtx.read("$.targets", new TypeRef<List<MessageHandlerTargetConfig>>() {
+		});
 	}
 
 	@JsonIgnore
 	public List<MessageHandlerTargetConfig> getTargets() {
 		return targets;
-	}
-
-	public void setTargets(List<MessageHandlerTargetConfig> targets) {
-		this.targets = targets;
 	}
 	
 	public Map<String, MessageHandlerTargetConfig> getTargetsAsMap() {

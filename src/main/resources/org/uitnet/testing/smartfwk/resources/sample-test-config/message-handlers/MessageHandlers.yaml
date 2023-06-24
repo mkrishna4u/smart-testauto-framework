@@ -17,27 +17,6 @@
  # Author - Madhav Krishna
 ################################################################################
 
-# configure messaging targets. these servers will get registered using its unique name.
+# configure message handlers along with targets. these servers will get registered using its unique name.
 targets: 
-  - name: 
-    hostOrIpAddress: 
-    # Class name that extends AbstractMessageHandler class
-    messageHandlerClass: 
-    
-    # Message Sender settings
-    senderTargetSettings: 
-      port:
-      topicName:
-      queueName:
-      additionalProps:
-        
-    # Message receiver settings
-    receiverTargetSettings:
-      listenerPort:
-      topicName:
-      queueName:
-      additionalProps:
-        
-    
-    # Additional properties for target server (Define under additionalProps as child property)
-    additionalProps:
+  # See the samples present in messsage-handler/ directory to configure required message handler.

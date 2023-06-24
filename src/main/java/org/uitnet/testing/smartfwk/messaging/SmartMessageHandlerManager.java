@@ -26,6 +26,7 @@ import org.uitnet.testing.smartfwk.ui.core.config.MessageHandlerTargetConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.MessageHandlersConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 /**
  * This class is used to register all message handlers.
@@ -66,9 +67,17 @@ public class SmartMessageHandlerManager implements MessageHandlerManager {
 		MessageHandlersConfig messageHandlersConfig = TestConfigManager.getInstance().getMessageHandlersConfig();
 		if (messageHandlersConfig != null) {
 			Collection<MessageHandlerTargetConfig> targets = messageHandlersConfig.getTargets();
+			if(targets == null || targets.isEmpty()) {
+				return;
+			}
+			
 			for (MessageHandlerTargetConfig target : targets) {
 				try {
 					String clazzName = target.getMessageHandlerClass();
+					if(StringUtil.isEmptyAfterTrim(clazzName)) {
+						continue;
+					}
+					
 					Class<?> clazz = Class.forName(clazzName);
 
 					AbstractMessageHandler obj = (AbstractMessageHandler) ObjectUtil

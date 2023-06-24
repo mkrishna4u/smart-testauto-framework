@@ -20,15 +20,16 @@
 # configure messaging targets. these servers will get registered using its unique name.
 targets: 
   - name: smart-websocket-message-handler
-    hostOrIpAddress: 127.0.0.1
-    url: ws://127.0.0.1:8080/test-app/message-target
+    url: 'ws://127.0.0.1:8080/test-app/message-target'
     # Class name that extends AbstractMessageHandler class
     messageHandlerClass: org.uitnet.testing.smartfwk.messaging.handler.SmartWebSocketMessageHandler
-    
+    receiverTargetSettings:
+      contentType: string
     # Additional properties for target server (Define under additionalProps as child property)
     additionalProps:
-      requestBodyTemplate: '{"message": "Hello"}'
-      requestMessageContentType: application/json
-      requestHttpMethod: POST
-      headers.Authentication: token here
+      requestMethod: POST
+      requestBody: '{"message": "Hello"}'
+      requestBodyContentType: application/json
+      # You can add any number of header with using prefix: header.
+      header.Authentication: token here
       

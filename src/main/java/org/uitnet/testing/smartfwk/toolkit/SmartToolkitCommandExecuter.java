@@ -94,6 +94,9 @@ public class SmartToolkitCommandExecuter {
 			
 			LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "sample-test-config" + File.separator + "TestConfig.yaml", baseDir + "test-config", "TestConfig.yaml");
 			
+			// Copy message handlers files
+			initMessageHandlers();
+						
 			// Copy log4j file
 			LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "cucumber/cucumber.properties", baseDir + "src/main/resources", "cucumber.properties");
 			
@@ -181,6 +184,16 @@ public class SmartToolkitCommandExecuter {
 		prepareDriverConfig(appName, null);
 		
 		System.out.println("'" + appName + "' application configured successfully.");
+	}
+	
+	public void initMessageHandlers() {
+		System.out.println("Going to initialize messaging configuration...");
+		String baseDir = Locations.getProjectRootDir() + File.separator;
+		String baseTempDir = baseDir + "temp/org/uitnet/testing/smartfwk/resources/";
+		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-config/message-handlers");
+		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "sample-test-config/message-handlers", baseDir + "test-config/message-handlers", true);
+		
+		System.out.println("Messaging configuration is commpleted.");
 	}
 	
 	public void prepareDriverConfig(String appName, String envName) {

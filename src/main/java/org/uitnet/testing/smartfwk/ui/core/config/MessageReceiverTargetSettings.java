@@ -20,6 +20,7 @@ package org.uitnet.testing.smartfwk.ui.core.config;
 import java.util.Map;
 
 import org.uitnet.testing.smartfwk.messaging.MessageContentType;
+import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 /**
  * 
@@ -30,7 +31,7 @@ public class MessageReceiverTargetSettings {
 	private Integer listenerPort;
 	private String topicName;
 	private String queueName;
-	private MessageContentType contentType;
+	private MessageContentType contentType = MessageContentType.STRING;
 	private String otherContentType;
 	private Map<String, Object> additionalProps;
 	
@@ -67,6 +68,7 @@ public class MessageReceiverTargetSettings {
 	}
 
 	public void setContentType(String contentType) {
+		if(StringUtil.isEmptyAfterTrim(contentType)) { return; }
 		this.contentType = MessageContentType.valueOf2(contentType);
 	}
 

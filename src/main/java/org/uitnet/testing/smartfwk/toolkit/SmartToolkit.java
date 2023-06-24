@@ -184,6 +184,13 @@ public class SmartToolkit {
 				case "--upgrade-scripts":
 					executer.upgradeScripts();
 					break;
+				case "--init-message-handlers":
+					if (command.getArgs() == null || command.getArgs().size() == 0) {
+						executer.initMessageHandlers();
+					} else {
+						Assert.fail("Please check your command.\n" + getHelp(command.getName()));
+					}
+					break;
 				case "--install-appium-server":
 					executer.installAppiumServer();
 					break;
@@ -285,6 +292,10 @@ public class SmartToolkit {
 		toolkitCommands.put("--upgrade-scripts", new SmartToolkitCommand("--upgrade-scripts",
 				new CommandArgument[] { },
 				"Used to upgrade the windows and unix scripts used by STAS."));
+		
+		toolkitCommands.put("--init-message-handlers", new SmartToolkitCommand("--init-message-handlers",
+				new CommandArgument[] { },
+				"Used to initialize message handler configuration where you can configure your message handlers in MessageHandlers.yaml file using sample configuration."));
 		
 		toolkitCommands.put("--install-appium-server", new SmartToolkitCommand("--install-appium-server",
 				new CommandArgument[] { },

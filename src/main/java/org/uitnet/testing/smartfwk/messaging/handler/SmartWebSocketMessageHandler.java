@@ -69,8 +69,6 @@ public class SmartWebSocketMessageHandler extends AbstractMessageHandler {
 		System.out.println("Message sent using '" + messageHandlerTargetConfig.getName() + "' message handler.");
 	}
 
-	//TODO: pending code
-	@SuppressWarnings("unchecked")
 	@Override
 	public void connectToSender(MessageHandlerTargetConfig messageHandlerTargetConfig) throws Exception {
 		httpClient = new OkHttpClient();
@@ -78,37 +76,28 @@ public class SmartWebSocketMessageHandler extends AbstractMessageHandler {
 		Request.Builder requestBuilder = new Request.Builder();
 		requestBuilder.url(messageHandlerTargetConfig.getUrl());
 			
-		Map<String, Object> props = messageHandlerTargetConfig.getAdditionalProps();
-		if("basic".equalsIgnoreCase("" + props.get("authenticateMechanism"))) {
-			Request.Builder authRequestBuilder = new Request.Builder();
-			
-			
-			Map<String, Object> authParams  = (Map<String, Object>) props.get("authenticationParams");
-			String url = "" +  authParams.get("url");
-			authRequestBuilder.url(url);
-			
-			String method = "" +  authParams.get("method");
-			String body = "" +  authParams.get("body");
-			MediaType mediaType = MediaType.parse("" +  authParams.get("mediaType"));
-			
-			RequestBody reqBody = RequestBody.Companion.create(body, mediaType);
-			authRequestBuilder.method(method, reqBody);
-			
-			String username = "" +  authParams.get("username");
-			String password = "" +  authParams.get("password");
-			
-			
-			Map<String, String> headers = (Map<String, String>) authParams.get("headers");
-			if(headers != null && headers.size() > 0) {
-				for(Map.Entry<String, String> header : headers.entrySet()) {
-					authRequestBuilder.addHeader(header.getKey(), "" + header.getValue());
-				}
-			}
-			
-			httpClient.newCall(authRequestBuilder.build());
-			
-		}
+		Map<String, Object> addlProps = messageHandlerTargetConfig.getAdditionalProps();
+		Request.Builder authRequestBuilder = new Request.Builder();
 		
+		String requestBody = "" + addlProps.get("requestBody");
+		String requestBodyContentType = "" + addlProps.get("requestBodyContentType");
+		String requestMethod = "" + addlProps.get("requestMethod");
+		
+		if(!StringUtil.isEmptyAfterTrim(requestMethod)) {
+			MediaType mediaType = MediaType.parse(requestBodyContentType);
+			RequestBody reqBody = RequestBody.Companion.create(requestBody, mediaType);
+			authRequestBuilder.method(requestMethod, reqBody);
+		}
+			
+		String key, headerName;
+		for(Map.Entry<String, Object> entry : addlProps.entrySet()) {
+			key = entry.getKey();
+			if(key.startsWith("header.")) {
+				headerName = StringUtil.trim(key.substring("header.".length()));
+				authRequestBuilder.addHeader(headerName, "" + entry.getValue());
+			}
+		}
+				
 		webSocket = httpClient.newWebSocket(requestBuilder.build(), listener);
 		
 		System.out.println("'" + messageHandlerTargetConfig.getName() + "' message handler connection is established.");
@@ -124,6 +113,7 @@ public class SmartWebSocketMessageHandler extends AbstractMessageHandler {
 		if(webSocket != null) {
 			webSocket.close(NORMAL_CLOSURE_STATUS, "Closed");
 			webSocket = null;
+			System.out.println("'" + messageHandlerTargetConfig.getName() + "' message handler connection is closed.");
 		}
 		
 	}

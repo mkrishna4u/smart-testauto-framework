@@ -226,8 +226,8 @@ public class TestConfigManager {
 	}
 	
 	private void initMessageHandlersConfig() {
-		String messageHandlersFileName = System.getProperty("message-handlers-filename");
-		String filePath = Locations.getProjectRootDir() + File.separator + "message-handlers";
+		String messageHandlersFileName = System.getProperty("message-handlers-filename", "MessageHandlers.yaml");
+		String filePath = Locations.getProjectRootDir() + File.separator + "test-config" + File.separator + "message-handlers";
 		if(!StringUtil.isEmptyAfterTrim(messageHandlersFileName)) {
 			filePath = filePath + File.separator + "MessageHandlers.yaml";
 		} else {
@@ -238,7 +238,8 @@ public class TestConfigManager {
 			File f = new File(filePath);
 			if(!f.exists()) { return; }
 			YamlDocumentReader yamlDocReader = new YamlDocumentReader(f, true);
-			messageHandlersConfig = yamlDocReader.readValueAsObject("$", MessageHandlersConfig.class);
+			messageHandlersConfig = new MessageHandlersConfig(yamlDocReader.getDocumentContext());
+					//yamlDocReader.getDocumentContext().read("$", MessageHandlersConfig.class);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			Assert.fail(
