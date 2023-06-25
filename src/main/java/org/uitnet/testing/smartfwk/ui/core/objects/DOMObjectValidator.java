@@ -921,10 +921,10 @@ public class DOMObjectValidator extends UIObjectValidator {
 		
 		if(!(rect.x >= coordinates.getX1() && rect.y >= coordinates.getY1() &&  
 				(rect.x + rect.getWidth()) <= coordinates.getX2() && (rect.y + rect.getHeight()) <= coordinates.getY2())) {
-			Assert.fail("Element '" + domObject.getDisplayName() + "' is not within the specified area [x1=" + coordinates.getX1() 
-			+ ", y1=" + coordinates.getY1() + ", x2=" + coordinates.getX2() + ", y2=" + coordinates.getY2() + "]."
-			+ " Actual Coordinates: [x1=" + rect.x + ", y1=" + rect.y + ", x2=" + (rect.x  + rect.width) 
-			+ ", y2=" + (rect.y + rect.height) + "].");
+			Assert.fail("Element '" + domObject.getDisplayName() + "' is not within the specified area {x1: " + coordinates.getX1() 
+			+ ", y1: " + coordinates.getY1() + ", x2: " + coordinates.getX2() + ", y2: " + coordinates.getY2() + "}."
+			+ " Actual Coordinates: {x1: " + rect.x + ", y1: " + rect.y + ", x2: " + (rect.x  + rect.width) 
+			+ ", y2: " + (rect.y + rect.height) + "}.");
 		}
 		
 		return this;
