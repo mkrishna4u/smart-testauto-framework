@@ -14,7 +14,7 @@
 # Sample Scenario Using STAS
 It's simple to create the UI/API/DB E2E scenarios in Cucumber Gherkin language using STAS Standard Step Definitions. Sample is given below:
 
-![Sample Scenario using STAS](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/sample-scenario.jpg "Sample Scenario using STAS") 
+![Sample Scenario using STAS](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/sample-scenario-2.jpg "Sample Scenario using STAS") 
 	
 For more information on scenario preparation, please refer the following link:
 
