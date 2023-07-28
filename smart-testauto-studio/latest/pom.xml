@@ -42,7 +42,7 @@
 	    <parallel.threads>1</parallel.threads>
 		<smart-testauto-framework.version>6.1.0</smart-testauto-framework.version>
 		<smart-testauto-cucumber-stepdefs-en.version>6.1.0</smart-testauto-cucumber-stepdefs-en.version>
-		<cucumber-reporting.version>5.7.6</cucumber-reporting.version>
+		<cucumber-reporting.version>5.7.5</cucumber-reporting.version>
 		
 		<maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
 		<maven.compiler.source>11</maven.compiler.source>
