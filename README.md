@@ -41,7 +41,7 @@ Documentation related to STAS standard cucumber step definitions (English versio
 
 
 
-# STAS Connectivity
+# STAS Connectivity and Verifications
 ![STAS Connectivity](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/stas-connectivity.jpg "STAS Connectivity") 
 
 # High Level Description
