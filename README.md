@@ -3,7 +3,7 @@
 
 <i>A smart power of testing automation - Standard Test Steps Driven / Codeless / Low Code / AI Driven / Suggestion Driven / Behavior Driven / Data Driven / Configuration Driven</i>
 
-**STAS** is a very powerful and the smart software testing automation tool that makes data driven End-to-End testing (UI, API, Database, Remote Machine Testing, Local Machine Testing, Messaging Testing) easy. Develop test scenarios for one environment and run the same scenarios on different environments without changing the test scenarios.
+**STAS** is a very powerful and the smart software testing automation tool that makes End-to-End testing (UI, API, Database, Remote Machine Testing, Local Machine Testing, Messaging Testing) easy on the real integration environments. Develop test scenarios for one environment and run the same scenarios on different environments without changing the test scenarios.
 
 **STAS** provides a way to write **human friendly automated test scenarios** that can be understood by non technical persons and can be easily maintained.
 
