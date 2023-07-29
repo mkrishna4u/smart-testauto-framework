@@ -1,4 +1,4 @@
-# Smart TestAuto Studio (STAS)
+# Smart Test Auto Studio (STAS)
 <i> **A Fully Integrated Testing Automation Platform** </i>
 
 <i>A smart power of testing automation - Standard Test Steps Driven / Codeless / Low Code / Data Wiring Driven / AI Driven / Suggestion Driven / Behavior Driven / Data Driven / Configuration Driven</i>
