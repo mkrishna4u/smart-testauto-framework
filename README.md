@@ -14,7 +14,7 @@
 **NOTE:** Prefer to use "IntelliJ IDEA" code editor to configure STAS project. Install "Cucumber for Java" plugin in it. Import your STAS project in "IntelliJ IDEA" editor you can get step suggestions out of the way while you will write scenarios / scenario outlines in cucumber feature files under "cucumber-testcases/" directory (present under your project directory).
 
 # Sample Scenario Using STAS
-It's simple to create the UI/API/DB E2E scenarios in Cucumber Gherkin language using STAS Standard Step Definitions. Sample is given below:
+It's simple to create the UI/API/DB/Messaging E2E scenarios in Cucumber Gherkin language using STAS Standard Step Definitions. Sample is given below:
 
 ![Sample Scenario using STAS](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/sample-scenario-2.jpg "Sample Scenario using STAS") 
 	
