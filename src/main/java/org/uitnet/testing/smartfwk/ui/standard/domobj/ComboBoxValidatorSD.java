@@ -290,7 +290,8 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
-					PageScrollUtil.mouseClick(appDriver, options.get(0));
+					options.get(0).click();
+					//PageScrollUtil.mouseClick(appDriver, options.get(0));
 					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
@@ -319,7 +320,8 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in ComboBox '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
-					PageScrollUtil.mouseClick(appDriver, options.get(options.size() - 1));
+					options.get(options.size() - 1).click();
+					//PageScrollUtil.mouseClick(appDriver, options.get(options.size() - 1));
 					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
@@ -357,7 +359,8 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 					for (WebElement option : options) {
 						optionTextValue = option.getText();
 						if (StringUtil.isTextMatchedWithExpectedValue(optionTextValue, itemName, textMatchMechanism) && !option.isSelected()) {
-							PageScrollUtil.mouseClick(appDriver, option);
+							//PageScrollUtil.mouseClick(appDriver, option);
+							option.click();
 							found = true;
 							break;
 						}
@@ -404,7 +407,8 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 					for (WebElement option : options) {
 						optionTextValue = option.getText();
 						if (StringUtil.isTextMatchedWithExpectedValue(optionTextValue, itemName, textMatchMechanism) && option.isSelected()) {
-							PageScrollUtil.mouseClick(appDriver, option);
+							//PageScrollUtil.mouseClick(appDriver, option);
+							option.click();
 							found = true;
 							break;
 						}
@@ -442,7 +446,8 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 
 					for (WebElement option : options) {
 						if (option.isSelected()) {
-							PageScrollUtil.mouseClick(appDriver, option);
+							//PageScrollUtil.mouseClick(appDriver, option);
+							option.click();
 						}
 					}
 
@@ -474,7 +479,8 @@ public class ComboBoxValidatorSD extends ComboBoxValidator {
 
 					for (WebElement option : options) {
 						if (!option.isSelected()) {
-							PageScrollUtil.mouseClick(appDriver, option);
+							//PageScrollUtil.mouseClick(appDriver, option);
+							option.click();
 						}
 					}
 

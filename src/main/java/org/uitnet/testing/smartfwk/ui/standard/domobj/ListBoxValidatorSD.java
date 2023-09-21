@@ -286,8 +286,9 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 							"Failed to find items for Choices '" + uiObject.getDisplayName() + "'.");
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
-
-					PageScrollUtil.mouseClick(appDriver, options.get(0));
+					
+					options.get(0).click();
+					//PageScrollUtil.mouseClick(appDriver, options.get(0));
 					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
@@ -315,7 +316,8 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 					Assert.assertTrue(options.size() > 0,
 							"Failed to find items in Choices '" + uiObject.getDisplayName() + "'. Found 0 items.");
 
-					PageScrollUtil.mouseClick(appDriver, options.get(options.size() - 1));
+					options.get(options.size() - 1).click();
+					//PageScrollUtil.mouseClick(appDriver, options.get(options.size() - 1));
 					return this;
 				} catch (Throwable th) {
 					if (i == maxIterationsToLocateElements) {
@@ -355,12 +357,14 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 						optionTextValue = option.getText();
 						if (StringUtil.isTextMatchedWithExpectedValue(optionTextValue, itemName, textMatchMechanism)) {
 							if (!option.isSelected()) {
-								PageScrollUtil.mouseClick(appDriver, option);
+								option.click();
+								//PageScrollUtil.mouseClick(appDriver, option);
 							}
 							found = true;
 							// break;
 						} else if (option.isSelected()) {
-							PageScrollUtil.mouseClick(appDriver, option);
+							option.click();
+							//PageScrollUtil.mouseClick(appDriver, option);
 						}
 					}
 
@@ -418,7 +422,8 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 					for (WebElement option : options) {
 						optionTextValue = option.getText();
 						if (StringUtil.isTextMatchedWithExpectedValue(optionTextValue, itemName, textMatchMechanism) && option.isSelected()) {
-							PageScrollUtil.mouseClick(appDriver, option);
+							option.click();
+							//PageScrollUtil.mouseClick(appDriver, option);
 							found = true;
 							break;
 						}
@@ -456,7 +461,8 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 
 					for (WebElement option : options) {
 						if (option.isSelected()) {
-							PageScrollUtil.mouseClick(appDriver, option);
+							option.click();
+							//PageScrollUtil.mouseClick(appDriver, option);
 						}
 					}
 
@@ -488,7 +494,8 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 
 					for (WebElement option : options) {
 						if (!option.isSelected()) {
-							PageScrollUtil.mouseClick(appDriver, option);
+							option.click();
+							//PageScrollUtil.mouseClick(appDriver, option);
 						}
 					}
 
