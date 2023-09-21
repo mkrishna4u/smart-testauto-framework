@@ -1,4 +1,4 @@
-# Smart TestAuto Studio (STAS)
+# Smart Test Auto Studio (STAS)
 <i> **A Fully Integrated Testing Automation Platform** </i>
 
 <i>A smart power of testing automation - Standard Test Steps Driven / Codeless / Low Code / Data Wiring Driven / AI Driven / Suggestion Driven / Behavior Driven / Data Driven / Configuration Driven</i>
@@ -14,7 +14,7 @@
 **NOTE:** Prefer to use "IntelliJ IDEA" code editor to configure STAS project. Install "Cucumber for Java" plugin in it. Import your STAS project in "IntelliJ IDEA" editor you can get step suggestions out of the way while you will write scenarios / scenario outlines in cucumber feature files under "cucumber-testcases/" directory (present under your project directory).
 
 # Sample Scenario Using STAS
-It's simple to create the UI/API/DB E2E scenarios in Cucumber Gherkin language using STAS Standard Step Definitions. Sample is given below:
+It's simple to create the UI/API/DB/Messaging E2E scenarios in Cucumber Gherkin language using STAS Standard Step Definitions. Sample is given below:
 
 ![Sample Scenario using STAS](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/sample-scenario-2.jpg "Sample Scenario using STAS") 
 	
@@ -107,7 +107,7 @@ This framework removes the complexity of all other software tools and provides a
 # How to start with this framework tool
 To start with this framework / STAS tool is as easy as could be. 
 
-**Download STAS (smart-testauto-studio.zip) from link:** [https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.0.15](https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.0.15 "STAS 6.0.15") 
+**Download STAS (smart-testauto-studio.zip) from link:** [https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.1.0](https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.1.0 "STAS 6.1.0") 
 
 Please refer the link below to understand STAS tool functionality and how to use it:
 
