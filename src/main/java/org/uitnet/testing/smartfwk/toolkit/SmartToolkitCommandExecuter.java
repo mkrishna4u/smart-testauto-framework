@@ -74,8 +74,10 @@ public class SmartToolkitCommandExecuter {
 			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "test-results/downloads");
 			
 			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/java");
-			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/java/api");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/java/global");
 			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/java/page_objects");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/java/handlers");
+			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/java/scenario_hooks");
 			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/resources");
 			
 			LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/java");

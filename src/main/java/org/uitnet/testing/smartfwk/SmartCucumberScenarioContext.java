@@ -32,6 +32,7 @@ import org.openqa.selenium.WindowType;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.defaults.ApiTestManager;
 import org.uitnet.testing.smartfwk.api.core.reader.JsonDocumentReader;
+import org.uitnet.testing.smartfwk.api.core.support.MethodSequenceNumberGenerator;
 import org.uitnet.testing.smartfwk.database.DatabaseManager;
 import org.uitnet.testing.smartfwk.remote_machine.RemoteMachineManager;
 import org.uitnet.testing.smartfwk.ui.core.AbstractAppConnector;
@@ -73,12 +74,16 @@ public class SmartCucumberScenarioContext {
 
 	// Key: appName, Value: AbstractAppConnector
 	private Map<String, AbstractAppConnector> appConnectors;
+		
+	// Key: methodName, Value: String
+	private Map<String, String> afterScenarioHooks;
 
 	public SmartCucumberScenarioContext() {
 		isUiScenario = false;
 		params = new TreeMap<>(Collections.reverseOrder());
 		conditions = new LinkedHashMap<>(1);
 		driverConfigs = new HashMap<>();
+		afterScenarioHooks = new LinkedHashMap<>(1);
 
 		if (getTestConfigManager().isParallelMode()) {
 			appConnectors = new HashMap<>();
@@ -601,6 +606,17 @@ public class SmartCucumberScenarioContext {
 		}
 
 		return text;
+	}
+			
+	public void registerAfterScenarioHook(String qualifiedMethodName, String data) {
+		int nextNum = MethodSequenceNumberGenerator.getInstance().next();
+		String newMethodName = qualifiedMethodName + "-" + nextNum;
+		SmartCucumberScenarioHooksExecuter.getInstance().checkHookExists(this, newMethodName);
+		this.afterScenarioHooks.put(newMethodName, data);
+	}
+	
+	public Map<String, String> getRegisteredAfterScenarioHooks() {
+		return afterScenarioHooks;
 	}
 
 	public void waitForSeconds(int seconds) {
