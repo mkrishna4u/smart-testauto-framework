@@ -18,6 +18,8 @@
 package org.uitnet.testing.smartfwk;
 
 import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
@@ -78,26 +80,43 @@ public class SmartCucumberScenarioHooksExecuter {
 		
 		String data;
 		String[] qClassAndMethodArr;
+		List<String> exceptions = new LinkedList<>();
+		int hookCounter = 0;
 		for(Map.Entry<String, String> hook: hooks.entrySet()) {
-			qClassAndMethodArr = getQClassAndMethod(scenarioContext, hook.getKey());
-			String qClassName = qClassAndMethodArr[0];
-			String methodName = qClassAndMethodArr[1];
-			
-			data = hook.getValue();
-			
 			try {
-				@SuppressWarnings("rawtypes")
-				Class clazz = Class.forName(qClassName);
-				Method m = ObjectUtil.findClassMethod(clazz, methodName, 2);
-				Object[] args = {scenarioContext, data};
-				ObjectUtil.invokeMethod(clazz, m, args);
+				hookCounter++;
+				qClassAndMethodArr = getQClassAndMethod(scenarioContext, hook.getKey());
+				String qClassName = qClassAndMethodArr[0];
+				String methodName = qClassAndMethodArr[1];
+				
+				data = hook.getValue();
+				
+				try {
+					@SuppressWarnings("rawtypes")
+					Class clazz = Class.forName(qClassName);
+					Method m = ObjectUtil.findClassMethod(clazz, methodName, 2);
+					Object[] args = {scenarioContext, data};
+					ObjectUtil.invokeMethod(clazz, m, args);
+				} catch(Exception ex) {
+					String msg = "Hook#-" + hookCounter + ": Failed to execute '" + methodName + "' hook/method defined in '" + qClassName + 
+							"' class. If this class or method does not exist, please create using the following method signature:\n"
+							+ "\n\npublic static void " + methodName + "(SmartCucumberScenarioContext scenarioContext, String data) {\n//add code here\n}."
+							+ "\n\nAlso try to add the implementation of this method as per your requirements.\n" + ObjectUtil.convertExceptionToString(ex);
+					
+					exceptions.add(msg);
+				}
 			} catch(Exception ex) {
-				Assert.fail("Failed to execute '" + methodName + "' hook/method defined in '" + qClassName + 
-						"' class. If this class or method does not exist, please create using the following method signature:\n"
-						+ "\n\npublic static void " + methodName + "(SmartCucumberScenarioContext scenarioContext, String data) {\n//add code here\n}."
-						+ "\n\nAlso try to add the implementation of this method as per your requirements.", ex);
+				String msg = "Hook#-" + hookCounter + ": Failed to execute '" + hook.getKey() + "' hook/method If this class or method does not exist, "
+						+ "please create the appropriate hook in src/main/java/scenario_hooks directory and register in the correct step.\n" 
+						+ ObjectUtil.convertExceptionToString(ex);
+				
+				exceptions.add(msg);
 			}
 				
+		}
+		
+		if(!exceptions.isEmpty()) {
+			Assert.fail("Failed " + exceptions.size() + " / " + hooks.size() + " hooks.\n" + ObjectUtil.convertListToString(exceptions, "\n\n"));
 		}
 	}
 	

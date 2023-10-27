@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.core.validator.ParamValue;
 import org.uitnet.testing.smartfwk.core.validator.ParamValueType;
@@ -654,6 +655,40 @@ public class ObjectUtil {
 					+ "types are supported: int, long, double, float, byte, boolean, char.", ex);
 		}
 		return clazzTypeName;
+	}
+	
+	public static String convertExceptionToString(Throwable th) {
+		String[] traces = ExceptionUtils.getRootCauseStackTrace(th);
+		String output = "";
+		if(traces != null && traces.length > 0) {
+			String trace = null;
+			for(int i = 0; i < traces.length;i++) {
+				trace = traces[i];
+				if(output.equals("")) {
+					output = trace.toString();
+				} else {
+					output = output + "\n\n" + trace.toString();
+				}
+			}
+		}
+		
+		return output;
+	}
+	
+	public static String convertListToString(List<?> list, String separator) {
+		String output = "";
+		
+		if(list == null || list.isEmpty()) { return output; }
+		
+		for(Object obj : list) {
+			if(output.equals("")) {
+				output = "" + obj;
+			} else {
+				output = output + separator + obj;
+			}
+		}
+		
+		return output;
 	}
 
 }
