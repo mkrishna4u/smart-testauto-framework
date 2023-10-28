@@ -71,7 +71,7 @@
 			<groupId>org.uitnet.testing.smartfwk</groupId>
 			<artifactId>smart-testauto-cucumber-stepdefs-en</artifactId>
 			<version>${smart-testauto-cucumber-stepdefs-en.version}</version>			
-		</dependency>>
+		</dependency>
 
 		<dependency>
 			<groupId>net.masterthought</groupId>
