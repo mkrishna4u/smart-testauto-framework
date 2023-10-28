@@ -144,7 +144,7 @@ public class SmartToolkitCommandExecuter {
 		
 		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/java/stepdefs/api/" + appName);
 		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/test/java/stepdefs/ui/" + appName);
-		
+				
 		String sampleAppDir = baseTempDir + "sample-test-config/apps-config/sample-app";
 		
 		// Copy sample files to app directory
@@ -159,6 +159,8 @@ public class SmartToolkitCommandExecuter {
 		
 		// Create appDir into validators folder
 		LocalMachineFileSystem.createDirectoriesIfNotExist(Locations.getProjectRootDir() + File.separator + "src/main/java/validators/" + appName);
+		
+		LocalMachineFileSystem.createDirectoriesIfNotExist(baseDir + "src/main/java/scenario_hooks/" + appName);
 		
 		LocalMachineFileSystem.copyDirectoryRecursively(baseTempDir + "test-runners", 
 				baseDir + "src/test/java/stepdefs", true);
