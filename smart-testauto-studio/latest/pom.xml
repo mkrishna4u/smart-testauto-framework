@@ -55,23 +55,10 @@
 		
 	<repositories>
 		<repository>
-			<id>Maven-central</id>
-			<name>Maven central</name>
-			<url>https://repo1.maven.org/maven2</url>
-		</repository>
-		<repository>
 			<id>local-repository</id>
 			<url>file:///${project.basedir}/libs</url>
 		</repository>
 	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>Maven-central</id>
-			<name>Maven central</name>
-			<url>https://repo1.maven.org/maven2</url>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<dependencies>
 		<dependency>
@@ -84,7 +71,7 @@
 			<groupId>org.uitnet.testing.smartfwk</groupId>
 			<artifactId>smart-testauto-cucumber-stepdefs-en</artifactId>
 			<version>${smart-testauto-cucumber-stepdefs-en.version}</version>			
-		</dependency>
+		</dependency>>
 
 		<dependency>
 			<groupId>net.masterthought</groupId>
