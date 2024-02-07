@@ -313,7 +313,7 @@ public class SmartCucumberScenarioContext {
 		}
 		
 		
-		if(isUiScenario()) {
+		if(captureScreenshot && isUiScenario()) {
 			if(alertText != null) {
 				captureScreenshotWithScenarioStatus("scenario-FAILED");
 			} else {
