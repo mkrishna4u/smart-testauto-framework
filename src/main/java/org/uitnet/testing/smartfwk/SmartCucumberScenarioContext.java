@@ -303,6 +303,7 @@ public class SmartCucumberScenarioContext {
 							alert.accept();
 						} finally {
 							alert.dismiss();
+							webDriver.switchTo().defaultContent();
 						}
 					}
 				}
