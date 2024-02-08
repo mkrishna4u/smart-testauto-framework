@@ -621,4 +621,11 @@ public class SmartCucumberScenarioContext {
 		} catch (InterruptedException e) {
 		}
 	}
+	
+	public void waitForMilliSeconds(int milliseconds) {
+		try {
+			TimeUnit.MILLISECONDS.sleep(milliseconds);
+		} catch (InterruptedException e) {
+		}
+	}
 }
