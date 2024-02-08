@@ -326,7 +326,7 @@ public class ObjectUtil {
 	public static Object invokeMethod(Object clazzObj, Method m, Object[] argValues)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object out = null;
-		fixArgsValues(m.getParameterTypes(), argValues);
+		ObjectUtil.fixArgsValues(m.getParameterTypes(), argValues);
 		out = m.invoke(clazzObj, argValues);
 		return out;
 	}
@@ -549,8 +549,9 @@ public class ObjectUtil {
 		Collection<Object> objs = null;
 		for(int i = 0; i < argsType.length; i++) {
 			if(argsType[i].isArray()) {
-				objs = ((Collection<Object>) argsValue[i]);
-				Object[] valueArr = (Object[]) Array.newInstance(argsType[i].getComponentType(), objs.size());
+				//objs = (Object[]) argsValue[i]);
+				//Object valueArr1 = argsValue[i]; //(Object[]) Array.newInstance(argsType[i].getComponentType(), objs.size());
+				Object[] valueArr = (Object[])argsValue[i];
 				
 				if(objs != null) {
 					int counter;
@@ -690,5 +691,5 @@ public class ObjectUtil {
 		
 		return output;
 	}
-
+	
 }
