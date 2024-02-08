@@ -199,11 +199,23 @@
 		    <groupId>org.apache.pdfbox</groupId>
 		    <artifactId>pdfbox</artifactId>
 		    <version>${pdfbox.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<groupId>org.junit.jupiter</groupId>
+		    		<artifactId>junit-jupiter</artifactId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.pdfbox</groupId>
 		    <artifactId>pdfbox-tools</artifactId>
 		    <version>${pdfbox.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<groupId>org.junit.jupiter</groupId>
+		    		<artifactId>junit-jupiter</artifactId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
 		
 		<dependency>

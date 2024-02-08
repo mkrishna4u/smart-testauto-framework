@@ -25,7 +25,7 @@
 
 	<groupId>org.uitnet.testing.smartfwk</groupId>
 	<artifactId>Smart-TestAuto-Studio</artifactId>
-	<version>6.1.1</version>
+	<version>6.1.2</version>
 	<packaging>jar</packaging>
 	<name>Smart Testing Automation Studio</name>
 	<description>
@@ -40,17 +40,17 @@
 
 	<properties>
 	    <parallel.threads>1</parallel.threads>
-		<smart-testauto-framework.version>6.1.1</smart-testauto-framework.version>
-		<smart-testauto-cucumber-stepdefs-en.version>6.1.1</smart-testauto-cucumber-stepdefs-en.version>
-		<cucumber-reporting.version>5.7.7</cucumber-reporting.version>
+		<smart-testauto-framework.version>6.1.2</smart-testauto-framework.version>
+		<smart-testauto-cucumber-stepdefs-en.version>6.1.2</smart-testauto-cucumber-stepdefs-en.version>
+		<cucumber-reporting.version>5.7.8</cucumber-reporting.version>
 		<cucumber-reporting-plugin.version>5.7.6</cucumber-reporting-plugin.version>
 		
-		<maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+		<maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<maven-surefire-plugin.version>3.2.1</maven-surefire-plugin.version>
+		<maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
 		<maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>		
-		<maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
+		<maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
 	</properties>
 		
 	<repositories>
