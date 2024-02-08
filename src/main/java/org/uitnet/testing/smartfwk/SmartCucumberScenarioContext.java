@@ -287,6 +287,10 @@ public class SmartCucumberScenarioContext {
 			appConfig = getTestConfigManager().getAppConfig(getActiveAppName());
 		}
 		
+		if(captureScreenshot && isUiScenario()) {
+			captureScreenshotWithScenarioStatus("scenario-" + scenario.getStatus());
+		}
+		
 		String alertText = null;
 		if(appConfig != null && isUiScenario() && appConfig.getAppType() == ApplicationType.web_app) {
 			// check if any alert present, close it.
@@ -310,15 +314,6 @@ public class SmartCucumberScenarioContext {
 				
 			} catch(Throwable ex) {
 				// Do nothing
-			}
-		}
-		
-		
-		if(captureScreenshot && isUiScenario()) {
-			if(alertText != null) {
-				captureScreenshotWithScenarioStatus("scenario-FAILED");
-			} else {
-				captureScreenshotWithScenarioStatus("scenario-" + scenario.getStatus());
 			}
 		}
 		
