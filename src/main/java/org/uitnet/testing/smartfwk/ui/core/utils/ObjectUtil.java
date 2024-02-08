@@ -548,10 +548,9 @@ public class ObjectUtil {
 		
 		Collection<Object> objs = null;
 		for(int i = 0; i < argsType.length; i++) {
-			if(argsType[i].isArray()) {
-				//objs = (Object[]) argsValue[i]);
-				//Object valueArr1 = argsValue[i]; //(Object[]) Array.newInstance(argsType[i].getComponentType(), objs.size());
-				Object[] valueArr = (Object[])argsValue[i];
+			if(argsType[i].isArray() && argsValue[i] instanceof Collection) {
+				objs = ((Collection<Object>) argsValue[i]);
+				Object[] valueArr = (Object[]) Array.newInstance(argsType[i].getComponentType(), objs.size());
 				
 				if(objs != null) {
 					int counter;
