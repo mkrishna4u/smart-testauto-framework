@@ -140,6 +140,14 @@ public class WebElementUtil {
 				domObject.getLocator(appDriver.getAppConfig().getTestPlatformType(),
 						appDriver.getAppConfig().getAppType(), appDriver.getAppConfig().getAppWebBrowser()));
 
+		visible = isElementVisible(appDriver, webElem);
+
+		return visible;
+	}
+	
+	public static boolean isElementVisible(SmartAppDriver appDriver, WebElement webElem) {
+		boolean visible = false;
+
 		if (appDriver.getAppType() == ApplicationType.native_app) {
 			if (webElem != null) {
 				visible = true;
@@ -229,6 +237,30 @@ public class WebElementUtil {
 		return text;
 	}
 	
+	public static String getElementText(SmartAppDriver appDriver, WebElement webElem) {
+		String text = "";
+		
+		if(webElem == null) { return text; }
+		
+		if (appDriver.getAppType() == ApplicationType.native_app) {
+			String getElemTextAttr = appDriver.getAppConfig().getAppDriverConfig().getWebAttrMap()
+					.get(SmartConstants.WEBATTRMAPKEY_GET_ELEMENT_TEXT_ATTR);
+			if (getElemTextAttr != null && !"".equals(getElemTextAttr)) {
+				text = webElem.getAttribute(getElemTextAttr);
+			} else {
+				Assert.fail("Please specify the value for property '"
+						+ SmartConstants.WEBATTRMAPKEY_GET_ELEMENT_TEXT_ATTR
+						+ "' in AppDriver.yaml file for Application '" + appDriver.getAppName() + "'.");
+			}
+		} else {
+			if (webElem != null) {
+				text = webElem.getText();
+			}
+		}
+		
+		return text;
+	}
+	
 	public static String getInputTextValue(SmartAppDriver appDriver, DOMObject domObject, int maxIterationsToLocateElements) {
 		String text = "";
 		WebElement webElem = null;
@@ -273,4 +305,32 @@ public class WebElementUtil {
 		
 		return text;
 	}
+	
+	/* TODO: 
+	public static Map<String, String> findColorContrastRatioForElemAndItsChildren(SmartAppDriver appDriver, WebElement webElem) {
+		String tagName = webElem.getTagName();
+		String attrId = webElem.getAttribute("id");
+		String attrClass = webElem.getAttribute("class");
+		String attrStyle = webElem.getAttribute("style");
+		String textVal = getElementText(appDriver, webElem);
+		String fgColor = webElem.getCssValue("color");
+		String bgColor = webElem.getCssValue("background-color");
+		String fontWeight = webElem.getCssValue("font-weight");
+		double fontSizeInREM = FontUtil.computeFontSizeInREM(webElem.getCssValue("font-size"));
+		boolean visible = isElementVisible(appDriver, webElem);
+		
+		List<WebElement> childs = webElem.findElements(By.xpath("./child::*"));
+		WebElement child;
+		
+		List<WebElement> elems = new ArrayList<WebElement>();
+		if(childs != null) { elems.addAll(0, childs); }
+		while(elems != null && elems.size() > 0) {
+			child = elems.get(0);
+			
+			
+			// add children
+			childs = child.findElements(By.xpath("./child::*"));
+			if(childs != null) { elems.addAll(0, childs); }
+		}
+	} */
 }
