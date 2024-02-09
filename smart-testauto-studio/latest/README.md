@@ -157,5 +157,5 @@ Documentation is available on the following link.
 [https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/latest/docs/STAS-TestDevelopersGuide.pdf "STAS Test Developer's Guide")
 	
 # License
-Apache License, 2.0
+Apache License, 2.0; Copyright &copy; Madhav Krishna & Contributors
  

@@ -107,7 +107,7 @@ This framework removes the complexity of all other software tools and provides a
 # How to start with this framework tool
 To start with this framework / STAS tool is as easy as could be. 
 
-**Download STAS (smart-testauto-studio.zip) from link:** [https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.1.1](https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.1.1 "STAS 6.1.1") 
+**Download STAS (smart-testauto-studio.zip) from link:** [https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.1.2](https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/6.1.2 "STAS 6.1.2") 
 
 Please refer the link below to understand STAS tool functionality and how to use it:
 
@@ -132,12 +132,12 @@ Example MySQL Database Java Driver Maven Dependency:
 	<dependency>
 		<groupId>mysql</groupId>
 		<artifactId>mysql-connector-java</artifactId>
-		<version>8.0.32</version>
+		<version>8.0.33</version>
 	</dependency>
 	
 Also configure the specific connection settings in **test-config/apps-config/&lt;app-name&gt;/database-profile/sample-db.yaml** file for the specific dialect information as sample given below:
 
-	hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+	hibernate.dialect: org.hibernate.dialect.MySQLDialect
 	hibernate.connection.driver_class: com.mysql.jdbc.Driver
 	hibernate.connection.url: jdbc:mysql://localhost:3306/my-db
 
@@ -150,4 +150,4 @@ Please use the following link if you have any question and need of community sup
 
 
 # License
-Apache License, 2.0
+Apache License, 2.0; Copyright &copy; Madhav Krishna & Contributors
