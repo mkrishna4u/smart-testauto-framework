@@ -19,6 +19,7 @@ package org.uitnet.testing.smartfwk.ui.core.utils;
 
 import java.util.Locale;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.SmartConstants;
@@ -304,6 +305,37 @@ public class WebElementUtil {
 		}
 		
 		return text;
+	}
+	
+	/**
+	 * Used to get the CSS property value when pseudoElement is specified like in CSS example below:
+	 * 
+	 * .sampleCSS::after {
+	 *   background-color: #ffffff;
+	 * }
+	 * 
+	 * here "sampleCSS" is a CSS class name and  ":after" is a pseudoElement.
+	 * 
+	 * @param appDriver
+	 * @param webElem
+	 * @param pseudoElem
+	 * @param cssPropertyName
+	 * @return the CSS property value for the pseudo element.
+	 */
+	public static String getCssValue(SmartAppDriver appDriver, WebElement webElem, String pseudoElem, String cssPropertyName) {
+		if(webElem == null) {
+			Assert.fail("Failed to find page element.");
+		}
+		
+		String value = "";		
+		if (appDriver.getAppType() == ApplicationType.web_app) {
+			JavascriptExecutor jse = (JavascriptExecutor) appDriver.getWebDriver();
+			value = "" + jse.executeScript("return getComputedStyle(arguments[0], arguments[1]).getPropertyValue(arguments[2]);", webElem, pseudoElem, cssPropertyName);
+		} else {
+			value = webElem.getCssValue(cssPropertyName);
+		}
+		
+		return value;
 	}
 	
 	/* TODO: 

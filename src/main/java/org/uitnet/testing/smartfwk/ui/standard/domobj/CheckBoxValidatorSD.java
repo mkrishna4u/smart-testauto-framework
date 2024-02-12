@@ -191,7 +191,11 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 
 	@Override
 	public CheckBoxValidatorSD checkAndValidateChecked(int maxIterationsToLocateElements) {
-		domObjValidator.click(maxIterationsToLocateElements);
+		if(!isCheckBoxChecked(maxIterationsToLocateElements)) {
+			domObjValidator.click(maxIterationsToLocateElements);
+		} else {
+			return this;
+		}
 
 		try {
 			validateCheckBoxChecked(maxIterationsToLocateElements);
@@ -203,7 +207,11 @@ public class CheckBoxValidatorSD extends CheckBoxValidator {
 
 	@Override
 	public CheckBoxValidatorSD uncheckAndValidateUnchecked(int maxIterationsToLocateElements) {
-		domObjValidator.click(maxIterationsToLocateElements);
+		if(isCheckBoxChecked(maxIterationsToLocateElements)) {
+			domObjValidator.click(maxIterationsToLocateElements);
+		} else {
+			return this;
+		}
 
 		try {
 			validateCheckBoxUnchecked(maxIterationsToLocateElements);
