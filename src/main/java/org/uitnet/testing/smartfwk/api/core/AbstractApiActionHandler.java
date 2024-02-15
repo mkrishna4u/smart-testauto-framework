@@ -311,7 +311,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 				}
 			} else if("text".equalsIgnoreCase(part.getPartType())) {
 				if(StringUtil.isEmptyAfterTrim(part.getContentType())) {
-					multipartBodyBuilder.addFormDataPart(part.getPartName(), String.valueOf(part.getContents()));
+					multipartBodyBuilder.addFormDataPart(part.getPartName(), new String(part.getContents()));
 				} else {
 					multipartBodyBuilder.addFormDataPart(part.getPartName(), part.getPartName(),
 							RequestBody.create(part.getContents(), MediaType.parse(part.getContentType())));
