@@ -22,25 +22,25 @@ package org.uitnet.testing.smartfwk.api.core.support;
  * @author Madhav Krishna
  *
  */
-public class MultipartData {
+public class MultipartFileRecord {
 	public String name;
 	public String contentType;
 	public String fileName;
 	public String filePath;
 	public byte[] fileContents;
 
-	public MultipartData() {
+	public MultipartFileRecord() {
 		contentType = "application/octet-stream";
 	}
 
-	public MultipartData(String name, String fileName, String contentType, String filePath) {
+	public MultipartFileRecord(String name, String fileName, String contentType, String filePath) {
 		this.name = name;
 		this.fileName = fileName;
 		this.contentType = contentType;
 		this.filePath = filePath;
 	}
 	
-	public MultipartData(String name, String fileName, String contentType, byte[] fileContents) {
+	public MultipartFileRecord(String name, String fileName, String contentType, byte[] fileContents) {
 		this.name = name;
 		this.fileName = fileName;
 		this.contentType = contentType;

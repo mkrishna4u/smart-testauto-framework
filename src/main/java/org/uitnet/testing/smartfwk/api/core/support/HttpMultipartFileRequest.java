@@ -27,22 +27,22 @@ import java.util.Map;
  * @author Madhav Krishna
  *
  */
-public class HttpMultipartRequest {
-	private List<MultipartData> parts;
+public class HttpMultipartFileRequest {
+	private List<MultipartFileRecord> parts;
 	private Map<String, String> headers;
 
-	public HttpMultipartRequest() {
+	public HttpMultipartFileRequest() {
 		parts = new LinkedList<>();
 		headers = new LinkedHashMap<>();
 		headers.put("Content-Type", MediaType.MULTIPART_FORM_DATA);
 		headers.put("Accept", MediaType.APPLICATION_JSON);
 	}
 
-	public List<MultipartData> getParts() {
+	public List<MultipartFileRecord> getParts() {
 		return parts;
 	}
 
-	public HttpMultipartRequest addPart(MultipartData part) {
+	public HttpMultipartFileRequest addPart(MultipartFileRecord part) {
 		this.parts.add(part);
 		return this;
 	}
@@ -60,7 +60,7 @@ public class HttpMultipartRequest {
 		return headers;
 	}
 
-	public HttpMultipartRequest setHeaders(Map<String, String> headers) {
+	public HttpMultipartFileRequest setHeaders(Map<String, String> headers) {
 		this.headers = headers;
 		return this;
 	}
@@ -69,7 +69,7 @@ public class HttpMultipartRequest {
 		return headers.get("Accept");
 	}
 
-	public HttpMultipartRequest setResponseContentType(String responseContentType) {
+	public HttpMultipartFileRequest setResponseContentType(String responseContentType) {
 		headers.put("Accept", responseContentType);
 		return this;
 	}
@@ -78,7 +78,7 @@ public class HttpMultipartRequest {
 		return headers.get("Content-Type");
 	}
 
-	public HttpMultipartRequest setContentType(String contentType) {
+	public HttpMultipartFileRequest setContentType(String contentType) {
 		headers.put("Content-Type", contentType);
 		return this;
 	}

@@ -29,11 +29,13 @@ import java.util.concurrent.TimeUnit;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.defaults.ApiTestManager;
 import org.uitnet.testing.smartfwk.api.core.support.FileSequenceNumberGenerator;
-import org.uitnet.testing.smartfwk.api.core.support.HttpMultipartRequest;
+import org.uitnet.testing.smartfwk.api.core.support.HttpMultipartFileRequest;
+import org.uitnet.testing.smartfwk.api.core.support.HttpMultipartFormRequest;
 import org.uitnet.testing.smartfwk.api.core.support.HttpRequest;
 import org.uitnet.testing.smartfwk.api.core.support.HttpResponse;
 import org.uitnet.testing.smartfwk.api.core.support.HttpSession;
-import org.uitnet.testing.smartfwk.api.core.support.MultipartData;
+import org.uitnet.testing.smartfwk.api.core.support.MultipartFileRecord;
+import org.uitnet.testing.smartfwk.api.core.support.MultipartFormRecord;
 import org.uitnet.testing.smartfwk.api.core.support.PayloadType;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.config.UserProfile;
@@ -247,7 +249,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		return prepareResponse(client, requestBuilder, request.getResponseContentType() != null, targetURL);
 	}
 
-	public HttpResponse httpUploadFormFiles(String relativeUrl, HttpMultipartRequest request,
+	public HttpResponse httpUploadFormFiles(String relativeUrl, HttpMultipartFileRequest request,
 			Integer connectTimeoutInSeconds, Integer readTimeoutInSeconds, boolean isHttpPut) {
 		OkHttpClient client = new OkHttpClient.Builder()
 				.readTimeout(readTimeoutInSeconds == null ? 60 : readTimeoutInSeconds, TimeUnit.SECONDS)
@@ -256,7 +258,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 
 		okhttp3.MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
-		for (MultipartData part : request.getParts()) {
+		for (MultipartFileRecord part : request.getParts()) {
 			if (part.getContentType() == null) {
 				if(part.getFileContents() != null) {
 					multipartBodyBuilder.addFormDataPart(part.getName(), part.getFileName());
@@ -271,6 +273,52 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 					RequestBody body = RequestBody.create(part.getFileContents(), MediaType.parse(part.getContentType()));
 					multipartBodyBuilder.addFormDataPart(part.getName(), part.getFileName(), body);
 				}
+			}
+		}
+
+		String targetURL = baseURL + "/" + relativeUrl;
+		okhttp3.Request.Builder requestBuilder = null;
+		if(isHttpPut) {
+			requestBuilder = new Request.Builder().put(multipartBodyBuilder.build())
+					.url(targetURL);
+		} else {
+			requestBuilder = new Request.Builder().post(multipartBodyBuilder.build())
+					.url(targetURL);
+		}
+
+		prepareRequestHeaders(requestBuilder, request.getHeaders());
+
+		return prepareResponse(client, requestBuilder, request.getResponseContentType() != null, targetURL);
+	}
+	
+	public HttpResponse httpUploadMultipartFormData(String relativeUrl, HttpMultipartFormRequest request,
+			Integer connectTimeoutInSeconds, Integer readTimeoutInSeconds, boolean isHttpPut) {
+		OkHttpClient client = new OkHttpClient.Builder()
+				.readTimeout(readTimeoutInSeconds == null ? 60 : readTimeoutInSeconds, TimeUnit.SECONDS)
+				.connectTimeout(connectTimeoutInSeconds == null ? 30 : connectTimeoutInSeconds, TimeUnit.SECONDS)
+				.build();
+
+		okhttp3.MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+		for (MultipartFormRecord part : request.getParts()) {
+			if("file".equalsIgnoreCase(part.getPartType())) {
+				if(StringUtil.isEmptyAfterTrim(part.getContentType())) {
+					multipartBodyBuilder.addFormDataPart(part.getPartName(), part.getPartName(),
+							RequestBody.create(part.getContents()));
+				} else {
+					multipartBodyBuilder.addFormDataPart(part.getPartName(), part.getPartName(),
+							RequestBody.create(part.getContents(), MediaType.parse(part.getContentType())));
+				}
+			} else if("text".equalsIgnoreCase(part.getPartType())) {
+				if(StringUtil.isEmptyAfterTrim(part.getContentType())) {
+					multipartBodyBuilder.addFormDataPart(part.getPartName(), String.valueOf(part.getContents()));
+				} else {
+					multipartBodyBuilder.addFormDataPart(part.getPartName(), part.getPartName(),
+							RequestBody.create(part.getContents(), MediaType.parse(part.getContentType())));
+				}
+				
+			} else {
+				Assert.fail("Part type '" + part.getPartType() + "' is not supported.");
 			}
 		}
 
@@ -306,10 +354,18 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 			httpResponse.setMessage(response.message());
 
 			Headers headers = response.headers();
-			for (String key : headers.names()) {
-				httpResponse.addHeader(key, headers.get(key));
-			}
-
+			headers.forEach((item) -> {
+				String key = item.getFirst();
+				String value = item.getSecond();
+				if("Set-Cookie".equalsIgnoreCase(key)) {
+					String newValue = httpResponse.getHeader(key);
+					newValue = (newValue != null) ? newValue + ";" + value : value;
+					httpResponse.addHeader(key, newValue);
+				} else {
+					httpResponse.addHeader(key, value);
+				}
+			});
+						
 			String contentType = httpResponse.getHeader("Content-Type");
 			String contentDisposition = httpResponse.getHeader("Content-Disposition");
 
@@ -334,7 +390,7 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 				}
 			}
 			
-			checkAndSetSessionCookie(httpResponse);
+			checkAndSetSessionCookie(session, httpResponse);
 
 		} catch (Exception ex) {
 			httpResponse.setCode(400);
@@ -373,8 +429,8 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		return cookie;
 	}
 	
-	protected void checkAndSetSessionCookie(HttpResponse httpResponse) {
-		if(httpResponse == null || session == null) {
+	protected void checkAndSetSessionCookie(HttpSession session2, HttpResponse httpResponse) {
+		if(httpResponse == null || session2 == null) {
 			return;
 		}
 		
@@ -389,15 +445,15 @@ public abstract class AbstractApiActionHandler implements ApiAuthenticationProvi
 		for(String cookie: cookies) {
 			kvPair = cookie.split("=");			
 			if(kvPair.length == 1) {
-				session.addCookie(kvPair[0].trim(), null);
+				session2.addCookie(kvPair[0].trim(), null);
 			} else if(kvPair.length == 2) {
-				session.addCookie(kvPair[0].trim(), kvPair[1]);
+				session2.addCookie(kvPair[0].trim(), kvPair[1]);
 			} else {
 				temp = "";
 				for(int i = 1; i < kvPair.length; i++) {
 					temp = temp + kvPair[i];
 				}
-				session.addCookie(kvPair[0].trim(), temp);
+				session2.addCookie(kvPair[0].trim(), temp);
 			}
 		}
 	}
