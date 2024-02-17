@@ -356,12 +356,11 @@ public class DOMObjectValidator extends UIObjectValidator {
 			try {
 				if (WebElementUtil.isElementVisible(appDriver, domObject)) {
 					elemHidden = false;
-					break;
+					Assert.fail();
 				}
-
-				Assert.fail();
 			} catch (Throwable th) {
 				if (i == maxIterationsToLocateElements) {
+					elemHidden = true;
 					break;
 				}
 			}
