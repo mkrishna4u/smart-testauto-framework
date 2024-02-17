@@ -351,13 +351,16 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 */
 	@Override
 	public boolean isHidden(int maxIterationsToLocateElements) {
-		boolean elemHidden = true;
+		boolean elemHidden = false;
 		for (int i = 0; i <= maxIterationsToLocateElements; i++) {
 			try {
 				if (WebElementUtil.isElementVisible(appDriver, domObject)) {
 					elemHidden = false;
 					Assert.fail();
 				}
+				
+				elemHidden = true;
+				break;
 			} catch (Throwable th) {
 				if (i == maxIterationsToLocateElements) {
 					elemHidden = true;
