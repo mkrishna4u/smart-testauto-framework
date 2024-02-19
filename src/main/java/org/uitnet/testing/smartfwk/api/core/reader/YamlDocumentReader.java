@@ -28,6 +28,7 @@ import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.jayway.jsonpath.Configuration;
@@ -148,6 +149,7 @@ public class YamlDocumentReader {
 		Configuration.setDefaults(new Configuration.Defaults() {
 			private ObjectMapper objectMapper = JsonMapper.builder().enable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
 					.enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES)
+					.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
 					//.enable(JsonWriteFeature.QUOTE_FIELD_NAMES)
 					.build();
 
