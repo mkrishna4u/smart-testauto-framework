@@ -214,7 +214,7 @@ public class SmartToolkitCommandExecuter {
 		WebBrowserType webBrowserType = WebBrowserType.valueOf2(appConfigDoc.read("$.appWebBrowser", String.class));
 		String newDriverFileName = "AppDriver.yaml";
 		if(!StringUtil.isEmptyAfterTrim(envName)) {
-			YamlDocumentReader appEnvConfig = new YamlDocumentReader(new File(appDir + File.separator + "environments/AppConfig-" + envName + ".yaml"), true);
+			YamlDocumentReader appEnvConfig = new YamlDocumentReader(new File(appDir + File.separator + "environments/" + envName + ".yaml"), true);
 			DocumentContext appEnvConfigDoc = appEnvConfig.getDocumentContext();
 			String value = JsonYamlUtil.readNoException("$.testPlatformType", String.class, appEnvConfigDoc);
 			if(!StringUtil.isEmptyAfterTrim(value)) {
