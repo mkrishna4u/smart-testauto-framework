@@ -49,8 +49,7 @@ public class ColorContrastUtil {
 	
 	public static double calcContrastRatio(String foregroundColor, String backgroundColor) {
 		Color fgColor = parseColor(foregroundColor);
-		Color bgColor = parseColor(backgroundColor);
-		System.out.println("fgColor: " + fgColor + "; bgColor: " + bgColor);
+		Color bgColor = parseColor(backgroundColor);		
 		return calcContrastRatio(fgColor, bgColor);
 	}
 	
