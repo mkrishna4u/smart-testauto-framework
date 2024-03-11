@@ -47,6 +47,7 @@ import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
 import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.TextParamManUtil;
 
 import com.jayway.jsonpath.DocumentContext;
 
@@ -594,11 +595,11 @@ public class SmartCucumberScenarioContext {
 		}
 
 		for (Map.Entry<String, Object> e : DefaultSmartCache.getInstance().getCache().entrySet()) {
-			text = text.replace(e.getKey(), "" + e.getValue());
+			text = TextParamManUtil.applyParamValueOnText(text, e.getKey(), e.getValue());
 		}
 
 		for (Map.Entry<String, Object> e : params.entrySet()) {
-			text = text.replace(e.getKey(), "" + e.getValue());
+			text = TextParamManUtil.applyParamValueOnText(text, e.getKey(), e.getValue());
 		}
 
 		return text;
