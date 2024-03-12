@@ -595,11 +595,11 @@ public class SmartCucumberScenarioContext {
 		}
 
 		for (Map.Entry<String, Object> e : DefaultSmartCache.getInstance().getCache().entrySet()) {
-			text = VariableExpressionManagerUtil.applyParamValueOnText(text, e.getKey(), e.getValue());
+			text = VariableExpressionManagerUtil.applyVariableValueOnText(text, e.getKey(), e.getValue());
 		}
 
 		for (Map.Entry<String, Object> e : params.entrySet()) {
-			text = VariableExpressionManagerUtil.applyParamValueOnText(text, e.getKey(), e.getValue());
+			text = VariableExpressionManagerUtil.applyVariableValueOnText(text, e.getKey(), e.getValue());
 		}
 
 		return text;

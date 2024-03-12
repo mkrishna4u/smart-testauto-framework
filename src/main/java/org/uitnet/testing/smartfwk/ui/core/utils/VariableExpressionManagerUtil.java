@@ -31,7 +31,7 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.TypeRef;
 
 /**
- * This utility is used to extract & apply the parameters within the text.
+ * This utility is used to extract & apply the variable info to the text.
  * 
  * @author Madhav Krishna
  *
@@ -41,16 +41,16 @@ public class VariableExpressionManagerUtil {
 	private VariableExpressionManagerUtil() {
 	}
 
-	public static String applyParamValueOnText(String text, String paramName, Object valueObj) {
+	public static String applyVariableValueOnText(String text, String variableName, Object valueObj) {
 		if(text == null) {
 			return null;
 		}
 		
-		Map<String, TextParamInfo> textParams = extractParamDetailsFromText(text, paramName);
+		Map<String, TextVarExpressionInfo> textParams = extractVariableDetailsFromText(text, variableName);
 		String textParam;
-		TextParamInfo pInfo;
+		TextVarExpressionInfo pInfo;
 		
-		for(Map.Entry<String, TextParamInfo> entry : textParams.entrySet()) {
+		for(Map.Entry<String, TextVarExpressionInfo> entry : textParams.entrySet()) {
 			textParam = entry.getKey();
 			pInfo = entry.getValue();
 			List<?> values = null;
@@ -183,26 +183,26 @@ public class VariableExpressionManagerUtil {
 		}		
 	}
 	
-	public static Map<String, TextParamInfo> extractParamDetailsFromText(String text, String paramName) {
-		if(StringUtil.isEmptyAfterTrim(text) || StringUtil.isEmptyAfterTrim(paramName)) {
+	public static Map<String, TextVarExpressionInfo> extractVariableDetailsFromText(String text, String variableName) {
+		if(StringUtil.isEmptyAfterTrim(text) || StringUtil.isEmptyAfterTrim(variableName)) {
 			return null;
 		}
 		
-		Map<String, TextParamInfo> params = new LinkedHashMap<String, TextParamInfo>();
+		Map<String, TextVarExpressionInfo> varExpMap = new LinkedHashMap<String, TextVarExpressionInfo>();
 		
-		TextParamInfo pInfo = new TextParamInfo();
+		TextVarExpressionInfo pInfo = new TextVarExpressionInfo();
 		
-		String pStart = "${"+paramName+":";		
+		String pStart = "${"+variableName+":";		
 		int s = -1;
 		
 		do {
-			String fParam = pStart;
+			String variableExpression = pStart;
 			s = text.indexOf(pStart, 0);
 			
 			if(s >= 0) {
 				int lbraces = 1;
 				for(int i = (s + pStart.length()); i < text.length(); i++) {
-					fParam = fParam + text.charAt(i);
+					variableExpression = variableExpression + text.charAt(i);
 					
 					if(text.charAt(i) == '{') {
 						lbraces++;
@@ -215,43 +215,43 @@ public class VariableExpressionManagerUtil {
 					}
 				}
 				
-				pInfo = prepareTextParamInfo(fParam, paramName);
-				params.put(fParam, pInfo);
-				text = text.replace(fParam, "");
-			} else if(text.indexOf(paramName, 0) >= 0) {
-				pInfo = prepareTextParamInfo(paramName, paramName);
-				params.put(paramName, pInfo);
-				text = text.replace(paramName, "");
+				pInfo = prepareTextVariableExpessionInfo(variableExpression, variableName);
+				varExpMap.put(variableExpression, pInfo);
+				text = text.replace(variableExpression, "");
+			} else if(text.indexOf(variableName, 0) >= 0) {
+				pInfo = prepareTextVariableExpessionInfo(variableName, variableName);
+				varExpMap.put(variableName, pInfo);
+				text = text.replace(variableName, "");
 			}
 		} while(s >= 0);
 		
-		return params;		
+		return varExpMap;		
 	}
 	
-	private static TextParamInfo prepareTextParamInfo(String fParam, String paramName) {
-		TextParamInfo pInfo = new TextParamInfo();
+	private static TextVarExpressionInfo prepareTextVariableExpessionInfo(String variableExpression, String variableName) {
+		TextVarExpressionInfo pInfo = new TextVarExpressionInfo();
 		
-		if(fParam.equals(paramName)) {
+		if(variableExpression.equals(variableName)) {
 			return pInfo;
 		}
 		
 		String type = "", path = "", action="";
-		String pStart = "${"+paramName+":";
+		String pStart = "${"+variableName+":";
 		char ch;
 		int counter = 0;
-		for(int i = pStart.length(); i < (fParam.length() - 1); i++) {
-			ch = fParam.charAt(i);
+		for(int i = pStart.length(); i < (variableExpression.length() - 1); i++) {
+			ch = variableExpression.charAt(i);
 			if(ch == ':') {
 				counter++;
 				continue;
 			}
 			
 			if(counter == 0) {
-				type = type + fParam.charAt(i);
+				type = type + variableExpression.charAt(i);
 			} else if(counter == 1) {
-				action = action + fParam.charAt(i);
+				action = action + variableExpression.charAt(i);
 			} else if(counter == 2) {
-				path = path + fParam.charAt(i);
+				path = path + variableExpression.charAt(i);
 			} 
 		}
 		
@@ -278,13 +278,13 @@ public class VariableExpressionManagerUtil {
 		return pInfo;
 	}
 
-	public static class TextParamInfo {
+	public static class TextVarExpressionInfo {
 		private ParamValueType valueType;
 		private ParamValueAction action;
 		private PathType pathType; // jsonPath, xpath
 		private String path;
 		
-		public TextParamInfo() {
+		public TextVarExpressionInfo() {
 			
 		}
 		

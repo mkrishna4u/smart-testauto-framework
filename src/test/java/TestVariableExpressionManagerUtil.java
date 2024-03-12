@@ -9,10 +9,10 @@ public class TestVariableExpressionManagerUtil {
 				+ "dad [${TEST_VAR:string-list::$.users[*].name}] sdsad sdsad";
 		String paramName = "TEST_VAR";
 		
-		System.out.println(VariableExpressionManagerUtil.extractParamDetailsFromText(text, paramName));
+		System.out.println(VariableExpressionManagerUtil.extractVariableDetailsFromText(text, paramName));
 		
 		Object jsonObj = new JsonDocumentReader("{numUsers: 2, users: [{name: 'Madhav', age: 12}, {name: 'Anant', age: 10}]}", false).getDocumentContext();
-		String text2 = VariableExpressionManagerUtil.applyParamValueOnText(text, paramName, jsonObj);
+		String text2 = VariableExpressionManagerUtil.applyVariableValueOnText(text, paramName, jsonObj);
 		System.out.println("JSON: " + text2);
 		
 		//-------------- XML test
@@ -34,7 +34,7 @@ public class TestVariableExpressionManagerUtil {
 			+ "</users>"
 			);
 		Document xmlDoc = xmlReader.getDocument();
-		String textXml2 = VariableExpressionManagerUtil.applyParamValueOnText(textXml, paramName, xmlDoc);
+		String textXml2 = VariableExpressionManagerUtil.applyVariableValueOnText(textXml, paramName, xmlDoc);
 		
 		System.out.println("XMLDoc: " + textXml2);
 		
@@ -42,23 +42,23 @@ public class TestVariableExpressionManagerUtil {
 		Object jsonObj3 = new JsonDocumentReader("[[null, 'abc', 'bcd', null, '  ', '  asd  '], ['bb', 'abc', 'bcd', null, '  ', '  asd  ']]", false).getDocumentContext();
 		String paramName3 = "DB_TBL_VAR";
 		String text3 = "asd asdsad sad ${DB_TBL_VAR:string-list:replaceNullByEmpty:$.[*][5]} sdsad sadsa dsa dsa d";
-		String text31 = VariableExpressionManagerUtil.applyParamValueOnText(text3, paramName3, jsonObj3);
+		String text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
 		System.out.println("text31: " + text31);
 		
 		text3 = "asd asdsad sad ${DB_TBL_VAR:string:replaceNullByEmpty:$.[0][0]} sdsad sadsa dsa dsa d";
-		text31 = VariableExpressionManagerUtil.applyParamValueOnText(text3, paramName3, jsonObj3);
+		text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
 		System.out.println("text31: " + text31);
 		
 		text3 = "asd asdsad sad ${DB_TBL_VAR:string:trim:$.[0][4]} sdsad sadsa dsa dsa d";
-		text31 = VariableExpressionManagerUtil.applyParamValueOnText(text3, paramName3, jsonObj3);
+		text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
 		System.out.println("text31: " + text31);
 		
 		text3 = "asd asdsad sad ${DB_TBL_VAR:string:trimLeft:$.[0][5]} sdsad sadsa dsa dsa d";
-		text31 = VariableExpressionManagerUtil.applyParamValueOnText(text3, paramName3, jsonObj3);
+		text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
 		System.out.println("text31: " + text31);
 		
 		text3 = "asd asdsad sad ${DB_TBL_VAR:string:trimRight:$.[0][5]} sdsad sadsa dsa dsa d";
-		text31 = VariableExpressionManagerUtil.applyParamValueOnText(text3, paramName3, jsonObj3);
+		text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
 		System.out.println("text31: " + text31);
 	}
 }
