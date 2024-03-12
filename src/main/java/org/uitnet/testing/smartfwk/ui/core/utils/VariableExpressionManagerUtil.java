@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.reader.XmlDocumentReader;
 import org.uitnet.testing.smartfwk.core.validator.ParamPath;
 import org.uitnet.testing.smartfwk.core.validator.ParamValueType;
@@ -35,9 +36,9 @@ import com.jayway.jsonpath.TypeRef;
  * @author Madhav Krishna
  *
  */
-public class TextParamManUtil {
+public class VariableExpressionManagerUtil {
 
-	private TextParamManUtil() {
+	private VariableExpressionManagerUtil() {
 	}
 
 	public static String applyParamValueOnText(String text, String paramName, Object valueObj) {
@@ -64,11 +65,11 @@ public class TextParamManUtil {
 					TypeRef<List<String>> typeRef = new TypeRef<List<String>>() {
 					};
 					values = pInfo.getPath() != null ? docCtx.read(pInfo.getPath(), typeRef) : null;
-					String listAsStr = prepareListValue(values, pInfo.getValueType());
+					String listAsStr = prepareListValue(values, pInfo.getValueType(), pInfo.getAction());
 					text = text.replace(textParam, "" + listAsStr);
 				} else {
 					value = pInfo.getPath() != null ? docCtx.read(pInfo.getPath()) : null;
-					String value2 = prepareValue(value, pInfo.getValueType());
+					String value2 = prepareValue(value, pInfo.getValueType(), pInfo.getAction());
 					text = text.replace(textParam, "" + value2);
 				}
 			} else if(valueObj != null && pInfo.getPathType() == PathType.XPATH) {
@@ -81,7 +82,7 @@ public class TextParamManUtil {
 					XmlDocumentReader xmlReader = new XmlDocumentReader(docCtx);
 					if(pInfo.getPath() != null) {
 						values = (List<?>) xmlReader.findAttributeOrTextValues("XPath", new ParamPath(pInfo.getPath(), pInfo.getValueType().getType()));
-						String listAsStr = prepareListValue(values, pInfo.getValueType());
+						String listAsStr = prepareListValue(values, pInfo.getValueType(), pInfo.getAction());
 						text = text.replace(textParam, "" + listAsStr);
 					}
 				} else {
@@ -89,7 +90,7 @@ public class TextParamManUtil {
 					if(pInfo.getPath() != null) {
 						value = xmlReader.findAttributeOrTextValues("XPath", new ParamPath(pInfo.getPath(), 
 								pInfo.getValueType() == null ? ParamValueType.STRING.getType() : pInfo.getValueType().getType()));
-						String value2 = prepareValue(value, pInfo.getValueType());
+						String value2 = prepareValue(value, pInfo.getValueType(), pInfo.getAction());
 						text = text.replace(textParam, "" + value2);
 					}
 				}
@@ -100,11 +101,11 @@ public class TextParamManUtil {
 						|| pInfo.getValueType() == ParamValueType.STRING_LIST 
 						|| pInfo.getValueType() == ParamValueType.BOOLEAN_LIST)) {
 					values = (List<?>) valueObj;
-					String listAsStr = prepareListValue(values, pInfo.getValueType());
+					String listAsStr = prepareListValue(values, pInfo.getValueType(), pInfo.getAction());
 					text = text.replace(textParam, "" + listAsStr);
 				} else {
 					value = valueObj;
-					String value2 = prepareValue(value, pInfo.getValueType());
+					String value2 = prepareValue(value, pInfo.getValueType(), pInfo.getAction());
 					text = text.replace(textParam, "" + value2);
 				}
 				
@@ -114,7 +115,7 @@ public class TextParamManUtil {
 		return text;
 	}
 	
-	private static String prepareListValue(List<?> values, ParamValueType valueType) {
+	private static String prepareListValue(List<?> values, ParamValueType valueType, ParamValueAction action) {
 		String listValues = "";
 		if(values == null || values.size() == 0) {
 			return listValues;
@@ -122,29 +123,63 @@ public class TextParamManUtil {
 		
 		for(int i = 0; i < values.size(); i++) {
 			if(valueType == ParamValueType.STRING_LIST) {
-				listValues = "".equals(listValues) ? "\"" + values.get(i) + "\"" : 
-					listValues + ", \"" + values.get(i) + "\"";
+				listValues = "".equals(listValues) ? "\"" + applyActionOnText(values.get(i), action) + "\"" : 
+					listValues + ", \"" + applyActionOnText(values.get(i), action) + "\"";
 			} else {
-				listValues = "".equals(listValues) ? "" + values.get(i) : 
-					listValues + ", " + values.get(i) + "";
+				listValues = "".equals(listValues) ? "" + applyActionOnText(values.get(i), action) : 
+					listValues + ", " + applyActionOnText(values.get(i), action) + "";
 			}
 		}
 		
 		return listValues;
 	}
 	
-	private static String prepareValue(Object value, ParamValueType valueType) {
-		String value2 = null;
+	private static Object applyActionOnText(Object text, ParamValueAction action) {
+		if(action == null) { return text; }
+		String newText = "" + text;
+		switch(action) {
+			case replaceNullByEmpty:
+				if("null".equalsIgnoreCase(newText)) {
+					newText = "";
+				}
+				break;
+			case trim:
+				newText = newText.trim();
+				break;
+			case trimLeft:
+				newText = newText.stripLeading();
+				break;
+			case trimRight:
+				newText = newText.stripTrailing();
+				break;
+		}
+		
+		return newText;
+	}
+	
+	private static String prepareValue(Object value, ParamValueType valueType, ParamValueAction action) {
 		if(value == null) {
-			return value2;
+			Object v = applyActionOnText(value, action);
+			if(v == null) { return null; }
+			else { return "\"" + v + "\""; }
 		}
 		
 		if(valueType == null) {
 			return "" + value;
 		} else if(valueType == ParamValueType.STRING) {
-			return "\"" + value + "\"";
+			if(value instanceof List) {
+				List<?> elems = (List<?>) value;
+				String r = "";
+				for(Object elem : elems) {
+					r = "".equals(r) ? "\"" + applyActionOnText(elem, action)  + "\""
+							: r + ", \"" + applyActionOnText(elem, action) + "\"";
+				}
+				return r;
+			} else {
+				return "\"" + applyActionOnText(value, action) + "\"";
+			}			
 		} else {
-			return "" + value;
+			return "" + applyActionOnText(value, action);
 		}		
 	}
 	
@@ -200,27 +235,34 @@ public class TextParamManUtil {
 			return pInfo;
 		}
 		
-		String type = "", path = "";
+		String type = "", path = "", action="";
 		String pStart = "${"+paramName+":";
 		char ch;
-		boolean typeEnd = false;
+		int counter = 0;
 		for(int i = pStart.length(); i < (fParam.length() - 1); i++) {
 			ch = fParam.charAt(i);
 			if(ch == ':') {
-				typeEnd = true;
+				counter++;
 				continue;
 			}
 			
-			if(!typeEnd) {
+			if(counter == 0) {
 				type = type + fParam.charAt(i);
-			} else {
+			} else if(counter == 1) {
+				action = action + fParam.charAt(i);
+			} else if(counter == 2) {
 				path = path + fParam.charAt(i);
-			}			
+			} 
 		}
 		
 		if(!StringUtil.isEmptyAfterTrim(type)) {
 			ParamValueType type2 = ParamValueType.valueOf2(type);
 			pInfo.setValueType(type2);
+		}
+		
+		if(!StringUtil.isEmptyAfterTrim(action)) {
+			ParamValueAction action2 = ParamValueAction.valueOf2(action);
+			pInfo.setAction(action2);
 		}
 		
 		if(!StringUtil.isEmptyAfterTrim(path)) {
@@ -238,6 +280,7 @@ public class TextParamManUtil {
 
 	public static class TextParamInfo {
 		private ParamValueType valueType;
+		private ParamValueAction action;
 		private PathType pathType; // jsonPath, xpath
 		private String path;
 		
@@ -251,6 +294,14 @@ public class TextParamManUtil {
 
 		public void setValueType(ParamValueType valueType) {
 			this.valueType = valueType;
+		}
+
+		public ParamValueAction getAction() {
+			return action;
+		}
+
+		public void setAction(ParamValueAction action) {
+			this.action = action;
 		}
 
 		public PathType getPathType() {
@@ -271,11 +322,26 @@ public class TextParamManUtil {
 		
 		@Override
 		public String toString() {			
-			return "valueType: " + valueType + ", pathType: " + pathType + ", path: " + path;
+			return "valueType: " + valueType + ", action: " + action + ", pathType: " + pathType + ", path: " + path;
 		}
 	}
 
 	public static enum PathType {
 		JSON_PATH, XPATH
-	}	
+	}
+	
+	public enum ParamValueAction {
+		replaceNullByEmpty, trim, trimLeft, trimRight;
+
+		public static ParamValueAction valueOf2(String strType) {
+			if(strType == null || "".equals(strType.trim())) { return null; }
+			for (ParamValueAction type1 : values()) {
+				if (type1.name().equalsIgnoreCase(strType.trim())) {
+					return type1;
+				}
+			}
+			Assert.fail("Param value action '" + strType + "' is not supported.");
+			return null;
+		}		
+	}
 }
