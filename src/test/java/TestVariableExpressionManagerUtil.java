@@ -45,7 +45,7 @@ public class TestVariableExpressionManagerUtil {
 		String text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
 		System.out.println("text31: " + text31);
 		
-		text3 = "asd asdsad sad ${DB_TBL_VAR:string:replaceNullByEmpty:$.[0][0]} sdsad sadsa dsa dsa d";
+		text3 = "asd asdsad sad ${DB_TBL_VAR::replaceNullByEmpty:$.[0][0]} sdsad sadsa dsa dsa d";
 		text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
 		System.out.println("text31: " + text31);
 		

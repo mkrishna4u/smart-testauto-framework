@@ -161,7 +161,7 @@ public class VariableExpressionManagerUtil {
 		if(value == null) {
 			Object v = applyActionOnText(value, action);
 			if(v == null) { return null; }
-			else { return "\"" + v + "\""; }
+			else { return "" + v; }
 		}
 		
 		if(valueType == null) {
@@ -176,10 +176,20 @@ public class VariableExpressionManagerUtil {
 				}
 				return r;
 			} else {
-				return "\"" + applyActionOnText(value, action) + "\"";
+				return "" + applyActionOnText(value, action);
 			}			
 		} else {
-			return "" + applyActionOnText(value, action);
+			if(value instanceof List) {
+				List<?> elems = (List<?>) value;
+				String r = "";
+				for(Object elem : elems) {
+					r = "".equals(r) ? "" + applyActionOnText(elem, action)  + ""
+							: r + ", " + applyActionOnText(elem, action) + "";
+				}
+				return r;
+			} else {
+				return "" + applyActionOnText(value, action);
+			}
 		}		
 	}
 	
