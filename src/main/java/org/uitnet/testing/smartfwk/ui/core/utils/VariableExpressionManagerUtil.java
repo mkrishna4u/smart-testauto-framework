@@ -46,12 +46,12 @@ public class VariableExpressionManagerUtil {
 			return null;
 		}
 		
-		Map<String, TextVarExpressionInfo> textParams = extractVariableDetailsFromText(text, variableName);
-		String textParam;
+		Map<String, TextVarExpressionInfo> textVarExpMap = extractVariableDetailsFromText(text, variableName);
+		String textVarExp;
 		TextVarExpressionInfo pInfo;
 		
-		for(Map.Entry<String, TextVarExpressionInfo> entry : textParams.entrySet()) {
-			textParam = entry.getKey();
+		for(Map.Entry<String, TextVarExpressionInfo> entry : textVarExpMap.entrySet()) {
+			textVarExp = entry.getKey();
 			pInfo = entry.getValue();
 			List<?> values = null;
 			Object value = null;
@@ -66,11 +66,11 @@ public class VariableExpressionManagerUtil {
 					};
 					values = pInfo.getPath() != null ? docCtx.read(pInfo.getPath(), typeRef) : null;
 					String listAsStr = prepareListValue(values, pInfo.getValueType(), pInfo.getAction());
-					text = text.replace(textParam, "" + listAsStr);
+					text = text.replace(textVarExp, "" + listAsStr);
 				} else {
 					value = pInfo.getPath() != null ? docCtx.read(pInfo.getPath()) : null;
 					String value2 = prepareValue(value, pInfo.getValueType(), pInfo.getAction());
-					text = text.replace(textParam, "" + value2);
+					text = text.replace(textVarExp, "" + value2);
 				}
 			} else if(valueObj != null && pInfo.getPathType() == PathType.XPATH) {
 				Document docCtx = (Document)valueObj;
@@ -83,7 +83,7 @@ public class VariableExpressionManagerUtil {
 					if(pInfo.getPath() != null) {
 						values = (List<?>) xmlReader.findAttributeOrTextValues("XPath", new ParamPath(pInfo.getPath(), pInfo.getValueType().getType()));
 						String listAsStr = prepareListValue(values, pInfo.getValueType(), pInfo.getAction());
-						text = text.replace(textParam, "" + listAsStr);
+						text = text.replace(textVarExp, "" + listAsStr);
 					}
 				} else {
 					XmlDocumentReader xmlReader = new XmlDocumentReader(docCtx);
@@ -91,7 +91,7 @@ public class VariableExpressionManagerUtil {
 						value = xmlReader.findAttributeOrTextValues("XPath", new ParamPath(pInfo.getPath(), 
 								pInfo.getValueType() == null ? ParamValueType.STRING.getType() : pInfo.getValueType().getType()));
 						String value2 = prepareValue(value, pInfo.getValueType(), pInfo.getAction());
-						text = text.replace(textParam, "" + value2);
+						text = text.replace(textVarExp, "" + value2);
 					}
 				}
 			} else {
@@ -102,11 +102,11 @@ public class VariableExpressionManagerUtil {
 						|| pInfo.getValueType() == ParamValueType.BOOLEAN_LIST)) {
 					values = (List<?>) valueObj;
 					String listAsStr = prepareListValue(values, pInfo.getValueType(), pInfo.getAction());
-					text = text.replace(textParam, "" + listAsStr);
+					text = text.replace(textVarExp, "" + listAsStr);
 				} else {
 					value = valueObj;
 					String value2 = prepareValue(value, pInfo.getValueType(), pInfo.getAction());
-					text = text.replace(textParam, "" + value2);
+					text = text.replace(textVarExp, "" + value2);
 				}
 				
 			}
@@ -115,7 +115,7 @@ public class VariableExpressionManagerUtil {
 		return text;
 	}
 	
-	private static String prepareListValue(List<?> values, ParamValueType valueType, ParamValueAction action) {
+	private static String prepareListValue(List<?> values, ParamValueType valueType, VariableValueAction action) {
 		String listValues = "";
 		if(values == null || values.size() == 0) {
 			return listValues;
@@ -134,13 +134,23 @@ public class VariableExpressionManagerUtil {
 		return listValues;
 	}
 	
-	private static Object applyActionOnText(Object text, ParamValueAction action) {
+	private static Object applyActionOnText(Object text, VariableValueAction action) {
 		if(action == null) { return text; }
 		String newText = "" + text;
 		switch(action) {
 			case replaceNullByEmpty:
 				if("null".equalsIgnoreCase(newText)) {
 					newText = "";
+				}
+				break;
+			case trimNullByEmpty:
+				if("null".equalsIgnoreCase(newText.trim())) {
+					newText = "";
+				}
+				break;
+			case replaceEmptyByNull:
+				if("".equalsIgnoreCase(newText)) {
+					newText = null;
 				}
 				break;
 			case trim:
@@ -157,7 +167,7 @@ public class VariableExpressionManagerUtil {
 		return newText;
 	}
 	
-	private static String prepareValue(Object value, ParamValueType valueType, ParamValueAction action) {
+	private static String prepareValue(Object value, ParamValueType valueType, VariableValueAction action) {
 		if(value == null) {
 			Object v = applyActionOnText(value, action);
 			if(v == null) { return null; }
@@ -194,11 +204,11 @@ public class VariableExpressionManagerUtil {
 	}
 	
 	public static Map<String, TextVarExpressionInfo> extractVariableDetailsFromText(String text, String variableName) {
-		if(StringUtil.isEmptyAfterTrim(text) || StringUtil.isEmptyAfterTrim(variableName)) {
-			return null;
-		}
-		
 		Map<String, TextVarExpressionInfo> varExpMap = new LinkedHashMap<String, TextVarExpressionInfo>();
+		
+		if(StringUtil.isEmptyAfterTrim(text) || StringUtil.isEmptyAfterTrim(variableName)) {
+			return varExpMap;
+		}
 		
 		TextVarExpressionInfo pInfo = new TextVarExpressionInfo();
 		
@@ -271,7 +281,7 @@ public class VariableExpressionManagerUtil {
 		}
 		
 		if(!StringUtil.isEmptyAfterTrim(action)) {
-			ParamValueAction action2 = ParamValueAction.valueOf2(action);
+			VariableValueAction action2 = VariableValueAction.valueOf2(action);
 			pInfo.setAction(action2);
 		}
 		
@@ -290,7 +300,7 @@ public class VariableExpressionManagerUtil {
 
 	public static class TextVarExpressionInfo {
 		private ParamValueType valueType;
-		private ParamValueAction action;
+		private VariableValueAction action;
 		private PathType pathType; // jsonPath, xpath
 		private String path;
 		
@@ -306,11 +316,11 @@ public class VariableExpressionManagerUtil {
 			this.valueType = valueType;
 		}
 
-		public ParamValueAction getAction() {
+		public VariableValueAction getAction() {
 			return action;
 		}
 
-		public void setAction(ParamValueAction action) {
+		public void setAction(VariableValueAction action) {
 			this.action = action;
 		}
 
@@ -340,17 +350,17 @@ public class VariableExpressionManagerUtil {
 		JSON_PATH, XPATH
 	}
 	
-	public enum ParamValueAction {
-		replaceNullByEmpty, trim, trimLeft, trimRight;
+	public enum VariableValueAction {
+		replaceNullByEmpty, trimNullByEmpty, replaceEmptyByNull, trim, trimLeft, trimRight;
 
-		public static ParamValueAction valueOf2(String strType) {
+		public static VariableValueAction valueOf2(String strType) {
 			if(strType == null || "".equals(strType.trim())) { return null; }
-			for (ParamValueAction type1 : values()) {
+			for (VariableValueAction type1 : values()) {
 				if (type1.name().equalsIgnoreCase(strType.trim())) {
 					return type1;
 				}
 			}
-			Assert.fail("Param value action '" + strType + "' is not supported.");
+			Assert.fail("Variable value action '" + strType + "' is not supported.");
 			return null;
 		}		
 	}

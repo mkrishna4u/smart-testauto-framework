@@ -39,7 +39,7 @@ public class TestVariableExpressionManagerUtil {
 		System.out.println("XMLDoc: " + textXml2);
 		
 		//---------
-		Object jsonObj3 = new JsonDocumentReader("[[null, 'abc', 'bcd', null, '  ', '  asd  '], ['bb', 'abc', 'bcd', null, '  ', '  asd  ']]", false).getDocumentContext();
+		Object jsonObj3 = new JsonDocumentReader("[['null ', 'abc', 'bcd', null, '  ', '  asd  '], ['bb', 'abc', 'bcd', null, '  ', '  asd  ']]", false).getDocumentContext();
 		String paramName3 = "DB_TBL_VAR";
 		String text3 = "asd asdsad sad ${DB_TBL_VAR:string-list:replaceNullByEmpty:$.[*][5]} sdsad sadsa dsa dsa d";
 		String text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
@@ -58,6 +58,10 @@ public class TestVariableExpressionManagerUtil {
 		System.out.println("text31: " + text31);
 		
 		text3 = "asd asdsad sad ${DB_TBL_VAR:string:trimRight:$.[0][5]} sdsad sadsa dsa dsa d";
+		text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
+		System.out.println("text31: " + text31);
+		
+		text3 = "asd asdsad sad ${DB_TBL_VAR:string:trimNullByEmpty:$.[0][1]} sdsad sadsa dsa dsa d";
 		text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
 		System.out.println("text31: " + text31);
 	}
