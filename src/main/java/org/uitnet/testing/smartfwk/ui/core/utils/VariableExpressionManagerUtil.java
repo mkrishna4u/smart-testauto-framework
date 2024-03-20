@@ -143,7 +143,7 @@ public class VariableExpressionManagerUtil {
 					newText = "";
 				}
 				break;
-			case trimNullByEmpty:
+			case trimNullToEmpty:
 				if("null".equalsIgnoreCase(newText.trim())) {
 					newText = "";
 				}
@@ -351,7 +351,7 @@ public class VariableExpressionManagerUtil {
 	}
 	
 	public enum VariableValueAction {
-		replaceNullByEmpty, trimNullByEmpty, replaceEmptyByNull, trim, trimLeft, trimRight;
+		replaceNullByEmpty, trimNullToEmpty, replaceEmptyByNull, trim, trimLeft, trimRight;
 
 		public static VariableValueAction valueOf2(String strType) {
 			if(strType == null || "".equals(strType.trim())) { return null; }
