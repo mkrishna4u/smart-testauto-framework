@@ -61,8 +61,13 @@ public class TestVariableExpressionManagerUtil {
 		text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
 		System.out.println("text31: " + text31);
 		
-		text3 = "asd asdsad sad ${DB_TBL_VAR:string:trimNullByEmpty:$.[0][1]} sdsad sadsa dsa dsa d";
+		text3 = "asd asdsad sad ${DB_TBL_VAR:string:trimNullToEmpty:$.[0][1]} sdsad sadsa dsa dsa d";
 		text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, paramName3, jsonObj3);
 		System.out.println("text31: " + text31);
+		
+		String strValue = "kkkk k kk k k kk k";
+		text3 = "asd asdsad sad DB_TBL_VAR2 sdsad sadsa dsa dsa d";
+		text31 = VariableExpressionManagerUtil.applyVariableValueOnText(text3, "DB_TBL_VAR2", strValue);
+		System.out.println("text4: " + text31);
 	}
 }

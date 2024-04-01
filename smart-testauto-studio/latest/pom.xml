@@ -42,8 +42,8 @@
 	    <parallel.threads>1</parallel.threads>
 		<smart-testauto-framework.version>6.1.4</smart-testauto-framework.version>
 		<smart-testauto-cucumber-stepdefs-en.version>6.1.4</smart-testauto-cucumber-stepdefs-en.version>
-		<cucumber-reporting.version>5.7.8</cucumber-reporting.version>
-		<cucumber-reporting-plugin.version>5.7.8</cucumber-reporting-plugin.version>
+		<cucumber-reporting.version>5.8.0</cucumber-reporting.version>
+		<maven-cucumber-reporting.version>5.8.1</maven-cucumber-reporting.version>
 		
 		<maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
 		<maven.compiler.source>11</maven.compiler.source>
@@ -130,7 +130,7 @@
 			<plugin>
 				<groupId>net.masterthought</groupId>
 				<artifactId>maven-cucumber-reporting</artifactId>
-				<version>${cucumber-reporting-plugin.version}</version>
+				<version>${maven-cucumber-reporting.version}</version>
 				<executions>
 					<execution>
 						<id>execution</id>
