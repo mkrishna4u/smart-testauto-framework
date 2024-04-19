@@ -691,7 +691,9 @@ public class SmartAppDriver {
 					wd.close();
 				}
 			}
-			webDriver.switchTo().defaultContent();
+			try {
+				webDriver.switchTo().defaultContent();
+			} catch(Throwable th) {}
 		}
 	}
 
