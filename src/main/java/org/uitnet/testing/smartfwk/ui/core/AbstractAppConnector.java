@@ -22,7 +22,6 @@ import java.awt.Rectangle;
 import java.io.File;
 import java.nio.file.Files;
 
-import org.sikuli.script.Screen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -38,6 +37,7 @@ import org.uitnet.testing.smartfwk.ui.core.handler.ScrollElementToViewportHandle
 import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginPageValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.logon.LoginSuccessPageValidator;
 import org.uitnet.testing.smartfwk.ui.core.utils.ScreenCaptureUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.ScreenUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 import com.jayway.jsonpath.DocumentContext;
@@ -247,7 +247,7 @@ public abstract class AbstractAppConnector {
 				&& appConfig.getAppType() == ApplicationType.web_app) {
 			screenArea = new Rectangle(new Point(0, 0), appConfig.getBrowserWindowSize());
 		} else {
-			screenArea = Screen.getPrimaryScreen().getRect();
+			screenArea = ScreenUtil.getPrimaryScreenRectangle();
 		}
 
 		String imageFile = ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null,
@@ -271,7 +271,7 @@ public abstract class AbstractAppConnector {
 				&& appConfig.getAppType() == ApplicationType.web_app) {
 			screenArea = new Rectangle(new Point(0, 0), appConfig.getBrowserWindowSize());
 		} else {
-			screenArea = Screen.getPrimaryScreen().getRect();
+			screenArea = ScreenUtil.getPrimaryScreenRectangle();
 		}
 
 		String imageFile = ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null,
@@ -290,7 +290,7 @@ public abstract class AbstractAppConnector {
 				&& appConfig.getAppType() == ApplicationType.web_app) {
 			screenArea = new Rectangle(new Point(0, 0), appConfig.getBrowserWindowSize());
 		} else {
-			screenArea = Screen.getPrimaryScreen().getRect();
+			screenArea = ScreenUtil.getPrimaryScreenRectangle();
 		}
 
 		return ScreenCaptureUtil.capture(testConfigManager.getAppScreenCaptureDirectory(), null, fileNameHint, screenArea,

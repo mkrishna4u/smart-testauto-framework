@@ -17,12 +17,49 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import java.awt.Rectangle;
 
+import org.sikuli.script.Screen;
+
+/**
+ * @Author Madhav Krishna
+ */
 public class ScreenUtil {
 	
 	private ScreenUtil() {
 		
 	}
 	
+	public static int getScreenWidth() {
+		int screenWidth = 1600;
+		try {
+			screenWidth = Screen.getPrimaryScreen().w;
+		} catch(Throwable th) {
+			// do nothing.
+		}
+		
+		return screenWidth;
+	}
 	
+	public static int getScreenHeight() {
+		int screenHeight = 1600;
+		try {
+			screenHeight = Screen.getPrimaryScreen().h;
+		} catch(Throwable th) {
+			// do nothing.
+		}
+		
+		return screenHeight;
+	}
+	
+	public static Rectangle getPrimaryScreenRectangle() {
+		Rectangle rect = null;
+		try {
+			rect = Screen.getPrimaryScreen().getRect();
+		} catch(Throwable th) {
+			rect = new Rectangle(getScreenWidth(), getScreenHeight());
+		}
+		
+		return rect;
+	}
 }

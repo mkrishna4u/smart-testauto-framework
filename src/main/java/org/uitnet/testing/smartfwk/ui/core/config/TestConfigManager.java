@@ -32,6 +32,7 @@ import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.ScreenUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
 
 import com.jayway.jsonpath.DocumentContext;
@@ -252,8 +253,8 @@ public class TestConfigManager {
 		String defaultConfig = "applicationName: " + DefaultInfo.DEFAULT_APP_NAME + "\n" + "applicationType: "
 				+ ApplicationType.not_applicable.getType() + "\n" + "testPlatformType: "
 				+ PlatformType.unknown.getType() + "\n" + "appWebBrowser: " + WebBrowserType.notApplicable.getType()
-				+ "\n" + "enableBrowserExtensions: false\n" + "browserWindowSize: " + Screen.getPrimaryScreen().w
-				+ " x " + Screen.getPrimaryScreen().h + "\n";
+				+ "\n" + "enableBrowserExtensions: false\n" + "browserWindowSize: " + ScreenUtil.getScreenWidth()
+				+ " x " + ScreenUtil.getScreenHeight() + "\n";
 
 		YamlDocumentReader reader = new YamlDocumentReader(defaultConfig, true);
 		AppConfig appConfig = new AppConfig(DefaultInfo.DEFAULT_APP_NAME, reader.getDocumentContext(), appsConfigDir);

@@ -91,7 +91,11 @@ public class SmartAppDriver {
 		this.appName = appName;
 		this.appType = appType;
 		this.testPlatformType = testPlatformType;
-		this.sikuliDriver = new Screen();
+		try {
+			this.sikuliDriver = new Screen();
+		} catch(Exception ex) {
+			System.out.println("WARNING: Native screen testing is disabled due to headless server mode.");
+		}
 		this.appConfig = TestConfigManager.getInstance().getAppConfig(appName);
 	}
 
@@ -730,6 +734,9 @@ public class SmartAppDriver {
 	}
 
 	public Screen getSikuliScreen() {
+		if(sikuliDriver == null) {
+			Assert.fail("ERROR: Due to headless server mode, sikuli driver is not available to perform window / screen operations.");
+		}
 		return sikuliDriver;
 	}
 	

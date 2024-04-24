@@ -19,6 +19,7 @@ package org.uitnet.testing.smartfwk.ui.core.utils;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -44,7 +45,11 @@ public class ScreenCaptureUtil {
 	private static int screenshotId = 0;
 
 	public static Dimension getScreenSize() {
-		return Toolkit.getDefaultToolkit().getScreenSize();
+		try {
+			return Toolkit.getDefaultToolkit().getScreenSize();
+		} catch(Throwable th) {
+			return new Dimension(ScreenUtil.getScreenWidth(), ScreenUtil.getScreenHeight());
+		}
 	}
 
 	/**
@@ -100,9 +105,14 @@ public class ScreenCaptureUtil {
 			File targetFile = new File(targetImageFileName);
 			FileUtils.copyFile(imageFile, targetFile);
 		} else {
-			Robot robot = new Robot();
-			BufferedImage image = robot.createScreenCapture(screenRectangle);
-			ImageIO.write(image, "png", new File(targetImageFileName));
+			if(!GraphicsEnvironment.isHeadless()) {
+				Robot robot = new Robot();
+				BufferedImage image = robot.createScreenCapture(screenRectangle);
+				ImageIO.write(image, "png", new File(targetImageFileName));
+			} else {
+				Assert.fail("ERROR: Due to headless server mode, screenshots can not be taken. "
+						+ "Try prefer driver screenshot by setting preferDriverScreenshots property in TextConfig.yaml file.");
+			}
 		}
 	}
 
