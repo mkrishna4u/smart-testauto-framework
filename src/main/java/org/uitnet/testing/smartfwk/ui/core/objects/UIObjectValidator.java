@@ -34,6 +34,7 @@ import org.uitnet.testing.smartfwk.ui.core.events.KeyboardEvent;
 import org.uitnet.testing.smartfwk.ui.core.events.MouseEvent;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.DataMatchUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.ScreenUtil;
 import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
@@ -51,7 +52,7 @@ public abstract class UIObjectValidator {
 		this.uiObject = uiObject;
 		if (appDriver != null) {
 			this.region = (region == null)
-					? Region.create(new Rectangle(0, 0,
+					? ScreenUtil.createRegionWithNoError(new Rectangle(0, 0,
 							Double.valueOf(appDriver.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
 							Double.valueOf(appDriver.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
 					: region;

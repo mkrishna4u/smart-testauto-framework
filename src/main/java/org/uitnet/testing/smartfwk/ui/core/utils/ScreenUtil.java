@@ -17,9 +17,12 @@
  */
 package org.uitnet.testing.smartfwk.ui.core.utils;
 
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 
+import org.sikuli.script.Region;
 import org.sikuli.script.Screen;
+import org.testng.Assert;
 
 /**
  * @Author Madhav Krishna
@@ -61,5 +64,30 @@ public class ScreenUtil {
 		}
 		
 		return rect;
+	}
+	
+	public static Region createRegionWithNoError(Rectangle rect) {
+		Region region = null;
+		try {
+			region = Region.create(rect);
+		} catch(Throwable th) {
+			// do nothing
+		}
+		
+		return region;
+	}
+	
+	public static Region createRegion(int x1, int y1, int width, int height) {
+		Region region = null;
+		try {
+			region = Region.create(x1, y1, width, height);
+		} catch(Throwable th) {
+			if(GraphicsEnvironment.isHeadless()) {
+				Assert.fail("ERROR: Due to headless server mode. Screen verification using Sikuli is disabled.");
+			}
+			throw th;
+		}
+		
+		return region;
 	}
 }

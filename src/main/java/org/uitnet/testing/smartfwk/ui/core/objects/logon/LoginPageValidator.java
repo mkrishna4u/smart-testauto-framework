@@ -24,6 +24,7 @@ import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.defaults.DefaultInfo;
 import org.uitnet.testing.smartfwk.ui.core.objects.UIObject;
+import org.uitnet.testing.smartfwk.ui.core.utils.ScreenUtil;
 
 /**
  * 
@@ -39,7 +40,7 @@ public abstract class LoginPageValidator {
 		this.uiObject = locator;
 		if (appDriver != null) {
 			this.region = (region == null)
-					? new Region(new Rectangle(0, 0,
+					? ScreenUtil.createRegionWithNoError(new Rectangle(0, 0,
 							Double.valueOf(appDriver.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
 							Double.valueOf(appDriver.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
 					: region;

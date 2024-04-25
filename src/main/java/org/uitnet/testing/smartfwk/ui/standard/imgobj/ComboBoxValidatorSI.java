@@ -41,6 +41,7 @@ import org.uitnet.testing.smartfwk.ui.core.objects.NewTextLocation;
 import org.uitnet.testing.smartfwk.ui.core.objects.combobox.ComboBoxValidator;
 import org.uitnet.testing.smartfwk.ui.core.objects.validator.mechanisms.TextMatchMechanism;
 import org.uitnet.testing.smartfwk.ui.core.utils.ClipboardUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.ScreenUtil;
 import org.uitnet.testing.smartfwk.ui.standard.imgobj.scrollbar.ScrollbarSI;
 
 /**
@@ -463,7 +464,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			break;
 		}
 
-		Region pullDownMenuRegion = new Region(pullDownX1, pullDownY1, pullDownW, pullDownH);
+		Region pullDownMenuRegion = ScreenUtil.createRegion(pullDownX1, pullDownY1, pullDownW, pullDownH);
 		return pullDownMenuRegion;
 	}
 

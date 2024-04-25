@@ -26,6 +26,7 @@ import org.sikuli.script.Region;
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.appdriver.SmartAppDriver;
 import org.uitnet.testing.smartfwk.ui.core.commons.UIObjectType;
+import org.uitnet.testing.smartfwk.ui.core.utils.ScreenUtil;
 
 /**
  * 
@@ -119,9 +120,9 @@ public class ObjectLocation {
 		case WITHIN_SCREEN_LIMIT:
 			Region region = null;
 			if (objLocType == ObjectLocationType.WITHIN_SCREEN_LIMIT) {
-				region = new Region(appDriver.getSikuliScreen().getRect());
+				region = ScreenUtil.createRegionWithNoError(appDriver.getSikuliScreen().getRect());
 			} else {
-				region = new Region(x, y, width, height);
+				region = ScreenUtil.createRegion(x, y, width, height);
 			}
 
 			region.setAutoWaitTimeout(1);
@@ -604,9 +605,9 @@ public class ObjectLocation {
 		case WITHIN_SCREEN_LIMIT:
 			Region region = null;
 			if (objLocType == ObjectLocationType.WITHIN_SCREEN_LIMIT) {
-				region = new Region(appDriver.getSikuliScreen().getRect());
+				region = ScreenUtil.createRegionWithNoError(appDriver.getSikuliScreen().getRect());
 			} else {
-				region = new Region(x, y, width, height);
+				region = ScreenUtil.createRegion(x, y, width, height);
 			}
 
 			region.setAutoWaitTimeout(1);
@@ -628,9 +629,9 @@ public class ObjectLocation {
 	 */
 	public Region getRegion(SmartAppDriver appDriver) {
 		if (ObjectLocationType.WITHIN_CUSTOM_LIMIT == objLocType) {
-			return new Region(x, y, width, height);
+			return ScreenUtil.createRegion(x, y, width, height);
 		} else if (ObjectLocationType.WITHIN_SCREEN_LIMIT == objLocType) {
-			return new Region(appDriver.getSikuliScreen().getRect());
+			return ScreenUtil.createRegionWithNoError(appDriver.getSikuliScreen().getRect());
 		}
 
 		Assert.fail("getRegion() api is applicable only for absolute location.");
@@ -639,18 +640,18 @@ public class ObjectLocation {
 
 	public Region getRegionOfImageObject(SmartAppDriver appDriver, String leftSideImageOfImageObject,
 			String rightSideImageOfImageObject) {
-		return new Region(
+		return ScreenUtil.createRegionWithNoError(
 				getRectangleOfImageObject(appDriver, leftSideImageOfImageObject, rightSideImageOfImageObject));
 
 	}
 
 	public Region getRegionOfImageObject(SmartAppDriver appDriver, int width, int height) {
-		return new Region(getRectangleOfImageObject(appDriver, width, height));
+		return ScreenUtil.createRegionWithNoError(getRectangleOfImageObject(appDriver, width, height));
 
 	}
 
 	public Region getRegionOfImageObject(SmartAppDriver appDriver, String imageObject) {
-		return new Region(getImageObjectMatch(appDriver, imageObject));
+		return ScreenUtil.createRegionWithNoError(getImageObjectMatch(appDriver, imageObject));
 
 	}
 }
