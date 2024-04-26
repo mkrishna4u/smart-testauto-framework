@@ -6,7 +6,10 @@ headless: false
 driverSystemPropertyName: webdriver.gecko.driver
 
 # Configure web browser driver binary path, download it from https://github.com/mozilla/geckodriver/releases/
-driverFileName: geckodriver.exe
+driverFileName: geckodriver
+
+# set browser binary path when not the standard path.
+browserBinaryPath: 
 
 # Driver Arguments: add space separated multiple arguments
 driverArguments: 

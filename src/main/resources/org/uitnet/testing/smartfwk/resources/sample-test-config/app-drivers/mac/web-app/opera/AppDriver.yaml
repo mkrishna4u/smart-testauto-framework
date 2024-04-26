@@ -6,7 +6,10 @@ headless: false
 driverSystemPropertyName: webdriver.chrome.driver
 
 # Configure web browser driver binary path, download it from https://github.com/operasoftware/operachromiumdriver/releases
-driverFileName: operadriver.exe
+driverFileName: operadriver
+
+# set browser binary path when not the standard path.
+browserBinaryPath: 
 
 # Driver Arguments: add space separated multiple arguments
 driverArguments: allow-elevated-browser

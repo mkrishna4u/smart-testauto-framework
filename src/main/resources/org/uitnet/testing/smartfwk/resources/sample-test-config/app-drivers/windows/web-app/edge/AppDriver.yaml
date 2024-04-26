@@ -7,6 +7,9 @@ driverSystemPropertyName: webdriver.edge.driver
 # Configure web browser driver binary path, download it from https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
 driverFileName: msedgedriver.exe
 
+# set browser binary path when not the standard path.
+browserBinaryPath: 
+
 # Driver Arguments: add space separated multiple arguments
 driverArguments: 
 

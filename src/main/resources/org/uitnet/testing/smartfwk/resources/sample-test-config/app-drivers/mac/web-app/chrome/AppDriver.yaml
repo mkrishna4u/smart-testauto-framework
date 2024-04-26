@@ -6,7 +6,10 @@ headless: false
 driverSystemPropertyName: webdriver.chrome.driver
 
 # Configure web browser driver binary path, download it from https://chromedriver.chromium.org/downloads
-driverFileName: chromedriver.exe
+driverFileName: chromedriver
+
+# set browser binary path when not the standard path.
+browserBinaryPath: 
 
 # Driver Arguments: add space separated multiple arguments
 driverArguments: 
