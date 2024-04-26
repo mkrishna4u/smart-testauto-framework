@@ -369,7 +369,9 @@ public class SmartAppDriver {
 
 				//options.setHeadless(webDriverCfg.isHeadless());
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());
-				options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				if(webDriverCfg.getUnexpectedAlertBehaviour() != null) {
+					options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				}
 				options.setLogLevel(FirefoxDriverLogLevel.fromLevel(webDriverCfg.getLogLevel()));
 				options.addArguments(webDriverCfg.getArguments());
 				
@@ -420,9 +422,14 @@ public class SmartAppDriver {
 				System.setProperty(webDriverCfg.getDriverSystemPropertyName(), webDriverCfg.getDriverBinaryFilePath());
 
 				ChromeOptions options = new ChromeOptions();
+				if(webDriverCfg.getBrowserBinaryPath() != null) {
+					options.setBinary(appName);
+				}
 				//options.setHeadless(webDriverCfg.isHeadless());
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());
-				options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				if(webDriverCfg.getUnexpectedAlertBehaviour() != null) {
+					options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				}
 				options.addArguments(webDriverCfg.getArguments());
 				
 			    if (webDriverCfg.isHeadless() && !webDriverCfg.getArguments().contains("--headless")) {
@@ -472,8 +479,12 @@ public class SmartAppDriver {
 				SafariDriverService service = SafariDriverService.createDefaultService();
 
 				SafariOptions options = new SafariOptions();
+				options.setEnableDownloads(true);
+				
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());
-				options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				if(webDriverCfg.getUnexpectedAlertBehaviour() != null) {
+					options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				}
 				options.setAcceptInsecureCerts(webDriverCfg.isAcceptInsecureCertificates());
 				for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {
 					options.setCapability(entry.getKey(), entry.getValue());
@@ -483,7 +494,7 @@ public class SmartAppDriver {
 				if (proxy != null) {
 					options.setCapability(CapabilityType.PROXY, proxy);
 				}
-
+				
 				SafariDriver wdriver = new SafariDriver(service, options);
 				wdriver.setLogLevel(webDriverCfg.getLogLevel());
 
@@ -511,9 +522,14 @@ public class SmartAppDriver {
 				EdgeDriverService service = EdgeDriverService.createDefaultService();
 
 				EdgeOptions options = new EdgeOptions();
+				if(webDriverCfg.getBrowserBinaryPath() != null) {
+					options.setBinary(appName);
+				}
 				//options.setHeadless(webDriverCfg.isHeadless());
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());
-				options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				if(webDriverCfg.getUnexpectedAlertBehaviour() != null) {
+					options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				}
 				options.addArguments(webDriverCfg.getArguments());
 
 				if (webDriverCfg.isHeadless() && !webDriverCfg.getArguments().contains("--headless")) {
@@ -561,9 +577,14 @@ public class SmartAppDriver {
 				System.setProperty(webDriverCfg.getDriverSystemPropertyName(), webDriverCfg.getDriverBinaryFilePath());
 
 				ChromeOptions options = new ChromeOptions();
+				if(webDriverCfg.getBrowserBinaryPath() != null) {
+					options.setBinary(appName);
+				}
 				//options.setHeadless(webDriverCfg.isHeadless());
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());
-				options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				if(webDriverCfg.getUnexpectedAlertBehaviour() != null) {
+					options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				}
 				options.addArguments(webDriverCfg.getArguments());
 
 				if (webDriverCfg.isHeadless() && !webDriverCfg.getArguments().contains("--headless")) {
@@ -615,10 +636,12 @@ public class SmartAppDriver {
 
 				InternetExplorerDriverService service = InternetExplorerDriverService.createDefaultService();
 
-				InternetExplorerOptions options = new InternetExplorerOptions();
+				InternetExplorerOptions options = new InternetExplorerOptions();				
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());
 				options.ignoreZoomSettings();
-				options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				if(webDriverCfg.getUnexpectedAlertBehaviour() != null) {
+					options.setUnhandledPromptBehaviour(webDriverCfg.getUnexpectedAlertBehaviour());
+				}
 				options.setCapability(InternetExplorerDriver.INITIAL_BROWSER_URL, appConfig.getAppLaunchUrl());
 
 				for (Map.Entry<String, Object> entry : webDriverCfg.getDriverCapabilities().entrySet()) {

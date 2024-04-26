@@ -30,6 +30,7 @@ import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.utils.JsonYamlUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.OSDetectorUtil;
 import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
+import org.uitnet.testing.smartfwk.ui.core.utils.WebBrowserUtil;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.TypeRef;
@@ -44,6 +45,7 @@ public class AppDriverConfig {
 	private String driverSystemPropertyName;
 	private String driverBinaryFilePath;
 	private String driverFileName;
+	private String browserBinaryPath=null;
 	private String remoteDriverURL;
 	private boolean headless = false;
 	private PageLoadStrategy pageLoadStrategy = PageLoadStrategy.NORMAL;
@@ -119,6 +121,9 @@ public class AppDriverConfig {
 					+ appConfig.getAppType().getType() + File.separator + browserType.getType() + File.separator
 					+ driverFileName;
 		}
+		
+		browserBinaryPath = JsonYamlUtil.readNoException("$.browserBinaryPath", String.class, yamlDoc, overriddenYamlDoc);
+		browserBinaryPath = WebBrowserUtil.fixBrowserBinaryPath(browserBinaryPath);
 
 		remoteDriverURL = JsonYamlUtil.readNoException("$.remoteDriverURL", String.class, yamlDoc, overriddenYamlDoc);
 
@@ -229,6 +234,10 @@ public class AppDriverConfig {
 
 	public String getDriverFileName() {
 		return driverFileName;
+	}
+	
+	public String getBrowserBinaryPath() {
+		return browserBinaryPath;
 	}
 
 	public String getRemoteDriverURL() {
