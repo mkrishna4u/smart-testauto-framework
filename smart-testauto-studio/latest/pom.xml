@@ -40,14 +40,18 @@
 
 	<properties>
 	    <parallel.threads>1</parallel.threads>
-		<smart-testauto-framework.version>6.1.5</smart-testauto-framework.version>
-		<smart-testauto-cucumber-stepdefs-en.version>6.1.5</smart-testauto-cucumber-stepdefs-en.version>
+		<smart-testauto-framework.version>7.0.0</smart-testauto-framework.version>
+		<smart-testauto-cucumber-stepdefs-en.version>7.0.0</smart-testauto-cucumber-stepdefs-en.version>
 		<cucumber-reporting.version>5.8.0</cucumber-reporting.version>
 		<maven-cucumber-reporting.version>5.8.1</maven-cucumber-reporting.version>
 		
-		<maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
+		<maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
+		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		
 		<maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
 		<maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>		
 		<maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
