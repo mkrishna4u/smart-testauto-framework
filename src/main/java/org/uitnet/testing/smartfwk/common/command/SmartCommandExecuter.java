@@ -55,7 +55,8 @@ public class SmartCommandExecuter {
 	 * @return the command result that contains process details, exit status, output data and error data.
 	 */
 	public static SyncCommandResult executeSync(List<String> shellInfo, Integer timeoutInSeconds, String directory, String cmdName, String... args) {
-		ProcessBuilder builder = new ProcessBuilder(args);
+		String[] args2 = (args == null) ? new String[0] : args; 
+		ProcessBuilder builder = new ProcessBuilder(args2);
 		SyncCommandResult cmdResult = new SyncCommandResult();
 		if(timeoutInSeconds == null) {
 			timeoutInSeconds = 300;
@@ -172,7 +173,8 @@ public class SmartCommandExecuter {
 	 * @return the command result that contains process details, exit status, output data and error data.
 	 */
 	public static AsyncCommandResult executeAsync(List<String> shellInfo, Integer timeoutInSeconds, String directory, String cmdName, String... args) {
-		ProcessBuilder builder = new ProcessBuilder(args);
+		String[] args2 = (args == null) ? new String[0] : args; 
+		ProcessBuilder builder = new ProcessBuilder(args2);
 		AsyncCommandResult cmdResult = new AsyncCommandResult();
 		if(timeoutInSeconds == null) {
 			timeoutInSeconds = 300;
