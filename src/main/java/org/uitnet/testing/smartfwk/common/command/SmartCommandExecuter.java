@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.config.PlatformType;
@@ -34,33 +35,53 @@ import org.uitnet.testing.smartfwk.ui.core.utils.StringUtil;
  *
  */
 public class SmartCommandExecuter {
+	private SmartCommandExecuter() {
+		// do nothing
+	}
 
 	/**
-	 * Execute platform commands.
+	 * Execute system commands on local platform in synchronous mode.
 	 * 
+	 * @param shellInfo - the shell information in which command to be executed.
+	 * 					if not specified then it will determine shell information automatically.
+	 * 					like for window we use ["cmd.exe", "/c"],
+	 * 						 for linux we use ["sh", "-c"]
+	 * @param timeoutInSeconds - command timeout in seconds. after this timeout the process will killed and control will return.
+	 * 		when its value is null then it will use default 300 seconds. When zero (0) then it will wait indefinitely. 
+	 * 		Else will wait for the specified value of timeout.
 	 * @param directory - directory in which the command will be executed.
-	 * @param cmdName
-	 * @param args
-	 * @return
+	 * @param cmdName - the name of the command
+	 * @param args - arguments of the command
+	 * @return the command result that contains process details, exit status, output data and error data.
 	 */
-	public int execute(String directory, String cmdName, String... args) {
+	public static SyncCommandResult executeSync(List<String> shellInfo, Integer timeoutInSeconds, String directory, String cmdName, String... args) {
 		ProcessBuilder builder = new ProcessBuilder(args);
+		SyncCommandResult cmdResult = new SyncCommandResult();
+		if(timeoutInSeconds == null) {
+			timeoutInSeconds = 300;
+		}
+		
 		if(StringUtil.isEmptyAfterTrim(cmdName)) {
 			directory = Locations.getProjectRootDir();
 		}
 		
 		List<String> cmd = new LinkedList<>();
-		if (OSDetectorUtil.getHostPlatform() == PlatformType.windows) {
-			directory.replace("/", "\\");
-			cmd.add("cmd.exe");
-			cmd.add("/c");
+		if(shellInfo != null && !shellInfo.isEmpty()) {
+			cmd = shellInfo;
 		} else {
-			directory.replace("\\", "/");
-			cmd.add("sh");
-			cmd.add("-c");
+			if (OSDetectorUtil.getHostPlatform() == PlatformType.windows) {
+				directory.replace("/", "\\");
+				cmd.add("cmd.exe");
+				cmd.add("/c");
+			} else {
+				directory.replace("\\", "/");
+				cmd.add("sh");
+				cmd.add("-c");
+			}
 		}
 
 		cmd.add(cmdName);
+		cmdResult.setCmdName(cmdName);
 		if (args != null) {
 			for (String arg : args) {
 				cmd.add(arg);
@@ -73,28 +94,51 @@ public class SmartCommandExecuter {
 		BufferedReader stdError = null;
 		try {
 			Process process = builder.start();
-
+			cmdResult.setProcess(process);
+			
 			stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
 			stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
 			String s;
-			// Read the output from the command and print
-			System.out.println("Command OUTPUT:\n\n");
-			while ((s = stdInput.readLine()) != null) {
-				System.out.println(s);
+			
+			try {
+				// Read the output from the command and print
+				while ((s = stdInput.readLine()) != null) {
+					if(StringUtil.isEmptyNoTrim(cmdResult.getOutputData())) {
+						cmdResult.setOutputData(s);
+					} else {
+						cmdResult.setOutputData(cmdResult.getOutputData() + "\n" + s);
+					}		
+				}
+			} catch(Exception ex1) {
+				cmdResult.addException(ex1);
 			}
-
+			
 			String y;
-			// read any errors from the attempted command
-			System.out.println("Command ERRORS (If any):\n\n");
-			while ((y = stdError.readLine()) != null) {
-				System.out.println(y);
+			try {
+				// read any errors from the attempted command			
+				while ((y = stdError.readLine()) != null) {
+					if(StringUtil.isEmptyNoTrim(cmdResult.getErrorData())) {
+						cmdResult.setErrorData(y);
+					} else {
+						cmdResult.setErrorData(cmdResult.getErrorData() + "\n" + y);
+					}
+				}
+			} catch(Exception ex1) {
+				cmdResult.addException(ex1);
 			}
-
-			return process.waitFor();
+			boolean status = process.waitFor(timeoutInSeconds.intValue(), TimeUnit.SECONDS);
+			cmdResult.setExitStatus(status);
+			if(status == false) {
+				try {
+					process.destroyForcibly();
+				} catch(Exception ex2) { 
+					// do nothing
+				}
+			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			cmdResult.addException(ex);
 		} finally {
 			if (stdInput != null) {
 				try {
@@ -109,7 +153,71 @@ public class SmartCommandExecuter {
 				}
 			}
 		}
-		return -1;
+		return cmdResult;
 	}
+	
+	/**
+	 * Execute system commands on local platform in asynchronous mode.
+	 * 
+	 * @param shellInfo - the shell information in which command to be executed.
+	 * 					if not specified then it will determine shell information automatically.
+	 * 					like for window we use ["cmd.exe", "/c"],
+	 * 						 for linux we use ["sh", "-c"]
+	 * @param timeoutInSeconds - command timeout in seconds. after this timeout the process will be killed and control will return.
+	 * 		when its value is null then it will use default 300 seconds. When zero (0) then it will wait indefinitely. 
+	 * 		Else will wait for the specified value of timeout.
+	 * @param directory - directory in which the command will be executed.
+	 * @param cmdName - the name of the command
+	 * @param args - arguments of the command
+	 * @return the command result that contains process details, exit status, output data and error data.
+	 */
+	public static AsyncCommandResult executeAsync(List<String> shellInfo, Integer timeoutInSeconds, String directory, String cmdName, String... args) {
+		ProcessBuilder builder = new ProcessBuilder(args);
+		AsyncCommandResult cmdResult = new AsyncCommandResult();
+		if(timeoutInSeconds == null) {
+			timeoutInSeconds = 300;
+		}
+		
+		if(StringUtil.isEmptyAfterTrim(cmdName)) {
+			directory = Locations.getProjectRootDir();
+		}
+		
+		List<String> cmd = new LinkedList<>();
+		if(shellInfo != null && !shellInfo.isEmpty()) {
+			cmd = shellInfo;
+		} else {
+			if (OSDetectorUtil.getHostPlatform() == PlatformType.windows) {
+				directory.replace("/", "\\");
+				cmd.add("cmd.exe");
+				cmd.add("/c");
+			} else {
+				directory.replace("\\", "/");
+				cmd.add("sh");
+				cmd.add("-c");
+			}
+		}
 
+		cmd.add(cmdName);
+		cmdResult.setCmdName(cmdName);
+		if (args != null) {
+			for (String arg : args) {
+				cmd.add(arg);
+			}
+		}
+		
+		builder.directory(new File(directory));
+		builder.command(cmd);
+		
+		try {
+			Process process = builder.start();
+			cmdResult.setProcess(process);
+			AsyncCommandThread th = new AsyncCommandThread(process, timeoutInSeconds);
+			th.start();
+			cmdResult.setCommandThread(th);
+			
+		} catch (Exception ex) {
+			cmdResult.addException(ex);
+		}
+		return cmdResult;
+	}
 }

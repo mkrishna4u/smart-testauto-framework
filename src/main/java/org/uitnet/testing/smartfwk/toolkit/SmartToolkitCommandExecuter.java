@@ -26,7 +26,9 @@ import java.util.TreeSet;
 
 import org.testng.Assert;
 import org.uitnet.testing.smartfwk.api.core.reader.YamlDocumentReader;
+import org.uitnet.testing.smartfwk.common.command.AsyncCommandResult;
 import org.uitnet.testing.smartfwk.common.command.SmartCommandExecuter;
+import org.uitnet.testing.smartfwk.common.command.SyncCommandResult;
 import org.uitnet.testing.smartfwk.local_machine.LocalMachineFileSystem;
 import org.uitnet.testing.smartfwk.ui.core.commons.Locations;
 import org.uitnet.testing.smartfwk.ui.core.config.ApplicationType;
@@ -44,7 +46,8 @@ import com.jayway.jsonpath.DocumentContext;
  *
  */
 public class SmartToolkitCommandExecuter {
-
+	private static AsyncCommandResult appiumServerProcess = null;
+	
 	public SmartToolkitCommandExecuter() {
 
 	}
@@ -329,16 +332,25 @@ public class SmartToolkitCommandExecuter {
 		String appiumServerDir = Locations.getProjectRootDir() + File.separator + "appium-server";
 		LocalMachineFileSystem.createDirectoriesIfNotExist(appiumServerDir);
 		
-		SmartCommandExecuter executer = new SmartCommandExecuter();
-		executer.execute(appiumServerDir, "npm", "install", "appium");
+		SyncCommandResult res = SmartCommandExecuter.executeSync(null, 0, appiumServerDir, "npm", "install", "appium");
+		res.print();
 		
 		System.out.println("Appium Server installation is successful. It is installed in appium-server/ directory.");
 	}
 	
 	public void startAppiumServer() {
 		System.out.println("Going to start Appium Server...");
-		SmartCommandExecuter executer = new SmartCommandExecuter();
-		executer.execute(Locations.getProjectRootDir() + File.separator + "appium-server", "appium");
+		appiumServerProcess = SmartCommandExecuter.executeAsync(null, 0, Locations.getProjectRootDir() + File.separator + "appium-server", "appium");
+		appiumServerProcess.join(0);
+	}
+	
+	public void stopAppiumServer() {
+		System.out.println("Going to stop Appium Server...");
+		if(appiumServerProcess != null) {
+			if(appiumServerProcess.getCommandThread() != null) {
+				appiumServerProcess.getCommandThread().interrupt();
+			}
+		}
 	}
 	
 	public void copyScripts() {
