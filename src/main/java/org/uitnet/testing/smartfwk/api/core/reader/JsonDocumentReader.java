@@ -123,9 +123,9 @@ public class JsonDocumentReader {
 		return jsonDocCtx.read(jsonPath, typeRef);
 	}
 	
-	public <T> T readValueAsObject(String yamlPath, Class<T> clazz) {
+	public <T> T readValueAsObject(String jsonPath, Class<T> clazz) {
 		try {
-			Object obj = jsonDocCtx.read(yamlPath, Object.class);
+			Object obj = jsonDocCtx.read(jsonPath, Object.class);
 			
 			ObjectMapper omapper = createObjectMapper();
 			String jsonStr = omapper.writeValueAsString(obj);
@@ -133,7 +133,7 @@ public class JsonDocumentReader {
 			omapper = createObjectMapper();
 			return omapper.readValue(jsonStr, clazz);
 		} catch (Exception ex) {
-			Assert.fail("Failed to read yaml path " + yamlPath + " as class object.", ex);
+			Assert.fail("Failed to read JSON path " + jsonPath + " as class object.", ex);
 		}
 		return null;
 		
