@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <Properties>
+        <Property name="log_dir">target/logs</Property>
+        <Property name="filename">test.log</Property>
+    </Properties>
+
+    <Appenders>
+<!--        <Console name="STDOUT" target="SYSTEM_OUT">-->
+<!--            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5p %logger{36} - %m%n"/>-->
+<!--        </Console>-->
+
+
+        <RollingFile name="RollingFile" fileName="${log_dir}/${filename}"
+                     filePattern="${log_dir}/${filename}-%i.log.gz">
+            <PatternLayout>
+                <pattern>%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %logger{36} - %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10" />
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.uitnet" level="info" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+        <Root level="error" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>

@@ -105,7 +105,7 @@ public class SmartToolkitCommandExecuter {
 			// Copy log4j file
 			LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "cucumber/cucumber.properties", baseDir + "src/main/resources", "cucumber.properties");
 			
-			LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "log4j.xml", baseDir + "src/main/resources", "log4j.xml");
+			LocalMachineFileSystem.copyFileNoOverwrite(baseTempDir + "log4j2.xml", baseDir + "src/main/resources", "log4j2.xml");
 			
 			// copy scripts
 			copyScripts();
