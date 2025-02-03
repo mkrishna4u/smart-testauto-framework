@@ -21,12 +21,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.testng.Assert;
 import org.uitnet.testing.smartfwk.ui.core.config.AppConfig;
 import org.uitnet.testing.smartfwk.ui.core.config.DatabaseProfile;
 import org.uitnet.testing.smartfwk.ui.core.config.TestConfigManager;
 import org.uitnet.testing.smartfwk.ui.core.utils.ObjectUtil;
-
-import dev.failsafe.internal.util.Assert;
 
 /**
  * 
@@ -107,7 +106,7 @@ public class SmartDatabaseManager implements DatabaseManager {
 	@Override
 	public AbstractDatabaseActionHandler getDatabaseActionHandler(String appName, String profileName) {
 		AbstractDatabaseActionHandler actionHandler = dbActionHandlers.get(prepareKey(appName, profileName));
-		Assert.notNull(actionHandler, "Could not find '" + profileName + "' databse profile for '" + appName + "' application.");
+		Assert.assertNotNull(actionHandler, "Could not find '" + profileName + "' databse profile for '" + appName + "' application.");
 		return actionHandler;
 	}
 }

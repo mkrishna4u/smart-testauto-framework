@@ -21,6 +21,8 @@ import static org.testng.Assert.assertNotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -130,9 +132,10 @@ public class FileContentsValidator {
 
 	public String extractFileContents() {
 		try (InputStream fileIs = Files.newInputStream(Paths.get(filePath));
-				ByteArrayOutputStream out = new ByteArrayOutputStream();) {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				Writer writer = new OutputStreamWriter(out)) {
 			TikaConfig config = TikaConfig.getDefaultConfig();
-			BodyContentHandler handler = new BodyContentHandler(out);
+			BodyContentHandler handler = new BodyContentHandler(writer);
 			Parser parser = new AutoDetectParser(config);
 			Metadata meta = new Metadata();
 			ParseContext parseContext = new ParseContext();
