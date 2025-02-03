@@ -1,9 +1,9 @@
 # Smart Test Auto Studio (STAS)
 <i> **A Fully Integrated Testing Automation Platform** </i>
 
-<i>A smart power of testing automation - Standard Test Steps Driven / Codeless / Low Code / Data Wiring Driven / AI Driven / Suggestion Driven / Behavior Driven / Data Driven / Configuration Driven</i>
+<i>A smart power of testing automation - Standard Test Steps Driven / Codeless / Low Code / Data Wiring Driven / AI Driven / Suggestion Driven / Behavior Driven / Data Driven / Configuration Driven </i>
 
-**STAS** is a very powerful and the smart software testing automation tool that makes End-to-End testing (UI, API, Database, Remote Machine Testing, Local Machine Testing, Messaging Testing) easy on the real integration environments. Develop test scenarios for one environment and run the same scenarios on different environments without changing the test scenarios.
+**STAS** is a very powerful and the smart software testing automation tool that makes End-to-End testing (UI, API, Database, Remote Machine Testing, Local Machine Testing, Messaging Testing) easy on the real integration environments. Develop test scenarios for one environment and run the same scenarios on different environments without changing the test scenarios. It also supports testing automation in **headless server / headless web browser** modes.
 
 **STAS** provides a way to write **human friendly automated test scenarios** that can be understood by non technical persons and can be easily maintained.
 
@@ -14,7 +14,7 @@
 **NOTE:** Prefer to use "IntelliJ IDEA" code editor to configure STAS project. Install "Cucumber for Java" plugin in it. Import your STAS project in "IntelliJ IDEA" editor you can get step suggestions out of the way while you will write scenarios / scenario outlines in cucumber feature files under "cucumber-testcases/" directory (present under your project directory).
 
 # Sample Scenario Using STAS
-It's simple to create the UI/API/DB/Messaging E2E scenarios in Cucumber Gherkin language using STAS Standard Step Definitions. Sample is given below:
+It's simple to create the UI/API/DB/Messaging/LocalFileSystem/RemoteFileSystem E2E scenarios in Cucumber Gherkin language using STAS provided Standard Test Steps. Sample is given below:
 
 ![Sample Scenario using STAS](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/sample-scenario-2.jpg "Sample Scenario using STAS") 
 	
@@ -62,7 +62,7 @@ Using STAF software we can easily test the following functionality of the softwa
 9. Support standard way of configuration for applications, application user profiles and application relational database profiles.
 10. Write scenarios and its definitions once for any platform and run the same scenarios and definitions on any other platforms for any of the software application without changing the scenario and the step definition (Note the behavior of the application on different platforms should be same but locator may change). In this case you can attach multiple locators (platform specific) to a single UI control (like textbox, buttons etc.).
 11. Platform specific sample driver configuration files (AppDriver.yaml) are present in the following directory **src/main/java/resources/org/uitnet/testing/smartfwk/resources/sample-test-config/app-drivers/** directory. Copy specific file in your application config directory like **test-config/apps-config/[app-name]/driver-configs** and also copy your application file like ?.app, ?.apk ?.exe, or ?.api etc. and config into AppDriver.yaml file. When you are specifying any path use the following system variable for project root directory: **${project.root.directory}** to avoid hardcoded path in yaml file.
-12. **Multiple environment support**, means same testcases can be executed on different environments like **development, acceptance, pre-production and different web browsers etc.** without changing the code. To do so create environment files in **test-config/apps-config/[app-name]/environments/** directory and also create the different **AppDriver-[env-name].yaml** (if using different app driver), different database profiles in **database-profiles/** (if different database connection required) and different **ApiConfig-[env-name].yaml** in **api-configs/** (if different parameters are used for different environment). During testcase execution time, specify the following system property in **mvn** command **"-Dapps.active.environment=[app-name1]:[environment-name],[app-name2]:[environment-name]"** to activate the environment for the applications configured in project.
+12. **Multiple environments support**, means same testcases can be executed on different environments like **development, acceptance, pre-production and different web browsers etc.** without changing the code. To do so create environment files in **test-config/apps-config/[app-name]/environments/** directory and also create the different **AppDriver-[env-name].yaml** (if using different app driver), different database profiles in **database-profiles/** (if different database connection required) and different **ApiConfig-[env-name].yaml** in **api-configs/** (if different parameters are used for different environment). During testcase execution time, specify the following system property in **mvn** command **"-Dapps.active.environment=[app-name1]:[environment-name],[app-name2]:[environment-name]"** to activate the environment for the applications configured in project.
 
 This is also a **Configuration Driven Testing (CDT)** framework. Sample configurations are present here that can be used under ./test-config directory to configuration your project environment: 
 https://github.com/mkrishna4u/smart-testauto-framework/tree/main/src/main/resources/sample-config
