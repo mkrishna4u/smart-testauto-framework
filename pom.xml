@@ -36,7 +36,7 @@
 		<testng.version>7.10.2</testng.version>
 		<selenium.version>4.28.1</selenium.version>
 		<appium-client.version>9.4.0</appium-client.version>
-		<cucumber.version>7.20.1</cucumber.version>
+		<cucumber.version>7.21.0</cucumber.version>
 		<sikulix.version>2.0.5</sikulix.version>
 		<slf4j.version>2.0.16</slf4j.version>
 		<log4j.version>2.24.3</log4j.version>
