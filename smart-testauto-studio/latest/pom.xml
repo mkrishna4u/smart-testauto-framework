@@ -25,7 +25,7 @@
 
 	<groupId>org.uitnet.testing.smartfwk</groupId>
 	<artifactId>Smart-TestAuto-Studio</artifactId>
-	<version>7.0.1</version>
+	<version>7.0.2</version>
 	<packaging>jar</packaging>
 	<name>Smart Testing Automation Studio</name>
 	<description>
@@ -40,7 +40,7 @@
 
 	<properties>
 	    <parallel.threads>1</parallel.threads>
-		<smart-testauto-framework.version>7.0.1</smart-testauto-framework.version>
+		<smart-testauto-framework.version>7.0.2</smart-testauto-framework.version>
 		<smart-testauto-cucumber-stepdefs-en.version>7.0.1</smart-testauto-cucumber-stepdefs-en.version>
 		<cucumber-reporting.version>5.8.4</cucumber-reporting.version>
 		<maven-cucumber-reporting.version>5.8.5</maven-cucumber-reporting.version>
