@@ -48,6 +48,10 @@ remoteWebDriverProviderClass:
 # Supported Web Browsers: firefox, chrome, edge, opera, safari, internet-explorer, not-applicable
 appWebBrowser: chrome
 enableBrowserExtensions: false
+
+# Used to check screen resolution before running any UI tests.
+checkScreenResolution: true
+
 # Browser window size (width x height)
 browserWindowSize: 1024 x 768
 

@@ -57,6 +57,7 @@ public class AppConfig {
 	private RemoteWebDriverProvider remoteWebDriverProvider;
 	private WebBrowserType appWebBrowser;
 	private boolean enableWebBrowserExtension;
+	private boolean checkScreenResolution;
 	private Dimension browserWindowSize;
 	private String userProfileConfigDir = "user-profiles";
 	// Key: user-profile-name, Value: UserProfile
@@ -187,6 +188,13 @@ public class AppConfig {
 			enableWebBrowserExtension = Boolean.valueOf(propValue.trim());
 		}
 
+		propValue = JsonYamlUtil.readNoException("$.checkScreenResolution", String.class, appConfigDocContext, envAppConfigDocContext);
+		if (propValue == null || "".equals(propValue.trim())) {
+			checkScreenResolution = true;
+		} else {
+			checkScreenResolution = Boolean.valueOf(propValue);
+		}
+		
 		propValue = JsonYamlUtil.readNoException("$.browserWindowSize", String.class, appConfigDocContext, envAppConfigDocContext);
 		if (propValue == null || "".equals(propValue.trim()) || !propValue.contains("x")) {
 			Assert.fail("FATAL: Please specify correct 'browserWindowSize' in AppConfig.yaml. AppName: " + appName
@@ -198,16 +206,21 @@ public class AppConfig {
 				int browserWidth = Integer.parseInt(wh[0].trim());
 				int browserHeight = Integer.parseInt(wh[1].trim());
 				Dimension screenSize = ScreenCaptureUtil.getScreenSize();
-				if (browserWidth > screenSize.getWidth()) {
-					Assert.fail(
-							"FATAL: please specify the 'browserWindowSize' (browserWidth) <= screenWidth in AppConfig.yaml. AppName: "
-									+ appName + ". Exiting ...");
-					System.exit(1);
-				} else if (browserHeight > screenSize.getHeight()) {
-					Assert.fail(
-							"FATAL: please specify the 'browserWindowSize' (browserHeight) <= screenHeight in AppConfig.yaml. AppName: "
-									+ appName + ". Exiting ...");
-					System.exit(1);
+				System.out.println("Native screen size = " + screenSize.getWidth() + " x " + screenSize.getHeight() + ".");
+				System.out.println("Configured screen size for '" + this.appName + "' app = " + browserWidth + " x " + browserHeight + ".");
+				
+				if(checkScreenResolution) {
+					if (browserWidth > screenSize.getWidth()) {
+						Assert.fail(
+								"FATAL: please specify the 'browserWindowSize' (browserWidth) <= screenWidth in AppConfig.yaml. AppName: "
+										+ appName + ". Exiting ...");
+						System.exit(1);
+					} else if (browserHeight > screenSize.getHeight()) {
+						Assert.fail(
+								"FATAL: please specify the 'browserWindowSize' (browserHeight) <= screenHeight in AppConfig.yaml. AppName: "
+										+ appName + ". Exiting ...");
+						System.exit(1);
+					}
 				}
 				browserWindowSize = new Dimension(browserWidth, browserHeight);
 			} catch (Exception ex) {
@@ -474,6 +487,10 @@ public class AppConfig {
 
 	public boolean isEnableWebBrowserExtension() {
 		return enableWebBrowserExtension;
+	}
+	
+	public boolean checkScreenResolution() {
+		return this.checkScreenResolution;
 	}
 
 	public Dimension getBrowserWindowSize() {
