@@ -19,7 +19,6 @@ package org.uitnet.testing.smartfwk.messaging.handler;
 
 import java.util.Calendar;
 
-import org.uitnet.testing.smartfwk.messaging.MessageContentType;
 import org.uitnet.testing.smartfwk.messaging.MessageInfo;
 import org.uitnet.testing.smartfwk.ui.core.config.MessageHandlerTargetConfig;
 

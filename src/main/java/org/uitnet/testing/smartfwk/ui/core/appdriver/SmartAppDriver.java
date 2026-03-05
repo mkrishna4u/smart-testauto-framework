@@ -33,7 +33,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeDriverService;
 import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -365,7 +364,7 @@ public class SmartAppDriver {
 				firefoxProfile.setAcceptUntrustedCertificates(webDriverCfg.isAcceptUntrustedCertificates());
 				firefoxProfile.setAssumeUntrustedCertificateIssuer(webDriverCfg.isAssumeUntrustedCertificateIssuer());
 
-				FirefoxOptions options = new FirefoxOptions().setProfile(firefoxProfile).setBinary(new FirefoxBinary());
+				FirefoxOptions options = new FirefoxOptions().setProfile(firefoxProfile);
 
 				//options.setHeadless(webDriverCfg.isHeadless());
 				options.setPageLoadStrategy(webDriverCfg.getPageLoadStrategy());

@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.uitnet.testing</groupId>
 	<artifactId>smart-testauto-framework</artifactId>
-	<version>7.0.2</version>
+	<version>7.0.3</version>
 	<packaging>jar</packaging>
 	<name>Smart Software Testing Automation Framework</name>
 	<description>Smart Software Testing Automation Framework is a tool used to automate the testing of software application. It includes the functionality i.e. Web UI Application Automation, Thick Client Automation, API Testing, Data Driven Testing etc.</description>
@@ -33,49 +33,53 @@
 	</scm>
 
 	<properties>    	
-		<testng.version>7.10.2</testng.version>
-		<selenium.version>4.28.1</selenium.version>
-		<appium-client.version>9.4.0</appium-client.version>
-		<cucumber.version>7.21.0</cucumber.version>
+		<testng.version>7.12.0</testng.version>
+		<selenium.version>4.41.0</selenium.version>
+		<appium-client.version>10.0.0</appium-client.version>
+		<cucumber.version>7.34.2</cucumber.version>
 		<sikulix.version>2.0.5</sikulix.version>
-		<slf4j.version>2.0.16</slf4j.version>
-		<log4j.version>2.24.3</log4j.version>
-		<hibernate.version>6.6.6.Final</hibernate.version>
-		<apache-poi.version>5.4.0</apache-poi.version>
-		<pdfbox.version>3.0.4</pdfbox.version>
-		<commons-io.version>2.18.0</commons-io.version>
-		<commons-csv.version>1.13.0</commons-csv.version>
-		<jsch.version>0.2.23</jsch.version>
-		<json-path.version>2.9.0</json-path.version>
-		<jackson.version>2.18.2</jackson.version>
-		<okhttp.version>4.12.0</okhttp.version>
-		<tika.version>3.1.0</tika.version>
-		<netty.version>4.1.117.Final</netty.version>
-		<guava.version>33.4.0-jre</guava.version>
-		<maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+		<slf4j.version>2.0.17</slf4j.version>
+		<log4j.version>2.25.3</log4j.version>
+		<hibernate.version>7.2.6.Final</hibernate.version>
+		<apache-poi.version>5.5.1</apache-poi.version>
+		<pdfbox.version>3.0.6</pdfbox.version>
+		<commons-io.version>2.21.0</commons-io.version>
+		<commons-csv.version>1.14.1</commons-csv.version>
+		<jsch.version>2.27.8</jsch.version>
+		<json-path.version>3.0.0</json-path.version>
+		<jackson.version>2.21.1</jackson.version>
+		<okhttp-jvm.version>5.3.2</okhttp-jvm.version>
+		<tika.version>3.2.3</tika.version>
+		<netty.version>4.2.10.Final</netty.version>
+		<guava.version>33.5.0-jre</guava.version>
+		<maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
 		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		
-		<maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
-		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-		<maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-		<maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+		<maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
+		<maven-resources-plugin.version>3.4.0</maven-resources-plugin.version>
+		<maven-source-plugin.version>3.4.0</maven-source-plugin.version>
+		<maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
 		<nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
-		<maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
 	</properties>
 
 	<distributionManagement>
 		<snapshotRepository>
+			<id>Maven-Central</id>
+			<url>https://repo.maven.apache.org/maven2</url>
+		</snapshotRepository>
+		<!-- <snapshotRepository>
 			<id>ossrh</id>
 			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 		<repository>
 			<id>ossrh</id>
 			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
+		</repository> -->
 	</distributionManagement>
 
 	<dependencies>
@@ -111,8 +115,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>okhttp</artifactId>
-			<version>${okhttp.version}</version>
+			<artifactId>okhttp-jvm</artifactId>
+			<version>${okhttp-jvm.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
