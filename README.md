@@ -76,7 +76,7 @@ https://github.com/mkrishna4u/smart-testauto-framework/tree/main/src/main/resour
 6. Maven
 7. Relational Database ORM tools
 8. Excel / CSV file reader tools
-9. Java / JDK: Minimum Version Required = 11
+9. Java / JDK: Minimum Version Required = 17
 10. Secured Shell (SSH/SFTP)
 11. Tesseract-OCR (Ref Link: https://tesseract-ocr.github.io/tessdoc/) - Must be installed separately and environment PATH variable must have the path of this installed directory to perform image, audio and video file content matching. **FileContentsValidator** class will only work along with Tesseract-OCR. 
  
@@ -107,7 +107,7 @@ This framework removes the complexity of all other software tools and provides a
 # How to start with this framework tool
 To start with this framework / STAS tool is as easy as could be. 
 
-**Download STAS (smart-testauto-studio.zip) from link:** [https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/7.0.1](https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/7.0.1 "STAS 7.0.1") 
+**Download STAS (smart-testauto-studio.zip) from link:** [https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/7.0.3](https://github.com/mkrishna4u/smart-testauto-framework/releases/tag/7.0.3 "STAS 7.0.3") 
 
 Please refer the link below to understand STAS tool functionality and how to use it:
 
@@ -141,7 +141,7 @@ Also configure the specific connection settings in **test-config/apps-config/&lt
 	hibernate.connection.driver_class: com.mysql.jdbc.Driver
 	hibernate.connection.url: jdbc:mysql://localhost:3306/my-db
 
-Hibernate Dialect information for different type of SQL Database Connection: https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html#database-dialect
+Hibernate Dialect information for different type of SQL Database Connection: https://docs.jboss.org/hibernate/orm/7.2/userguide/html_single/Hibernate_User_Guide.html#database-dialect
 
 # Questions and community support
 Please use the following link if you have any question and need of community support:
