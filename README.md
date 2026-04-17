@@ -1,4 +1,4 @@
-![<img src="image.png" width="250" height="150" alt="STAS Logo"/>](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/STAS-logo.png)
+<img src="https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/STAS-logo.png" width="250" height="150" alt="STAS Logo"/>
 # Smart Test Auto Studio (STAS)
 <i> **A Fully Integrated Testing Automation Platform** </i>
 
