@@ -1,4 +1,4 @@
-![STAS Logo](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/STAS-logo.png "STAS Logo") 
+![STAS Logo](https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/STAS-logo.png =250x150 "STAS Logo") 
 # Smart Test Auto Studio (STAS)
 <i> **A Fully Integrated Testing Automation Platform** </i>
 
