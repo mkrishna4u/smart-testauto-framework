@@ -1,5 +1,9 @@
 <img src="https://github.com/mkrishna4u/smart-testauto-framework/blob/main/smart-testauto-studio/refs/STAS-logo.png" width="250" height="130" alt="STAS Logo"/>
 
+**Compliant to ![IEEE 3407-2025 - IEEE Standard for End-to-End Software Testing Automation Tools](https://standards.ieee.org/ieee/3407/11396/ "IEEE 3407-2025 - IEEE Standard for End-to-End Software Testing Automation Tools")**
+
+**Compliant to "IEEE 3407-2025 - IEEE Standard for End-to-End Software Testing Automation Tools"**
+
 # Smart Test Auto Studio (STAS)
 <i> **A Fully Integrated Testing Automation Platform** </i>
 
